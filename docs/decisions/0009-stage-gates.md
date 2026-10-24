@@ -18,7 +18,7 @@ Status lives in artifact front-matter (`status: draft | approved`) and the next 
 
 ## Considered Options
 
-* A. CODEOWNERS per artifact (`specs/**/spec.md @acme/pm`, `specs/**/plan.md @acme/tech-leads`, `specs/**/testplan.md @acme/pm @acme/qa`); ruleset requires code-owner review; the hook reads `status` from `origin/<default>` (after a fetch), not the working tree
+* A. CODEOWNERS per artifact (`specs/**/spec.md @seeonee/pm`, `specs/**/plan.md @seeonee/tech-leads`, `specs/**/testplan.md @seeonee/pm @seeonee/qa`); ruleset requires code-owner review; the hook reads `status` from `origin/<default>` (after a fetch), not the working tree
 * B. The hook reads the local file
 * C. The hook queries the PR's review state through the GitHub API
 
@@ -49,4 +49,4 @@ Phase 2 test: `/feature architect` is refused while `spec.md` is `draft` on `mai
 
 ## More Information
 
-The hook matches the `Skill` tool and the `acme-sdlc` plugin's `feature` skill. Depends on GitHub.
+The hook matches the `Skill` tool and the `bageera` plugin's `feature` skill. Depends on GitHub.

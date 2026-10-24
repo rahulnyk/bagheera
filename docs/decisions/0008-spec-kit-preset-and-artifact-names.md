@@ -18,7 +18,7 @@ The architecture adopts GitHub Spec Kit and lists per-stage artifacts: `spec.md`
 
 ## Considered Options
 
-* A. Spec Kit names: `spec.md` (stage 1), `plan.md` + `data-model.md` + `contracts/` (stage 2, "architecture"), `tasks.md` (stage 3, phased plan), plus new `testplan.md` and `demo.md` from an `acme` extension
+* A. Spec Kit names: `spec.md` (stage 1), `plan.md` + `data-model.md` + `contracts/` (stage 2, "architecture"), `tasks.md` (stage 3, phased plan), plus new `testplan.md` and `demo.md` from a `bageera` extension
 * B. Architecture names: override the `plan` and `tasks` commands and scripts so they write `architecture.md` and `plan.md`
 * C. Generate both and keep them in sync
 
@@ -31,8 +31,8 @@ Chosen option: "A", because Spec Kit's `plan` and `tasks` already do what stages
 | 1 Intake | `/feature start JIRA-123` | `/speckit-specify` (+ `/speckit-clarify`) | `spec.md` |
 | 2 Architecture | `/feature architect` | `/speckit-plan` | `plan.md`, `data-model.md`, `contracts/`, `research.md` |
 | 3 Plan | `/feature plan` | `/speckit-tasks` (preset: 2–6 phases, each behind a flag) | `tasks.md` |
-| 4 Test plan | `/feature testplan` | `acme` extension command | `testplan.md` |
-| 7 Demo | `/feature demo` | `acme` extension command | `demo.md` |
+| 4 Test plan | `/feature testplan` | `bageera` extension command | `testplan.md` |
+| 7 Demo | `/feature demo` | `bageera` extension command | `demo.md` |
 
 * `specs/<ticket-id>/`: the plugin sets `SPECIFY_FEATURE_DIRECTORY=specs/<ticket-id>` before calling Spec Kit, which its scripts honour; no fork.
 * Constitution: the preset's constitution template tells `/speckit-constitution` to build `.specify/memory/constitution.md` from the wiki's `org/` pages, with links back to them.
@@ -46,7 +46,7 @@ Chosen option: "A", because Spec Kit's `plan` and `tasks` already do what stages
 
 ### Confirmation
 
-Phase 2 test: on the sample repo, `/feature start` through `/feature testplan` writes exactly the files above under `specs/<ticket-id>/`, and `specify artifact info template:plan-template --json` shows the `acme` preset winning.
+Phase 2 test: on the sample repo, `/feature start` through `/feature testplan` writes exactly the files above under `specs/<ticket-id>/`, and `specify artifact info template:plan-template --json` shows the `bageera` preset winning.
 
 ## Pros and Cons of the Options
 

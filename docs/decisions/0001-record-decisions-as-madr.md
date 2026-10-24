@@ -8,7 +8,7 @@ decision-makers: RN
 
 ## Context and Problem Statement
 
-The harness has many design choices that reviewers (engineers, PMs, security) need to see with their reasons, and the architecture already says org-level decisions use MADR in `org-wiki/decisions/`. Where and how do we record decisions about the harness itself?
+The harness has many design choices that reviewers (engineers, PMs, security) need to see with their reasons, and the architecture already says org-level decisions use MADR in the wiki's `decisions/` (the architecture's `org-wiki`, here `council-rock`). Where and how do we record decisions about the harness itself?
 
 ## Decision Drivers
 
@@ -29,7 +29,7 @@ Chosen option: "MADR 4.0 files in `docs/decisions/`", because the architecture m
 ### Consequences
 
 * Good, because each decision has options and reasons, not only the result.
-* Good, because these files can move into `org-wiki/decisions/` once that repo exists (see [0002](0002-repository-topology.md)).
+* Good, because these files can move into `council-rock/decisions/` once that repo exists (see [0002](0002-repository-topology.md)).
 * Bad, because harness ADRs use MADR's own front-matter here, while wiki ADRs will use the wiki's OKF front-matter ([0003](0003-wiki-page-format-okf.md)); moving them needs a small conversion.
 
 ### Confirmation

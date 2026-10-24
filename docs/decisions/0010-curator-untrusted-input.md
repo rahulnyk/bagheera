@@ -26,10 +26,10 @@ The curator reads PR text, diffs, linked specs, tickets and session digests, and
 
 Chosen option: "A".
 
-1. **Token**: a GitHub App installation token scoped to `org-wiki` with `contents: write`, `pull-requests: write`, `issues: write`; nothing for service repos beyond the read access of the job's own `GITHUB_TOKEN`.
+1. **Token**: a GitHub App installation token scoped to `council-rock` with `contents: write`, `pull-requests: write`, `issues: write`; nothing for service repos beyond the read access of the job's own `GITHUB_TOKEN`.
 2. **Quarantine**: the workflow (not the model) fetches PR body, diff, `specs/<ticket>/*` and digests into `untrusted/`; the prompt says these are data and names their paths.
-3. **Tools**: `--allowedTools "Read,Grep,Glob,Write(org-wiki/**),Edit(org-wiki/**),Bash(git -C org-wiki *),Bash(gh pr create *)"`, `--max-turns 30`, no web fetch.
-4. **Checks** on the wiki PR: `injection-guard` (a short script: flags imperative text aimed at agents, hidden HTML comments, zero-width characters, base64 blobs, links to domains outside an allowlist, and text copied verbatim from `untrusted/` into compiled pages), `path-policy`, wrapped `kx check`. Any finding turns off auto-merge and asks `@acme/harness-platform`.
+3. **Tools**: `--allowedTools "Read,Grep,Glob,Write(council-rock/**),Edit(council-rock/**),Bash(git -C council-rock *),Bash(gh pr create *)"`, `--max-turns 30`, no web fetch.
+4. **Checks** on the wiki PR: `injection-guard` (a short script: flags imperative text aimed at agents, hidden HTML comments, zero-width characters, base64 blobs, links to domains outside an allowlist, and text copied verbatim from `untrusted/` into compiled pages), `path-policy`, wrapped `kx check`. Any finding turns off auto-merge and asks `@seeonee/harness-platform`.
 5. **raw/**: holds the untrusted originals for traceability; excluded from the sparse clone and from `wiki-lookup` ([0006](0006-wiki-read-access-for-agents.md)).
 
 ### Consequences

@@ -8,7 +8,7 @@ decision-makers: RN
 
 ## Context and Problem Statement
 
-The wiki schema (`org-wiki/CLAUDE.md`) must define page types, front-matter, naming, links and lint rules. The architecture suggests KnowledgeX / Open Knowledge Format (OKF) "if you want portability". Should we adopt it or define our own front-matter?
+The wiki schema (`council-rock/CLAUDE.md`) must define page types, front-matter, naming, links and lint rules. The architecture suggests KnowledgeX / Open Knowledge Format (OKF) "if you want portability". Should we adopt it or define our own front-matter?
 
 ## Decision Drivers
 
@@ -42,7 +42,7 @@ MADR status maps onto OKF status: `proposed`→`draft`, `accepted`→`stable`, `
 
 ### Consequences
 
-* Good, because `kx check --bundle org-wiki` becomes the schema check in CI on day one.
+* Good, because `kx check --bundle council-rock` becomes the schema check in CI on day one.
 * Good, because the same pages work with any OKF tool, and with the KnowledgeX MCP server later if we want trust-aware search.
 * Bad, because KnowledgeX treats every non-reserved `.md` file as a note, so root `CLAUDE.md`, `CHANGELOG.md` and `README.md` produce "missing front-matter" errors. Lint wraps `kx check` and drops findings for those three files (a few lines of shell), or we upstream an ignore list to KnowledgeX.
 * Bad, because the architecture's `CHANGELOG.md` differs from OKF's reserved `log.md`. We keep `CHANGELOG.md` as the architecture says and have the curator never call `kx` commands that append to `log.md`.

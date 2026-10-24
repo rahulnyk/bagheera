@@ -26,8 +26,8 @@ The architecture exposes the wiki two ways: a git submodule or sparse checkout a
 
 Chosen options: "A" + "2", because the GitHub server has a server-side read-only mode, is already in the plugin's MCP list, and reads the wiki where it already lives; the shared clone gives skills fast grep access without touching service repos.
 
-* Config (plugin `.mcp.json`): remote `https://api.githubcopilot.com/mcp/x/repos/readonly`, or the self-hosted image `ghcr.io/github/github-mcp-server --read-only --tools get_file_contents,search_code`. Skills pass `owner: acme, repo: org-wiki`.
-* Clone: `${CLAUDE_PLUGIN_DATA}/org-wiki`, sparse (`org/ services/ decisions/ features/ index.md`; `raw/` excluded, see [0010](0010-curator-untrusted-input.md)), fetched at most hourly by `SessionStart` in the background.
+* Config (plugin `.mcp.json`): remote `https://api.githubcopilot.com/mcp/x/repos/readonly`, or the self-hosted image `ghcr.io/github/github-mcp-server --read-only --tools get_file_contents,search_code`. Skills pass `owner: seeonee, repo: council-rock`.
+* Clone: `${CLAUDE_PLUGIN_DATA}/council-rock`, sparse (`org/ services/ decisions/ features/ index.md`; `raw/` excluded, see [0010](0010-curator-untrusted-input.md)), fetched at most hourly by `SessionStart` in the background.
 
 ### Consequences
 

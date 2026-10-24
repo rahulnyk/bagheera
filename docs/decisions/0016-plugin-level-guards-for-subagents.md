@@ -8,11 +8,11 @@ decision-makers: RN
 
 ## Context and Problem Statement
 
-The architecture specifies `architect` (read-only tools, writes only under `specs/`), `reviewer` (read-only) and `implementer` (git worktree per phase). Claude Code ignores the `hooks`, `mcpServers` and `permissionMode` front-matter fields on subagents shipped in a plugin. How do we enforce the limits?
+The architecture specifies an architect (read-only tools, writes only under `specs/`), a reviewer (read-only) and an implementer (git worktree per phase); here they are `kaa`, `akela` and `mowgli`. Claude Code ignores the `hooks`, `mcpServers` and `permissionMode` front-matter fields on subagents shipped in a plugin. How do we enforce the limits?
 
 ## Considered Options
 
-* A. `tools` / `disallowedTools` allowlists and `isolation: worktree` in agent front-matter (these are honoured for plugin agents), plus one plugin `PreToolUse` hook that inspects the calling agent and blocks `Write`/`Edit` outside `specs/` for `architect`
+* A. `tools` / `disallowedTools` allowlists and `isolation: worktree` in agent front-matter (these are honoured for plugin agents), plus one plugin `PreToolUse` hook that inspects the calling agent and blocks `Write`/`Edit` outside `specs/` for `kaa`
 * B. Ship agents as project files (`.claude/agents/`) copied into every repo so per-agent hooks work
 * C. Prompt instructions only
 
@@ -22,12 +22,12 @@ Chosen option: "A", because it keeps one distribution channel (the plugin) and u
 
 ### Consequences
 
-* Good, because reviewer and test-writer limits are pure allowlists, no code.
-* Bad, because the architect path rule depends on the hook input identifying the subagent; verify in Phase 2, and fall back to giving `architect` only `Write` with a hook that checks the path for every agent writing into `specs/`.
+* Good, because `akela` (reviewer) and `grey-brother` (test writer) limits are pure allowlists, no code.
+* Bad, because the architect path rule depends on the hook input identifying the subagent; verify in Phase 2, and fall back to giving `kaa` only `Write` with a hook that checks the path for every agent writing into `specs/`.
 
 ### Confirmation
 
-Phase 2 test: `architect` asked to edit `src/` is blocked; `reviewer` has no write tool at all.
+Phase 2 test: `kaa` asked to edit `src/` is blocked; `akela` has no write tool at all.
 
 ## More Information
 

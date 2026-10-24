@@ -5,7 +5,7 @@ Harness architecture decisions, one file per decision, in [MADR 4.0](https://adr
 | ADR | Decision | Status | Plan phase |
 | --- | --- | --- | --- |
 | [0001](0001-record-decisions-as-madr.md) | Record harness decisions as MADR files in docs/decisions | proposed | — |
-| [0002](0002-repository-topology.md) | Three repos: org-wiki, claude-marketplace, observability | proposed | 1 |
+| [0002](0002-repository-topology.md) | Three repos: council-rock (wiki), pack (plugin marketplace), chil (monitoring) | proposed | 1 |
 | [0003](0003-wiki-page-format-okf.md) | Wiki pages use OKF v0.2 with the KnowledgeX profile, validated by `kx check` | proposed | 1 |
 | [0004](0004-wiki-trust-boundary-enforcement.md) | Enforce the wiki trust boundary with a ruleset, CODEOWNERS, a path-policy check and split curator PRs | proposed | 1 |
 | [0005](0005-session-digest-queue.md) | Session digests: a SessionEnd hook writes a short digest and posts it to a GitHub issue in org-wiki | proposed | 1 |

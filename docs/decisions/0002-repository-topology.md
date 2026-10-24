@@ -4,11 +4,11 @@ date: 2026-10-24
 decision-makers: RN
 ---
 
-# Three repos: org-wiki, claude-marketplace, observability
+# Three repos: council-rock (wiki), pack (plugin marketplace), chil (monitoring)
 
 ## Context and Problem Statement
 
-The architecture names an `org-wiki` repo and "an internal marketplace repo" holding the `acme-sdlc` plugin. It doesn't say where the Spec Kit preset, the reusable CI workflows or the monitoring config live. The plan and ADRs live in the project repo, `bageera`. Where should each piece live?
+The architecture names an `org-wiki` repo (here `council-rock`) and "an internal marketplace repo" holding the `acme-sdlc` plugin (here the `bageera` plugin in `pack`). It doesn't say where the Spec Kit preset, the reusable CI workflows or the monitoring config live. The plan and ADRs live in the project repo, `bageera`. Where should each piece live?
 
 ## Decision Drivers
 
@@ -19,7 +19,7 @@ The architecture names an `org-wiki` repo and "an internal marketplace repo" hol
 
 ## Considered Options
 
-* A. Three repos: `acme/org-wiki`; `acme/claude-marketplace` (plugin, Spec Kit preset, reusable workflows, managed-settings source); `acme/observability` (or the platform team's existing infra repo)
+* A. Three repos: `seeonee/council-rock`; `seeonee/pack` (plugin, Spec Kit preset, reusable workflows, managed-settings source); `seeonee/chil` (or the platform team's existing infra repo)
 * B. One monorepo for everything
 * C. Build everything inside `bageera`
 
@@ -29,14 +29,14 @@ Chosen option: "A", because the wiki needs its own repo for its trust rules to w
 
 ### Consequences
 
-* Good, because `org-wiki` CODEOWNERS and rulesets are simple and can't be weakened by unrelated changes.
-* Good, because service repos only add a 10-line caller workflow (`uses: acme/claude-marketplace/.github/workflows/wiki-curate.yml@v1`).
+* Good, because `council-rock` CODEOWNERS and rulesets are simple and can't be weakened by unrelated changes.
+* Good, because service repos only add a 10-line caller workflow (`uses: seeonee/pack/.github/workflows/wiki-curate.yml@v1`).
 * Bad, because a release of the plugin and of the reusable workflows must be versioned together (one tag, `v1.x`, covers both).
-* Bad, because during development the `org-wiki/` scaffold in `bageera` is only a template. Its trust rules can't be tested until it is pushed to its own repo.
+* Bad, because during development the `council-rock/` scaffold in `bageera` is only a template. Its trust rules can't be tested until it is pushed to its own repo.
 
 ### Confirmation
 
-Phase 1 exit criteria include a ruleset test on the real `org-wiki` repo (see plan, Phase 1 test plan T1.4).
+Phase 1 exit criteria include a ruleset test on the real `council-rock` repo (see plan, Phase 1 test plan T1.4).
 
 ## Pros and Cons of the Options
 
@@ -52,4 +52,4 @@ Phase 1 exit criteria include a ruleset test on the real `org-wiki` repo (see pl
 
 ## More Information
 
-Needs your call: the GitHub org name (`acme` is a placeholder from the architecture) and whether I may create sandbox repos for testing. Depends on the GitHub assumption.
+Needs your call: the GitHub org name (`seeonee` is a placeholder; the architecture used `acme`) and whether I may create sandbox repos for testing. Depends on the GitHub assumption.

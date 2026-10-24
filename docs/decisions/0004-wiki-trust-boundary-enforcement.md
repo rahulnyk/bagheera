@@ -8,7 +8,7 @@ decision-makers: RN
 
 ## Context and Problem Statement
 
-Agents may auto-merge into `features/` and `services/` after checks pass; `org/` and `decisions/` need CODEOWNERS approval (architecture, Layer 1 step 4). The architecture doesn't say how to enforce this, and leaves `raw/`, `index.md`, `CHANGELOG.md`, `CLAUDE.md` and `.github/` unassigned. Separately, stage 8 says "Feature entry and ADRs merged into org-wiki — Automatic", which conflicts with ADRs needing approval.
+Agents may auto-merge into `features/` and `services/` after checks pass; `org/` and `decisions/` need CODEOWNERS approval (architecture, Layer 1 step 4). The architecture doesn't say how to enforce this, and leaves `raw/`, `index.md`, `CHANGELOG.md`, `CLAUDE.md` and `.github/` unassigned. Separately, stage 8 says "Feature entry and ADRs merged into council-rock — Automatic", which conflicts with ADRs needing approval.
 
 ## Decision Drivers
 
@@ -31,8 +31,8 @@ Zones:
 | Path | Who may merge | How |
 | --- | --- | --- |
 | `features/`, `services/`, `raw/` (add-only), `index.md`, `CHANGELOG.md` | Curator bot | Auto-merge after required checks |
-| `org/`, `decisions/` | CODEOWNERS (`@acme/eng-standards`, `@acme/architecture`) | Human approval |
-| `CLAUDE.md`, `.github/`, `CODEOWNERS` | `@acme/harness-platform` | Human approval |
+| `org/`, `decisions/` | CODEOWNERS (`@seeonee/eng-standards`, `@seeonee/architecture`) | Human approval |
+| `CLAUDE.md`, `.github/`, `CODEOWNERS` | `@seeonee/harness-platform` | Human approval |
 
 Stage 8 is read as: the feature entry merges automatically; ADRs are proposed in a separate PR and wait for CODEOWNERS.
 
@@ -45,7 +45,7 @@ Stage 8 is read as: the feature entry merges automatically; ADRs are proposed in
 
 ### Confirmation
 
-Phase 1 test T1.4 on the real `org-wiki` repo: (1) bot PR touching only `services/` auto-merges; (2) bot PR touching `org/` waits for an owner; (3) bot PR touching both fails `path-policy`; (4) bot PR modifying a `raw/` file fails; (5) bot PR touching `.github/` waits for platform owners.
+Phase 1 test T1.4 on the real `council-rock` repo: (1) bot PR touching only `services/` auto-merges; (2) bot PR touching `org/` waits for an owner; (3) bot PR touching both fails `path-policy`; (4) bot PR modifying a `raw/` file fails; (5) bot PR touching `.github/` waits for platform owners.
 
 ## Pros and Cons of the Options
 

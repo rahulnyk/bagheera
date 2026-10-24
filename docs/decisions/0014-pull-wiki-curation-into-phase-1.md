@@ -8,7 +8,7 @@ decision-makers: RN
 
 ## Context and Problem Statement
 
-The architecture's rollout puts the wiki schema, `org/` pages and DeepWiki bootstrap in weeks 1–2, and the wiki-curator on merge and nightly lint in weeks 7–8 ("Compounding"). Your Task 2 builds the whole of Layer 1 first. Which order?
+The architecture's rollout puts the wiki schema, `org/` pages and DeepWiki bootstrap in weeks 1–2, and the wiki curator (`baloo`) on merge and nightly lint in weeks 7–8 ("Compounding"). Your Task 2 builds the whole of Layer 1 first. Which order?
 
 ## Decision Drivers
 

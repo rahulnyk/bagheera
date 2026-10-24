@@ -27,7 +27,7 @@ The architecture says to run DeepWiki-Open once per repo to seed `services/` pag
 
 Chosen option: "A", because it keeps generation on the Anthropic API and keeps embeddings local, using only components DeepWiki-Open already ships.
 
-Output path: DeepWiki's `POST /export/wiki` (Markdown) → saved under `org-wiki/raw/deepwiki/<repo>-<date>.md` as a `Source` → the curator turns it into `services/<name>.md` in the schema, as a normal auto-mergeable PR. DeepWiki is shut down afterwards; it is never a second source of truth.
+Output path: DeepWiki's `POST /export/wiki` (Markdown) → saved under `council-rock/raw/deepwiki/<repo>-<date>.md` as a `Source` → the curator turns it into `services/<name>.md` in the schema, as a normal auto-mergeable PR. DeepWiki is shut down afterwards; it is never a second source of truth.
 
 ### Consequences
 

@@ -14,8 +14,8 @@ Checking the architecture against the current tools (Oct 2026) turned up places 
 
 | # | Conflict or gap | Proposed resolution | ADR | Phase | Your call? |
 | --- | --- | --- | --- | --- | --- |
-| C1 | `docs/architecture.md` wasn't in the repo. I exported it from the linked doc; the embedded 4-layer diagram didn't survive the export. | Commit the export as-is; re-add the diagram if you want it in git. | — | now | Confirm the export is the version you meant |
-| C2 | The architecture names `org-wiki` and a marketplace repo but not where the preset, CI workflows and monitoring config live; the wiki's trust rules (CODEOWNERS, rulesets, auto-merge) only work at repo level. | `bageera` holds the plan and ADRs; build three repos: `org-wiki`, `claude-marketplace`, `observability`. | [0002](decisions/0002-repository-topology.md) | 1 | **Yes**: GitHub org name, and may I create sandbox repos? |
+| C1 | `docs/architecture.md` wasn't in the repo. I exported it from the linked doc; the embedded 4-layer diagram didn't survive the export. | Committed as-is; diagram to be rebuilt later. | — | now | **Decided** |
+| C2 | The architecture names `org-wiki` and a marketplace repo but not where the preset, CI workflows and monitoring config live; the wiki's trust rules (CODEOWNERS, rulesets, auto-merge) only work at repo level. | `bageera` holds the plan and ADRs; build three repos: `council-rock` (the architecture's `org-wiki`), `pack` (plugin marketplace), `chil` (monitoring). Names per the [glossary](glossary.md). | [0002](decisions/0002-repository-topology.md) | 1 | **Yes**: GitHub org name, and may I create sandbox repos? |
 | C3 | Rollout puts curator + lint in weeks 7–8; Task 2 builds all of Layer 1 first. | Pull curator + lint into Phase 1. Phase 1 grows ~1 week. | [0014](decisions/0014-pull-wiki-curation-into-phase-1.md) | 1 | **Yes** |
 | C4 | Stage 8 says ADRs merge into the wiki "automatically", but `decisions/` needs CODEOWNERS approval. | Feature entry auto-merges; ADRs go in a separate PR that waits for owners. | [0004](decisions/0004-wiki-trust-boundary-enforcement.md) | 1 | No (trust boundary wins) |
 | C5 | `raw/`, `index.md`, `CHANGELOG.md`, `CLAUDE.md`, `.github/` have no trust zone. `raw/` holds untrusted PR text that any agent could later read. | `raw/` add-only and auto-merge; excluded from agent reads. `CLAUDE.md` and `.github/` owned by the platform team. | [0004](decisions/0004-wiki-trust-boundary-enforcement.md), [0010](decisions/0010-curator-untrusted-input.md) | 1 | No |
@@ -46,29 +46,29 @@ Items in this plan that rely on an assumption are tagged **[GH]**, **[JIRA]** or
 
 ## 2. Where things live
 
-Per [ADR 0002](decisions/0002-repository-topology.md). `acme` is a placeholder org name.
+Per [ADR 0002](decisions/0002-repository-topology.md). [components.md](components.md) explains what each repo contains and how the pieces fit. `seeonee` is a placeholder for your GitHub org. Names follow the [glossary](glossary.md).
 
 ```
-acme/org-wiki                     Layer 1: the wiki (its own repo for the trust rules)
-acme/claude-marketplace           Layer 2+3: plugin, Spec Kit preset/extension, reusable CI workflows, managed-settings source
+seeonee/council-rock                     Layer 1: the wiki (its own repo for the trust rules)
+seeonee/pack           Layer 2+3: plugin, Spec Kit preset/extension, reusable CI workflows, managed-settings source
   .claude-plugin/marketplace.json
-  plugins/acme-sdlc/              the one plugin: skills, agents, hooks, .mcp.json
-  speckit/                        acme preset + acme extension
+  plugins/bageera/              the one plugin: skills, agents, hooks, .mcp.json
+  speckit/                        bageera preset + bageera extension
   .github/workflows/              reusable workflows (wiki-curate, review, verify, demo, jira-sync, digest)
   managed-settings/               the JSON admins deploy (reviewed here, deployed via claude.ai console or MDM)
   bootstrap/deepwiki/             one-off DeepWiki-Open config and procedure
-acme/observability                Layer 4: OTel Collector, Prometheus, Loki, Grafana dashboards (or the platform team's existing infra repo)
+seeonee/chil                Layer 4: OTel Collector, Prometheus, Loki, Grafana dashboards (or the platform team's existing infra repo)
 <each service repo>               a 10-line caller workflow, CODEOWNERS lines for specs/, and specs/<ticket-id>/ artifacts
 ```
 
-This repo, `bageera`, holds the plan, the ADRs and the architecture export. Until the real repos exist, scaffolds are built here under `org-wiki/` (Task 2) and pushed out once you confirm the org. `rahulnyk/KnowledgeX` is used only as a tool (the `kx` validator) and as the sample service for end-to-end tests; nothing is built inside it.
+This repo, `bageera`, holds the plan, the ADRs and the architecture export. Until the real repos exist, scaffolds are built here under `council-rock/` (Task 2) and pushed out once you confirm the org. `rahulnyk/KnowledgeX` is used only as a tool (the `kx` validator) and as the sample service for end-to-end tests; nothing is built inside it.
 
 ## 3. Phases at a glance
 
 | Phase | Weeks | Layers | What ships | Exit in one line |
 | --- | --- | --- | --- | --- |
 | 1 Foundations | 1–3 | 1, 4 | Wiki repo that builds itself; telemetry baseline | A merged PR on the sample repo updates the wiki with no human, and policy edits still need a human |
-| 2 Plugin v0 | 4–5 | 2, 3 | `acme-sdlc` plugin, stages 1–4, gates | Pilot PM approves spec → test plan for one real feature, entirely in PRs |
+| 2 Plugin v0 | 4–5 | 2, 3 | `bageera` plugin, stages 1–4, gates | Pilot PM approves spec → test plan for one real feature, entirely in PRs |
 | 3 Build and CI | 6–7 | 2, 3 | Stages 5–7: build, CI review/verify, demo | One phase of the pilot feature merges with CI review and a generated demo |
 | 4 Compounding | 8–9 | 4 (+1) | Jira sync, delivery dashboard, weekly digest | Pilot ships two features end to end; PMs approve test plans without rewriting |
 | 5 Org rollout | 10–13 | all | 2–3 teams at a time | Each new team ships a feature through the gates within 3 weeks of onboarding |
@@ -90,19 +90,19 @@ Every merged PR in a connected repo produces a reviewed-by-machine wiki update w
 
 ### Exit criteria (observable, testable)
 
-1. `org-wiki` exists with the architecture's layout and a `CLAUDE.md` schema; the wrapped `kx check` passes with 0 errors on `main`.
+1. `council-rock` exists with the architecture's layout and a `CLAUDE.md` schema; the wrapped `kx check` passes with 0 errors on `main`.
 2. `org/` holds at least: coding standards, security rules, dos and don'ts, and one deploy page per environment, each authored by a named senior engineer (`generated.by: human:<id>`).
-3. Merging a PR in the sample repo opens a curator PR against `org-wiki` within 15 minutes; if it only touches `services/`, `features/`, `raw/`, `index.md`, `CHANGELOG.md` it auto-merges after checks.
+3. Merging a PR in the sample repo opens a curator PR against `council-rock` within 15 minutes; if it only touches `services/`, `features/`, `raw/`, `index.md`, `CHANGELOG.md` it auto-merges after checks.
 4. A curator PR touching `org/` or `decisions/` does not merge without a CODEOWNERS approval (tested, T1.4).
 5. Nightly lint opens or updates one "Wiki lint report" issue listing contradictions, broken links, stale service pages and orphans.
-6. Ending a Claude Code session on a feature branch produces at most one digest comment in the `org-wiki` digest issue for that branch; the curator consumes and closes it on merge.
+6. Ending a Claude Code session on a feature branch produces at most one digest comment in the `council-rock` digest issue for that branch; the curator consumes and closes it on merge.
 7. From a session in another repo, an agent answers a question from the wiki via the read-only MCP server.
 8. `services/` has a page for the sample repo, bootstrapped by DeepWiki-Open and condensed by the curator.
 9. (1b) Grafana shows sessions, tokens and cost per repo and per team for all engineers, for at least 5 working days before Phase 2 starts.
 
 ### Deliverables
 
-**1a — `acme/org-wiki`** (scaffolded first in `bageera` at `org-wiki/`)
+**1a — `seeonee/council-rock`** (scaffolded first in `bageera` at `council-rock/`)
 
 | Path | What |
 | --- | --- |
@@ -112,7 +112,7 @@ Every merged PR in a connected repo produces a reviewed-by-machine wiki update w
 | `raw/`, `org/`, `org/deploy/`, `services/`, `decisions/`, `features/` | Layout from the architecture |
 | `.templates/{service,feature,decision,org-principle,deploy-playbook,raw-source}.md` | One template per page type (hidden folder so it isn't linted as pages) |
 | 2–3 example pages | e.g. `services/knowledgex.md`, `decisions/0001-use-okf-for-wiki-pages.md`, `features/kx-22-okf-subfolders.md` |
-| `.github/CODEOWNERS` | `/org/ @acme/eng-standards`, `/decisions/ @acme/architecture`, `/CLAUDE.md /.github/ @acme/harness-platform` |
+| `.github/CODEOWNERS` | `/org/ @seeonee/eng-standards`, `/decisions/ @seeonee/architecture`, `/CLAUDE.md /.github/ @seeonee/harness-platform` |
 | `.github/rulesets/main.json` | Exported ruleset, applied with `gh api` (documented) **[GH]** |
 | `.github/workflows/wiki-checks.yml` | On every PR: wrapped `kx check`, `path-policy`, `raw-add-only`, `injection-guard`; enables auto-merge for curator PRs that pass |
 | `.github/workflows/wiki-lint-nightly.yml` | Cron: deterministic lint + one model pass for contradictions; updates the lint report issue |
@@ -123,32 +123,32 @@ Every merged PR in a connected repo produces a reviewed-by-machine wiki update w
 | `.github/scripts/stale-services.sh` | Lists service pages whose repo's default branch changed after the page's last `generated.at`/`verified.at` |
 | `.github/scripts/orphans.sh` | Lists pages no other page links to (excluding `index.md`) |
 
-**1a — `acme/claude-marketplace`**
+**1a — `seeonee/pack`**
 
 | Path | What |
 | --- | --- |
-| `.claude-plugin/marketplace.json` | Marketplace listing `acme-sdlc` |
-| `plugins/acme-sdlc/.claude-plugin/plugin.json` | Plugin manifest, version `0.1.0` |
-| `plugins/acme-sdlc/agents/wiki-curator.md` | Curator subagent: tools `Read, Grep, Glob, Write, Edit, Bash`, model `claude-sonnet-5-5`, `maxTurns: 30` |
-| `plugins/acme-sdlc/skills/wiki-lint/SKILL.md` | Lint skill: runs the deterministic scripts, then the contradiction pass; usable locally and in CI |
-| `plugins/acme-sdlc/skills/wiki-lookup/SKILL.md` | How to find and cite wiki pages (local clone first, MCP second, never `raw/`) |
-| `plugins/acme-sdlc/hooks/hooks.json` | `SessionStart` (refresh wiki clone in background, retry spooled digests) and `SessionEnd` (digest) |
-| `plugins/acme-sdlc/scripts/session-digest.sh` | Detached digest writer ([ADR 0005](decisions/0005-session-digest-queue.md)) |
-| `plugins/acme-sdlc/scripts/wiki-refresh.sh` | Sparse clone/fetch into `${CLAUDE_PLUGIN_DATA}/org-wiki`, at most hourly |
-| `plugins/acme-sdlc/.mcp.json` | `org-wiki` server: GitHub MCP, read-only, `get_file_contents,search_code` **[GH]** |
+| `.claude-plugin/marketplace.json` | Marketplace listing `bageera` |
+| `plugins/bageera/.claude-plugin/plugin.json` | Plugin manifest, version `0.1.0` |
+| `plugins/bageera/agents/baloo.md` | Curator subagent: tools `Read, Grep, Glob, Write, Edit, Bash`, model `claude-sonnet-5-5`, `maxTurns: 30` |
+| `plugins/bageera/skills/wiki-lint/SKILL.md` | Lint skill: runs the deterministic scripts, then the contradiction pass; usable locally and in CI |
+| `plugins/bageera/skills/wiki-lookup/SKILL.md` | How to find and cite wiki pages (local clone first, MCP second, never `raw/`) |
+| `plugins/bageera/hooks/hooks.json` | `SessionStart` (refresh wiki clone in background, retry spooled digests) and `SessionEnd` (digest) |
+| `plugins/bageera/scripts/session-digest.sh` | Detached digest writer ([ADR 0005](decisions/0005-session-digest-queue.md)) |
+| `plugins/bageera/scripts/wiki-refresh.sh` | Sparse clone/fetch into `${CLAUDE_PLUGIN_DATA}/council-rock`, at most hourly |
+| `plugins/bageera/.mcp.json` | `council-rock` server: GitHub MCP, read-only, `get_file_contents,search_code` **[GH]** |
 | `.github/workflows/wiki-curate.yml` | Reusable workflow (`workflow_call`): fetch untrusted inputs, mint App token, run claude-code-action with the curator, open PR(s) |
 | `callers/wiki-curate.yml` | 10-line caller each service repo copies (`on: pull_request: types: [closed]`) |
 | `bootstrap/deepwiki/` | `litellm-config.yml` (Anthropic route + Ollama embeddings), `.env.example`, `README.md` with the one-off procedure |
 | `tests/` | `bats` tests for every script; curator fixtures (recorded PRs); injection red-team fixtures |
 
-**1b — `acme/observability`** and managed settings
+**1b — `seeonee/chil`** and managed settings
 
 | Path | What |
 | --- | --- |
 | `docker-compose.yml`, `otel-collector/config.yaml` | Taken from `ColeMurray/claude-code-otel`, endpoints changed to ours |
 | `grafana/dashboards/claude-code-*.json` | The upstream dashboards, plus a `repo` and `team` variable |
 | `grafana/provisioning/repo-team-map.csv` | Repo → team map, generated nightly from `services/*.md` owners |
-| `claude-marketplace/managed-settings/managed-settings.json` | `env`: `CLAUDE_CODE_ENABLE_TELEMETRY=1`, `OTEL_METRICS_EXPORTER=otlp`, `OTEL_LOGS_EXPORTER=otlp`, `OTEL_EXPORTER_OTLP_PROTOCOL`, `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_METRICS_INCLUDE_REPOSITORY=true`, `OTEL_LOG_TOOL_DETAILS=1`; `requiredMinimumVersion` ≥ 2.1.269 |
+| `pack/managed-settings/managed-settings.json` | `env`: `CLAUDE_CODE_ENABLE_TELEMETRY=1`, `OTEL_METRICS_EXPORTER=otlp`, `OTEL_LOGS_EXPORTER=otlp`, `OTEL_EXPORTER_OTLP_PROTOCOL`, `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_METRICS_INCLUDE_REPOSITORY=true`, `OTEL_LOG_TOOL_DETAILS=1`; `requiredMinimumVersion` ≥ 2.1.269 |
 
 ### Existing tools and how they're configured
 
@@ -158,7 +158,7 @@ Every merged PR in a connected repo produces a reviewed-by-machine wiki update w
 | OKF v0.2 + KnowledgeX `kx` CLI (MIT) | Page format and deterministic lint | `npx knowledgex@0.5.0 check --bundle .` and `review --bundle .`, pinned ([ADR 0003](decisions/0003-wiki-page-format-okf.md)) |
 | MADR 4.0 | ADR body sections | Sections inside OKF `Decision` pages |
 | `anthropics/claude-code-action@v1` | Curator and lint runs in CI | `prompt`, `claude_args: --model … --max-turns … --allowedTools …`, `plugin_marketplaces`, `plugins`, `github_token` from App, OIDC federation inputs **[GH] [API]** |
-| `actions/create-github-app-token` | Short-lived token scoped to `org-wiki` | App `acme-wiki-curator`: contents/PRs/issues write on `org-wiki` only **[GH]** |
+| `actions/create-github-app-token` | Short-lived token scoped to `council-rock` | App `baloo-bot`: contents/PRs/issues write on `council-rock` only **[GH]** |
 | GitHub rulesets, CODEOWNERS, native auto-merge | Trust boundary | [ADR 0004](decisions/0004-wiki-trust-boundary-enforcement.md) **[GH]** |
 | GitHub MCP server (official) | Read-only wiki access | `/x/repos/readonly` or `--read-only --tools get_file_contents,search_code` **[GH]** |
 | DeepWiki-Open (MIT), LiteLLM, Ollama | One-off `services/` bootstrap | `docker-compose-litellm.yml`; LiteLLM model `anthropic/claude-sonnet-5-5`; `DEEPWIKI_EMBEDDER_TYPE=ollama`, `nomic-embed-text`; `POST /export/wiki` format markdown **[API]** |
@@ -207,8 +207,8 @@ Every merged PR in a connected repo produces a reviewed-by-machine wiki update w
 | GitHub remote MCP requires a Copilot seat **[GH]** | Wiki MCP unavailable | Self-hosted `github-mcp-server` image with a read-only fine-grained token |
 | DeepWiki LiteLLM→Anthropic route doesn't work cleanly **[API]** | No bootstrap | Fallback: curator drafts service pages straight from the repo ([ADR 0007](decisions/0007-deepwiki-bootstrap.md) option D) |
 | `allowManagedHooksOnly` set by security | Plugin hooks may not run | Check with security whether plugin hooks from a force-enabled managed plugin count; decide before Phase 2 |
-| Open: GitHub org name; may I create `org-wiki` / `claude-marketplace` sandbox repos for T1.4? | Blocks T1.4, T1.E2E | **Your call** |
-| Open: one org-wide wiki or one per domain? (architecture open decision) | Repo count, CODEOWNERS | Plan assumes one org-wide repo; per-domain later means one `org-wiki` per domain with `org/` as a shared submodule |
+| Open: GitHub org name; may I create `council-rock` / `pack` sandbox repos for T1.4? | Blocks T1.4, T1.E2E | **Your call** |
+| Open: one org-wide wiki or one per domain? (architecture open decision) | Repo count, CODEOWNERS | Plan assumes one org-wide repo; per-domain later means one `council-rock` per domain with `org/` as a shared submodule |
 | Open: billing for non-interactive runs (C16) **[API]** | Budget | Confirm with Anthropic account team |
 
 ---
@@ -223,27 +223,27 @@ Stages 1–4 run for one real pilot feature, each stage refuses to start until t
 
 ### Exit criteria
 
-1. Every pilot engineer has `acme-sdlc` enabled through managed settings and can't add other marketplaces (`strictKnownMarketplaces`).
+1. Every pilot engineer has `bageera` enabled through managed settings and can't add other marketplaces (`strictKnownMarketplaces`).
 2. For the pilot feature, `specs/<ticket-id>/` on `main` contains `spec.md`, `plan.md` (+ `data-model.md`, `contracts/`), `tasks.md` and `testplan.md`, each with `status: approved` and merged with the right CODEOWNERS approval.
 3. `/feature architect` is refused while `spec.md` isn't approved on `main`, including when the local copy says `approved` (T2.4).
 4. A new session in the pilot repo shows the repo's service page and the active feature's artifacts in its context (T2.3).
 5. The pilot PM answers the spec's open questions and approves acceptance criteria in the PR, and says in a short retro they'd use it again.
 
-### Deliverables (in `acme/claude-marketplace` unless noted)
+### Deliverables (in `seeonee/pack` unless noted)
 
 | Path | What |
 | --- | --- |
-| `plugins/acme-sdlc/skills/feature/SKILL.md` | One `feature` skill with subcommands `start <ticket>`, `architect`, `plan`, `testplan` (later `build`, `demo`); sets `SPECIFY_FEATURE_DIRECTORY` and calls the Spec Kit skill underneath |
-| `plugins/acme-sdlc/skills/org-standards/SKILL.md` | Loads the relevant `org/` pages for the language/service being touched |
-| `plugins/acme-sdlc/skills/deploy-config/SKILL.md` | Reads `org/deploy/<env>.md` before any infra change |
-| `plugins/acme-sdlc/agents/architect.md` | Tools `Read, Grep, Glob, Write, Edit` + plugin hook restricting writes to `specs/` ([ADR 0016](decisions/0016-plugin-level-guards-for-subagents.md)) |
-| `plugins/acme-sdlc/scripts/session-start.sh` | Adds to `SessionStart`: inject `services/<repo>.md` and `specs/<ticket>/*` (ticket from branch name) as `additionalContext` |
-| `plugins/acme-sdlc/scripts/pre-tool-guard.sh` | `PreToolUse`: protected paths (e.g. `.github/`, `infra/prod/`), deploy commands (`kubectl apply`, `terraform apply`, `helm upgrade`, …), stage gate ([ADR 0009](decisions/0009-stage-gates.md)), architect write scope |
-| `plugins/acme-sdlc/.mcp.json` | Adds the Atlassian MCP server (official, remote) for ticket intake **[JIRA]** |
-| `speckit/presets/acme/` | Preset: `spec-template.md` (ticket front-matter, PM open questions), `plan-template.md` (components, interfaces, data model, Mermaid diagram, draft ADRs), `tasks-template.md` (2–6 phases, each independently shippable behind a flag), `constitution-template.md` (built from wiki `org/`) |
-| `speckit/extensions/acme/` | Extension: `speckit.acme.testplan` command + `testplan-template.md` (Given/When/Then per phase; unit/integration/e2e cases; each criterion has a stable ID used as the Playwright test name) |
-| `managed-settings/managed-settings.json` | Adds `extraKnownMarketplaces`, `enabledPlugins: {"acme-sdlc@acme": true}`, `strictKnownMarketplaces`, `permissions.deny` (`Bash(git push --force*)`, deploy CLIs, prod credential paths) |
-| `<pilot repo>/.github/CODEOWNERS` | `specs/**/spec.md @acme/pm`, `specs/**/plan.md @acme/tech-leads`, `specs/**/tasks.md @acme/tech-leads @acme/pm`, `specs/**/testplan.md @acme/pm @acme/qa` **[GH]** |
+| `plugins/bageera/skills/feature/SKILL.md` | One `feature` skill with subcommands `start <ticket>`, `kaa`, `plan`, `testplan` (later `build`, `demo`); sets `SPECIFY_FEATURE_DIRECTORY` and calls the Spec Kit skill underneath |
+| `plugins/bageera/skills/org-standards/SKILL.md` | Loads the relevant `org/` pages for the language/service being touched |
+| `plugins/bageera/skills/deploy-config/SKILL.md` | Reads `org/deploy/<env>.md` before any infra change |
+| `plugins/bageera/agents/kaa.md` | Tools `Read, Grep, Glob, Write, Edit` + plugin hook restricting writes to `specs/` ([ADR 0016](decisions/0016-plugin-level-guards-for-subagents.md)) |
+| `plugins/bageera/scripts/session-start.sh` | Adds to `SessionStart`: inject `services/<repo>.md` and `specs/<ticket>/*` (ticket from branch name) as `additionalContext` |
+| `plugins/bageera/scripts/pre-tool-guard.sh` | `PreToolUse`: protected paths (e.g. `.github/`, `infra/prod/`), deploy commands (`kubectl apply`, `terraform apply`, `helm upgrade`, …), stage gate ([ADR 0009](decisions/0009-stage-gates.md)), architect write scope |
+| `plugins/bageera/.mcp.json` | Adds the Atlassian MCP server (official, remote) for ticket intake **[JIRA]** |
+| `speckit/presets/bageera/` | Preset: `spec-template.md` (ticket front-matter, PM open questions), `plan-template.md` (components, interfaces, data model, Mermaid diagram, draft ADRs), `tasks-template.md` (2–6 phases, each independently shippable behind a flag), `constitution-template.md` (built from wiki `org/`) |
+| `speckit/extensions/bageera/` | Extension: `speckit.bageera.testplan` command + `testplan-template.md` (Given/When/Then per phase; unit/integration/e2e cases; each criterion has a stable ID used as the Playwright test name) |
+| `managed-settings/managed-settings.json` | Adds `extraKnownMarketplaces`, `enabledPlugins: {"bageera@pack": true}`, `strictKnownMarketplaces`, `permissions.deny` (`Bash(git push --force*)`, deploy CLIs, prod credential paths) |
+| `<pilot repo>/.github/CODEOWNERS` | `specs/**/spec.md @seeonee/pm`, `specs/**/plan.md @seeonee/tech-leads`, `specs/**/tasks.md @seeonee/tech-leads @seeonee/pm`, `specs/**/testplan.md @seeonee/pm @seeonee/qa` **[GH]** |
 | `<pilot repo>/.specify/` | `specify init --integration claude --integration-options="--no-model-invocation"` + `specify preset add` / `specify extension add` from the marketplace repo |
 | `<pilot repo>/.github/pull_request_template.md` | Links to `specs/<ticket-id>/` and the phase's test plan |
 
@@ -251,7 +251,7 @@ Stages 1–4 run for one real pilot feature, each stage refuses to start until t
 
 | Tool | Use | Configuration |
 | --- | --- | --- |
-| GitHub Spec Kit (MIT, v1.2) | Stages 1–3 engine | Claude integration; acme preset + extension; `SPECIFY_FEATURE_DIRECTORY=specs/<ticket>` ([ADR 0008](decisions/0008-spec-kit-preset-and-artifact-names.md)) |
+| GitHub Spec Kit (MIT, v1.2) | Stages 1–3 engine | Claude integration; bageera preset + extension; `SPECIFY_FEATURE_DIRECTORY=specs/<ticket>` ([ADR 0008](decisions/0008-spec-kit-preset-and-artifact-names.md)) |
 | Claude Code plugins + marketplace + managed settings | Distribution, no drift | `extraKnownMarketplaces`, `enabledPlugins`, `strictKnownMarketplaces` (managed only) |
 | Claude Code hooks | Context injection and gates | `SessionStart` (`additionalContext`), `PreToolUse` (exit 2 to block) |
 | Atlassian MCP server (official) **[JIRA]** | Read the ticket and linked PRD | OAuth per engineer |
@@ -264,7 +264,7 @@ Stages 1–4 run for one real pilot feature, each stage refuses to start until t
 | ID | Check | Pass when |
 | --- | --- | --- |
 | T2.1 | Managed install | Fresh machine with managed settings: plugin present, other marketplace add refused |
-| T2.2 | Preset wins | `specify artifact info template:plan-template --json` shows `acme` active |
+| T2.2 | Preset wins | `specify artifact info template:plan-template --json` shows `bageera` active |
 | T2.3 | Session context | New session on branch `KX-101-json-output` includes `services/knowledgex.md` and `specs/KX-101/*` in context (checked via transcript) |
 | T2.4 | Gate | `/feature architect` refused with `spec.md` draft on `main`; still refused after editing local copy; allowed after PM-approved merge |
 | T2.5 | Architect scope | Architect asked to edit `src/` is blocked; reviewer (stub) has no write tools |
@@ -277,7 +277,7 @@ Stages 1–4 run for one real pilot feature, each stage refuses to start until t
 
 * PMs and QA need GitHub accounts with review rights (seat cost) **[GH]**. **Your call** with the pilot PM.
 * Spec Kit moves fast (1.0 → 1.2 in months). Pin the CLI version; re-run T2.2 on upgrade.
-* Plugin skill naming: plugin skills are namespaced (`/acme-sdlc:feature`); verify whether `/feature` alone resolves, and document what engineers type.
+* Plugin skill naming: plugin skills are namespaced (`/bageera:feature`); verify whether `/feature` alone resolves, and document what engineers type.
 * Does the hook input identify the subagent (needed for architect scope)? Verify in week 4; fallback in ADR 0016.
 * Open (architecture): Jira vs Linear. Plan assumes Jira.
 * Risk that the gate annoys engineers into bypassing (e.g. editing files without the skill). Mitigation: CI re-checks gates on the PR; dashboard in Phase 4 shows skipped gates.
@@ -304,24 +304,24 @@ Stages 5–7 run for the pilot feature: one phase merges with CI review, verify 
 
 | Path | What |
 | --- | --- |
-| `plugins/acme-sdlc/agents/implementer.md` | `isolation: worktree`; tools for edit/test; reads only artifacts + wiki |
-| `plugins/acme-sdlc/agents/test-writer.md` | Writes tests from `testplan.md`; can't edit `src/` |
-| `plugins/acme-sdlc/agents/reviewer.md` | Read-only tools; loads `org-standards`; outputs review comment |
-| `plugins/acme-sdlc/agents/demo-builder.md` | Uses Playwright MCP; writes `demo.md` |
-| `plugins/acme-sdlc/skills/feature/SKILL.md` | Adds `build N` and `demo` |
-| `plugins/acme-sdlc/scripts/post-edit-format.sh` | `PostToolUse` on `Write|Edit`: runs the repo's own formatter/linter if configured |
-| `plugins/acme-sdlc/hooks/hooks.json` | Adds `PostToolUse` |
-| `speckit/extensions/acme/` | `speckit.acme.demo` command + `demo-template.md` |
-| `.github/workflows/harness-review.yml` | Reusable: claude-code-action with `reviewer` agent on `pull_request` |
+| `plugins/bageera/agents/mowgli.md` | `isolation: worktree`; tools for edit/test; reads only artifacts + wiki |
+| `plugins/bageera/agents/grey-brother.md` | Writes tests from `testplan.md`; can't edit `src/` |
+| `plugins/bageera/agents/akela.md` | Read-only tools; loads `org-standards`; outputs review comment |
+| `plugins/bageera/agents/hathi.md` | Uses Playwright MCP; writes `demo.md` |
+| `plugins/bageera/skills/feature/SKILL.md` | Adds `build N` and `demo` |
+| `plugins/bageera/scripts/post-edit-format.sh` | `PostToolUse` on `Write|Edit`: runs the repo's own formatter/linter if configured |
+| `plugins/bageera/hooks/hooks.json` | Adds `PostToolUse` |
+| `speckit/extensions/bageera/` | `speckit.bageera.demo` command + `demo-template.md` |
+| `.github/workflows/harness-review.yml` | Reusable: claude-code-action with `akela` agent on `pull_request` |
 | `.github/workflows/harness-verify.yml` | Reusable: repo's tests + coverage diff + `anthropics/claude-code-security-review` |
-| `.github/workflows/harness-demo.yml` | Reusable: waits for preview URL, runs demo-builder with Playwright MCP, uploads video/screenshots as artifacts |
+| `.github/workflows/harness-demo.yml` | Reusable: waits for preview URL, runs `hathi` (demo builder) with Playwright MCP, uploads video/screenshots as artifacts |
 | `callers/harness-pr.yml` | Caller for service repos |
 
 ### Existing tools and configuration
 
 | Tool | Use |
 | --- | --- |
-| Claude Code subagents (`isolation: worktree`, `tools`) | Implementer/test-writer/reviewer separation |
+| Claude Code subagents (`isolation: worktree`, `tools`) | `mowgli` / `grey-brother` / `akela` separation (implementer, test writer, reviewer) |
 | claude-code-action **[GH] [API]** | Review and demo jobs |
 | `anthropics/claude-code-security-review` | Security comment on PRs (official action; no prompt of our own needed) |
 | Repo's existing test runner + a coverage-diff action (e.g. `lcov`-based reporter already used by the repo) | Test report and coverage diff |
@@ -339,7 +339,7 @@ Stages 5–7 run for the pilot feature: one phase merges with CI review, verify 
 | T3.3 | CI outputs | A sample PR gets review, test report, coverage diff, security comment |
 | T3.4 | Criteria mapping | Script lists `testplan.md` criterion IDs vs Playwright test titles: 0 unmapped |
 | T3.5 | No deploys | Loki query for deploy CLIs in tool events over the pilot window: 0 results |
-| T3.6 | Reviewer independence | Reviewer flags a planted standards violation the implementer introduced |
+| T3.6 | Reviewer independence | `akela` flags a planted standards violation that `mowgli` introduced |
 | **T3.E2E-a** | **Sample repo `rahulnyk/KnowledgeX`, KX-101 phase 1: `/feature build 1` → PR → CI review/verify → merge → curator updates `features/` and `services/knowledgex.md`** | **All of the above, and the wiki change auto-merges** |
 | **T3.E2E-b** | **Demo on a web app with per-PR previews (sandbox app or pilot repo): `/feature demo` on a phase PR** | **`demo.md` + recording posted; PM accepts** |
 
@@ -349,7 +349,7 @@ KnowledgeX is a CLI with no UI, so the demo stage needs a second sample repo wit
 
 * **Open (architecture): do all services have per-PR preview environments?** The demo stage depends on it. **Your call**: which repo for T3.E2E-b, and what to do for services without previews (fallback: demo against a local `docker compose` stack in CI).
 * CI cost per PR (review + verify + demo). Mitigation: `--max-turns`, demo only on `ready_for_review`, alert on outliers (Phase 4).
-* Implementer quality varies by codebase. Keep stage 5 human-steered (architecture's default autonomy ceiling).
+* `mowgli` (implementer) quality varies by codebase. Keep stage 5 human-steered (architecture's default autonomy ceiling).
 
 ---
 
@@ -378,10 +378,10 @@ Pilot delivery state is visible in Jira and Grafana with no manual updates, and 
 | --- | --- |
 | `.github/workflows/jira-sync.yml` (marketplace, reusable) | On push to `specs/**`: runs the Spec Kit Jira extension (or fallback script) **[JIRA]** |
 | `speckit/` config | Pinned `spec-kit-jira-sync` extension config, or `scripts/jira-sync.mjs` fallback (~100 lines) |
-| `observability/grafana/dashboards/delivery.json` | GitHub data source + Infinity (Jira REST/JQL) panels |
-| `observability/grafana/alerts/cost-outliers.yaml` | Per-feature cost alert |
+| `chil/grafana/dashboards/delivery.json` | GitHub data source + Infinity (Jira REST/JQL) panels |
+| `chil/grafana/alerts/cost-outliers.yaml` | Per-feature cost alert |
 | `.github/workflows/weekly-digest.yml` (marketplace) | `schedule` + `workflow_dispatch`: pull dashboard data with `curl` → claude-code-action writes summary → Slack webhook |
-| `org-wiki` | `features/` entries now created on each feature's last merge (stage 8) — already wired in Phase 1 |
+| `council-rock` | `features/` entries now created on each feature's last merge (stage 8) — already wired in Phase 1 |
 
 ### Existing tools and configuration
 
@@ -425,9 +425,9 @@ Repeatable onboarding of a team in under a day of platform effort, with no chang
 
 ### Deliverables
 
-* `claude-marketplace/onboarding/README.md`: the checklist, and `onboarding/onboard-repo.sh` that opens one PR per repo adding caller workflows, CODEOWNERS lines and `.specify/` (considered: GitHub org "required workflows" rulesets — use them for the review/verify checks if your plan supports it; the caller file is still needed for the `closed` event).
+* `pack/onboarding/README.md`: the checklist, and `onboarding/onboard-repo.sh` that opens one PR per repo adding caller workflows, CODEOWNERS lines and `.specify/` (considered: GitHub org "required workflows" rulesets — use them for the review/verify checks if your plan supports it; the caller file is still needed for the `closed` event).
 * DeepWiki bootstrap runs for each new team's repos (Phase 1 procedure).
-* `claude-marketplace/CODEOWNERS`: `@acme/harness-platform` owns everything; security owns `managed-settings/` and `plugins/acme-sdlc/hooks/`.
+* `pack/CODEOWNERS`: `@seeonee/harness-platform` owns everything; security owns `managed-settings/` and `plugins/bageera/hooks/`.
 * Release workflow: tag → marketplace version bump → managed settings rollout note.
 
 ### Test plan
@@ -450,7 +450,7 @@ Repeatable onboarding of a team in under a day of platform effort, with no chang
 
 * **Goal**: draft PRs for `approved` phases, never merged without normal review.
 * **Exit criteria**: over 4 weeks, ≥ 50% of nightly drafts merge with only review-level changes; zero drafts touching protected paths.
-* **Deliverables**: `.github/workflows/nightly-builder.yml` using claude-code-action (Agent SDK underneath) with the `implementer` agent; considered a standalone Agent SDK program, rejected for the same reason as [ADR 0015](decisions/0015-weekly-digest-via-scheduled-action.md).
+* **Deliverables**: `.github/workflows/nightly-builder.yml` using claude-code-action (Agent SDK underneath) with the `mowgli` agent; considered a standalone Agent SDK program, rejected for the same reason as [ADR 0015](decisions/0015-weekly-digest-via-scheduled-action.md).
 * **Test plan**: on the sample repo, an approved phase with a clear test plan yields a draft PR whose tests pass; a phase with `status: draft` is skipped.
 * **Risks / open**: **your call** on the autonomy ceiling (architecture open decision). Cost per night; mitigated by `--max-turns` and one phase per repo per night.
 
@@ -461,7 +461,7 @@ Repeatable onboarding of a team in under a day of platform effort, with no chang
 | Who | What | When |
 | --- | --- | --- |
 | You | Answer the "your call" items in section 1 and the open questions | Before Phase 1 week 1 |
-| GitHub org admin | Create repos, the `acme-wiki-curator` GitHub App, teams for CODEOWNERS, rulesets **[GH]** | Phase 1 week 1 |
+| GitHub org admin | Create repos, the `baloo-bot` GitHub App, teams for CODEOWNERS, rulesets **[GH]** | Phase 1 week 1 |
 | Anthropic console admin | Workload identity federation for CI, a CI workspace for cost separation **[API]** | Phase 1 week 1 |
 | Claude Code admin | Deploy managed settings (telemetry now; plugin in Phase 2) | Phase 1 week 1 / Phase 2 |
 | Senior engineers (named) | Write `org/` pages | Phase 1 weeks 1–2 |
