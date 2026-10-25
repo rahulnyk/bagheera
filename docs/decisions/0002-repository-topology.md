@@ -8,7 +8,7 @@ decision-makers: RN
 
 ## Context and Problem Statement
 
-The architecture names an `org-wiki` repo (here `council-rock`) and "an internal marketplace repo" holding the `acme-sdlc` plugin (here the `bageera` plugin in `pack`). It doesn't say where the Spec Kit preset, the reusable CI workflows or the monitoring config live. The plan and ADRs live in the project repo, `bageera`. Where should each piece live?
+The architecture names an `org-wiki` repo (here `council-rock`) and "an internal marketplace repo" holding the plugin (here the `bageera` plugin in `pack`). It doesn't say where the Spec Kit preset, the reusable CI workflows or the monitoring config live. The plan and ADRs live in the project repo, `bageera`. Where should each piece live?
 
 ## Decision Drivers
 
@@ -52,4 +52,4 @@ Phase 1 exit criteria include a ruleset test on the real `council-rock` repo (se
 
 ## More Information
 
-Needs your call: the GitHub org name (`seeonee` is a placeholder; the architecture used `acme`) and whether I may create sandbox repos for testing. Depends on the GitHub assumption.
+Needs your call: the GitHub org name (`seeonee` is a placeholder) and whether I may create sandbox repos for testing. Depends on the GitHub assumption.

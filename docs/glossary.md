@@ -8,8 +8,8 @@ Bageera's parts are named after characters and places from Kipling's *The Jungle
 
 | Name | What it is | Architecture's term | Why the name |
 | --- | --- | --- | --- |
-| `bageera` | The project: plan, decisions, architecture. Also the name of the Claude Code plugin | "the harness", plugin `acme-sdlc` | Bagheera guides Mowgli through the jungle; the harness guides engineers through the SDLC |
-| `seeonee` | Placeholder for your GitHub org | `acme` | The Seeonee wolf pack, Mowgli's community |
+| `bageera` | The project: plan, decisions, architecture. Also the name of the Claude Code plugin | "the harness", "the plugin" | Bagheera guides Mowgli through the jungle; the harness guides engineers through the SDLC |
+| `seeonee` | Placeholder for your GitHub org | the placeholder org | The Seeonee wolf pack, Mowgli's community |
 | `council-rock` | The org wiki repo | `org-wiki` | Where the pack meets to hear the Law and decide; the wiki holds the org's rules and decisions |
 | `pack` | The plugin marketplace repo (plugin, Spec Kit preset and extension, reusable workflows, managed-settings source) | "internal marketplace repo" | Everything the pack shares; plugin id `bageera@pack` |
 | `chil` | The monitoring repo (OTel Collector, Prometheus, Loki, Grafana) | Layer 4 | Chil the kite watches the whole jungle from the sky |

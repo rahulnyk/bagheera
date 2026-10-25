@@ -5,7 +5,7 @@ SDLC harness on Claude Code. Plan: `docs/plan.md`. Decisions: `docs/decisions/` 
 ## Naming
 
 - Use Jungle Book names from `docs/glossary.md` for repos, the plugin, agents, bots and apps. Keep skills, commands, hooks, scripts, workflows and files plainly named.
-- Never use `acme` (or other generic placeholder company names) anywhere. The placeholder GitHub org is `seeonee`.
+- Never use generic placeholder company names anywhere, in this or any other project. The placeholder GitHub org is `seeonee`.
 - When adding a new named part, add it to the glossary in the same change.
 
 ## Working rules

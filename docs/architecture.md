@@ -1,5 +1,7 @@
 # SDLC Harness on Claude Code — Architecture
 
+_Exported from the shared architecture doc (rev 11). Only change since export: the plugin's name now follows the [glossary](glossary.md). The embedded diagram will be rebuilt later._
+
 Oct 24, 2026 · @RN
 
 ## Summary
@@ -67,7 +69,7 @@ Everything lands in the feature's repo under `specs/<ticket-id>/`, so a PM revie
 
 ## Layer 3 — Execution: the plugin, agents, hooks and CI
 
-Ship everything as one private plugin, `acme-sdlc`, in an internal marketplace repo. Roll it out through Claude Code managed settings (`extraKnownMarketplaces` + `enabledPlugins`) so all 100 engineers get the same version and can't drift.
+Ship everything as one private plugin, `bageera`, in an internal marketplace repo. Roll it out through Claude Code managed settings (`extraKnownMarketplaces` + `enabledPlugins`) so all 100 engineers get the same version and can't drift.
 
 **Plugin contents**
 
