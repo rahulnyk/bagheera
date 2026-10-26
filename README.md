@@ -4,4 +4,4 @@ A delivery harness on Claude Code for an engineering org of ~100 engineers: know
 
 - [Product requirements](docs/prd.md) — the starting point and source of truth
 - [Architecture](docs/architecture.md) — lean architecture, draft for review
-- [Pitch deck](docs/pitch-deck.pptx) ([PDF](docs/pitch-deck.pdf)) — 9 slides for product and engineering leadership
+- [Pitch deck](docs/pitch-deck.pptx) ([PDF](docs/pitch-deck.pdf)) — 10 slides for product and engineering leadership
