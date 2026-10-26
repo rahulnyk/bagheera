@@ -12,7 +12,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 
 | # | Doc | What it settles | PRD requirements | Status |
 | --- | --- | --- | --- | --- |
-| 1 | `knowledge-library.md` | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Next** |
+| 1 | [`knowledge-library.md`](knowledge-library.md) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **In progress** (1 of 9) |
 | 2 | `seeding.md` | How DeepWiki-Open drafts the first service pages and how those drafts are reviewed | K8 | Not started |
 | 3 | `developer-workflow.md` | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | Not started |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
@@ -26,7 +26,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 These are the questions I expect to bring, in order. They will change as we learn.
 
 **1. Knowledge library**
-1. Provenance and trust: how each statement records its source, and which sources are trusted
+1. Provenance and trust: how each statement records its source, and which sources are trusted. **Done:** [0012](../decisions/0012-record-provenance-per-statement.md)
 2. Merge rules under caution: what, if anything, may enter the library without a person
 3. Structure: folders, page types, and a layout that can split later ([0007](../decisions/0007-one-knowledge-library.md))
 4. Page format: required fields, the Open Knowledge Format shape
