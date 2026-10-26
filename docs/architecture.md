@@ -1,6 +1,8 @@
 # Bagheera — Lean architecture
 
-_Status: draft for review · 2026-10-25 · Source of truth: [prd.md](prd.md)_
+_Status: draft, updated 2026-10-26 with the owner's decisions · Source of truth: [prd.md](prd.md)_
+
+> **Read with the decisions.** The owner's decisions of 2026-10-26 ([decisions/](decisions/)) change some parts below: approval is an `/approved` comment rather than ruleset approvals, Spec Kit is likely carried in the plugin, commands use the PRD's stage names, and the knowledge library is more cautious. The [design docs](design/README.md) work out each area in detail and replace this page's detail where they differ.
 
 ## Summary
 
@@ -118,17 +120,19 @@ PAY-350 Saved cards · Demo             payments-web  7 Demo        Waiting for 
 
 Adoption and cost (V6) stay in Claude's analytics, joined to the stories only in the weekly summary. A generated page (Decision 6) would put them in one place, at the cost of building it.
 
-## Decisions for you, in the order I'd take them
+## Decisions
 
-1. **Claude plan and model access** (Q7, Q8): sets how settings reach laptops, team cost reporting and CI sign-in.
-2. **GitHub access for PMs, QA and leadership** (Q2).
-3. **What counts as approval** (C3): ruleset team approvals, CODEOWNERS, or a custom check.
-4. **Stage and command names** (P6): Spec Kit's words or the PRD's.
-5. **How Spec Kit reaches each repo** (P4, D1): committed per repo, or carried in the plugin.
-6. **Dashboard** (V1–V4, Q3): GitHub Project, Jira dashboard, or a generated page.
-7. **Jira** (Q6, V5): ticket links only, or the stage shown in Jira.
-8. **One knowledge base or one per domain** (Q5).
-9. **Knowledge auto-merge and injection risk** (K4, K5).
-10. **Seeding** (K8): DeepWiki-Open, as the PRD prefers, needs a LiteLLM proxy and a local embedding model to use Anthropic; or the knowledge agent alone.
-11. **Names** (Q1, theme): the real GitHub org; any themed names beyond Bagheera.
-12. **Pilot team, feature and preview environments** (Q9, Q4): before the pilot, not the plan.
+| # | Decision | Outcome | Record |
+| --- | --- | --- | --- |
+| 1 | Claude plan and model access (Q7, Q8) | Open: set by the organisation; the owner will update. The design keeps both paths. | — |
+| 2 | GitHub access for PMs, QA and leadership (Q2) | Yes | [0001](decisions/0001-github-access-for-pms-qa-and-leadership.md) |
+| 3 | What counts as approval (C3) | An `/approved` comment by the designated role, enforced by process | [0002](decisions/0002-soft-approval-by-comment.md) |
+| 4 | Stage and command names (P6) | The PRD's stage names, with a light Jungle Book touch | [0003](decisions/0003-stage-names-from-the-prd.md) |
+| 5 | How Spec Kit reaches each repo (P4, D1) | Leaning: carried in the plugin; confirm in design doc 3 | [0004](decisions/0004-carry-spec-kit-in-the-plugin.md) (proposed) |
+| 6 | Dashboard (V1–V4, Q3) | View-only, with links; data source to brainstorm | [0005](decisions/0005-view-only-dashboard.md) |
+| 7 | Jira (Q6, V5) | Link only | [0006](decisions/0006-jira-link-only.md) |
+| 8 | One knowledge base or one per domain (Q5) | One master library; hierarchy later if needed | [0007](decisions/0007-one-knowledge-library.md) |
+| 9 | Knowledge auto-merge and injection risk (K4, K5) | Cautious; track provenance; never trust external documents blindly | [0008](decisions/0008-caution-and-provenance-for-the-knowledge-library.md) |
+| 10 | Seeding (K8) | DeepWiki-Open, run locally by the owner | [0009](decisions/0009-seed-service-pages-with-deepwiki-open.md) |
+| 11 | Names (Q1, theme) | Indicative names; Jungle Book names for individual components; org still `seeonee` | [0010](decisions/0010-naming.md) |
+| 12 | Pilot team, feature and preview environments (Q9, Q4) | Demos run on the stage environment; pilot team still to choose | [0011](decisions/0011-stage-environment-for-demos.md) |
