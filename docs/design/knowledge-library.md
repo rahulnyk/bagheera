@@ -1,6 +1,6 @@
 # Knowledge library
 
-_Status: in progress (section 1 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: in progress (sections 1–2 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
 
 The knowledge library is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
 
@@ -53,7 +53,30 @@ When a session loads a page, Claude sees which statements are settled (owner-app
 
 ## 2. Merge rules under caution
 
-_To brainstorm._
+_Decided: [ADR 0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)._
+
+A change from the knowledge agent enters the library on its own only when a person has already stood behind everything it says.
+
+| The change | Enters the library | Who reviews |
+| --- | --- | --- |
+| Every new or changed statement cites **approved work** or an **owner-approved** page, and all checks pass | By itself | Nobody; it shows in the change log |
+| Any statement is **inferred**, for example read from code | After review | The page's owning team; for a service page, the service's team |
+| A new or changed **decision record** | After approval | The decision's owners |
+| Any change to a **standard** | After approval | The standard's owners |
+| Any check fails, including the injected-instructions screen | Not until fixed | The page's owners (the platform team during the pilot) |
+| A statement whose only source is **external** | Never | Nobody; the check rejects it |
+
+**In practice.** Feature entries mostly restate the approved spec, architecture, plan, test plan and demo, so they merge by themselves. Service-page changes read from code get a short review by the service's team. Reviewers see every statement with its source footnote, so they check sources, not prose. When they approve, the inferred statements they approved are marked as verified (section 1).
+
+**One PR never mixes the two kinds.** The knowledge agent puts changes that can merge by themselves and changes that need a person into separate PRs (section 6). How a reviewer's approval is recorded on a library PR is also section 6.
+
+**Effect on the PRD's targets and K4.**
+
+* *Pages updated within a day of a change (≥ 90%):* feature entries meet it on their own; service pages depend on how fast the service's team reviews. Pending library reviews appear on the dashboard and in the weekly report.
+* *Pages verified by a person in the last 90 days (≥ 80%):* each review of inferred statements counts as verification, which helps.
+* *K4* ("agents may merge service and feature page changes after automated checks") holds in a narrower form: the agent merges only what restates approved work.
+
+**When to revisit.** After the pilot. If reviews turn into rubber stamps, relax to "merge with marks" (inferred statements merge marked, and owners verify later). If anything wrong gets through, tighten to "nothing without a person".
 
 ## 3. Structure
 

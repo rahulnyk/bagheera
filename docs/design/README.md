@@ -12,7 +12,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 
 | # | Doc | What it settles | PRD requirements | Status |
 | --- | --- | --- | --- | --- |
-| 1 | [`knowledge-library.md`](knowledge-library.md) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **In progress** (1 of 9) |
+| 1 | [`knowledge-library.md`](knowledge-library.md) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **In progress** (2 of 9) |
 | 2 | `seeding.md` | How DeepWiki-Open drafts the first service pages and how those drafts are reviewed | K8 | Not started |
 | 3 | `developer-workflow.md` | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | Not started |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
@@ -27,11 +27,11 @@ These are the questions I expect to bring, in order. They will change as we lear
 
 **1. Knowledge library**
 1. Provenance and trust: how each statement records its source, and which sources are trusted. **Done:** [0012](../decisions/0012-record-provenance-per-statement.md)
-2. Merge rules under caution: what, if anything, may enter the library without a person
+2. Merge rules under caution: what, if anything, may enter the library without a person. **Done:** [0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)
 3. Structure: folders, page types, and a layout that can split later ([0007](../decisions/0007-one-knowledge-library.md))
 4. Page format: required fields, the Open Knowledge Format shape
 5. What each stage adds, and when feature entries are written
-6. The curation run: trigger, inputs, what the knowledge agent may touch, how changes are grouped
+6. The curation run: trigger, inputs, what the knowledge agent may touch, how changes are grouped, how a reviewer's approval is recorded on a library PR
 7. Checks: format, links, allowed paths, sources, injected instructions
 8. Corrections: failed checks, rejected proposals, contradictions, stale pages, the 90-day human verification, who looks after them
 9. How sessions read it: what is loaded at start and how much
@@ -43,7 +43,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 4. A per-repo runbook
 
 **3. Developer workflow**
-1. How Spec Kit is carried ([0004](../decisions/0004-carry-spec-kit-in-the-plugin.md))
+1. How Spec Kit's content is copied into the plugin and kept up to date (copying was decided in [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md))
 2. Command names ([0003](../decisions/0003-stage-names-from-the-prd.md) and the naming register)
 3. What each stage writes, and the feature folder layout
 4. Approval: the `/approved` comment, the stage check, and recorded overrides ([0002](../decisions/0002-soft-approval-by-comment.md))
@@ -81,12 +81,21 @@ These are the questions I expect to bring, in order. They will change as we lear
 | Item | Why it's open | Resolved in |
 | --- | --- | --- |
 | Soft approvals versus PRD C3 "refuses to start" | [0002](../decisions/0002-soft-approval-by-comment.md) proposes a check with recorded overrides | Doc 3, step 4 |
-| Carrying Spec Kit in the plugin versus the PRD's "Spec Kit with a preset and extension" | [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md) | Doc 3, step 1 |
+| Carrying Spec Kit in the plugin versus the PRD's "Spec Kit with a preset and extension" | Decided: copy its content into the plugin ([0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)) | Resolved; PRD §8 wording to update |
 | Jungle Book component names versus PRD §8, Appendix B and CLAUDE.md | [0010](../decisions/0010-naming.md) proposes about five themed names | Naming register, as components come up |
-| Caution versus PRD K4 and the "updated within a day" target | [0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md) | Doc 1, step 2 |
+| Caution versus PRD K4 and the "updated within a day" target | Decided: only restated approved work merges without a person ([0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)) | Resolved; K4 holds in a narrower form |
 | Status data in the knowledge library versus PRD K1's page types | [0005](../decisions/0005-view-only-dashboard.md) mentions a wiki folder as one option | Doc 5, step 1 |
 | DeepWiki-Open needs an Anthropic API key via LiteLLM, not a Claude subscription | [0009](../decisions/0009-seed-service-pages-with-deepwiki-open.md) | Doc 2, step 1 |
 | Claude plan and model access (Q7, Q8) not known yet | Settings delivery, CI sign-in and team cost reporting depend on it; the docs keep both paths open | Doc 6 |
+
+## PRD wording to update
+
+Agreed decisions that change the PRD's wording. The PRD is the owner's document, so these are proposals for the owner to apply or approve.
+
+| PRD section | Current wording | Change | Because of |
+| --- | --- | --- | --- |
+| §8 Preferred building blocks | GitHub Spec Kit "customised through an org preset … and an org extension" | Spec Kit's templates and method, copied into the plugin as commands with the PRD's stage names | [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md) |
+| K4 | "Agents may merge service and feature page changes after automated checks" | Agents may merge only changes whose every statement restates approved work; inferred changes need the page's owning team | [0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md) |
 
 ## Naming register
 

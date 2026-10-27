@@ -1,6 +1,6 @@
 ---
-status: proposed
-date: 2026-10-26
+status: accepted
+date: 2026-10-27
 deciders: RN (owner)
 ---
 # Carry Spec Kit in the plugin rather than in each repo
@@ -17,9 +17,15 @@ Spec Kit normally installs into each repo (`specify init`, which writes `.specif
 
 ## Decision outcome
 
-Owner's leaning: carry it in the plugin (B or C). To be confirmed in design doc 3 after comparing the options in detail.
+Chosen option: B. We copy Spec Kit's templates, command instructions and helper scripts into the plugin and adapt them into our own stage commands with the PRD's names. We record which Spec Kit version we copied from and update by hand when a new release is worth taking. Spec Kit is MIT-licensed; the plugin keeps its licence notice. Option C was set aside because its commands would still be named `/speckit-…`. How the copy is organised and kept up to date is settled in design doc 3.
 
 ### Consequences
 
-* Good, because there is one install, one version everywhere (PRD D1) and no per-repo setup (P4).
-* Bad, because with PRD names we no longer use Spec Kit as installed software with a preset and an extension, which is the PRD's preferred building block (§8). Upgrades become a deliberate re-copy. This is flagged for confirmation.
+* Good, because there is one install, one version everywhere (PRD D1) and nothing to set up per repo (P4).
+* Good, because commands use the PRD's stage names ([0003](0003-stage-names-from-the-prd.md)).
+* Good, because we keep Spec Kit's method and templates, which is most of its value.
+* Bad, because we don't get Spec Kit's releases or community add-ons automatically; updates are a deliberate copy.
+
+### Conflict with the PRD (flagged)
+
+PRD §8 names "GitHub Spec Kit … customised through an org preset and an org extension" as a preferred building block. With this decision we use Spec Kit's content, not Spec Kit as installed software. The PRD's wording should be updated to match.
