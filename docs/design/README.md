@@ -29,9 +29,9 @@ These are the questions I expect to bring, in order. They will change as we lear
 1. Provenance and trust: how each statement records its source, and which sources are trusted. **Done:** [0012](../decisions/0012-record-provenance-per-statement.md)
 2. Merge rules under caution: what, if anything, may enter the library without a person. **Done:** [0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)
 3. Structure: folders, page types, and a layout that can split later ([0007](../decisions/0007-one-knowledge-library.md)). **Done:** [0014](../decisions/0014-lay-out-the-library-by-type-then-domain.md)
-4. Page format: required fields, the Open Knowledge Format shape. **Done:** [0015](../decisions/0015-typed-page-headers.md). **Added by the owner:** brevity without losing context (page shapes, length limits, link rather than copy). **Next.**
+4. Page format: required fields, the Open Knowledge Format shape. **Done:** [0015](../decisions/0015-typed-page-headers.md). **Added by the owner:** brevity without losing context. **Done:** [0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)
 5. What each stage adds, and when feature entries are written. **Done:** [0016](../decisions/0016-learn-decisions-when-approved-features-at-close.md)
-6. The curation run: trigger, inputs, what the knowledge agent may touch, how changes are grouped, how a reviewer's approval is recorded on a library PR
+6. The curation run: trigger, inputs, what the knowledge agent may touch, how changes are grouped, how a reviewer's approval is recorded on a library PR. **Next.**
 7. Checks: format, links, allowed paths, sources, injected instructions
 8. Corrections: failed checks, rejected proposals, contradictions, stale pages, the 90-day human verification, who looks after them
 9. How sessions read it: what is loaded at start and how much

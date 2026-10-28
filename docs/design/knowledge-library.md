@@ -11,7 +11,7 @@ Covers PRD K1–K7, K9 and K10. Seeding the first service pages (K8) is [design 
 These apply to every section below.
 
 * **Caution and provenance.** Every statement says where it came from, and nothing external is trusted blindly ([0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md)).
-* **Brief, but never without context.** Set by the owner on 2026-10-28. We actively fight verbosity, but not at the cost of context. A decision without its context is as good as lost; a decision buried in long reasoning and detailed logs is just as unusable. Each page keeps the essentials and links to the full detail, which stays where it was written (the approved spec, the plan, the PR). How this is enforced is being decided; it will be added to section 4.
+* **Brief, but never without context.** Set by the owner on 2026-10-28. We actively fight verbosity, but not at the cost of context. A decision without its context is as good as lost; a decision buried in long reasoning and detailed logs is just as unusable. Each page keeps the essentials and links to the full detail, which stays where it was written (the approved spec, the plan, the PR). Enforced by fixed page shapes and length limits ([0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md), section 4).
 
 ## 1. Provenance and trust
 
@@ -210,6 +210,36 @@ org:
 ```
 
 `owners` review technical pages and decisions; `product_owners` review product decisions (section 5). `repos` tells a session which domain it is in (section 9).
+
+### Shape and length
+
+_Decided: [ADR 0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)._
+
+Brief, but never without context (see Principles). Each page type has a fixed set of sections, each with a minimum and a maximum. The limits are starting points to tune during the pilot. The header and source footnotes don't count towards them.
+
+| Page | Required sections, in order | Limit |
+| --- | --- | --- |
+| **Decision** | Context (≤ 60 words) · Decision (one sentence) · Why (≤ 3 bullets) · Consequences (≤ 3 bullets) · Options considered (one line each) | ≤ 250 words |
+| **Service** | Purpose (≤ 2 sentences) · Interfaces · Depends on (one line on why, per entry in `depends_on`) · Data · Gotchas (one line each) | ≤ 400 words |
+| **Feature** | What and why (≤ 3 sentences) · Acceptance criteria (ID and one line each) · Services touched · Decisions (links) · Lessons (≤ 5) | ≤ 300 words |
+| **Standard** | Rules: one line each, with a one-line reason and a short example | ≤ 500 words; split the page if longer |
+
+Decision records use this shape whoever writes them, person or agent.
+
+**Writing rules**, for the knowledge agent and for people:
+
+1. **Link, don't copy.** Detailed reasoning, discussion, logs and test output stay in their source; the footnote links to it.
+2. **Rewrite in place.** When knowledge changes, change the statement. No "update on <date>" entries; history lives in git and in superseded decisions.
+3. **Every statement earns its place.** Write for a future engineer or Claude session. No story of how it was decided, no restating the obvious.
+4. **No logs, stack traces, transcripts or chat excerpts**, and no code blocks longer than about 10 lines.
+
+**What the check does** (section 7):
+
+* fails if a required section is missing or empty, so a decision can't appear without its context
+* warns when a page reaches its limit, and fails at one and a half times it
+* rejects logs, transcripts and long code blocks
+
+**What reviewers are asked**, on every library PR that needs a person: "Is anything missing to understand this?" and "Is anything here not needed?"
 
 ## 5. What each stage adds
 
