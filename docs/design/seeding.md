@@ -1,6 +1,6 @@
 # Seeding
 
-_Status: in progress · Design doc 2 of 6 · [All design docs](README.md)_
+_Status: draft complete, awaiting the owner's approval · Design doc 2 of 6 · [All design docs](README.md)_
 
 Existing services get a first-draft page from a one-off automated pass over their code, so the library isn't empty on day one (PRD K8). This doc says what runs that pass, what it reads and writes, how the drafts are reviewed, and how to run it for each repo.
 
@@ -19,11 +19,11 @@ A skill in the plugin, `seed-service-page`, run in Claude Code inside the servic
 
 | | |
 | --- | --- |
-| **Who runs it** | The owner or a platform engineer, once per service |
+| **Who runs it** | A platform engineer, once per repo, with someone from the service's team at hand (section 4) |
 | **Where** | On their laptop, in a clone of the service's repo |
 | **Sign-in** | Their Claude subscription (the run counts against its usage limits) or an Anthropic API key. Nothing else to install. |
-| **What it reads** | The repo's code at its current commit, by searching and opening files. Where it looks is section 2. |
-| **What it writes** | One draft service page in the library's format: typed header, the five service sections, at most 400 words (design doc 1, section 4) |
+| **What it reads** | The repo's code and docs at its current commit, by searching and opening files. What it may cite and where it looks is section 2. |
+| **What it writes** | A draft page for each service in the repo, in the library's format: typed header, the five service sections, at most 400 words (design doc 1, section 4) |
 | **Trust** | Every statement is inferred, and its footnote names the file and commit it was read from |
 | **What happens next** | A library PR for the service's owning team (section 3) |
 | **Depends on** | Anthropic for the model; GitHub for the repo and the library PR |
@@ -162,6 +162,51 @@ Sessions in that repo start without a service page, and the session-start note s
 * A domain's pages are all verified in the same week, so they fall due for re-verification together after 75 days. Design doc 1's cap of five re-verification PRs per domain per week spreads them out; a domain with up to 15 pages still meets the 90-day target.
 * The pilot measures how long a page takes to review (estimated at 15–30 minutes), to plan the later waves.
 
-## Still to come
+## 4. Runbook
 
-4. A per-repo runbook: who runs it, links to services that don't have a page yet, usage limits
+_Decided: [ADR 0027](../decisions/0027-name-unseeded-dependencies-and-link-them-later.md) for links to services without a page. The rest follows from sections 1–3._
+
+### Links to services that don't have a page yet
+
+* **Another of our services without a page.** The "Depends on" section names it in plain words with its full repo name, so it can be found later, and a source footnote. The header's `depends_on` leaves it out, and the seeding report lists it. For example: "ledger-svc (`seeonee/ledger-svc`): records each charge.[^s4]"
+* **Once it has a page**, the weekly check (design doc 1, section 8) finds the pages that name it and opens a PR to each, adding its ID to `depends_on`. The page's owners approve it. The check does this rather than the skill, because the ID only exists once the new page has merged.
+* **A third-party service** (a payment provider, say) is named in plain words only. It never gets a library page.
+* **Exception.** If a joining team relies heavily on a service in another domain, the platform team may seed that service early. Its PR goes to that domain's owners.
+
+### Who runs it, and what they need
+
+A platform engineer runs it, with someone from the joining team at hand to confirm each repo's list of services (section 2). They need:
+
+* Claude Code with the plugin (how it reaches laptops is design doc 6; for the pilot, installed by hand)
+* their Claude subscription or an Anthropic API key
+* clones of the domain's repos and of the library, and their own GitHub access to open library PRs
+
+### Steps for one domain
+
+1. **Check `domains.yaml`.** The domain, its owners and its repos are listed. Only the platform team changes this file.
+2. **Book the review.** Agree the team's review session for the coming week (section 3).
+3. **Seed each repo.** Pull its default branch, open Claude Code in it and run `seed-service-page`. Confirm the list of services. The skill writes a draft page and a seeding report for each.
+4. **Glance at each draft.** This is not the review: it only catches a broken run, such as empty sections or the wrong service. Run it again if needed.
+5. **Open the PRs.** A script in the plugin, the same one the curation run uses (design doc 1, section 6), pushes one branch per page, opens each library PR with the runner's GitHub access, and fills the PR number into the footnotes and `last_verified`.
+6. **Follow up.** The weekly summary shows open seeding PRs by domain. After the team's pages merge, the weekly check adds links from earlier pages that named these services.
+
+**A new service later on.** When a team starts a new service after its domain was seeded, the platform team adds its repo to `domains.yaml` and runs the same steps for that repo.
+
+### Time and usage limits
+
+* A run reads a lot of code. On a subscription it counts against the plan's usage limits, so a large domain may need more than one sitting; seed repo by repo. With an API key, it is ordinary spend (spend limits are design doc 6).
+* The pilot domain's runs are timed and their usage noted, to plan the later waves.
+
+### When to fall back to DeepWiki-Open
+
+If reviewers rewrite or delete more than half the statements across the pilot domain's pages, the drafts aren't saving time. Then we switch to DeepWiki-Open for later waves (section 1). The threshold is a starting point.
+
+## What this adds to the harness
+
+| Part | New or reused |
+| --- | --- |
+| The `seed-service-page` skill | New, in the plugin |
+| A read-only subagent that reads code for the skill | New, in the plugin |
+| Page format, writing rules, checks, review path | Reused from design doc 1 |
+| The script that opens library PRs and fills in PR numbers | Reused from the curation run |
+| A "missing link" finding in the weekly check | A new finding in an existing check |

@@ -353,6 +353,7 @@ Once a week, a check runs across the whole library. For each finding, the agent 
 | **Stale service page**: code in the service's repos changed since the page was last verified, and no library PR has updated the page since | A refresh: what changed in the code, and the page edits it proposes | The service's team |
 | **Service page due for re-verification**: last verified 75 days ago or more | A re-verification: a summary of code changes since the last verification, with the page as it stands. Approving it re-verifies the page (its `last_verified` changes). | The service's team |
 | **Broken link or orphan page** (nothing links to it) | A link fix, or a proposal to link or retire the orphan | The page's owners; link fixes in `features/` merge by themselves |
+| **Missing link**: a service page names, in plain words, a service that now has a page ([design doc 2, section 4](seeding.md#4-runbook)) | Adds the service's ID to `depends_on` | The page's owners |
 
 **Limits, so owners aren't swamped.** At most five re-verification PRs per domain per week, oldest pages first. Contradictions and stale pages are not capped, because they matter more.
 

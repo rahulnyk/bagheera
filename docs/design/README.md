@@ -13,7 +13,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | # | Doc | What it settles | PRD requirements | Status |
 | --- | --- | --- | --- | --- |
 | 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Approved** |
-| 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **In progress** |
+| 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **Draft complete**, awaiting your approval |
 | 3 | `developer-workflow.md` | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | Not started |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
 | 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | Not started |
@@ -40,7 +40,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 1. What runs the seeding pass. **Done:** [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md), a Claude Code skill, which replaces DeepWiki-Open ([0009](../decisions/0009-seed-service-pages-with-deepwiki-open.md))
 2. What the skill reads and writes: where it looks, how it treats text in the repo, large repos. **Done:** [0025](../decisions/0025-seeded-pages-may-cite-repo-docs-code-wins.md), code first, the repo's docs allowed
 3. How drafts are reviewed and verified, without swamping owners with many PRs at once. **Done:** [0026](../decisions/0026-seed-each-domain-just-before-its-teams-join.md), each domain seeded just before its teams join, with review as an onboarding task
-4. A per-repo runbook: who runs it, links to services that don't have a page yet, usage limits
+4. A per-repo runbook: who runs it, links to services that don't have a page yet, usage limits. **Done:** [0027](../decisions/0027-name-unseeded-dependencies-and-link-them-later.md), name them now and link them once they have a page
 
 **3. Developer workflow**
 1. How Spec Kit's content is copied into the plugin and kept up to date (copying was decided in [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md))
