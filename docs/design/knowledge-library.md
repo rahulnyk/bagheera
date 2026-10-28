@@ -2,7 +2,7 @@
 
 _Status: draft complete, awaiting the owner's approval · Design doc 1 of 6 · [All design docs](README.md)_
 
-The knowledge library is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
+The knowledge library, **Council Rock**, is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
 
 Covers PRD K1–K7, K9 and K10. Seeding the first service pages (K8) is [design doc 2](README.md).
 
@@ -168,9 +168,11 @@ Standards, and decision records written by people, record their provenance once 
 | Type | Fields | `status` values |
 | --- | --- | --- |
 | **Service** | `repos` (code repos), `languages`, `depends_on` (service IDs), `environments` | `active`, `deprecated`, `retired` |
-| **Decision** | `date`, `deciders`, `supersedes`, `superseded_by` (decision IDs) | `proposed`, `accepted`, `superseded`, `rejected` |
-| **Feature** | `ticket` (Jira key), `repos`, `prs`, `shipped` (date), `decisions` (decision IDs) | `shipped` |
+| **Decision** | `date`, `deciders`, `services` (IDs of the services it governs), `supersedes`, `superseded_by` (decision IDs) | `proposed`, `accepted`, `superseded`, `rejected` |
+| **Feature** | `ticket` (Jira key), `services` (IDs of the services it touched), `repos`, `prs`, `shipped` (date), `decisions` (decision IDs) | `shipped` |
 | **Standard** | `applies_to` (languages, services or environments; empty means everywhere), `enforcement` (`blocking` or `advisory`, used by the PR review in design doc 4) | `draft`, `active`, `retired` |
+
+The ID references in these fields (`depends_on`, `services`, `decisions`, `supersedes`, `applies_to`) are the edges of the library's graph (section 9).
 
 ### Example: a service page
 
@@ -280,7 +282,7 @@ Every hour, a workflow in the library repo sweeps the PRs merged since its last 
 ### Step by step
 
 1. **Gather** (script, no AI). For each merged PR, it collects the title, description and diff; the changed files in `specs/<TICKET>/` with their `/approved` comments; and any recorded lessons. Everything goes into a work folder marked as untrusted. The agent's instructions name those files as data, never as instructions.
-2. **Draft** (the knowledge agent). Claude edits pages in a copy of the library, following the page format, shapes and limits (section 4), and adds a source footnote to every statement (section 1). It can read and edit files in that copy only: no shell, no web access, no GitHub token, and capped turns and spend.
+2. **Draft** (the knowledge agent, **Baloo**). Claude edits pages in a copy of the library, following the page format, shapes and limits (section 4), and adds a source footnote to every statement (section 1). It can read and edit files in that copy only: no shell, no web access, no GitHub token, and capped turns and spend.
 3. **Sort** (script). It splits the edits into PRs by section 2's rules:
    * **merges by itself:** feature entries, which may only restate approved work
    * **needs owners:** everything else, one PR per page, so each goes to that page's owners
@@ -370,37 +372,53 @@ A short summary for the platform team, also shown on the dashboard (design doc 5
 
 ## 9. How sessions read it
 
-_Decided: [ADR 0021](../decisions/0021-load-a-compact-starter-set-at-session-start.md)._
+_Decided: [ADR 0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md), which replaces [0021](../decisions/0021-load-a-compact-starter-set-at-session-start.md). Principle set by the owner on 2026-10-28._
+
+**Reveal knowledge incrementally.** The library is a graph: pages are nodes, and the references in their headers are the edges. A ticket only needs a small part of that graph, and even that part is revealed step by step, as the work needs it. Nothing is loaded just in case.
+
+### The graph
+
+| Edge | From → to | Recorded in |
+| --- | --- | --- |
+| depends on | service → service | `depends_on` |
+| governs | decision → service | `services` |
+| touched | feature → service | `services` |
+| decided | feature → decision | `decisions` |
+| applies to | standard → service, language or environment | `applies_to` |
+| replaces | decision → decision | `supersedes`, `superseded_by` |
+| belongs to | page → domain | `domain` |
+
+Links in page text are edges too.
 
 ### At session start
 
-The plugin's session-start hook:
+The plugin's session-start hook refreshes the local copy of the library (with a short time limit; offline, it uses the last copy and says so), works out the repo's service from `domains.yaml` and the service pages, and loads only:
 
-1. Refreshes the local copy of the library, with a short time limit. Offline, it uses the last copy and says so.
-2. Works out the repo's domain and service from `domains.yaml` and the service pages' `repos` field.
-3. Loads the starter set below into context, within a budget.
-4. Tells Claude how to treat what it loaded (below).
+* the repo's service page (PRD K7)
+* one line on where the current feature stands: its stage, what it's waiting on, and the next step (design docs 3 and 5)
+* a short note telling Claude the library exists and how to explore it
 
-A repo that isn't listed in `domains.yaml` gets only the org-wide blocking standards and the org decisions index.
+No standards, no decision index, nothing else.
 
-### The starter set
+### Revealing more, step by step
 
-The budget is about 10,000 tokens (roughly 7,500 words), a starting point to tune in the pilot. If the starter set is over budget, parts are dropped in the order shown.
+Two ways, both small.
 
-| Part | What is loaded | If over budget |
-| --- | --- | --- |
-| The repo's service page | The whole page | Always kept |
-| Blocking standards that apply | Org and domain standards whose `applies_to` matches the repo's languages, services or environments, with `enforcement: blocking` | Always kept |
-| Where the current feature stands | Its stage, what it's waiting on, and the next step (design doc 3) | Always kept |
-| Advisory standards that apply | The same match, with `enforcement: advisory` | Dropped first |
-| Services this repo depends on in other domains | The Purpose and Interfaces sections of each such service | Dropped second |
-| Decisions index | One line per accepted decision in the domain and in `org`: its title and the first sentence of its context | Dropped third |
+**1. Each stage reveals what it must have.** The stage commands (design doc 3) start from the services the ticket touches and pull only what their stage needs:
 
-If the parts that are always kept exceed the budget on their own, they still load, and the weekly summary flags it as a sign that pages or standards need trimming (sections 4 and 8).
+| Stage | Revealed |
+| --- | --- |
+| Intake | Product decisions governing those services; past features on them (title and "What and why" only) |
+| Architecture | Technical decisions governing them; the Interfaces section of each service they depend on; the blocking standards that apply (PRD R2) |
+| Build | The standards that apply to the languages being changed (PRD R2); the service's Gotchas |
+| Verify (the PR review in CI) | The standards that apply to the files in the diff |
+| Plan, Test plan, Demo, Close | Nothing new; they work from the approved documents |
 
-### On demand
+How standards are revealed when someone codes outside the stage commands is settled in design doc 4.
 
-The plugin's knowledge skill lets Claude search the local copy and read any full page when the work needs it: a decision, another service, a feature entry. Every session can read the whole library; folders don't restrict reading (section 3). The local copy is readable without permission prompts (design doc 6).
+**2. Claude explores on demand.** The plugin's knowledge skill answers "what is around this page?" with one line per neighbour (its title and first sentence), and opens a full page only when asked. Claude sees a map before reading anything, and reads only what it needs. Every session can reach the whole library this way; folders don't restrict reading (section 3). The local copy is readable without permission prompts (design doc 6).
+
+**Each reveal is capped** at about 2,000 tokens to start. Past the cap it returns one-line summaries only. The brevity rules (section 4) keep most pages well under it.
 
 ### How Claude is told to treat it
 
@@ -411,4 +429,4 @@ The plugin's knowledge skill lets Claude search the local copy and read any full
 
 ### In CI
 
-CI sessions load the same plugin, so the PR review sees the same starter set as the engineer did (PRD P7).
+CI sessions load the same plugin. The PR review starts from the services in the diff and reveals the standards that apply, the same way (PRD P7).

@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by [0022](0022-reveal-the-library-incrementally-as-a-graph.md)
 date: 2026-10-28
 deciders: RN (owner)
 ---

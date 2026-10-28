@@ -34,7 +34,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 6. The curation run: trigger, inputs, what the knowledge agent may touch, how changes are grouped, how a reviewer's approval is recorded on a library PR. **Done:** [0018](../decisions/0018-protect-the-library-with-owner-review.md)
 7. Checks: format, links, allowed paths, sources, injected instructions. **Done:** [0019](../decisions/0019-screen-for-planted-instructions-twice.md)
 8. Corrections: failed checks, rejected proposals, contradictions, stale pages, the 90-day human verification, who looks after them. **Done:** [0020](../decisions/0020-send-findings-to-owners-as-library-prs.md)
-9. How sessions read it: what is loaded at start and how much. **Done:** [0021](../decisions/0021-load-a-compact-starter-set-at-session-start.md)
+9. How sessions read it: incremental reveal of a small part of the library's graph. **Done:** [0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md), which replaces 0021
 
 **2. Seeding**
 1. How DeepWiki-Open reaches a model and an embedding model on your machine
@@ -54,7 +54,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 
 **4. Standards and review**
 1. Standard page format and ownership
-2. Choosing the standards relevant to a session
+2. Revealing the standards relevant to the work, including when someone codes outside the stage commands ([0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md))
 3. The PR review: what it checks, blocking versus advisory findings
 4. Forbidden actions: deny rules, and whether a guard hook is needed
 5. Project principles generated from the standards (R5)
@@ -104,6 +104,6 @@ Themed names are proposed to the owner first ([0010](../decisions/0010-naming.md
 | Component | Plain name | Themed name | Status |
 | --- | --- | --- | --- |
 | The product | Delivery harness | Bagheera | Approved (PRD) |
-| The knowledge library | Knowledge library | — | To propose in doc 1 |
-| The knowledge agent | Knowledge agent | — | To propose in doc 1 |
+| The knowledge library | Knowledge library | Council Rock | Approved ([0023](../decisions/0023-name-council-rock-and-baloo.md)) |
+| The knowledge agent | Knowledge agent | Baloo | Approved ([0023](../decisions/0023-name-council-rock-and-baloo.md)) |
 | The dashboard | Dashboard | — | To propose in doc 5 |
