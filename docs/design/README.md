@@ -38,7 +38,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 
 **2. Seeding**
 1. What runs the seeding pass. **Done:** [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md), a Claude Code skill, which replaces DeepWiki-Open ([0009](../decisions/0009-seed-service-pages-with-deepwiki-open.md))
-2. What the skill reads and writes: where it looks, how it treats text in the repo, large repos
+2. What the skill reads and writes: where it looks, how it treats text in the repo, large repos. **Done:** [0025](../decisions/0025-seeded-pages-may-cite-repo-docs-code-wins.md), code first, the repo's docs allowed
 3. How drafts are reviewed and verified, without swamping owners with many PRs at once
 4. A per-repo runbook: order, who runs it, usage limits
 
