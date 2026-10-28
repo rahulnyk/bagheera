@@ -1,6 +1,6 @@
 # Knowledge library
 
-_Status: draft complete, awaiting the owner's approval · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-28 · Design doc 1 of 6 · [All design docs](README.md)_
 
 _Team walkthrough deck: [knowledge-library-walkthrough.pptx](knowledge-library-walkthrough.pptx) ([PDF](knowledge-library-walkthrough.pdf))._
 
