@@ -340,7 +340,7 @@ Problems go to the people who own the page, as ordinary library PRs through the 
 | A check fails on a library PR | The PR stays open, labelled with the finding. For header, shape, length, source and link failures, the agent gets one automatic retry; if the check still fails, the PR waits for its owners. | The page's owners (the platform team during the pilot) |
 | A planted-instruction screen fires | The PR is blocked and labelled. Only the platform team can clear a false alarm; the page's owners can't clear it alone. | The platform team |
 | An owner rejects a proposal | The PR is closed. The agent records which merged PRs it came from and doesn't propose the same change from them again. | The page's owners |
-| An owner corrects a proposal | The owner edits the PR, then approves it. Their edit is covered by their own approval. | The page's owners |
+| An owner corrects a proposal | The owner edits the PR, then approves it. Their edit is covered by their own approval. A statement they add carries the footnote `owner-approved · added in library PR #<number>`, so the sources check passes. | The page's owners |
 | A library PR waits more than five working days | The weekly summary flags it to the domain's owners and the platform team. | Domain owners |
 
 ### The weekly check

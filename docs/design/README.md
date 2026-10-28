@@ -39,8 +39,8 @@ These are the questions I expect to bring, in order. They will change as we lear
 **2. Seeding**
 1. What runs the seeding pass. **Done:** [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md), a Claude Code skill, which replaces DeepWiki-Open ([0009](../decisions/0009-seed-service-pages-with-deepwiki-open.md))
 2. What the skill reads and writes: where it looks, how it treats text in the repo, large repos. **Done:** [0025](../decisions/0025-seeded-pages-may-cite-repo-docs-code-wins.md), code first, the repo's docs allowed
-3. How drafts are reviewed and verified, without swamping owners with many PRs at once
-4. A per-repo runbook: order, who runs it, usage limits
+3. How drafts are reviewed and verified, without swamping owners with many PRs at once. **Done:** [0026](../decisions/0026-seed-each-domain-just-before-its-teams-join.md), each domain seeded just before its teams join, with review as an onboarding task
+4. A per-repo runbook: who runs it, links to services that don't have a page yet, usage limits
 
 **3. Developer workflow**
 1. How Spec Kit's content is copied into the plugin and kept up to date (copying was decided in [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md))

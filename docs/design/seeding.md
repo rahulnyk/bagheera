@@ -121,7 +121,47 @@ Plugins run with the engineer's permissions and there is no sandbox (PRD §8), s
 
 How the library PR is opened and reviewed is section 3.
 
+## 3. How drafts are reviewed
+
+_Decided: [ADR 0026](../decisions/0026-seed-each-domain-just-before-its-teams-join.md). The review itself follows design doc 1, sections 2, 6 and 8._
+
+### When each domain is seeded
+
+| When | What is seeded |
+| --- | --- |
+| The Foundations phase (PRD §9) | The pilot team's domain |
+| The week before each rollout wave | The domains of the 2–3 teams joining |
+
+Services in domains that haven't joined yet have no page until their turn. Links to them are section 4.
+
+### The PRs
+
+* One library PR per service page, opened by the person who ran the skill, with the seeding report as its description and the label `seeding`.
+* The PR's number is then filled into every footnote and into `last_verified`, as in the curation run (design doc 1, section 6).
+* The branch rules send it to the owners `domains.yaml` names for the domain, and the checks run as on any library PR.
+
+### The review, as an onboarding task
+
+The team sets time aside before its first feature, for example one session together. For each page:
+
+1. Read the seeding report first: conflicts between docs and code, gaps, and what the skill couldn't work out.
+2. Check statements against their sources. Each footnote links to the file at the commit read.
+3. Fix or delete what's wrong, and add what's missing. Edits are covered by the reviewer's own approval (design doc 1, section 8). A statement a reviewer adds carries the footnote `owner-approved · added in library PR #12`.
+4. Ask design doc 1's two questions: is anything missing to understand this, and is anything here not needed?
+5. Approve. The approval verifies every statement left on the page, and the page enters the library.
+
+If a draft is beyond fixing, or the service is being retired, the team closes the PR. The service then has no page until someone writes it or seeds it again.
+
+### Until a page merges
+
+Sessions in that repo start without a service page, and the session-start note says the page is still in review. Open seeding PRs appear in the weekly summary with other library PRs, and one waiting more than five working days is flagged to the domain's owners (design doc 1, section 8). The aim is every page merged before the team's first feature.
+
+### Afterwards
+
+* The knowledge agent's hourly run keeps each page current from merged PRs (design doc 1, section 6).
+* A domain's pages are all verified in the same week, so they fall due for re-verification together after 75 days. Design doc 1's cap of five re-verification PRs per domain per week spreads them out; a domain with up to 15 pages still meets the 90-day target.
+* The pilot measures how long a page takes to review (estimated at 15–30 minutes), to plan the later waves.
+
 ## Still to come
 
-3. How drafts are reviewed and verified, without swamping owners with many PRs at once
-4. A per-repo runbook: order, who runs it, usage limits
+4. A per-repo runbook: who runs it, links to services that don't have a page yet, usage limits
