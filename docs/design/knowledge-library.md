@@ -1,6 +1,6 @@
 # Knowledge library
 
-_Status: in progress (sections 1–6 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: in progress (sections 1–7 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
 
 The knowledge library is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
 
@@ -303,7 +303,25 @@ Every hour, a workflow in the library repo sweeps the PRs merged since its last 
 
 ## 7. Checks
 
-_To brainstorm._
+_Decided: [ADR 0019](../decisions/0019-screen-for-planted-instructions-twice.md) for the planted-instructions screen. The other checks follow from sections 1–6._
+
+These run on every library PR and on every push to one, whether the knowledge agent or a person opened it. The library's branch rules require them (section 6), so nothing merges while one fails, including PRs that would otherwise merge by themselves.
+
+| Check | What it rejects | Built on |
+| --- | --- | --- |
+| **Header** | Missing, misspelt or unknown fields; values not allowed for the page type; references to IDs that don't exist | The schema per page type (section 4), run by the harness's library checker |
+| **Shape and length** | Missing or empty required sections; pages over one and a half times their limit (a warning at the limit); logs, transcripts, code blocks over about 10 lines | The library checker |
+| **Sources** | An agent statement without a footnote; a footnote linking outside our GitHub org; a statement whose only source is external; an inferred footnote without its library PR number | The library checker |
+| **Allowed paths** | Agent edits outside `standards/`, `services/`, `decisions/` and `features/`; changes to the owners file, `domains.yaml` or workflows by anyone but the platform team | The library checker |
+| **Links** | Broken links between pages and to sources | lychee |
+| **Planted instructions: patterns** | Text that addresses an AI or gives it orders; hidden HTML comments; invisible characters; encoded blobs; links outside our GitHub org; a run of about a dozen words or more copied word for word from an untrusted input such as a PR description or ticket | A short script in the library checker |
+| **Planted instructions: model** | Text aimed at an AI, and statements their cited sources don't support | A second Claude pass with no tools, reading only the page changes and the cited sources |
+
+**Why both screens.** The pattern script is cheap and predictable, and catches hidden tricks a model can be fooled by. The model catches plainly worded manipulation the patterns miss. The word-for-word rule enforces "external text is never stored as a statement".
+
+**When a check fails**, the PR stays open and is labelled with the finding. Who handles it, and how a false alarm is cleared, is section 8.
+
+**Testing the screens.** Before the pilot, and whenever the agent's instructions or the screens change, a test set of at least ten deliberately planted PR descriptions and diffs runs through the whole curation run. It passes only if no planted text reaches a merged page: each one must be ignored by the agent or blocked by a check.
 
 ## 8. Corrections
 
