@@ -2,6 +2,8 @@
 
 _Status: draft complete, awaiting the owner's approval · Design doc 1 of 6 · [All design docs](README.md)_
 
+_Team walkthrough deck: [knowledge-library-walkthrough.pptx](knowledge-library-walkthrough.pptx) ([PDF](knowledge-library-walkthrough.pdf))._
+
 The knowledge library, **Council Rock**, is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
 
 Covers PRD K1–K7, K9 and K10. Seeding the first service pages (K8) is [design doc 2](README.md).
