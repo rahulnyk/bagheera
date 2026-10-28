@@ -1,10 +1,17 @@
 # Knowledge library
 
-_Status: in progress (sections 1–4 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: in progress (sections 1–5 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
 
 The knowledge library is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
 
 Covers PRD K1–K7, K9 and K10. Seeding the first service pages (K8) is [design doc 2](README.md).
+
+## Principles
+
+These apply to every section below.
+
+* **Caution and provenance.** Every statement says where it came from, and nothing external is trusted blindly ([0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md)).
+* **Brief, but never without context.** Set by the owner on 2026-10-28. We actively fight verbosity, but not at the cost of context. A decision without its context is as good as lost; a decision buried in long reasoning and detailed logs is just as unusable. Each page keeps the essentials and links to the full detail, which stays where it was written (the approved spec, the plan, the PR). How this is enforced is being decided; it will be added to section 4.
 
 ## 1. Provenance and trust
 
@@ -206,7 +213,31 @@ org:
 
 ## 5. What each stage adds
 
-_To brainstorm._
+_Decided: [ADR 0016](../decisions/0016-learn-decisions-when-approved-features-at-close.md)._
+
+The library learns from a feature at three moments: when a decision is approved, when code merges, and when the feature ships. Work in progress stays in the product repo's feature folder (`specs/<TICKET>/`) and on the dashboard.
+
+| Stage | What the library gets | Who approves it |
+| --- | --- | --- |
+| Intake | Proposed product decisions: only the PM's answers that set a rule beyond this feature | The domain's `product_owners` |
+| Architecture | Proposed technical decisions from the approved architecture | The domain's `owners`; `decisions/org/` and org owners if more than one domain is bound |
+| Plan, Test plan | Nothing yet | — |
+| Build (each phase PR) | Service page updates read from the merged code, and the lessons the engineer recorded | The service's team |
+| Verify, Demo | Nothing yet | — |
+| Close | The feature entry, built from the approved documents and the list of merged PRs | Merges by itself when every statement restates approved work (section 2) |
+| Any other merged PR (bug fix, refactor) | Service page updates read from the code | The service's team |
+| Standards | Changes only by their owners; the agent may propose, for example after the weekly check | The standard's owners |
+
+### Rules
+
+1. A PM's answer becomes a product decision only if it sets a rule beyond this feature. Answers specific to the feature reach the library through the feature entry at Close.
+2. If the build changes an approved decision, the agent proposes a new decision record that replaces the old one (`supersedes` and `superseded_by`, section 4). Its owners approve it again.
+3. Engineers record lessons and gotchas in the feature folder during the session, through the knowledge skill. They reach the service page when the PR merges. They are treated as inferred, so the service's team reviews them.
+4. The feature entry is written once, at Close, only from documents marked `/approved` and the list of merged PRs. How Close is detected (demo approved and the last phase merged) is settled in design doc 3.
+
+### Note on the PRD
+
+PRD §5 adds "accepted decisions" to the library at Close. Proposing them when their stage is approved matches K3 ("on every merged PR … proposes new decisions") and gets decisions to other teams weeks earlier.
 
 ## 6. The curation run
 
