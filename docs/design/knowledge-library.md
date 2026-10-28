@@ -1,6 +1,6 @@
 # Knowledge library
 
-_Status: in progress (sections 1–3 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: in progress (sections 1–4 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
 
 The knowledge library is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
 
@@ -129,7 +129,80 @@ The story dashboard is built from PRs and stage documents in the product repos (
 
 ## 4. Page format
 
-_To brainstorm._
+_Decided: [ADR 0015](../decisions/0015-typed-page-headers.md)._
+
+Every page is a Markdown file with a YAML header. Each page type has its own set of header fields, defined in a schema and validated by a check (section 7). Fields the schema doesn't know are rejected, so typos don't pass silently. The schemas live with the harness's checks, not in the library.
+
+The format stays compatible with the Open Knowledge Format (PRD K10): a YAML header, a required `type`, and plain Markdown below it. Our extra fields sit alongside `type`, so a later export needs no rewrite.
+
+### Fields on every page
+
+| Field | What it holds | Example |
+| --- | --- | --- |
+| `type` | `standard`, `service`, `decision` or `feature` | `service` |
+| `id` | A stable ID, set from the page's path when it is created. It never changes, even if the page later moves. Other pages refer to it. | `services/payments/payments-api` |
+| `title` | Human-readable title | `Payments API` |
+| `domain` | A domain from `domains.yaml`, or `org` | `payments` |
+| `owners` | GitHub teams who own the page | `["@seeonee/payments-tech-leads"]` |
+| `status` | Depends on the type; see below | `active` |
+| `last_verified` | When a person last verified the page, and who | `{date: 2026-10-20, by: "@kim"}` |
+
+### Fields on owner-written pages
+
+Standards, and decision records written by people, record their provenance once (section 1):
+
+| Field | What it holds |
+| --- | --- |
+| `approved_by` | Who approved the page |
+| `approval` | Link to the approval |
+
+### Fields by page type
+
+| Type | Fields | `status` values |
+| --- | --- | --- |
+| **Service** | `repos` (code repos), `languages`, `depends_on` (service IDs), `environments` | `active`, `deprecated`, `retired` |
+| **Decision** | `date`, `deciders`, `supersedes`, `superseded_by` (decision IDs) | `proposed`, `accepted`, `superseded`, `rejected` |
+| **Feature** | `ticket` (Jira key), `repos`, `prs`, `shipped` (date), `decisions` (decision IDs) | `shipped` |
+| **Standard** | `applies_to` (languages, services or environments; empty means everywhere), `enforcement` (`blocking` or `advisory`, used by the PR review in design doc 4) | `draft`, `active`, `retired` |
+
+### Example: a service page
+
+```markdown
+---
+type: service
+id: services/payments/payments-api
+title: Payments API
+domain: payments
+owners: ["@seeonee/payments-tech-leads"]
+status: active
+last_verified: {date: 2026-10-20, by: "@kim"}
+repos: [seeonee/payments-api]
+languages: [go]
+depends_on: [services/payments/ledger-svc]
+environments: [dev, stage, prod]
+---
+# Payments API
+
+Charges cards and retries failed charges.[^s1]
+
+[^s1]: approved work · PAY-412 spec, `/approved` by @asha on 2026-10-20 · <link>
+```
+
+### `domains.yaml`
+
+One entry per domain, plus `org`:
+
+```yaml
+payments:
+  owners: ["@seeonee/payments-tech-leads"]
+  product_owners: ["@seeonee/payments-pms"]
+  repos: [seeonee/payments-api, seeonee/payments-web, seeonee/ledger-svc]
+org:
+  owners: ["@seeonee/architecture"]
+  product_owners: ["@seeonee/product-leads"]
+```
+
+`owners` review technical pages and decisions; `product_owners` review product decisions (section 5). `repos` tells a session which domain it is in (section 9).
 
 ## 5. What each stage adds
 
