@@ -1,6 +1,6 @@
 # Knowledge library
 
-_Status: in progress (sections 1–7 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: in progress (sections 1–8 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
 
 The knowledge library is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
 
@@ -325,7 +325,48 @@ These run on every library PR and on every push to one, whether the knowledge ag
 
 ## 8. Corrections
 
-_To brainstorm._
+_Decided: [ADR 0020](../decisions/0020-send-findings-to-owners-as-library-prs.md)._
+
+Problems go to the people who own the page, as ordinary library PRs through the review path in section 6. The platform team sees a weekly summary, not every item.
+
+### As things happen
+
+| Situation | What happens | Who acts |
+| --- | --- | --- |
+| A check fails on a library PR | The PR stays open, labelled with the finding. For header, shape, length, source and link failures, the agent gets one automatic retry; if the check still fails, the PR waits for its owners. | The page's owners (the platform team during the pilot) |
+| A planted-instruction screen fires | The PR is blocked and labelled. Only the platform team can clear a false alarm; the page's owners can't clear it alone. | The platform team |
+| An owner rejects a proposal | The PR is closed. The agent records which merged PRs it came from and doesn't propose the same change from them again. | The page's owners |
+| An owner corrects a proposal | The owner edits the PR, then approves it. Their edit is covered by their own approval. | The page's owners |
+| A library PR waits more than five working days | The weekly summary flags it to the domain's owners and the platform team. | Domain owners |
+
+### The weekly check
+
+Once a week, a check runs across the whole library. For each finding, the agent opens a PR that goes to the page's owners like any other library PR:
+
+| Finding | The PR the agent opens | Who reviews |
+| --- | --- | --- |
+| **Contradiction** between two decisions, a page and a decision, or a domain standard and an org standard. Found by the model, best effort (PRD K6). | A proposed resolution, usually a superseding decision record or a correction to the page. It never decides between two owner-approved pages by itself. | The owners of the page being changed; org owners if more than one domain is involved |
+| **Stale service page**: code in the service's repos changed since the page was last verified, and no library PR has updated the page since | A refresh: what changed in the code, and the page edits it proposes | The service's team |
+| **Service page due for re-verification**: last verified 75 days ago or more | A re-verification: a summary of code changes since the last verification, with the page as it stands. Approving it re-verifies the page (its `last_verified` changes). | The service's team |
+| **Broken link or orphan page** (nothing links to it) | A link fix, or a proposal to link or retire the orphan | The page's owners; link fixes in `features/` merge by themselves |
+
+**Limits, so owners aren't swamped.** At most five re-verification PRs per domain per week, oldest pages first. Contradictions and stale pages are not capped, because they matter more.
+
+**Only service pages are re-verified on a timer**, because that is what the PRD's target measures ("service pages verified by a human in the last 90 days"). Decisions and standards are checked whenever they change, and the contradiction check catches drift between them. Feature entries record history and are not re-verified.
+
+### The weekly summary
+
+A short summary for the platform team, also shown on the dashboard (design doc 5):
+
+* open library PRs by domain and by age
+* service pages overdue for verification, and the share verified in the last 90 days
+* findings opened and closed this week
+* planted-instruction alarms, and how many were false
+
+### Who looks after the library
+
+* **Page owners**, named in `domains.yaml`, review and approve their pages' PRs.
+* **The platform team** runs the curation run, the checks and the weekly check; clears planted-instruction false alarms; and chases PRs that wait too long.
 
 ## 9. How sessions read it
 

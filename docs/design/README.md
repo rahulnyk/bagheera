@@ -12,7 +12,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 
 | # | Doc | What it settles | PRD requirements | Status |
 | --- | --- | --- | --- | --- |
-| 1 | [`knowledge-library.md`](knowledge-library.md) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **In progress** (7 of 9) |
+| 1 | [`knowledge-library.md`](knowledge-library.md) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **In progress** (8 of 9) |
 | 2 | `seeding.md` | How DeepWiki-Open drafts the first service pages and how those drafts are reviewed | K8 | Not started |
 | 3 | `developer-workflow.md` | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | Not started |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
@@ -33,8 +33,8 @@ These are the questions I expect to bring, in order. They will change as we lear
 5. What each stage adds, and when feature entries are written. **Done:** [0016](../decisions/0016-learn-decisions-when-approved-features-at-close.md)
 6. The curation run: trigger, inputs, what the knowledge agent may touch, how changes are grouped, how a reviewer's approval is recorded on a library PR. **Done:** [0018](../decisions/0018-protect-the-library-with-owner-review.md)
 7. Checks: format, links, allowed paths, sources, injected instructions. **Done:** [0019](../decisions/0019-screen-for-planted-instructions-twice.md)
-8. Corrections: failed checks, rejected proposals, contradictions, stale pages, the 90-day human verification, who looks after them. **Next.**
-9. How sessions read it: what is loaded at start and how much
+8. Corrections: failed checks, rejected proposals, contradictions, stale pages, the 90-day human verification, who looks after them. **Done:** [0020](../decisions/0020-send-findings-to-owners-as-library-prs.md)
+9. How sessions read it: what is loaded at start and how much. **Next.**
 
 **2. Seeding**
 1. How DeepWiki-Open reaches a model and an embedding model on your machine
