@@ -12,8 +12,8 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 
 | # | Doc | What it settles | PRD requirements | Status |
 | --- | --- | --- | --- | --- |
-| 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Draft complete**, awaiting your approval |
-| 2 | `seeding.md` | How DeepWiki-Open drafts the first service pages and how those drafts are reviewed | K8 | Not started |
+| 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Approved** |
+| 2 | `seeding.md` | How DeepWiki-Open drafts the first service pages and how those drafts are reviewed | K8 | **In progress** |
 | 3 | `developer-workflow.md` | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | Not started |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
 | 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | Not started |
