@@ -62,7 +62,7 @@ Each part is here because a must-have fails without it (next table). Only the he
 | **Dashboard sync workflow** | Write each story's status every 15 min; weekly summary | G4, G5 | GitHub Actions |
 | **Dashboard** | Story list, filters, "waiting on me" | G4, G5 | GitHub Projects (Decision 6) |
 | **Analytics + CI workspace** | Adoption and cost by team; CI spend limit; short-lived CI credentials | G5 | Claude analytics; Console workspace; workload identity |
-| **Seeding** (one-off) | First draft of each service page | G1 | DeepWiki-Open or the knowledge agent (Decision 10) |
+| **Seeding** (one-off) | First draft of each service page | G1 | A seeding skill run in Claude Code (Decision 10) |
 
 **Left out:** a guard hook (deny rules and rulesets meet R4), an OpenTelemetry stack (built-in analytics cover V6), a session-digest queue (lessons travel with the feature's PR), per-repo workflow files, Anthropic's managed Code Review (can't read the knowledge base, never blocks).
 
@@ -133,6 +133,6 @@ Adoption and cost (V6) stay in Claude's analytics, joined to the stories only in
 | 7 | Jira (Q6, V5) | Link only | [0006](decisions/0006-jira-link-only.md) |
 | 8 | One knowledge base or one per domain (Q5) | One master library; hierarchy later if needed | [0007](decisions/0007-one-knowledge-library.md) |
 | 9 | Knowledge auto-merge and injection risk (K4, K5) | Cautious; sources recorded per statement; only restated approved work merges without a person | [0008](decisions/0008-caution-and-provenance-for-the-knowledge-library.md), [0012](decisions/0012-record-provenance-per-statement.md), [0013](decisions/0013-merge-only-restated-approved-work-without-a-person.md) |
-| 10 | Seeding (K8) | DeepWiki-Open, run locally by the owner | [0009](decisions/0009-seed-service-pages-with-deepwiki-open.md) |
+| 10 | Seeding (K8) | A seeding skill run in Claude Code, locally, once per repo; DeepWiki-Open as the fallback | [0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md), replacing [0009](decisions/0009-seed-service-pages-with-deepwiki-open.md) |
 | 11 | Names (Q1, theme) | Indicative names; Jungle Book names for individual components; org still `seeonee` | [0010](decisions/0010-naming.md) |
 | 12 | Pilot team, feature and preview environments (Q9, Q4) | Demos run on the stage environment; pilot team still to choose | [0011](decisions/0011-stage-environment-for-demos.md) |

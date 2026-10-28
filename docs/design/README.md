@@ -13,7 +13,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | # | Doc | What it settles | PRD requirements | Status |
 | --- | --- | --- | --- | --- |
 | 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Approved** |
-| 2 | `seeding.md` | How DeepWiki-Open drafts the first service pages and how those drafts are reviewed | K8 | **In progress** |
+| 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **In progress** |
 | 3 | `developer-workflow.md` | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | Not started |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
 | 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | Not started |
@@ -37,10 +37,10 @@ These are the questions I expect to bring, in order. They will change as we lear
 9. How sessions read it: incremental reveal of a small part of the library's graph. **Done:** [0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md), which replaces 0021
 
 **2. Seeding**
-1. How DeepWiki-Open reaches a model and an embedding model on your machine
-2. From DeepWiki's export to page drafts in our format
-3. How drafts are reviewed and marked verified
-4. A per-repo runbook
+1. What runs the seeding pass. **Done:** [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md), a Claude Code skill, which replaces DeepWiki-Open ([0009](../decisions/0009-seed-service-pages-with-deepwiki-open.md))
+2. What the skill reads and writes: where it looks, how it treats text in the repo, large repos
+3. How drafts are reviewed and verified, without swamping owners with many PRs at once
+4. A per-repo runbook: order, who runs it, usage limits
 
 **3. Developer workflow**
 1. How Spec Kit's content is copied into the plugin and kept up to date (copying was decided in [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md))
@@ -85,7 +85,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 | Jungle Book component names versus PRD §8, Appendix B and CLAUDE.md | [0010](../decisions/0010-naming.md) proposes about five themed names | Naming register, as components come up |
 | Caution versus PRD K4 and the "updated within a day" target | Decided: only restated approved work merges without a person ([0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)) | Resolved; K4 holds in a narrower form |
 | Status data in the knowledge library versus PRD K1's page types | [0005](../decisions/0005-view-only-dashboard.md) mentions a wiki folder as one option | Doc 5, step 1 |
-| DeepWiki-Open needs an Anthropic API key via LiteLLM, not a Claude subscription | [0009](../decisions/0009-seed-service-pages-with-deepwiki-open.md) | Doc 2, step 1 |
+| DeepWiki-Open needs an Anthropic API key via LiteLLM, not a Claude subscription | Decided: seed with a Claude Code skill instead, which works on a subscription or an API key ([0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)) | Resolved |
 | Claude plan and model access (Q7, Q8) not known yet | Settings delivery, CI sign-in and team cost reporting depend on it; the docs keep both paths open | Doc 6 |
 
 ## PRD wording to update
@@ -95,6 +95,7 @@ Agreed decisions that change the PRD's wording. The PRD is the owner's document,
 | PRD section | Current wording | Change | Because of |
 | --- | --- | --- | --- |
 | §8 Preferred building blocks | GitHub Spec Kit "customised through an org preset … and an org extension" | Spec Kit's templates and method, copied into the plugin as commands with the PRD's stage names | [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md) |
+| §8 Preferred building blocks; §9 Foundations; Appendix B | "DeepWiki-Open, run once per repo, to draft the first service pages (K8)"; "first service pages drafted by DeepWiki"; "the one-off DeepWiki run … keep them" | A seeding skill run in Claude Code, once per repo; DeepWiki-Open as the fallback. Q8's "DeepWiki setup" no longer applies. | [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md) |
 | K4 | "Agents may merge service and feature page changes after automated checks" | Agents may merge only changes whose every statement restates approved work; inferred changes need the page's owning team | [0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md) |
 
 ## Naming register

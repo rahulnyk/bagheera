@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by [0024](0024-seed-service-pages-with-a-claude-code-skill.md)
 date: 2026-10-26
 deciders: RN (owner)
 ---

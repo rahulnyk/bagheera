@@ -27,7 +27,7 @@ Every statement in the library can be traced to where it came from, and says how
 | --- | --- | --- | --- |
 | **Owner-approved** | Written or approved by the named owner of the page or folder | A standard approved by the security owners; a decision record approved by its decision owners | Yes |
 | **Approved work** | Material approved through the delivery flow | A spec marked `/approved` by the PM; an architecture marked `/approved` by the tech lead; the record that a PR merged after review (which PR, which repo), but not conclusions drawn from its code | Yes, with a link to the approval |
-| **Inferred** | Worked out by the knowledge agent or DeepWiki-Open from code or approved documents, and not yet checked by a person | "payments-api calls ledger-svc", read from a merged diff | Yes, marked as inferred until a person verifies it. When it may enter without a person is section 2. |
+| **Inferred** | Worked out by the knowledge agent from code or approved documents, including the one-off seeding pass ([design doc 2](seeding.md)), and not yet checked by a person | "payments-api calls ledger-svc", read from a merged diff | Yes, marked as inferred until a person verifies it. When it may enter without a person is section 2. |
 | **External** | Text from outside the approved flow | Ticket descriptions, PR descriptions, pasted or linked documents, chat | Never as a statement. At most a link inside a source note, until a person confirms it. |
 
 A person can **verify** an inferred statement. In the library, that happens when an owner approves the library PR that adds it: its footnote points to that PR, and it then counts as owner-approved (section 6). Re-verifying pages over time is section 8.
