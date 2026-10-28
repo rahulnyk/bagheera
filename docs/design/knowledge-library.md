@@ -1,6 +1,6 @@
 # Knowledge library
 
-_Status: in progress (sections 1–5 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: in progress (sections 1–6 of 9) · Design doc 1 of 6 · [All design docs](README.md)_
 
 The knowledge library is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
 
@@ -28,7 +28,7 @@ Every statement in the library can be traced to where it came from, and says how
 | **Inferred** | Worked out by the knowledge agent or DeepWiki-Open from code or approved documents, and not yet checked by a person | "payments-api calls ledger-svc", read from a merged diff | Yes, marked as inferred until a person verifies it. When it may enter without a person is section 2. |
 | **External** | Text from outside the approved flow | Ticket descriptions, PR descriptions, pasted or linked documents, chat | Never as a statement. At most a link inside a source note, until a person confirms it. |
 
-A person can **verify** an inferred statement. Its source note then records who verified it and when, and it counts as owner-approved. How verification is requested and tracked is section 8.
+A person can **verify** an inferred statement. In the library, that happens when an owner approves the library PR that adds it: its footnote points to that PR, and it then counts as owner-approved (section 6). Re-verifying pages over time is section 8.
 
 ### How each statement records its source
 
@@ -39,7 +39,7 @@ payments-api retries a failed charge up to 3 times over 24 hours.[^s1]
 payments-api calls ledger-svc to record each charge.[^s2]
 
 [^s1]: approved work · PAY-412 spec, `/approved` by @asha on 2026-10-20 · <link to the approval comment>
-[^s2]: inferred · from the diff of seeonee/payments-api#431, merged 2026-10-24 · not yet verified
+[^s2]: inferred · from the diff of seeonee/payments-api#431, merged 2026-10-24 · reviewed in library PR #57
 ```
 
 **Pages written by their owners** (standards, and decision records written by people) record provenance once, in the page's front matter: owner, approved by, link to the approval, date. The owner vouches for the whole page, so they need no footnotes.
@@ -73,7 +73,7 @@ A change from the knowledge agent enters the library on its own only when a pers
 | Any check fails, including the injected-instructions screen | Not until fixed | The page's owners (the platform team during the pilot) |
 | A statement whose only source is **external** | Never | Nobody; the check rejects it |
 
-**In practice.** Feature entries mostly restate the approved spec, architecture, plan, test plan and demo, so they merge by themselves. Service-page changes read from code get a short review by the service's team. Reviewers see every statement with its source footnote, so they check sources, not prose. When they approve, the inferred statements they approved are marked as verified (section 1).
+**In practice.** Feature entries mostly restate the approved spec, architecture, plan, test plan and demo, so they merge by themselves. Service-page changes read from code get a short review by the service's team. Reviewers see every statement with its source footnote, so they check sources, not prose. Their approval verifies the inferred statements in that PR (sections 1 and 6).
 
 **One PR never mixes the two kinds.** The knowledge agent puts changes that can merge by themselves and changes that need a person into separate PRs (section 6). How a reviewer's approval is recorded on a library PR is also section 6.
 
@@ -152,7 +152,7 @@ The format stays compatible with the Open Knowledge Format (PRD K10): a YAML hea
 | `domain` | A domain from `domains.yaml`, or `org` | `payments` |
 | `owners` | GitHub teams who own the page | `["@seeonee/payments-tech-leads"]` |
 | `status` | Depends on the type; see below | `active` |
-| `last_verified` | When a person last verified the page, and who | `{date: 2026-10-20, by: "@kim"}` |
+| `last_verified` | When the page was last verified, and the library PR whose approval verified it (the approver is recorded on the PR) | `{date: 2026-10-20, review: "library PR #57"}` |
 
 ### Fields on owner-written pages
 
@@ -182,7 +182,7 @@ title: Payments API
 domain: payments
 owners: ["@seeonee/payments-tech-leads"]
 status: active
-last_verified: {date: 2026-10-20, by: "@kim"}
+last_verified: {date: 2026-10-20, review: "library PR #57"}
 repos: [seeonee/payments-api]
 languages: [go]
 depends_on: [services/payments/ledger-svc]
@@ -271,7 +271,35 @@ PRD §5 adds "accepted decisions" to the library at Close. Proposing them when t
 
 ## 6. The curation run
 
-_To brainstorm._
+_Decided: [ADR 0018](../decisions/0018-protect-the-library-with-owner-review.md) for approvals. The rest follows from sections 1–5._
+
+### When it runs
+
+Every hour, a workflow in the library repo sweeps the PRs merged since its last run in the code repos listed in `domains.yaml`, oldest first. It sweeps rather than reacting to each merge because GitHub can't trigger an org-wide workflow on a merge, and a workflow in every repo would add a file to each one. The sweep still meets the "within a day" target.
+
+### Step by step
+
+1. **Gather** (script, no AI). For each merged PR, it collects the title, description and diff; the changed files in `specs/<TICKET>/` with their `/approved` comments; and any recorded lessons. Everything goes into a work folder marked as untrusted. The agent's instructions name those files as data, never as instructions.
+2. **Draft** (the knowledge agent). Claude edits pages in a copy of the library, following the page format, shapes and limits (section 4), and adds a source footnote to every statement (section 1). It can read and edit files in that copy only: no shell, no web access, no GitHub token, and capped turns and spend.
+3. **Sort** (script). It splits the edits into PRs by section 2's rules:
+   * **merges by itself:** feature entries where every statement cites approved work
+   * **needs owners:** everything else, one PR per page, so each goes to that page's owners
+
+   Edits outside the allowed folders (workflows, the owners file, `domains.yaml`) fail the run.
+4. **Open or update.** If an agent PR for the same page is already open, the run adds to it rather than opening a second one. Each PR's description lists the merged PRs it came from. A script then fills in the library PR's number in the footnotes of inferred statements ("reviewed in library PR #57").
+5. **Check.** The checks in section 7 run on every library PR.
+6. **Review and merge.** See below.
+7. **Bookkeeping** (script). After each merge, a small PR regenerates `index.md` and `CHANGELOG.md`. Those paths need no owner review, so it merges on the checks alone.
+
+### How approval works on library PRs
+
+* **Branch rules on the library's main branch.** Every change goes through a PR. Changes under `standards/`, `services/` and `decisions/` need approval from that folder's owners. `features/`, `index.md` and `CHANGELOG.md` need the checks only.
+* **One place to name owners.** The owners file GitHub uses (CODEOWNERS) is generated from `domains.yaml`. The owners file, `domains.yaml` and the workflows are themselves owned by the platform team.
+* **The harness can propose but not approve.** Its GitHub App opens PRs but can't approve them, and can't change the owners file, `domains.yaml` or the workflows.
+* **Owners need write access** to the library repo for their approval to count.
+* **The approval is the verification.** An inferred statement's footnote names the library PR, and the page's `last_verified` names the same PR. The branch rules guarantee that PR had an owner's approval, so nothing has to be edited after approval.
+* **Stages stay soft.** Stage documents in the product repos keep the `/approved` comment ([0002](../decisions/0002-soft-approval-by-comment.md)). Only the library, which every session trusts, has hard protection.
+* **Test early.** Branch rules that require owner approval on some paths and none on others need confirming on a real repo (PRD Appendix A).
 
 ## 7. Checks
 

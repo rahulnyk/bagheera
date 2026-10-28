@@ -12,7 +12,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 
 | # | Doc | What it settles | PRD requirements | Status |
 | --- | --- | --- | --- | --- |
-| 1 | [`knowledge-library.md`](knowledge-library.md) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **In progress** (5 of 9) |
+| 1 | [`knowledge-library.md`](knowledge-library.md) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **In progress** (6 of 9) |
 | 2 | `seeding.md` | How DeepWiki-Open drafts the first service pages and how those drafts are reviewed | K8 | Not started |
 | 3 | `developer-workflow.md` | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | Not started |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
@@ -31,8 +31,8 @@ These are the questions I expect to bring, in order. They will change as we lear
 3. Structure: folders, page types, and a layout that can split later ([0007](../decisions/0007-one-knowledge-library.md)). **Done:** [0014](../decisions/0014-lay-out-the-library-by-type-then-domain.md)
 4. Page format: required fields, the Open Knowledge Format shape. **Done:** [0015](../decisions/0015-typed-page-headers.md). **Added by the owner:** brevity without losing context. **Done:** [0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)
 5. What each stage adds, and when feature entries are written. **Done:** [0016](../decisions/0016-learn-decisions-when-approved-features-at-close.md)
-6. The curation run: trigger, inputs, what the knowledge agent may touch, how changes are grouped, how a reviewer's approval is recorded on a library PR. **Next.**
-7. Checks: format, links, allowed paths, sources, injected instructions
+6. The curation run: trigger, inputs, what the knowledge agent may touch, how changes are grouped, how a reviewer's approval is recorded on a library PR. **Done:** [0018](../decisions/0018-protect-the-library-with-owner-review.md)
+7. Checks: format, links, allowed paths, sources, injected instructions. **Next.**
 8. Corrections: failed checks, rejected proposals, contradictions, stale pages, the 90-day human verification, who looks after them
 9. How sessions read it: what is loaded at start and how much
 
