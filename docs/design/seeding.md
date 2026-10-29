@@ -1,6 +1,6 @@
 # Seeding
 
-_Status: draft complete, awaiting the owner's approval · Design doc 2 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-29 · Design doc 2 of 6 · [All design docs](README.md)_
 
 Existing services get a first-draft page from a one-off automated pass over their code, so the library isn't empty on day one (PRD K8). This doc says what runs that pass, what it reads and writes, how the drafts are reviewed, and how to run it for each repo.
 
