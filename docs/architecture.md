@@ -128,7 +128,7 @@ Adoption and cost (V6) stay in Claude's analytics, joined to the stories only in
 | 2 | GitHub access for PMs, QA and leadership (Q2) | Yes | [0001](decisions/0001-github-access-for-pms-qa-and-leadership.md) |
 | 3 | What counts as approval (C3) | An `/approved` comment by the designated role, enforced by process | [0002](decisions/0002-soft-approval-by-comment.md) |
 | 4 | Stage and command names (P6) | The PRD's stage names, with a light Jungle Book touch | [0003](decisions/0003-stage-names-from-the-prd.md) |
-| 5 | How Spec Kit reaches each repo (P4, D1) | Its templates and prompts are copied into the plugin as our own commands | [0004](decisions/0004-carry-spec-kit-in-the-plugin.md) |
+| 5 | How Spec Kit reaches each repo (P4, D1) | Its templates and prompts are copied into the plugin as our own commands, and its changes reviewed every quarter | [0004](decisions/0004-carry-spec-kit-in-the-plugin.md), [0028](decisions/0028-adapt-spec-kit-once-and-review-it-quarterly.md) |
 | 6 | Dashboard (V1–V4, Q3) | View-only, with links; data source to brainstorm | [0005](decisions/0005-view-only-dashboard.md) |
 | 7 | Jira (Q6, V5) | Link only | [0006](decisions/0006-jira-link-only.md) |
 | 8 | One knowledge base or one per domain (Q5) | One master library; hierarchy later if needed | [0007](decisions/0007-one-knowledge-library.md) |

@@ -14,7 +14,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | --- | --- | --- | --- | --- |
 | 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Approved** |
 | 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **Approved** |
-| 3 | `developer-workflow.md` | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **In progress** |
+| 3 | [`developer-workflow.md`](developer-workflow.md) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **In progress** |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
 | 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | Not started |
 | 6 | `distribution-security-and-cost.md` | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | Not started |
@@ -43,7 +43,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 4. A per-repo runbook: who runs it, links to services that don't have a page yet, usage limits. **Done:** [0027](../decisions/0027-name-unseeded-dependencies-and-link-them-later.md), name them now and link them once they have a page
 
 **3. Developer workflow**
-1. How Spec Kit's content is copied into the plugin and kept up to date (copying was decided in [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md))
+1. How Spec Kit's content is copied into the plugin and kept up to date (copying was decided in [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)). **Done:** [0028](../decisions/0028-adapt-spec-kit-once-and-review-it-quarterly.md), adapt once and review every quarter
 2. Command names ([0003](../decisions/0003-stage-names-from-the-prd.md) and the naming register)
 3. What each stage writes, and the feature folder layout
 4. Approval: the `/approved` comment, the stage check, and recorded overrides ([0002](../decisions/0002-soft-approval-by-comment.md))

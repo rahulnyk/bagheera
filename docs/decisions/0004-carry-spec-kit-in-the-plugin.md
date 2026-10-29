@@ -29,3 +29,7 @@ Chosen option: B. We copy Spec Kit's templates, command instructions and helper 
 ### Conflict with the PRD (flagged)
 
 PRD §8 names "GitHub Spec Kit … customised through an org preset and an org extension" as a preferred building block. With this decision we use Spec Kit's content, not Spec Kit as installed software. The PRD's wording should be updated to match.
+
+## More information
+
+Refined by [0028](0028-adapt-spec-kit-once-and-review-it-quarterly.md): Spec Kit's helper scripts are not copied after all, and its changes are reviewed once a quarter. Detail in [design/developer-workflow.md, section 1](../design/developer-workflow.md#1-where-the-stage-commands-come-from).
