@@ -98,9 +98,82 @@ Stages 6–8 mostly run in CI, through the same skills (section 8).
 * **Each stage pre-approves only what it needs.** For example, Intake reads the ticket and writes in the feature folder; Build edits code and runs tests. Forbidden actions are blocked separately, by deny rules (design doc 4).
 * **Re-running is the same command.** A stage can be re-run on its own (P2). What it overwrites, and how approval carries over, is sections 3 and 4.
 
+## 3. What each stage writes, and how it reaches the main branch
+
+_Decided: [ADR 0030](../decisions/0030-one-planning-pr-per-feature.md) for PRs and branches, and [ADR 0031](../decisions/0031-one-ticket-one-repo.md) for one ticket per repo._
+
+### One ticket, one repo
+
+* Each Jira ticket is delivered in exactly one repo, and its folder lives there. Work that spans repos is split into one ticket per repo before Intake: a frontend change and a backend change are two tickets, linked in Jira.
+* Intake records the linked tickets in the spec's header (`related`), so the documents link to each other, and so do the library's feature entries (design doc 1, section 4).
+* An interface two tickets share is decided once, in one ticket's architecture, usually the backend's. It reaches the other ticket as a decision record in the library when that ticket's planning PR merges. Until then, the other ticket's spec carries it as an open question.
+* The harness holds to the rule in three places:
+  * Intake stops if the ticket already has a planning PR in another repo. It searches the org's PRs for the branch `<TICKET>/planning`.
+  * The feature folder check (below) fails a ticket branch in a repo that doesn't hold that ticket's folder.
+  * Intake raises an open question for the PM when a ticket looks as if it needs changes in another repo.
+* In a repo that holds several services, one ticket can still touch several of them.
+
+### The feature folder
+
+```text
+specs/PAY-412/
+  spec.md              Intake: the spec, with open questions for the PM
+  architecture.md      Architecture: components, interfaces, data model, a diagram, proposed decisions
+  contracts/           Architecture, only when the feature defines machine-readable interfaces (OpenAPI, protobuf)
+  plan.md              Plan: 2–6 phases, each shippable on its own behind a flag
+  test-plan.md         Test plan: acceptance criteria with stable IDs, and test cases, per phase
+  phase-1-notes.md     Build: lessons and gotchas recorded during phase 1 (one file per phase)
+  demo.md              Demo: the script, and a link to the recording
+```
+
+* **One document per stage.** Spec Kit's separate research, data-model and quickstart files are folded into `architecture.md`, so an approver reads one page.
+* **Diagrams are Mermaid** inside the document. GitHub renders them on the PR page, so PMs see them without developer tools (PRD C1).
+* **Only `spec.md` has a header**, recording the ticket and its related tickets. The folder and file names say the rest.
+* **The harness writes nothing else in the repo.** Where status lives is design doc 5.
+* **Close writes nothing here.** It builds the feature entry in the library (design doc 1, section 5).
+
+Each document's sections come from its stage's template. Sections 5–7 cover the parts that need decisions: open questions, criteria IDs and the demo.
+
+### PRs and branches
+
+| Branch | PR | Writes | Merges when |
+| --- | --- | --- | --- |
+| `PAY-412/planning` | The planning PR, opened by Intake as a draft | `spec.md`, `architecture.md`, `contracts/`, `plan.md`, `test-plan.md` | All four documents are approved (section 4) |
+| `PAY-412/phase-1`, `PAY-412/phase-2`, … | One PR per phase (PRD §5) | Code, tests and that phase's notes file | Code review and CI pass (sections 6 and 8) |
+| `PAY-412/demo` | The demo PR | `demo.md` | The PM approves the demo (section 7) |
+
+* Every stage command ends by committing its document and pushing it to the PR.
+* Re-running a stage on the planning branch replaces its document in the same PR. What that does to an earlier approval is section 4.
+* A change after planning has merged goes in a small PR of its own, such as `PAY-412/revise-spec`, that touches only that document and needs the same approval again.
+
+### Rules that keep merges simple
+
+1. **No two open PRs write the same file.** The planning PR writes only the feature's folder, each build phase writes only its own notes file there, and nothing shared, such as an index or a status file, is committed to a product repo.
+2. **Always branch from the main branch, never from an unmerged branch.** A phase that needs the previous phase's code waits for it to merge. With no stacked PRs, a squash merge never forces a rebase.
+3. **Bring the main branch in by merging** (GitHub's "Update branch"), never by rebasing or force-pushing. Because of rule 1, this never conflicts on the harness's files, and nobody else's checkout breaks.
+4. **Branches are named after the ticket, not the person.**
+
+**The feature folder check** runs in CI on every PR from a ticket branch. It fails if the ticket's folder isn't in this repo, if the PR writes in another ticket's folder, or if it writes a file in its own folder that its branch doesn't own (rule 1).
+
+Two features changing the same code can still conflict in their build PRs. That is ordinary engineering, which the harness doesn't change; the rules only guarantee that the harness's own files never conflict.
+
+### Handing a ticket over
+
+* **Nothing lives only on a laptop.** Stage commands commit and push at the end of every run. Approvals are PR comments, open questions are in the spec and its PR threads, and lessons are in the notes files. No stage depends on an earlier chat session, because each reads only earlier documents and the library (PRD P2).
+* **To hand over:**
+  1. Reassign the ticket in Jira.
+  2. The new developer runs `/bagheera PAY-412`. It finds the ticket's open branch, switches to it, and says where the feature stands and the exact next command.
+  3. If they're mid-stage, they re-run that stage or keep editing on the same branch.
+* **Approvals stay valid.** They belong to the document, not to whoever wrote it.
+* **Unpushed work is flagged.** `/bagheera` warns when the feature folder has changes that haven't been pushed, so half a stage isn't left on one machine.
+
+### What this means for the library
+
+* The planning PR carries both the spec and the architecture, so product and technical decisions are proposed to the library when it merges: after the test plan is approved, and before Build (design doc 1, section 5).
+* Feature entries record their one `repo` and their `related_tickets` (design doc 1, section 4).
+
 ## Still to come
 
-3. What each stage writes, and the feature folder layout
 4. Approval: the `/approved` comment, the stage check, and recorded overrides
 5. Open questions and how answers reach the next stage
 6. Build: tests first, one PR per phase, criteria IDs as test names

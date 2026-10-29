@@ -171,7 +171,7 @@ Standards, and decision records written by people, record their provenance once 
 | --- | --- | --- |
 | **Service** | `repos` (code repos), `languages`, `depends_on` (service IDs), `environments` | `active`, `deprecated`, `retired` |
 | **Decision** | `date`, `deciders`, `services` (IDs of the services it governs), `supersedes`, `superseded_by` (decision IDs) | `proposed`, `accepted`, `superseded`, `rejected` |
-| **Feature** | `ticket` (Jira key), `services` (IDs of the services it touched), `repos`, `prs`, `shipped` (date), `decisions` (decision IDs) | `shipped` |
+| **Feature** | `ticket` (Jira key), `services` (IDs of the services it touched), `repo` (one per ticket, [design doc 3](developer-workflow.md#3-what-each-stage-writes-and-how-it-reaches-the-main-branch)), `related_tickets` (Jira keys of linked tickets in other repos), `prs`, `shipped` (date), `decisions` (decision IDs) | `shipped` |
 | **Standard** | `applies_to` (languages, services or environments; empty means everywhere), `enforcement` (`blocking` or `advisory`, used by the PR review in design doc 4) | `draft`, `active`, `retired` |
 
 The ID references in these fields (`depends_on`, `services`, `decisions`, `supersedes`, `applies_to`) are the edges of the library's graph (section 9).
@@ -268,6 +268,7 @@ The library learns from a feature at three moments: when a decision is approved,
 2. If the build changes an approved decision, the agent proposes a new decision record that replaces the old one (`supersedes` and `superseded_by`, section 4). Its owners approve it again.
 3. Engineers record lessons and gotchas in the feature folder during the session, through the knowledge skill. They reach the service page when the PR merges. They are treated as inferred, so the service's team reviews them.
 4. The feature entry is written once, at Close, only from documents marked `/approved` and the list of merged PRs. How Close is detected (demo approved and the last phase merged) is settled in design doc 3.
+5. A feature's spec and architecture merge together, in its planning PR ([design doc 3, section 3](developer-workflow.md#3-what-each-stage-writes-and-how-it-reaches-the-main-branch)). The decisions from both are proposed when that PR merges: after the test plan is approved, and before Build.
 
 ### Note on the PRD
 
@@ -293,7 +294,7 @@ Every hour, a workflow in the library repo sweeps the PRs merged since its last 
 4. **Open or update.** If an agent PR for the same page is already open, the run adds to it rather than opening a second one. Each PR's description lists the merged PRs it came from. A script then fills in the library PR's number in the footnotes of inferred statements ("reviewed in library PR #57").
 5. **Check.** The checks in section 7 run on every library PR.
 6. **Review and merge.** See below.
-7. **Bookkeeping** (script). After each merge, a small PR regenerates `index.md` and `CHANGELOG.md`. Those paths need no owner review, so it merges on the checks alone.
+7. **Bookkeeping** (script). After merges, a script keeps one bookkeeping PR open that regenerates `index.md` and `CHANGELOG.md`. Each run rebuilds it from the latest main branch, so bookkeeping PRs never conflict with each other, however many library PRs merge. Those paths need no owner review, so it merges on the checks alone.
 
 ### How approval works on library PRs
 
