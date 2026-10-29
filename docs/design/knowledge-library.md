@@ -268,7 +268,7 @@ The library learns from a feature at three moments: when a decision is approved,
 1. A PM's answer becomes a product decision only if it sets a rule beyond this feature. Intake marks such answers in the spec as proposed product decisions, the PM's approval of the spec confirms the mark, and the knowledge agent proposes exactly those ([design doc 3, section 5](developer-workflow.md#5-open-questions)). Answers specific to the feature reach the library through the feature entry at Close.
 2. If the build changes an approved decision, the agent proposes a new decision record that replaces the old one (`supersedes` and `superseded_by`, section 4). Its owners approve it again.
 3. Engineers record lessons and gotchas in the feature folder during the session, through the knowledge skill. They reach the service page when the PR merges. They are treated as inferred, so the service's team reviews them.
-4. The feature entry is written once, at Close, only from documents marked `/approved` and the list of merged PRs. A minor revision's PM-owned changes count as approved once the PM approves the demo that follows ([design doc 3, section 8](developer-workflow.md#8-another-iteration)). How Close is detected (demo approved and the last phase merged) is settled in design doc 3.
+4. The feature entry is written once, at Close, only from documents marked `/approved` and the list of merged PRs. A minor revision's PM-owned changes count as approved once the PM approves the demo that follows ([design doc 3, section 8](developer-workflow.md#8-another-iteration)). Close happens in the curation run once the PM's `/approved demo` is on the feature's planning PR and every phase has merged ([design doc 3, section 9](developer-workflow.md#9-what-runs-locally-and-what-runs-in-ci)).
 5. A feature's spec and architecture merge together, in its planning PR ([design doc 3, section 3](developer-workflow.md#3-what-each-stage-writes-and-how-it-reaches-the-main-branch)). The decisions from both are proposed when that PR merges: after the test plan is approved, and before Build.
 
 ### Note on the PRD
@@ -285,7 +285,7 @@ Every hour, a workflow in the library repo sweeps the PRs merged since its last 
 
 ### Step by step
 
-1. **Gather** (script, no AI). For each merged PR, it collects the title, description and diff; the changed files in `specs/<TICKET>/` with their `/approved` comments; and any recorded lessons. Everything goes into a work folder marked as untrusted. The agent's instructions name those files as data, never as instructions.
+1. **Gather** (script, no AI). For each merged PR, it collects the title, description and diff; the changed files in `specs/<TICKET>/` with their `/approved` comments; and any recorded lessons. Everything goes into a work folder marked as untrusted. The agent's instructions name those files as data, never as instructions. It also collects planning PRs that received `/approved demo` since the last run and whose phases have all merged; those features are closed in this run (section 5).
 2. **Draft** (the knowledge agent, **Baloo**). Claude edits pages in a copy of the library, following the page format, shapes and limits (section 4), and adds a source footnote to every statement (section 1). It can read and edit files in that copy only: no shell, no web access, no GitHub token, and capped turns and spend.
 3. **Sort** (script). It splits the edits into PRs by section 2's rules:
    * **merges by itself:** feature entries, which may only restate approved work

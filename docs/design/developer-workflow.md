@@ -1,6 +1,6 @@
 # Developer workflow
 
-_Status: in progress · Design doc 3 of 6 · [All design docs](README.md)_
+_Status: draft complete, awaiting the owner's approval · Design doc 3 of 6 · [All design docs](README.md)_
 
 A developer takes a feature from a Jira ticket to a shipped, demoed change through eight stages (PRD §5), one command per stage. This doc says where the stage commands come from, what they're called, what each stage writes, how approval works, how build and demo run, and what runs locally and what runs in CI.
 
@@ -86,10 +86,10 @@ The plugin is called `bagheera`, and Claude Code puts that name in front of each
 | `/bagheera:build` | Stage 5, for one phase | Phase number; with none, the next unbuilt phase |
 | `/bagheera:verify` | Stage 6 | Optional ticket ID |
 | `/bagheera:demo` | Stage 7: prepares the demo script | Optional ticket ID |
-| `/bagheera:close` | Stage 8 | Optional ticket ID |
+| `/bagheera:close` | Stage 8: runs automatically in CI; typed by hand, shows what Close is waiting for (section 9) | Optional ticket ID |
 | `/bagheera:revise` | Another iteration after planning has merged, for example after demo feedback (section 8) | The feedback, in plain words |
 
-Verify and Close mostly run in CI, through the same skills (section 8). The developer runs Demo (section 7).
+Verify and Close mostly run in CI, through the same skills (section 9). The developer runs Demo (section 7).
 
 ### Rules
 
@@ -139,7 +139,8 @@ Each document's sections come from its stage's template. Sections 5 and 6 cover 
 | Branch | PR | Writes | Merges when |
 | --- | --- | --- | --- |
 | `PAY-412/planning` | The planning PR, opened by Intake as a draft | `spec.md`, `architecture.md`, `contracts/`, `plan.md`, `test-plan.md` | All four documents are approved (section 4) |
-| `PAY-412/phase-1`, `PAY-412/phase-2`, … | One PR per phase (PRD §5) | Code, tests and that phase's notes file | Code review and CI pass (sections 6 and 8) |
+| `PAY-412/phase-1`, `PAY-412/phase-2`, … | One PR per phase (PRD §5) | Code, tests and that phase's notes file | Code review and CI pass (sections 6 and 9) |
+| `PAY-412/revision-1`, `PAY-412/revision-2`, … | A revision PR, after planning has merged (section 8) | The planning documents that change | Its approvals are in (section 8) |
 
 * Every stage command ends by committing its document and pushing it to the PR.
 * Re-running a stage on the planning branch replaces its document in the same PR. What that does to an earlier approval is section 4.
@@ -187,7 +188,7 @@ Approval is a comment from someone in the right role. Stage commands stop withou
 | `test-plan.md` | A PM for the acceptance criteria, and QA for the test cases | `product_owners` and `qa` |
 | The demo, on the planning PR (section 7) | A PM | `product_owners` |
 
-`domains.yaml` gains a `qa` entry per domain (design doc 1, section 4). Because each ticket lives in one repo, and each repo in one domain, there's never doubt about whose approval counts.
+`domains.yaml` gains a `qa` entry per domain (design doc 1, section 4). Because each ticket lives in one repo, and each repo in one domain, there's never doubt about whose approval counts. In a minor revision, the PM's approval is optional (section 8).
 
 ### How to approve
 
@@ -352,6 +353,37 @@ When a demo, or anything else after planning has merged, turns up more work, the
 * **The feature stays open until the PM approves a demo.** On the dashboard, a minor revision's PM-owned changes show as waiting for the demo, not as missing approvals.
 * **The library stays approved-only.** A minor revision's PM-owned changes count as approved work once the PM approves the next demo, so the feature entry at Close never includes anything unapproved (design doc 1, section 5).
 
-## Still to come
+## 9. What runs locally and what runs in CI
 
-9. What runs locally and what runs in CI
+_Decided: [ADR 0037](../decisions/0037-verify-as-an-org-ruleset-workflow.md)._
+
+### On the developer's laptop
+
+Claude Code with the plugin runs `/bagheera` and the commands for Intake, Architecture, Plan, Test plan, Build, Demo and revisions, each with the developer's own GitHub and Jira access. `/bagheera:verify` also runs here as a preview before pushing, giving the same findings CI will.
+
+### In CI
+
+| What | Runs where | Starts when |
+| --- | --- | --- |
+| **Verify**: the PR review (design doc 4), the feature folder check (section 3) and criteria coverage (section 6) | A workflow in `seeonee/bagheera`, required by one org ruleset on every repo whose `bagheera` property is `on`. It loads the same plugin as laptops (PRD P7). | A PR is opened or updated |
+| **The criteria results table** (section 6) | The dashboard sync job in `seeonee/bagheera`, every 15 minutes (design doc 5) | Its schedule; it reads each open phase PR's latest `test-results` |
+| **Close**: the feature entry (design doc 1, section 5) | The library's hourly curation run (design doc 1, section 6) | A planning PR has `/approved demo` and every phase has merged |
+| **Tests** | The repo's own CI, as today | As today |
+
+`/bagheera:close` is what the curation run uses. Typed by hand, it shows what Close is waiting for and what the feature entry will say.
+
+### Why this split
+
+* **Ruleset workflows run only when a PR is opened or updated.** So the two things that respond to other events, test results finishing and a PM's comment, ride on scheduled jobs that already exist. No new jobs.
+* **Nothing goes in any product repo**, and Verify changes in one place.
+* **Only the default branch is covered.** Ruleset workflows block direct pushes to the branches they cover, so the ruleset targets each repo's default branch, which takes changes only through PRs.
+
+### Setting it up
+
+* **Once, by the GitHub org owners** (Foundations phase, `docs/plan.md`):
+  1. Define a repo property, `bagheera`, that the platform team can set.
+  2. Create the org ruleset: on repos where `bagheera` is `on`, for the default branch, require the Verify workflow from `seeonee/bagheera`.
+* **Once, by the platform team:** allow `seeonee/bagheera`'s workflows to be used by the org's repos (a setting on that repo).
+* **Onboarding a repo, by the platform team:** set its `bagheera` property to `on`, add it to `domains.yaml` and seed it (design doc 2). The team adds the JUnit results setting to its CI (section 6).
+
+**Fallback.** The Verify workflow can also be called from a one-line workflow file in a repo. If the org ruleset isn't ready, the pilot can start that way and switch to the ruleset later without rewriting anything.

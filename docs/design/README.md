@@ -14,7 +14,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | --- | --- | --- | --- | --- |
 | 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Approved** |
 | 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **Approved** |
-| 3 | [`developer-workflow.md`](developer-workflow.md) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **In progress** |
+| 3 | [`developer-workflow.md`](developer-workflow.md) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Draft complete**, awaiting your approval |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
 | 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | Not started |
 | 6 | `distribution-security-and-cost.md` | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | Not started |
@@ -51,7 +51,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 6. Build: tests first, one PR per phase, criteria IDs as test names. **Done:** [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md), tests first by the command; coverage checked and results shown by CI
 7. Demo on the stage environment ([0011](../decisions/0011-stage-environment-for-demos.md)). **Done:** [0035](../decisions/0035-demo-run-by-the-developer.md), run by the developer off the repo; the PM approves on the planning PR (set by the owner)
 8. Another iteration after demo feedback (added by the owner). **Done:** [0036](../decisions/0036-revise-with-one-command-minor-or-new-ticket.md), `/bagheera:revise`; PM approval optional for minor revisions; major changes become a new ticket
-9. What runs locally and what runs in CI
+9. What runs locally and what runs in CI. **Done:** [0037](../decisions/0037-verify-as-an-org-ruleset-workflow.md), Verify as an org ruleset workflow; results table and Close on existing scheduled jobs
 
 **4. Standards and review**
 1. Standard page format and ownership
@@ -76,6 +76,49 @@ These are the questions I expect to bring, in order. They will change as we lear
 4. Spend limits and reporting
 5. Adoption and cost by team
 6. How changes to the harness are reviewed and released
+
+## Moving parts and dependencies
+
+Kept up to date with every doc, so the total stays visible (the owner's request, 2026-10-29, [0037](../decisions/0037-verify-as-an-org-ruleset-workflow.md)).
+
+### What the platform team runs
+
+| Part | What it is | Where designed |
+| --- | --- | --- |
+| `seeonee/bagheera` repo | The plugin, the workflows and their scripts | Docs 1–3 |
+| The plugin | `/bagheera`, the eight stage commands and `/bagheera:revise`; the knowledge skill; `seed-service-page`; Baloo and a read-only code reader (subagents); the session-start hook; the feature and stage-check scripts | Docs 1–3 |
+| The library repo (Council Rock) | Pages, `domains.yaml`, the library checker, lychee | Doc 1 |
+| Verify workflow | On every PR in onboarded repos, through one org ruleset | Doc 3, section 9; doc 4 |
+| Curation run | Hourly: library updates from merged PRs, Close, bookkeeping. Weekly: the library check and summary | Doc 1, sections 6 and 8; doc 3, section 9 |
+| Dashboard sync | Every 15 minutes: feature status and the criteria results table | Doc 3, sections 6 and 9; doc 5 |
+| GitHub App | Opens library PRs and posts comments | Doc 1, section 6 |
+| GitHub Project | The dashboard | Doc 5 |
+
+In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No servers and nothing self-hosted.
+
+### What we need from other teams
+
+| Who | What | How often | Where designed |
+| --- | --- | --- | --- |
+| GitHub org owners | Install the harness's GitHub App; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify; create PM, tech lead and QA teams where missing | Once, in Foundations (about an hour) | Docs 1 and 3 |
+| Claude admin | Settings that install the plugin on every laptop; CI credentials and a spend limit | Once | Doc 6 |
+| Jira admin | Possibly allow Atlassian's MCP connector, so Intake reads tickets with each developer's own access | Once, if Jira restricts it | Doc 3; to confirm in doc 6 |
+| Each team | JUnit test results from its CI; review its seeded service pages | Once per repo, at onboarding | Docs 2 and 3 |
+| Approvers and page owners | Approve stage documents; review library PRs | Ongoing, as part of their normal work | Docs 1 and 3 |
+
+After setup, onboarding a repo needs nobody outside the platform team and the joining team.
+
+### Outside services
+
+| Service | Used for |
+| --- | --- |
+| GitHub (Team or Enterprise plan, for org rulesets on private repos) | Code, PRs, approvals, CI, the dashboard |
+| Jira | Ticket text for Intake; links from the dashboard |
+| Anthropic | Claude, on laptops and in CI |
+
+### Removed along the way
+
+DeepWiki-Open and its Docker setup ([0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)); a PR per planning stage ([0030](../decisions/0030-one-planning-pr-per-feature.md)); CI access to stage, test accounts in CI and recording storage ([0035](../decisions/0035-demo-run-by-the-developer.md)); per-repo workflow files ([0037](../decisions/0037-verify-as-an-org-ruleset-workflow.md)).
 
 ## Open items to resolve inside the docs
 
