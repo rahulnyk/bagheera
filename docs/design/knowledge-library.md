@@ -265,7 +265,7 @@ The library learns from a feature at three moments: when a decision is approved,
 
 ### Rules
 
-1. A PM's answer becomes a product decision only if it sets a rule beyond this feature. Answers specific to the feature reach the library through the feature entry at Close.
+1. A PM's answer becomes a product decision only if it sets a rule beyond this feature. Intake marks such answers in the spec as proposed product decisions, the PM's approval of the spec confirms the mark, and the knowledge agent proposes exactly those ([design doc 3, section 5](developer-workflow.md#5-open-questions)). Answers specific to the feature reach the library through the feature entry at Close.
 2. If the build changes an approved decision, the agent proposes a new decision record that replaces the old one (`supersedes` and `superseded_by`, section 4). Its owners approve it again.
 3. Engineers record lessons and gotchas in the feature folder during the session, through the knowledge skill. They reach the service page when the PR merges. They are treated as inferred, so the service's team reviews them.
 4. The feature entry is written once, at Close, only from documents marked `/approved` and the list of merged PRs. How Close is detected (demo approved and the last phase merged) is settled in design doc 3.

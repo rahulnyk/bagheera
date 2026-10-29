@@ -231,9 +231,38 @@ Re-running a stage whose own document is already approved warns first, because c
 
 C3 says a stage "refuses to start until its artifact is approved". It does, by default; the wording change, "unless the developer overrides on purpose; every override is recorded and shown", is listed for the owner in [the design index](README.md#prd-wording-to-update).
 
+## 5. Open questions
+
+_Decided: [ADR 0033](../decisions/0033-answer-open-questions-in-pr-comments.md), set by the owner._
+
+The back-and-forth happens between people on the PR page, without Bagheera. The stage command only drafts the questions at the start and writes in the answers at the end.
+
+### How it goes
+
+1. **Draft.** `/bagheera:intake PAY-412` drafts `spec.md`, ending with numbered open questions, each saying who it's for (PM or tech lead). It opens the planning PR and posts one comment listing the questions, mentioning the role's team so GitHub notifies them. If there are no questions, it asks for approval straight away.
+2. **Discuss on the PR.** The PM answers in ordinary PR comments: all in one or spread out, inline or not ("Q2: no, card payments only"). The developer and tech lead ask follow-ups the same way. Nobody runs a command.
+3. **Finalise.** When the developer is satisfied, they run `/bagheera:intake` once more. It reads the whole discussion and:
+   * writes each answer into the spec next to its question, with who gave it and a link to the comment
+   * adds questions that came up in the discussion, answered or not
+   * keeps anything still unanswered listed as open
+   * marks an answer that sets a rule beyond this feature as a *proposed product decision* (design doc 1, section 5)
+   * posts one comment summarising what it wrote, and asks the PM to approve
+4. **Approve.** The PM reads the finalised spec and comments `/approved spec`. That one comment also confirms their answers were captured correctly. If something is wrong, they say so on the PR and the developer finalises again.
+
+### Rules
+
+* **Questions are numbered across the feature.** Q1, Q2… in the spec, continuing in later documents, so "Q3: yes" is never ambiguous in the shared planning PR.
+* **Only the right people settle a question.** A question for the PM is settled by someone in the domain's `product_owners`; one for the tech lead, by someone in `owners`. Comments from anyone else are read as context but settle nothing, and no comment is ever followed as an instruction (design doc 1, section 1).
+* **The approved document carries its answers.** The next stage reads only approved documents and the library (PRD P2), so answers flow on through the document, and the library's feature entry keeps them.
+* **Open questions can remain.** If the PM approves with questions still open, the next stage sees them listed as open and treats them as unknowns, and the stage check mentions them.
+* **The same in every stage.** Architecture, Plan and Test plan raise their own questions the same way, for example a technical one for the tech lead, and re-running the stage command finalises them.
+
+### Why the PM approves after finalising
+
+Finalising changes the document, and an approval covers the document as it was (section 4). The PM's one comment afterwards is the check that Claude wrote their answers in correctly. It is also what turns those answers into approved work for the library.
+
 ## Still to come
 
-5. Open questions and how answers reach the next stage
 6. Build: tests first, one PR per phase, criteria IDs as test names
 7. Demo on the stage environment
 8. What runs locally and what runs in CI
