@@ -48,7 +48,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 3. What each stage writes, and the feature folder layout. **Done:** [0030](../decisions/0030-one-planning-pr-per-feature.md), one planning PR per feature with conflict-free branch rules, and [0031](../decisions/0031-one-ticket-one-repo.md), one ticket per repo (set by the owner)
 4. Approval: the `/approved` comment, the stage check, and recorded overrides ([0002](../decisions/0002-soft-approval-by-comment.md)). **Done:** [0032](../decisions/0032-stage-check-stops-and-records-overrides.md), the command stops; deliberate overrides are recorded
 5. Open questions and how answers reach the next stage. **Done:** [0033](../decisions/0033-answer-open-questions-in-pr-comments.md), plain PR comments, one finalising run (set by the owner)
-6. Build: tests first, one PR per phase, criteria IDs as test names
+6. Build: tests first, one PR per phase, criteria IDs as test names. **Done:** [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md), tests first by the command; coverage checked and results shown by CI
 7. Demo on the stage environment ([0011](../decisions/0011-stage-environment-for-demos.md))
 8. What runs locally and what runs in CI
 
@@ -86,6 +86,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 | Caution versus PRD K4 and the "updated within a day" target | Decided: only restated approved work merges without a person ([0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)) | Resolved; K4 holds in a narrower form |
 | Status data in the knowledge library versus PRD K1's page types | [0005](../decisions/0005-view-only-dashboard.md) mentions a wiki folder as one option; [0030](../decisions/0030-one-planning-pr-per-feature.md) rules out a shared status file in product repos | Doc 5, step 1 |
 | DeepWiki-Open needs an Anthropic API key via LiteLLM, not a Claude subscription | Decided: seed with a Claude Code skill instead, which works on a subscription or an API key ([0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)) | Resolved |
+| Each repo's CI must save JUnit test results for the criteria table | [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md) | `docs/plan.md`, as an onboarding step |
 | Claude plan and model access (Q7, Q8) not known yet | Settings delivery, CI sign-in and team cost reporting depend on it; the docs keep both paths open | Doc 6 |
 
 ## PRD wording to update

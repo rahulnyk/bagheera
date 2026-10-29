@@ -261,8 +261,56 @@ The back-and-forth happens between people on the PR page, without Bagheera. The 
 
 Finalising changes the document, and an approval covers the document as it was (section 4). The PM's one comment afterwards is the check that Claude wrote their answers in correctly. It is also what turns those answers into approved work for the library.
 
+## 6. Build
+
+_Decided: [ADR 0034](../decisions/0034-build-tests-first-and-show-criteria-results.md)._
+
+Each phase is built tests first in its own PR (PRD P5), and every acceptance criterion can be traced to the tests that prove it (C4).
+
+### Criteria IDs
+
+* The test plan gives each acceptance criterion an ID: `<TICKET>-AC-<n>`, such as `PAY-412-AC-3`. Numbers run across the feature and are never reused or changed; a dropped criterion is marked removed and keeps its number.
+* Each criterion is assigned to the phase that makes it true.
+* In test names, the ID is written `PAY_412_AC_3`, using only letters, digits and underscores, which every common test framework accepts. For example, `test_PAY_412_AC_3_refund_rejected_after_30_days`, or `it("PAY_412_AC_3 rejects refunds after 30 days")`.
+* QA's test cases sit under the criterion they cover in `test-plan.md`.
+
+### One phase, step by step
+
+`/bagheera:build 2`, or `/bagheera:build` for the next unbuilt phase:
+
+1. **Check.** The stage check confirms that all four planning documents are approved and the planning PR has merged (section 4). If this phase needs the previous one's code, it must have merged too (section 3, rule 2).
+2. **Branch.** It creates `PAY-412/phase-2` from the main branch.
+3. **Tests first.** It writes tests for the phase's criteria from `test-plan.md`, named with their IDs, runs them, and confirms they fail for the expected reason (missing behaviour, not a broken test). It commits them on their own, marked with the trailer `Bagheera-Step: tests-first`.
+4. **Code.** It writes code until the phase's tests pass, along with the repo's existing tests. The phase's work sits behind the flag named in the plan, using the org's own flag system.
+5. **Notes.** Lessons and gotchas go into `phase-2-notes.md` through the knowledge skill (design doc 1, section 5).
+6. **PR.** It pushes and opens the phase PR, listing the phase's criteria in the description.
+
+The developer reviews and steers throughout; Build is a working session with Claude, not a batch job. Re-running the command on the open phase branch carries on where it left off.
+
+**Build never changes the test plan.** If a criterion turns out wrong or untestable, the command stops and suggests a revision PR for `test-plan.md`, which needs approval again (section 3).
+
+### What CI checks on a phase PR
+
+| Check | What it does | If it fails |
+| --- | --- | --- |
+| **Criteria coverage** | Every criterion assigned to this phase has at least one test whose name carries its ID | The check fails |
+| **Tests first** | The PR's first commit is the tests-first commit | A warning on the PR, in keeping with soft enforcement |
+| **Criteria results** | Reads the test results and keeps one PR comment up to date with a table by criterion | Shows "no result" for a criterion whose tests didn't run |
+
+The results comment looks like this:
+
+| Criterion | What it says | Tests | Result |
+| --- | --- | --- | --- |
+| `PAY-412-AC-3` | Refunds are rejected after 30 days | `test_PAY_412_AC_3_refund_rejected_after_30_days` | Pass |
+| `PAY-412-AC-4` | The customer is told why | `test_PAY_412_AC_4_rejection_message` | Fail |
+
+The dashboard shows the same counts for each feature (design doc 5). Where these checks run is section 8.
+
+### What each repo needs
+
+Its CI must save test results in JUnit format, as an artifact named `test-results`. Almost every test runner can produce this, for example pytest's `--junitxml`, Maven's default reports, or a JUnit reporter for Jest or Go. Onboarding a repo includes this one configuration change, which needs no per-team code (PRD P8). Without it, the table shows which criteria have tests, but not whether they pass.
+
 ## Still to come
 
-6. Build: tests first, one PR per phase, criteria IDs as test names
 7. Demo on the stage environment
 8. What runs locally and what runs in CI
