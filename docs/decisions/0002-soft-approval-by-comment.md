@@ -29,3 +29,5 @@ Chosen option: D. Approval is a deliberate action on the PR, such as an `/approv
 ### Conflict with the PRD (flagged)
 
 PRD C3 (must have) says a stage "refuses to start until its artifact is approved by the designated role", and §9 says to expand only once the pilot team uses the approvals rather than skipping them. Proposed reconciliation, to confirm in design doc 3 (developer workflow): the stage command checks for an `/approved` comment from someone in the designated role and stops if there is none; the developer can override on purpose; every override is recorded and shown on the dashboard. That keeps enforcement soft but makes skipping visible. If accepted, PRD C3's wording should be updated to match.
+
+**Resolved** by [0032](0032-stage-check-stops-and-records-overrides.md): the owner accepted this reconciliation on 2026-10-29.

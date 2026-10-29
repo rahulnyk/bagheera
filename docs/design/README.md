@@ -46,7 +46,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 1. How Spec Kit's content is copied into the plugin and kept up to date (copying was decided in [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)). **Done:** [0028](../decisions/0028-adapt-spec-kit-once-and-review-it-quarterly.md), adapt once and review every quarter
 2. Command names ([0003](../decisions/0003-stage-names-from-the-prd.md) and the naming register). **Done:** [0029](../decisions/0029-stage-commands-under-the-bagheera-plugin.md), `/bagheera:<stage>` and `/bagheera`
 3. What each stage writes, and the feature folder layout. **Done:** [0030](../decisions/0030-one-planning-pr-per-feature.md), one planning PR per feature with conflict-free branch rules, and [0031](../decisions/0031-one-ticket-one-repo.md), one ticket per repo (set by the owner)
-4. Approval: the `/approved` comment, the stage check, and recorded overrides ([0002](../decisions/0002-soft-approval-by-comment.md))
+4. Approval: the `/approved` comment, the stage check, and recorded overrides ([0002](../decisions/0002-soft-approval-by-comment.md)). **Done:** [0032](../decisions/0032-stage-check-stops-and-records-overrides.md), the command stops; deliberate overrides are recorded
 5. Open questions and how answers reach the next stage
 6. Build: tests first, one PR per phase, criteria IDs as test names
 7. Demo on the stage environment ([0011](../decisions/0011-stage-environment-for-demos.md))
@@ -80,7 +80,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 
 | Item | Why it's open | Resolved in |
 | --- | --- | --- |
-| Soft approvals versus PRD C3 "refuses to start" | [0002](../decisions/0002-soft-approval-by-comment.md) proposes a check with recorded overrides | Doc 3, step 4 |
+| Soft approvals versus PRD C3 "refuses to start" | Decided: the stage command stops without approval; deliberate overrides are recorded and shown ([0032](../decisions/0032-stage-check-stops-and-records-overrides.md)) | Resolved; C3 wording to update |
 | Carrying Spec Kit in the plugin versus the PRD's "Spec Kit with a preset and extension" | Decided: copy its content into the plugin ([0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)) | Resolved; PRD §8 wording to update |
 | Jungle Book component names versus PRD §8, Appendix B and CLAUDE.md | [0010](../decisions/0010-naming.md) proposes about five themed names | Naming register, as components come up |
 | Caution versus PRD K4 and the "updated within a day" target | Decided: only restated approved work merges without a person ([0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)) | Resolved; K4 holds in a narrower form |
@@ -96,6 +96,7 @@ Agreed decisions that change the PRD's wording. The PRD is the owner's document,
 | --- | --- | --- | --- |
 | §8 Preferred building blocks | GitHub Spec Kit "customised through an org preset … and an org extension" | Spec Kit's templates and method, copied into the plugin as commands with the PRD's stage names | [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md) |
 | §8 Preferred building blocks; §9 Foundations; Appendix B | "DeepWiki-Open, run once per repo, to draft the first service pages (K8)"; "first service pages drafted by DeepWiki"; "the one-off DeepWiki run … keep them" | A seeding skill run in Claude Code, once per repo; DeepWiki-Open as the fallback. Q8's "DeepWiki setup" no longer applies. | [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md) |
+| C3 | "A stage refuses to start until its artifact is approved by the designated role" | Add: "unless the developer overrides on purpose; every override is recorded and shown" | [0032](../decisions/0032-stage-check-stops-and-records-overrides.md) |
 | K4 | "Agents may merge service and feature page changes after automated checks" | Agents may merge only changes whose every statement restates approved work; inferred changes need the page's owning team | [0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md) |
 
 ## Naming register

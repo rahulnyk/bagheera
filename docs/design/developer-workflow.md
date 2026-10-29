@@ -172,9 +172,67 @@ Two features changing the same code can still conflict in their build PRs. That 
 * The planning PR carries both the spec and the architecture, so product and technical decisions are proposed to the library when it merges: after the test plan is approved, and before Build (design doc 1, section 5).
 * Feature entries record their one `repo` and their `related_tickets` (design doc 1, section 4).
 
+## 4. Approval
+
+_Decided: [ADR 0032](../decisions/0032-stage-check-stops-and-records-overrides.md), following [0002](../decisions/0002-soft-approval-by-comment.md)._
+
+Approval is a comment from someone in the right role. Stage commands stop without it, but a developer can go ahead on purpose, and every time they do it is on record. Nothing technical blocks a merge; managers act on what the dashboard shows (PRD C3, soft enforcement as chosen in 0002).
+
+### Who approves what
+
+| Document | Approved by | Taken from `domains.yaml`, for the repo's domain |
+| --- | --- | --- |
+| `spec.md` | A PM | `product_owners` |
+| `architecture.md` | A tech lead | `owners` |
+| `plan.md` | A tech lead and a PM | `owners` and `product_owners` |
+| `test-plan.md` | A PM for the acceptance criteria, and QA for the test cases | `product_owners` and `qa` |
+| `demo.md` | A PM | `product_owners` |
+
+`domains.yaml` gains a `qa` entry per domain (design doc 1, section 4). Because each ticket lives in one repo, and each repo in one domain, there's never doubt about whose approval counts.
+
+### How to approve
+
+* **Comment on the PR** with `/approved <document>` on its own line: `/approved spec`, `/approved architecture`, `/approved plan`, `/approved test-plan`, `/approved demo`. A GitHub review whose text contains the same line counts too, so a tech lead can approve the plan and the PR's merge in one step.
+* **The commenter's role decides what it counts for.** On `test-plan.md`, a PM's approval covers the criteria and QA's covers the cases; both are needed. On `plan.md`, one tech lead and one PM are needed.
+* **An approval covers the document as it was** when the approval was given. If a later commit changes that document, its approval no longer counts. Other documents keep theirs, but the stage check notes when a document changed after a later one was approved, so that later approver can take a look.
+* **Nobody approves their own work.** An approval from anyone who committed a change to that document doesn't count.
+* **Local edits never count** (PRD C3). Approvals exist only as GitHub comments and reviews.
+
+### The stage check
+
+Every stage command runs it before doing anything else. It reads the PR's comments, reviews and commits, and the role teams in `domains.yaml`, using the developer's own GitHub access.
+
+| Stage | Needs a current approval of |
+| --- | --- |
+| Architecture | `spec.md` |
+| Plan | `spec.md`, `architecture.md` |
+| Test plan | `spec.md`, `architecture.md`, `plan.md` |
+| Build | All four planning documents, and the planning PR merged |
+| Demo | The phases built and on the stage environment (section 7) |
+
+When something is missing, the command stops and says what, who it's waiting on, and where:
+
+```text
+Architecture can't start yet: spec.md isn't approved.
+Waiting on: @seeonee/payments-pms. PR: seeonee/payments-api#512
+To go ahead anyway: /bagheera:architecture --override "<reason>"
+```
+
+Re-running a stage whose own document is already approved warns first, because changing that document cancels its approval.
+
+### Overrides
+
+* **On purpose, with a reason.** `--override "<reason>"` is the only way past a stop, and the reason can't be empty.
+* **On the record.** The command posts the override as a comment on the PR: which stage, what was missing, the reason, and who. The dashboard and the weekly summary list every override (design doc 5).
+* **Not an approval.** The document stays unapproved until the right person approves it, which clears the flag. Until then, nothing in it reaches the library as approved work: an unapproved architecture proposes no decisions, and the feature entry at Close leaves it out (design doc 1, section 5).
+* **Merging the planning PR without every approval** isn't blocked, and counts as an override too.
+
+### Note on the PRD
+
+C3 says a stage "refuses to start until its artifact is approved". It does, by default; the wording change, "unless the developer overrides on purpose; every override is recorded and shown", is listed for the owner in [the design index](README.md#prd-wording-to-update).
+
 ## Still to come
 
-4. Approval: the `/approved` comment, the stage check, and recorded overrides
 5. Open questions and how answers reach the next stage
 6. Build: tests first, one PR per phase, criteria IDs as test names
 7. Demo on the stage environment

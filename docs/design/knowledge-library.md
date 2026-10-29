@@ -207,13 +207,14 @@ One entry per domain, plus `org`:
 payments:
   owners: ["@seeonee/payments-tech-leads"]
   product_owners: ["@seeonee/payments-pms"]
+  qa: ["@seeonee/payments-qa"]
   repos: [seeonee/payments-api, seeonee/payments-web, seeonee/ledger-svc]
 org:
   owners: ["@seeonee/architecture"]
   product_owners: ["@seeonee/product-leads"]
 ```
 
-`owners` review technical pages and decisions; `product_owners` review product decisions (section 5). `repos` tells a session which domain it is in (section 9).
+`owners` review technical pages and decisions; `product_owners` review product decisions (section 5). The same teams, plus `qa`, approve a feature's stage documents in the product repo ([design doc 3, section 4](developer-workflow.md#4-approval)). `repos` tells a session which domain it is in (section 9).
 
 ### Shape and length
 
