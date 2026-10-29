@@ -44,7 +44,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 
 **3. Developer workflow**
 1. How Spec Kit's content is copied into the plugin and kept up to date (copying was decided in [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)). **Done:** [0028](../decisions/0028-adapt-spec-kit-once-and-review-it-quarterly.md), adapt once and review every quarter
-2. Command names ([0003](../decisions/0003-stage-names-from-the-prd.md) and the naming register)
+2. Command names ([0003](../decisions/0003-stage-names-from-the-prd.md) and the naming register). **Done:** [0029](../decisions/0029-stage-commands-under-the-bagheera-plugin.md), `/bagheera:<stage>` and `/bagheera`
 3. What each stage writes, and the feature folder layout
 4. Approval: the `/approved` comment, the stage check, and recorded overrides ([0002](../decisions/0002-soft-approval-by-comment.md))
 5. Open questions and how answers reach the next stage
@@ -105,6 +105,7 @@ Themed names are proposed to the owner first ([0010](../decisions/0010-naming.md
 | Component | Plain name | Themed name | Status |
 | --- | --- | --- | --- |
 | The product | Delivery harness | Bagheera | Approved (PRD) |
+| The plugin, which prefixes every command | Delivery harness plugin | `bagheera` (commands are `/bagheera:<stage>`) | Approved ([0029](../decisions/0029-stage-commands-under-the-bagheera-plugin.md)) |
 | The knowledge library | Knowledge library | Council Rock | Approved ([0023](../decisions/0023-name-council-rock-and-baloo.md)) |
 | The knowledge agent | Knowledge agent | Baloo | Approved ([0023](../decisions/0023-name-council-rock-and-baloo.md)) |
 | The dashboard | Dashboard | — | To propose in doc 5 |

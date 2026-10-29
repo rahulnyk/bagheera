@@ -45,7 +45,10 @@ The stage commands are our own, adapted once from GitHub Spec Kit **v1.2.5** (co
 ### Where it lives in the plugin
 
 ```text
-skills/<stage>/SKILL.md        one per stage command (names in section 2)
+skills/
+  bagheera/SKILL.md            where the feature stands, and the next command (section 2)
+  intake/SKILL.md              one skill per stage: intake, architecture, plan, test-plan,
+  …                            build, verify, demo, close
 templates/                     the stage document templates
 scripts/feature                finds or creates the feature folder and branch
 third_party/spec-kit/
@@ -67,9 +70,36 @@ A Spec Kit fix for a problem we're actually hitting can be ported between review
 
 PRD §8 names Spec Kit "customised through an org preset … and an org extension". We use its content, not the installed software. The wording change is already listed for the owner in [the design index](README.md#prd-wording-to-update).
 
+## 2. Command names
+
+_Decided: [ADR 0029](../decisions/0029-stage-commands-under-the-bagheera-plugin.md), following [0003](../decisions/0003-stage-names-from-the-prd.md)._
+
+The plugin is called `bagheera`, and Claude Code puts that name in front of each of its commands.
+
+| Command | What it does | Arguments |
+| --- | --- | --- |
+| `/bagheera` | Where the current feature stands, what it's waiting on, and the exact next command (PRD P3) | Optional ticket ID |
+| `/bagheera:intake` | Stage 1: starts a feature and drafts its spec from the Jira ticket (P1) | Ticket ID, such as `PAY-412` |
+| `/bagheera:architecture` | Stage 2 | Optional ticket ID |
+| `/bagheera:plan` | Stage 3 | Optional ticket ID |
+| `/bagheera:test-plan` | Stage 4 | Optional ticket ID |
+| `/bagheera:build` | Stage 5, for one phase | Phase number; with none, the next unbuilt phase |
+| `/bagheera:verify` | Stage 6 | Optional ticket ID |
+| `/bagheera:demo` | Stage 7 | Optional ticket ID |
+| `/bagheera:close` | Stage 8 | Optional ticket ID |
+
+Stages 6–8 mostly run in CI, through the same skills (section 8).
+
+### Rules
+
+* **Full names everywhere.** Docs, the guide, the dashboard and the commands' own output always show `/bagheera:<stage>`. A bare `/intake` would also work, but a bare `/plan` opens Claude Code's planning mode and a bare `/verify` runs its built-in check, so mixing the two forms would confuse people.
+* **The ticket is typed once.** Only Intake needs it. Later stages work it out from the feature's branch (section 3), and accept it as an argument when run elsewhere.
+* **Stages start only when someone asks.** Each stage skill is marked so that Claude can't start it on its own (`disable-model-invocation`). A stage runs when a developer types it or a CI workflow calls it.
+* **Each stage pre-approves only what it needs.** For example, Intake reads the ticket and writes in the feature folder; Build edits code and runs tests. Forbidden actions are blocked separately, by deny rules (design doc 4).
+* **Re-running is the same command.** A stage can be re-run on its own (P2). What it overwrites, and how approval carries over, is sections 3 and 4.
+
 ## Still to come
 
-2. Command names
 3. What each stage writes, and the feature folder layout
 4. Approval: the `/approved` comment, the stage check, and recorded overrides
 5. Open questions and how answers reach the next stage
