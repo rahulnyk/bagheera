@@ -1,6 +1,6 @@
 # Developer workflow
 
-_Status: draft complete, awaiting the owner's approval · Design doc 3 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-29 · Design doc 3 of 6 · [All design docs](README.md)_
 
 A developer takes a feature from a Jira ticket to a shipped, demoed change through eight stages (PRD §5), one command per stage. This doc says where the stage commands come from, what they're called, what each stage writes, how approval works, how build and demo run, and what runs locally and what runs in CI.
 

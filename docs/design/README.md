@@ -14,7 +14,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | --- | --- | --- | --- | --- |
 | 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Approved** |
 | 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **Approved** |
-| 3 | [`developer-workflow.md`](developer-workflow.md) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Draft complete**, awaiting your approval |
+| 3 | [`developer-workflow.md`](developer-workflow.md) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Approved** |
 | 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R5 | Not started |
 | 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | Not started |
 | 6 | `distribution-security-and-cost.md` | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | Not started |
