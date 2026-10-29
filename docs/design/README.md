@@ -50,7 +50,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 5. Open questions and how answers reach the next stage. **Done:** [0033](../decisions/0033-answer-open-questions-in-pr-comments.md), plain PR comments, one finalising run (set by the owner)
 6. Build: tests first, one PR per phase, criteria IDs as test names. **Done:** [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md), tests first by the command; coverage checked and results shown by CI
 7. Demo on the stage environment ([0011](../decisions/0011-stage-environment-for-demos.md)). **Done:** [0035](../decisions/0035-demo-run-by-the-developer.md), run by the developer off the repo; the PM approves on the planning PR (set by the owner)
-8. Another iteration after demo feedback (added by the owner)
+8. Another iteration after demo feedback (added by the owner). **Done:** [0036](../decisions/0036-revise-with-one-command-minor-or-new-ticket.md), `/bagheera:revise`; PM approval optional for minor revisions; major changes become a new ticket
 9. What runs locally and what runs in CI
 
 **4. Standards and review**

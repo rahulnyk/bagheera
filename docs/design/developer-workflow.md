@@ -48,7 +48,7 @@ The stage commands are our own, adapted once from GitHub Spec Kit **v1.2.5** (co
 skills/
   bagheera/SKILL.md            where the feature stands, and the next command (section 2)
   intake/SKILL.md              one skill per stage: intake, architecture, plan, test-plan,
-  …                            build, verify, demo, close
+  …                            build, verify, demo, close, and revise (section 8)
 templates/                     the stage document templates
 scripts/feature                finds or creates the feature folder and branch
 third_party/spec-kit/
@@ -87,6 +87,7 @@ The plugin is called `bagheera`, and Claude Code puts that name in front of each
 | `/bagheera:verify` | Stage 6 | Optional ticket ID |
 | `/bagheera:demo` | Stage 7: prepares the demo script | Optional ticket ID |
 | `/bagheera:close` | Stage 8 | Optional ticket ID |
+| `/bagheera:revise` | Another iteration after planning has merged, for example after demo feedback (section 8) | The feedback, in plain words |
 
 Verify and Close mostly run in CI, through the same skills (section 8). The developer runs Demo (section 7).
 
@@ -142,7 +143,7 @@ Each document's sections come from its stage's template. Sections 5 and 6 cover 
 
 * Every stage command ends by committing its document and pushing it to the PR.
 * Re-running a stage on the planning branch replaces its document in the same PR. What that does to an earlier approval is section 4.
-* A change after planning has merged goes in a small PR of its own, such as `PAY-412/revise-spec`, that touches only that document and needs the same approval again.
+* A change after planning has merged goes through `/bagheera:revise`, in a revision PR of its own (`PAY-412/revision-1`) that touches only the documents that change (section 8).
 
 ### Rules that keep merges simple
 
@@ -205,7 +206,7 @@ Every stage command runs it before doing anything else. It reads the PR's commen
 | Architecture | `spec.md` |
 | Plan | `spec.md`, `architecture.md` |
 | Test plan | `spec.md`, `architecture.md`, `plan.md` |
-| Build | All four planning documents, and the planning PR merged |
+| Build | All four planning documents, and the planning PR merged. After a revision: its approvals from roles other than the PM, and the revision PR merged (section 8) |
 | Demo | Every phase merged (section 7) |
 
 When something is missing, the command stops and says what, who it's waiting on, and where:
@@ -321,13 +322,36 @@ The demo happens off the repo. The developer runs it on the stage environment, l
 3. **The demo.** The developer gives it live in a meeting, or records it and shares the recording however they choose. Claude can help drive a browser for a recording if the developer wants, but nothing requires it.
 4. **Acceptance.** The PM comments `/approved demo` on the feature's planning PR, which is the feature's home on GitHub even after it has merged. That comment is what Close waits for (section 8).
 
-If the demo turns up work that needs more development, the feature goes round again; how is the next step of this doc.
+If the demo turns up work that needs more development, the developer starts another iteration with `/bagheera:revise` (section 8).
 
 ### Note on the PRD
 
 PRD §5 asks for a "recording", C6 for acceptance "without a meeting", and P7 for stages 6–8 in CI. Here the recording is optional, a meeting is fine, and the demo runs on the developer's machine. The wording changes are listed for the owner in [the design index](README.md#prd-wording-to-update).
 
+## 8. Another iteration
+
+_Decided: [ADR 0036](../decisions/0036-revise-with-one-command-minor-or-new-ticket.md), with the minor-revision and new-ticket rules set by the owner._
+
+When a demo, or anything else after planning has merged, turns up more work, the developer starts another iteration with one command.
+
+### How it goes
+
+1. **Describe the feedback.** `/bagheera:revise "PM wants the refund reason in the email too"`, or paste the meeting notes.
+2. **Minor or major.** Claude reads the feedback next to the approved documents, says whether it's minor or major and why, and the developer confirms.
+   * **Minor:** it stays within the ticket's approved scope. For example, a criterion clarified or tightened, a small change to wording or behaviour, or a fix where the build didn't meet a criterion as intended.
+   * **Major:** a new capability, criteria the spec's goals don't cover, or a change to interfaces other tickets rely on. The command doesn't revise; it drafts a new, linked ticket for the developer and PM to create in Jira.
+3. **One revision PR.** For a minor change, it works out which documents change (usually the test plan and the plan, sometimes the spec or the architecture), opens `PAY-412/revision-1` with the edits, and posts any questions as one comment, as Intake does (section 5).
+4. **Approval.** The tech lead approves plan and architecture changes, and QA approves new test cases, as usual (section 4). **The PM is mentioned, but their approval is optional.** The stage check doesn't wait for it, and it doesn't count as an override.
+5. **Build and demo again.** Once the revision merges, `/bagheera:build` builds the new phase and `/bagheera:demo` prepares the next demo. The PM's `/approved demo` after it also counts as their approval of every minor revision since the last demo.
+
+### Rules
+
+* **Numbering carries on.** New phases, criteria and questions continue from the last ones (phase 4, `PAY-412-AC-9`, Q7). Nothing approved is renumbered or silently rewritten.
+* **One open revision PR per ticket at a time.** This keeps rule 1 of section 3: no two open PRs write the same file.
+* **The PM can still object.** A PM's comment on a revision PR is read like any other, and the developer can wait for their approval if the PM asks.
+* **The feature stays open until the PM approves a demo.** On the dashboard, a minor revision's PM-owned changes show as waiting for the demo, not as missing approvals.
+* **The library stays approved-only.** A minor revision's PM-owned changes count as approved work once the PM approves the next demo, so the feature entry at Close never includes anything unapproved (design doc 1, section 5).
+
 ## Still to come
 
-8. Another iteration after demo feedback
 9. What runs locally and what runs in CI
