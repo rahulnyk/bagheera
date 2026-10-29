@@ -2,6 +2,8 @@
 
 _Status: approved by the owner, 2026-10-29 · Design doc 3 of 6 · [All design docs](README.md)_
 
+_Team walkthrough deck: [developer-workflow-walkthrough.pptx](developer-workflow-walkthrough.pptx) ([PDF](developer-workflow-walkthrough.pdf))._
+
 A developer takes a feature from a Jira ticket to a shipped, demoed change through eight stages (PRD §5), one command per stage. This doc says where the stage commands come from, what they're called, what each stage writes, how approval works, how build and demo run, and what runs locally and what runs in CI.
 
 Covers PRD P1–P7, C1–C4 and C6. It builds on [design doc 1](knowledge-library.md), which says what each stage adds to the knowledge library (section 5) and what each stage reveals from it (section 9).
