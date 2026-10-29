@@ -49,8 +49,9 @@ These are the questions I expect to bring, in order. They will change as we lear
 4. Approval: the `/approved` comment, the stage check, and recorded overrides ([0002](../decisions/0002-soft-approval-by-comment.md)). **Done:** [0032](../decisions/0032-stage-check-stops-and-records-overrides.md), the command stops; deliberate overrides are recorded
 5. Open questions and how answers reach the next stage. **Done:** [0033](../decisions/0033-answer-open-questions-in-pr-comments.md), plain PR comments, one finalising run (set by the owner)
 6. Build: tests first, one PR per phase, criteria IDs as test names. **Done:** [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md), tests first by the command; coverage checked and results shown by CI
-7. Demo on the stage environment ([0011](../decisions/0011-stage-environment-for-demos.md))
-8. What runs locally and what runs in CI
+7. Demo on the stage environment ([0011](../decisions/0011-stage-environment-for-demos.md)). **Done:** [0035](../decisions/0035-demo-run-by-the-developer.md), run by the developer off the repo; the PM approves on the planning PR (set by the owner)
+8. Another iteration after demo feedback (added by the owner)
+9. What runs locally and what runs in CI
 
 **4. Standards and review**
 1. Standard page format and ownership
@@ -98,6 +99,7 @@ Agreed decisions that change the PRD's wording. The PRD is the owner's document,
 | §8 Preferred building blocks | GitHub Spec Kit "customised through an org preset … and an org extension" | Spec Kit's templates and method, copied into the plugin as commands with the PRD's stage names | [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md) |
 | §8 Preferred building blocks; §9 Foundations; Appendix B | "DeepWiki-Open, run once per repo, to draft the first service pages (K8)"; "first service pages drafted by DeepWiki"; "the one-off DeepWiki run … keep them" | A seeding skill run in Claude Code, once per repo; DeepWiki-Open as the fallback. Q8's "DeepWiki setup" no longer applies. | [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md) |
 | C3 | "A stage refuses to start until its artifact is approved by the designated role" | Add: "unless the developer overrides on purpose; every override is recorded and shown" | [0032](../decisions/0032-stage-check-stops-and-records-overrides.md) |
+| §5 stage 7; C6; P7 | Demo output "Short script and recording of the acceptance criteria running"; C6 "so the PM can accept without a meeting"; P7 "in CI (stages 6–8)" | A short demo script from the criteria; the developer demos it live or shares a recording, as they choose; the PM approves on the planning PR. P7: Verify and Close in CI, Demo run by the developer | [0035](../decisions/0035-demo-run-by-the-developer.md) |
 | K4 | "Agents may merge service and feature page changes after automated checks" | Agents may merge only changes whose every statement restates approved work; inferred changes need the page's owning team | [0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md) |
 
 ## Naming register

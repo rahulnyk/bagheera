@@ -75,7 +75,7 @@ A change from the knowledge agent enters the library on its own only when a pers
 | Any check fails, including the planted-instructions screens | Not until fixed | The page's owners (the platform team during the pilot); only the platform team clears a planted-instructions alarm (section 8) |
 | A statement whose only source is **external** | Never | Nobody; the check rejects it |
 
-**In practice.** Feature entries mostly restate the approved spec, architecture, plan, test plan and demo, so they merge by themselves. Service-page changes read from code get a short review by the service's team. Reviewers see every statement with its source footnote, so they check sources, not prose. Their approval verifies the inferred statements in that PR (sections 1 and 6).
+**In practice.** Feature entries mostly restate the approved spec, architecture, plan and test plan, and the demo's approval, so they merge by themselves. Service-page changes read from code get a short review by the service's team. Reviewers see every statement with its source footnote, so they check sources, not prose. Their approval verifies the inferred statements in that PR (sections 1 and 6).
 
 **One PR never mixes the two kinds.** The knowledge agent puts changes that can merge by themselves and changes that need a person into separate PRs (section 6). How a reviewer's approval is recorded on a library PR is also section 6.
 

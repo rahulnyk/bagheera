@@ -28,7 +28,7 @@ The stage commands are our own, adapted once from GitHub Spec Kit **v1.2.5** (co
 | 4 Test plan | — | All of it: acceptance criteria with stable IDs (C4), test cases |
 | 5 Build | `implement` instructions | Tests first (P5), one PR per phase |
 | 6 Verify | `analyze` instructions (consistency across the stage documents) | The standards and security review (design doc 4) |
-| 7 Demo | — | All of it (C6) |
+| 7 Demo | — | All of it: a demo script from the criteria (section 7) |
 | 8 Close | — | All of it (design doc 1, section 5) |
 
 ### What we leave out
@@ -85,10 +85,10 @@ The plugin is called `bagheera`, and Claude Code puts that name in front of each
 | `/bagheera:test-plan` | Stage 4 | Optional ticket ID |
 | `/bagheera:build` | Stage 5, for one phase | Phase number; with none, the next unbuilt phase |
 | `/bagheera:verify` | Stage 6 | Optional ticket ID |
-| `/bagheera:demo` | Stage 7 | Optional ticket ID |
+| `/bagheera:demo` | Stage 7: prepares the demo script | Optional ticket ID |
 | `/bagheera:close` | Stage 8 | Optional ticket ID |
 
-Stages 6–8 mostly run in CI, through the same skills (section 8).
+Verify and Close mostly run in CI, through the same skills (section 8). The developer runs Demo (section 7).
 
 ### Rules
 
@@ -123,7 +123,6 @@ specs/PAY-412/
   plan.md              Plan: 2–6 phases, each shippable on its own behind a flag
   test-plan.md         Test plan: acceptance criteria with stable IDs, and test cases, per phase
   phase-1-notes.md     Build: lessons and gotchas recorded during phase 1 (one file per phase)
-  demo.md              Demo: the script, and a link to the recording
 ```
 
 * **One document per stage.** Spec Kit's separate research, data-model and quickstart files are folded into `architecture.md`, so an approver reads one page.
@@ -132,7 +131,7 @@ specs/PAY-412/
 * **The harness writes nothing else in the repo.** Where status lives is design doc 5.
 * **Close writes nothing here.** It builds the feature entry in the library (design doc 1, section 5).
 
-Each document's sections come from its stage's template. Sections 5–7 cover the parts that need decisions: open questions, criteria IDs and the demo.
+Each document's sections come from its stage's template. Sections 5 and 6 cover the parts that need decisions: open questions and criteria IDs. The demo leaves nothing in the folder (section 7).
 
 ### PRs and branches
 
@@ -140,7 +139,6 @@ Each document's sections come from its stage's template. Sections 5–7 cover th
 | --- | --- | --- | --- |
 | `PAY-412/planning` | The planning PR, opened by Intake as a draft | `spec.md`, `architecture.md`, `contracts/`, `plan.md`, `test-plan.md` | All four documents are approved (section 4) |
 | `PAY-412/phase-1`, `PAY-412/phase-2`, … | One PR per phase (PRD §5) | Code, tests and that phase's notes file | Code review and CI pass (sections 6 and 8) |
-| `PAY-412/demo` | The demo PR | `demo.md` | The PM approves the demo (section 7) |
 
 * Every stage command ends by committing its document and pushing it to the PR.
 * Re-running a stage on the planning branch replaces its document in the same PR. What that does to an earlier approval is section 4.
@@ -186,7 +184,7 @@ Approval is a comment from someone in the right role. Stage commands stop withou
 | `architecture.md` | A tech lead | `owners` |
 | `plan.md` | A tech lead and a PM | `owners` and `product_owners` |
 | `test-plan.md` | A PM for the acceptance criteria, and QA for the test cases | `product_owners` and `qa` |
-| `demo.md` | A PM | `product_owners` |
+| The demo, on the planning PR (section 7) | A PM | `product_owners` |
 
 `domains.yaml` gains a `qa` entry per domain (design doc 1, section 4). Because each ticket lives in one repo, and each repo in one domain, there's never doubt about whose approval counts.
 
@@ -208,7 +206,7 @@ Every stage command runs it before doing anything else. It reads the PR's commen
 | Plan | `spec.md`, `architecture.md` |
 | Test plan | `spec.md`, `architecture.md`, `plan.md` |
 | Build | All four planning documents, and the planning PR merged |
-| Demo | The phases built and on the stage environment (section 7) |
+| Demo | Every phase merged (section 7) |
 
 When something is missing, the command stops and says what, who it's waiting on, and where:
 
@@ -310,7 +308,26 @@ The dashboard shows the same counts for each feature (design doc 5). Where these
 
 Its CI must save test results in JUnit format, as an artifact named `test-results`. Almost every test runner can produce this, for example pytest's `--junitxml`, Maven's default reports, or a JUnit reporter for Jest or Go. Onboarding a repo includes this one configuration change, which needs no per-team code (PRD P8). Without it, the table shows which criteria have tests, but not whether they pass.
 
+## 7. Demo
+
+_Decided: [ADR 0035](../decisions/0035-demo-run-by-the-developer.md), set by the owner, following [0011](../decisions/0011-stage-environment-for-demos.md)._
+
+The demo happens off the repo. The developer runs it on the stage environment, live in a meeting or as a recording shared however they like. Bagheera prepares the script, and only the PM's acceptance is recorded on GitHub.
+
+### How it goes
+
+1. **When every phase is on stage**, the developer runs `/bagheera:demo`. The stage check confirms that every phase has merged. Deploying to stage is the org's own CD, so the developer confirms the build is there.
+2. **The script.** It writes a short demo script from the approved criteria: for each criterion, what to do on stage, with which data, and what the PM should see. It's shown in the session and saved outside the repo; nothing is committed or pushed.
+3. **The demo.** The developer gives it live in a meeting, or records it and shares the recording however they choose. Claude can help drive a browser for a recording if the developer wants, but nothing requires it.
+4. **Acceptance.** The PM comments `/approved demo` on the feature's planning PR, which is the feature's home on GitHub even after it has merged. That comment is what Close waits for (section 8).
+
+If the demo turns up work that needs more development, the feature goes round again; how is the next step of this doc.
+
+### Note on the PRD
+
+PRD §5 asks for a "recording", C6 for acceptance "without a meeting", and P7 for stages 6–8 in CI. Here the recording is optional, a meeting is fine, and the demo runs on the developer's machine. The wording changes are listed for the owner in [the design index](README.md#prd-wording-to-update).
+
 ## Still to come
 
-7. Demo on the stage environment
-8. What runs locally and what runs in CI
+8. Another iteration after demo feedback
+9. What runs locally and what runs in CI
