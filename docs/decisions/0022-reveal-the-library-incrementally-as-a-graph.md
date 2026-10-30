@@ -29,3 +29,5 @@ Chosen option: B. Header references are the graph's edges. Stage commands reveal
 ## More information
 
 Detail in [design/knowledge-library.md, section 9](../design/knowledge-library.md#9-how-sessions-read-it).
+
+The open point is settled by [0043](0043-reveal-standards-on-first-edit.md): standards arrive through a plugin hook on the first edit of each kind of file, in every session.

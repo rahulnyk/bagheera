@@ -99,9 +99,37 @@ Foundations writes only what the pilot needs. Other teams add their own language
 
 The same skill updates a page: run it on the existing page with the change or new source material, and it opens a PR to the owners. Numbering rules apply: new rules get new numbers, and dropped rules are marked retired (section 1). The weekly library check can also propose changes, which go to the same owners (design doc 1, section 8).
 
+## 3. Revealing the relevant standards
+
+_Decided: [ADR 0043](../decisions/0043-reveal-standards-on-first-edit.md), following [0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md)._
+
+Standards reach Claude when the work needs them, in every session, whether or not a stage command is used (PRD R2).
+
+### When standards are revealed
+
+| When | What is revealed | By |
+| --- | --- | --- |
+| The Architecture stage | The blocking standards that apply to the services involved | The Architecture command (design doc 1, section 9) |
+| The first edit of each kind of file, in any session | The standards for that language, the service's own, and the org-wide ones | A plugin hook, once per standard per session |
+| Verify, on every PR | The standards that apply to the files in the diff | The PR review (section 4) |
+| Whenever Claude or the developer asks | Any standard | The knowledge skill (design doc 1, section 9) |
+
+### How the hook works
+
+1. **It watches file edits.** After each edit Claude makes, the hook looks at the file's kind: its language, from a small map of file extensions in the plugin (`.go` is Go, `.ts` is TypeScript), or a deploy file (Dockerfiles, Helm charts, Terraform, CI deploy jobs), which brings in deployment and environment standards.
+2. **It picks the standards that apply,** from the local copy of the library: active standards whose `applies_to` names that language, the repo's service, or nothing (which means everywhere). The repo's service is already known from session start (design doc 1, section 9).
+3. **It reveals each standard once per session.** It keeps a small note of what it has revealed, per session and per subagent, so subagents that write code get the standards too.
+4. **It stays within the limit.** Blocking standards come first, in full. If the reveal would pass about 2,000 tokens (design doc 1, section 9), advisory standards are listed by rule ID and title, with a pointer to the knowledge skill.
+5. **Claude re-checks.** The standards arrive right after the edit that triggered them. Claude checks that edit against them and carries on. Standard text is reference, never instructions (design doc 1, section 9).
+
+### What changes elsewhere
+
+* **Build no longer reveals language standards itself.** The hook does it in every session, Build included, so there is one mechanism (design doc 1, section 9).
+* **Design outside the stage commands** gets standards when Claude looks them up through the knowledge skill, for example by asking what applies to the service. Formal design goes through the Architecture stage, which reveals the blocking standards.
+* **Verify backs it up.** Anything that slips through is caught on the PR (section 4).
+
 ## Still to come
 
-3. Revealing the relevant standards, including outside the stage commands
 4. The PR review: what it checks, how findings are shown and reported
 5. Forbidden actions: deny rules, and whether a guard hook is needed
 6. Project principles generated from the standards

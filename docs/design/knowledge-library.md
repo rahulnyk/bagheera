@@ -415,11 +415,11 @@ Two ways, both small.
 | --- | --- |
 | Intake | Product decisions governing those services; past features on them (title and "What and why" only) |
 | Architecture | Technical decisions governing them; the Interfaces section of each service they depend on; the blocking standards that apply (PRD R2) |
-| Build | The standards that apply to the languages being changed (PRD R2); the service's Gotchas |
+| Build | The service's Gotchas. The standards for the languages being changed arrive through the first-edit hook, as in every session (PRD R2; [design doc 4, section 3](standards-and-review.md#3-revealing-the-relevant-standards)) |
 | Verify (the PR review in CI) | The standards that apply to the files in the diff |
 | Plan, Test plan, Demo, Close | Nothing new; they work from the approved documents |
 
-How standards are revealed when someone codes outside the stage commands is settled in design doc 4.
+Outside the stage commands, standards arrive through a plugin hook on the first edit of each kind of file, in every session ([design doc 4, section 3](standards-and-review.md#3-revealing-the-relevant-standards)).
 
 **2. Claude explores on demand.** The plugin's knowledge skill answers "what is around this page?" with one line per neighbour (its title and first sentence), and opens a full page only when asked. Claude sees a map before reading anything, and reads only what it needs. Every session can reach the whole library this way; folders don't restrict reading (section 3). The local copy is readable without permission prompts (design doc 6).
 
