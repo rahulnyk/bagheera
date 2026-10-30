@@ -30,3 +30,5 @@ Each standard page names its owning team in `owners`, which can differ from the 
 ## More information
 
 Detail in [design/standards-and-review.md, section 1](../design/standards-and-review.md#1-rules-within-a-standard). Adds the `prefix` field to design doc 1's standard header.
+
+Amended by [0047](0047-architecture-council-owns-standards-prefixes-deny-list.md): the architecture council assigns prefixes and records them in `prefixes.yaml` in the library.

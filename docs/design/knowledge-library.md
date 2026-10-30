@@ -95,6 +95,7 @@ One master library, with pages grouped by type first, then by domain.
 
 ```text
 domains.yaml                 each domain's owners and the code repos it covers
+prefixes.yaml                the prefix of each standard, assigned by the architecture council (design doc 4)
 standards/
   org/                       org-wide standards
   payments/                  additions that apply to one domain only
@@ -210,7 +211,7 @@ payments:
   qa: ["@seeonee/payments-qa"]
   repos: [seeonee/payments-api, seeonee/payments-web, seeonee/ledger-svc]
 org:
-  owners: ["@seeonee/architecture"]
+  owners: ["@seeonee/architecture-council"]
   product_owners: ["@seeonee/product-leads"]
 ```
 
@@ -300,7 +301,7 @@ Every hour, a workflow in the library repo sweeps the PRs merged since its last 
 ### How approval works on library PRs
 
 * **Branch rules on the library's main branch.** Every change goes through a PR. Changes under `standards/`, `services/` and `decisions/` need approval from that folder's owners. `features/`, `index.md` and `CHANGELOG.md` need the checks only.
-* **One place to name owners.** The owners file GitHub uses (CODEOWNERS) is generated from `domains.yaml`, plus each standard page's `owners` ([design doc 4, section 1](standards-and-review.md#1-rules-within-a-standard)). The owners file, `domains.yaml` and the workflows are themselves owned by the platform team.
+* **One place to name owners.** The owners file GitHub uses (CODEOWNERS) is generated from `domains.yaml`, plus each standard page's `owners` ([design doc 4, section 1](standards-and-review.md#1-rules-within-a-standard)). The owners file, `domains.yaml` and the workflows are themselves owned by the platform team; `prefixes.yaml` is owned by the architecture council ([design doc 4, section 1](standards-and-review.md#1-rules-within-a-standard)).
 * **The harness can propose but not approve.** Its GitHub App opens PRs but can't approve them, and can't change the owners file, `domains.yaml` or the workflows.
 * **Owners need write access** to the library repo for their approval to count.
 * **The approval is the verification.** An inferred statement's footnote names the library PR, and the page's `last_verified` names the same PR. The branch rules guarantee that PR had an owner's approval, so nothing has to be edited after approval.
@@ -315,7 +316,7 @@ These run on every library PR and on every push to one, whether the knowledge ag
 
 | Check | What it rejects | Built on |
 | --- | --- | --- |
-| **Header** | Missing, misspelt or unknown fields; values not allowed for the page type; references to IDs that don't exist; a standard's `prefix` missing or already used | The schema per page type (section 4), run by the harness's library checker |
+| **Header** | Missing, misspelt or unknown fields; values not allowed for the page type; references to IDs that don't exist; a standard's `prefix` missing, already used, or not in `prefixes.yaml` | The schema per page type (section 4), run by the harness's library checker |
 | **Shape and length** | Missing or empty required sections; pages over one and a half times their limit (a warning at the limit); logs, transcripts, code blocks over about 10 lines | The library checker |
 | **Sources** | An agent statement without a footnote; a footnote linking outside our GitHub org; a statement whose only source is external; an inferred footnote without its library PR number; any inferred statement in a feature entry, since feature entries need no owner review and may only restate approved work | The library checker |
 | **Allowed paths** | Agent edits outside `standards/`, `services/`, `decisions/` and `features/`; changes to the owners file, `domains.yaml` or workflows by anyone but the platform team | The library checker |

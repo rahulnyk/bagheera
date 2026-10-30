@@ -35,3 +35,5 @@ Chosen option: C.
 ## More information
 
 Detail in [design/standards-and-review.md, section 5](../design/standards-and-review.md#5-forbidden-actions). Sources: Claude Code docs, [permissions](https://code.claude.com/docs/en/permissions) and [sandboxing](https://code.claude.com/docs/en/sandboxing).
+
+Amended by [0047](0047-architecture-council-owns-standards-prefixes-deny-list.md): the deny list is seeded with the harness's scaffolding and edited by the architecture council.

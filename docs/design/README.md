@@ -15,7 +15,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Approved** |
 | 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **Approved** |
 | 3 | [`developer-workflow.md`](developer-workflow.md) ([walkthrough deck](developer-workflow-walkthrough.pptx)) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Approved**; amended with the owner's answers on 2026-10-30 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)–[0040](../decisions/0040-build-phases-one-at-a-time.md)) |
-| 4 | [`standards-and-review.md`](standards-and-review.md) ([walkthrough deck](standards-and-review-walkthrough.pptx)) | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **Draft complete**, awaiting your approval |
+| 4 | [`standards-and-review.md`](standards-and-review.md) ([walkthrough deck](standards-and-review-walkthrough.pptx)) | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **Draft complete**, awaiting your approval; your answers of 2026-10-30 folded in ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md), [0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)) |
 | 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | Not started |
 | 6 | `distribution-security-and-cost.md` | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | Not started |
 
@@ -90,7 +90,7 @@ Kept up to date with every doc, so the total stays visible (the owner's request,
 | --- | --- | --- |
 | `seeonee/bagheera` repo | The plugin, the workflows and their scripts | Docs 1–3 |
 | The plugin | `/bagheera`, the eight stage commands and `/bagheera:revise`; the knowledge skill; `seed-service-page`; `draft-standard`; Baloo and a read-only code reader (subagents); the session-start and first-edit hooks; the feature and stage-check scripts | Docs 1–3 |
-| The library repo (Council Rock) | Pages, `domains.yaml`, the library checker, lychee | Doc 1 |
+| The library repo (Council Rock) | Pages, `domains.yaml`, `prefixes.yaml`, the library checker, lychee | Docs 1 and 4 |
 | Verify workflow | On every PR in onboarded repos, through one org ruleset | Doc 3, section 9; doc 4 |
 | Curation run | Hourly: library updates from merged PRs, Close, bookkeeping. Weekly: the library check and summary | Doc 1, sections 6 and 8; doc 3, section 9 |
 | Dashboard sync | Every 15 minutes: feature status, the criteria results table, and re-running Verify after a dismissal | Doc 3, sections 6 and 9; doc 4, section 4; doc 5 |
@@ -107,6 +107,7 @@ In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No se
 | Claude admin | Settings that install the plugin on every laptop, with the deny rules; the sandbox for the pilot team; CI credentials and a spend limit | Once, and when the deny list changes | Docs 4 and 6 |
 | Each team | JUnit test results from its CI; review its seeded service pages | Once per repo, at onboarding | Docs 2 and 3 |
 | Approvers and page owners | Approve stage documents; review library PRs | Ongoing, as part of their normal work | Docs 1 and 3 |
+| Architecture council (principal and senior staff) | Own the first standards, the prefix register and the deny list; edit them as needed | Foundations, then ongoing | Doc 4 ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)) |
 | Managers | Hold teams to approvals, QA review and tests first, using the dashboard; grant exceptions | Ongoing | Doc 3 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)) |
 
 After setup, onboarding a repo needs nobody outside the platform team and the joining team. Jira needs no admin work: developers' Jira access is already available (confirmed by the owner, 2026-10-30).

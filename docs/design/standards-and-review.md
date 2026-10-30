@@ -12,7 +12,7 @@ Covers PRD R1–R6. It builds on [design doc 1](knowledge-library.md), which set
 
 * **Written once, by their owners.** Standards are owner-approved pages in the library; the harness can propose changes but never approves them (PRD R1; design doc 1, section 2).
 * **Simple for people.** One question per page, stable names for rules, and as few levels as possible (design doc 3).
-* **Owners decide what blocks.** Only written blocking rules fail a PR, and a tech lead can dismiss a mistaken finding, on record (section 4). The only things blocked with no way round them are the four forbidden actions (section 5).
+* **Owners decide what blocks.** Only written blocking rules fail a PR, and the person reviewing it can dismiss a mistaken finding, on record (section 4). The only things blocked with no way round them are the four forbidden actions (section 5).
 
 ## 1. Rules within a standard
 
@@ -38,10 +38,10 @@ type: standard
 id: standards/org/secrets
 title: Secrets and personal data
 domain: org
-owners: ["@seeonee/security"]
+owners: ["@seeonee/architecture-council"]
 status: active
 last_verified: {date: 2026-11-02, review: "library PR #81"}
-approved_by: "@seeonee/security"
+approved_by: "@seeonee/architecture-council"
 approval: <link to library PR #81>
 applies_to: []
 enforcement: blocking
@@ -59,11 +59,21 @@ prefix: sec
 
 ### Ownership
 
-Each standard page names its owning team in `owners`. That can differ from the domain's owners: the security team owns security standards, a platform team owns deployment standards. The owners file GitHub uses is generated from `domains.yaml` and each standard page's `owners`, so the right team's approval is required for every change (design doc 1, section 6).
+Each standard page names its owning team in `owners`. **The architecture council** (principal and senior staff) owns the first standards ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)), and can later hand a page to a specialist team, such as security standards to the security team, by changing its `owners`. The owners file GitHub uses is generated from `domains.yaml` and each standard page's `owners`, so the right team's approval is required for every change (design doc 1, section 6).
+
+### The prefix register
+
+The council assigns prefixes and writes them down in `prefixes.yaml`, at the root of the library beside `domains.yaml` ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)). It owns the file, so adding a prefix is a small library PR the council approves. The generated `index.md` lists every prefix with its page and owners, so anyone can look one up.
+
+```yaml
+sec:    {standard: standards/org/secrets,    owners: ["@seeonee/architecture-council"]}
+deploy: {standard: standards/org/deployment, owners: ["@seeonee/architecture-council"]}
+go:     {standard: standards/org/go,         owners: ["@seeonee/architecture-council"]}
+```
 
 ### What the library checker adds
 
-* A standard without a `prefix`, or with one already used elsewhere, fails the header check.
+* A standard without a `prefix`, with one already used elsewhere, or with one that isn't in `prefixes.yaml` for that page, fails the header check.
 * A rule line that doesn't start with its ID fails the shape check.
 * A rule ID that disappears, rather than being marked retired, fails the shape check. The checker compares the page with the main branch.
 
@@ -75,7 +85,7 @@ Claude drafts each standard from the documents its owners point to; the owners e
 
 ### How a standard is drafted
 
-1. **Start.** An owner, or a platform engineer with them, runs `/bagheera:draft-standard` and gives it the topic, the owning team, where it applies, whether it blocks, a prefix, and the source documents (pasted in or attached).
+1. **Start.** A member of the architecture council, or a platform engineer with them, runs `/bagheera:draft-standard` and gives it the topic, the owning team, where it applies, whether it blocks, a prefix from the register (section 1), and the source documents (pasted in or attached).
 2. **Draft.** Claude writes one page in the standard format (section 1; design doc 1, section 4): numbered rules, each with a one-line reason and a short example, within 500 words. A longer topic, or one with both blocking and advisory rules, becomes more than one page.
 3. **Report.** It lists what it left out and why, for the PR description: rules a linter already enforces, statements too vague to check, duplicates of other standards, and anything that contradicts an org standard.
 4. **PR.** It opens a library PR to the page's owners with the person's own GitHub access. The page is written as `active`, with `approval` set to that PR, because it can only merge once the owners approve it; nothing is edited afterwards. The library checks run, including both planted-instruction screens, since the source documents are outside text (design doc 1, section 7).
@@ -92,11 +102,13 @@ Claude drafts each standard from the documents its owners point to; the owners e
 
 Foundations writes only what the pilot needs. Other teams add their own languages' standards when they join.
 
-| Standard | Typical owners | Why first |
-| --- | --- | --- |
-| Secrets and personal data | The security team | Blocking, and it applies to every repo |
-| Deployment and environments: what may run where, and who may use production credentials | The platform or operations team | PRD R1's "deployment per environment"; it also underpins forbidden actions (section 5) |
-| The pilot team's languages | The pilot domain's tech leads | Build reveals them while code is written (PRD R2) |
+All three are owned by the architecture council to start ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)).
+
+| Standard | Why first |
+| --- | --- |
+| Secrets and personal data | Blocking, and it applies to every repo |
+| Deployment and environments: what may run where, and who may use production credentials | PRD R1's "deployment per environment"; it also underpins forbidden actions (section 5) |
+| The pilot team's languages | Build reveals them while code is written (PRD R2) |
 
 ### Changing a standard later
 
@@ -133,9 +145,9 @@ Standards reach Claude when the work needs them, in every session, whether or no
 
 ## 4. The PR review
 
-_Decided: [ADR 0044](../decisions/0044-blocking-findings-fail-verify-tech-leads-dismiss.md). Where it runs: [design doc 3, section 9](developer-workflow.md#9-what-runs-locally-and-what-runs-in-ci)._
+_Decided: [ADR 0044](../decisions/0044-blocking-findings-fail-verify-tech-leads-dismiss.md), amended by [0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md). Where it runs: [design doc 3, section 9](developer-workflow.md#9-what-runs-locally-and-what-runs-in-ci)._
 
-Verify reviews every PR before a person does, as a required check (PRD R3). Only written blocking rules can fail it, and a tech lead can dismiss a finding the reviewer got wrong.
+Verify reviews every PR before a person does, as a required check (PRD R3). Only written blocking rules can fail it, and the person reviewing the PR can dismiss a finding the reviewer got wrong, on record.
 
 ### What it checks
 
@@ -167,15 +179,16 @@ Build opens phase PRs as drafts, so the review lands before people are asked. Th
 
 ### Dismissing a finding
 
-1. **Who:** a member of the domain's `owners` team in `domains.yaml`, never the PR's author.
+1. **Who:** whoever is reviewing the PR, usually a manager or a senior engineer. The tool enforces no rule about who ([0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)).
 2. **How:** reply on the finding with `/dismiss sec-3 <reason>`. The reason can't be empty.
 3. **Then:** Verify runs again without that finding. GitHub doesn't re-run a required workflow on a comment, so this happens on the next push, or within 15 minutes when the dashboard sync re-runs it. Anyone with write access can also re-run it straight away from the PR's checks.
 4. **Scope:** a dismissal covers that finding on that PR only. The same problem elsewhere is a new finding.
+5. **On record:** who dismissed it and why are recorded on the PR's Verify check and in the weekly report. A dismissal by the PR's own author is accepted, but highlighted in the report for managers.
 
 ### Reporting by team and rule (PRD R6)
 
 * **The record lives on the PR.** Each Verify run writes its findings into its check run on GitHub: rule ID, file and line, blocking or advisory, and whether it was fixed or dismissed. There's no separate store.
-* **Weekly.** The weekly summary (design doc 5) counts findings and dismissals by team and by rule, with the dismissal reasons, and sends each standard's owners the part about their rules.
+* **Weekly.** The weekly summary (design doc 5) counts findings and dismissals by team and by rule, with who dismissed each and why, and sends each standard's owners the part about their rules.
 * **What it tells people.** A rule with many dismissals is probably unclear or wrong, and its owners can fix it. A rule one team breaks often points to something that team hasn't understood, which is for managers.
 
 ### Cost
@@ -218,7 +231,7 @@ Set in managed settings, which developers can't override; how they reach laptops
 }
 ```
 
-* **The real list comes from the standards.** The deployment and environments standard (section 2) says what may run where; its blocking rules become deny rules here. The list lives in `seeonee/bagheera`, the platform team maintains it, and the standard's owners approve changes to it.
+* **A default list ships with the scaffolding.** The harness's setup in `seeonee/bagheera` seeds a default deny list, and the architecture council edits it from there ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)). The council keeps it in line with the deployment and environments standard (section 2), and changes reach laptops through managed settings (design doc 6).
 * **Bypass mode is off,** so nobody can switch the checks off.
 
 ### GitHub's server-side rules
@@ -270,7 +283,7 @@ There's no separate principles file. The architecture itself carries a short sta
 
 * **Blocking rules only**, and only those that bear on the design, to keep it short. Advisory standards are still followed, and Build and Verify bring in everything else (sections 3 and 4).
 * **The tech lead's approval covers it.** `/approved architecture` includes the standards check and any exception in it (design doc 3, section 4).
-* **An approved exception still shows in Verify.** The finding appears on the PR, and the tech lead dismisses it there, citing the approved architecture (section 4). So the exception is on record, and reaches the standard's owners in the weekly report.
+* **An approved exception still shows in Verify.** The finding appears on the PR, and the reviewer dismisses it there, citing the approved architecture (section 4). So the exception is on record, and reaches the standard's owners in the weekly report.
 * **Always from the current standards.** Re-running Architecture refreshes the section. If a standard changes after approval, nothing is regenerated behind anyone's back; Verify checks the code against the current standards anyway.
 
 ### Note on the PRD

@@ -35,3 +35,5 @@ Chosen option: A.
 ## More information
 
 Detail in [design/standards-and-review.md, section 4](../design/standards-and-review.md#4-the-pr-review).
+
+Amended by [0048](0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md): whoever reviews the PR may dismiss, with no rule on who; who and why are always recorded, and self-dismissals are highlighted.

@@ -29,3 +29,5 @@ Chosen option: A. The architecture template has a short "Standards check" sectio
 ## More information
 
 Detail in [design/standards-and-review.md, section 6](../design/standards-and-review.md#6-project-principles-from-the-standards).
+
+Amended by [0048](0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md): the person reviewing the PR, not necessarily the tech lead, dismisses the finding for an approved exception.
