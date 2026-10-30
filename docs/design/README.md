@@ -59,7 +59,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 1. Rules within a standard: IDs, and whether blocking is set per page or per rule (R1, R6). **Done:** [0041](../decisions/0041-blocking-per-page-numbered-rules.md), per page; rules numbered `sec-3`
 2. Writing the first standards (Foundations). **Done:** [0042](../decisions/0042-draft-first-standards-from-owners-documents.md), Claude drafts from the owners' documents; owners edit and approve
 3. Revealing the standards relevant to the work, including when someone codes outside the stage commands ([0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md)). **Done:** [0043](../decisions/0043-reveal-standards-on-first-edit.md), a hook reveals them on the first edit of each kind of file
-4. The PR review: what it checks, how findings are shown and reported (R3, R6)
+4. The PR review: what it checks, how findings are shown and reported (R3, R6). **Done:** [0044](../decisions/0044-blocking-findings-fail-verify-tech-leads-dismiss.md), blocking findings fail Verify; a tech lead can dismiss with a reason
 5. Forbidden actions: deny rules, and whether a guard hook is needed (R4)
 6. Project principles generated from the standards (R5)
 
@@ -93,7 +93,7 @@ Kept up to date with every doc, so the total stays visible (the owner's request,
 | The library repo (Council Rock) | Pages, `domains.yaml`, the library checker, lychee | Doc 1 |
 | Verify workflow | On every PR in onboarded repos, through one org ruleset | Doc 3, section 9; doc 4 |
 | Curation run | Hourly: library updates from merged PRs, Close, bookkeeping. Weekly: the library check and summary | Doc 1, sections 6 and 8; doc 3, section 9 |
-| Dashboard sync | Every 15 minutes: feature status and the criteria results table | Doc 3, sections 6 and 9; doc 5 |
+| Dashboard sync | Every 15 minutes: feature status, the criteria results table, and re-running Verify after a dismissal | Doc 3, sections 6 and 9; doc 4, section 4; doc 5 |
 | GitHub App | Opens library PRs and posts comments | Doc 1, section 6 |
 | GitHub Project | The dashboard | Doc 5 |
 

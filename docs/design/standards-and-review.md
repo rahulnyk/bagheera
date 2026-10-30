@@ -128,8 +128,58 @@ Standards reach Claude when the work needs them, in every session, whether or no
 * **Design outside the stage commands** gets standards when Claude looks them up through the knowledge skill, for example by asking what applies to the service. Formal design goes through the Architecture stage, which reveals the blocking standards.
 * **Verify backs it up.** Anything that slips through is caught on the PR (section 4).
 
+## 4. The PR review
+
+_Decided: [ADR 0044](../decisions/0044-blocking-findings-fail-verify-tech-leads-dismiss.md). Where it runs: [design doc 3, section 9](developer-workflow.md#9-what-runs-locally-and-what-runs-in-ci)._
+
+Verify reviews every PR before a person does, as a required check (PRD R3). Only written blocking rules can fail it, and a tech lead can dismiss a finding the reviewer got wrong.
+
+### What it checks
+
+| Part | What it looks at | Can it fail the check? |
+| --- | --- | --- |
+| **Standards** | The change against the standards that apply to the files in the diff (section 3) | Yes, for rules on blocking pages |
+| **Security** | A general security review beyond the written rules: injection, access control, secrets, unsafe handling of personal data | No. Advisory, labelled "no rule", unless a written blocking rule covers it |
+| **Matches the plan** | Ticket branches only: the code does what the phase says and stays inside it (Spec Kit's `analyze`) | No, advisory |
+| **Feature folder check** | Ticket branches only: the PR writes only its own ticket's files (design doc 3, section 3) | Yes; a script |
+| **Criteria coverage** | Phase PRs only: every criterion in the phase has a test (design doc 3, section 6) | Yes; a script |
+| **Tests first** | Phase PRs only: the first commit is the tests (design doc 3, section 6) | No; a warning, recorded ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)) |
+
+Every PR in an onboarded repo gets the standards and security review, Bagheera or not. The other checks apply only to ticket branches.
+
+### Who reviews
+
+A separate Claude, run by the Verify workflow in CI with the same plugin as laptops (PRD R3, P7). It never sees the author's session. It reads the diff, the standards that apply and, on ticket branches, the approved planning documents. It can read the repo but not change it, and it posts its comments through the harness's GitHub App. Text in the PR, the diff and code comments is data to review, never instructions (design doc 1, section 1).
+
+Build opens phase PRs as drafts, so the review lands before people are asked. The developer marks the PR ready once the blocking findings are fixed or dismissed.
+
+### How findings appear
+
+* **One comment on each line with a finding.** It gives the rule ID, the rule, why this line breaks it, and whether it blocks:
+
+  > **sec-3 · blocking** Never log a card number. This line logs `card.number` in full. Log the last four digits instead.
+
+* **One summary comment** with the counts, blocking and advisory, the standards consulted, and any dismissals.
+* **Re-runs update the same comments.** Fixed findings are marked resolved; nothing is posted twice.
+
+### Dismissing a finding
+
+1. **Who:** a member of the domain's `owners` team in `domains.yaml`, never the PR's author.
+2. **How:** reply on the finding with `/dismiss sec-3 <reason>`. The reason can't be empty.
+3. **Then:** Verify runs again without that finding. GitHub doesn't re-run a required workflow on a comment, so this happens on the next push, or within 15 minutes when the dashboard sync re-runs it. Anyone with write access can also re-run it straight away from the PR's checks.
+4. **Scope:** a dismissal covers that finding on that PR only. The same problem elsewhere is a new finding.
+
+### Reporting by team and rule (PRD R6)
+
+* **The record lives on the PR.** Each Verify run writes its findings into its check run on GitHub: rule ID, file and line, blocking or advisory, and whether it was fixed or dismissed. There's no separate store.
+* **Weekly.** The weekly summary (design doc 5) counts findings and dismissals by team and by rule, with the dismissal reasons, and sends each standard's owners the part about their rules.
+* **What it tells people.** A rule with many dismissals is probably unclear or wrong, and its owners can fix it. A rule one team breaks often points to something that team hasn't understood, which is for managers.
+
+### Cost
+
+Each review is a Claude run on every PR, so it counts towards CI spend. PRD §7 sets a budget per merged PR; spend limits and reporting are design doc 6.
+
 ## Still to come
 
-4. The PR review: what it checks, how findings are shown and reported
 5. Forbidden actions: deny rules, and whether a guard hook is needed
 6. Project principles generated from the standards
