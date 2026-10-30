@@ -30,3 +30,5 @@ Chosen option: A. The plugin is named `bagheera`. Each stage is its own skill: `
 ## More information
 
 Detail in [design/developer-workflow.md, section 2](../design/developer-workflow.md#2-command-names). Built-in commands: Claude Code's [commands reference](https://code.claude.com/docs/en/commands); plugin skill naming: [skills](https://code.claude.com/docs/en/skills).
+
+Amended by [0040](0040-build-phases-one-at-a-time.md): `/bagheera:build` takes no phase number; it builds the next phase.

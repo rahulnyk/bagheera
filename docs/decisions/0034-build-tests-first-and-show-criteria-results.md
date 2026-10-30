@@ -29,3 +29,5 @@ Chosen option: A. `/bagheera:build <phase>` writes the phase's tests from the te
 ## More information
 
 Detail in [design/developer-workflow.md, section 6](../design/developer-workflow.md#6-build).
+
+Amended by [0038](0038-managers-enforce-qa-review-and-tests-first.md) (a missing tests-first commit is also recorded on the dashboard; managers enforce it) and [0040](0040-build-phases-one-at-a-time.md) (phases one at a time; no phase number).

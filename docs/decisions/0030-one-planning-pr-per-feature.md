@@ -37,3 +37,5 @@ Every stage command ends by committing and pushing, so a ticket can be handed ov
 ## More information
 
 Detail in [design/developer-workflow.md, section 3](../design/developer-workflow.md#3-what-each-stage-writes-and-how-it-reaches-the-main-branch).
+
+Amended by [0040](0040-build-phases-one-at-a-time.md): rule 2 is stricter; a ticket's phases go one at a time, even when independent.

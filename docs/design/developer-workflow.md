@@ -1,6 +1,6 @@
 # Developer workflow
 
-_Status: approved by the owner, 2026-10-29 · Design doc 3 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-29; amended with the owner's answers, 2026-10-30 · Design doc 3 of 6 · [All design docs](README.md)_
 
 _Team walkthrough deck: [developer-workflow-walkthrough.pptx](developer-workflow-walkthrough.pptx) ([PDF](developer-workflow-walkthrough.pdf))._
 
@@ -13,6 +13,8 @@ Covers PRD P1–P7, C1–C4 and C6. It builds on [design doc 1](knowledge-librar
 * **One path.** One command per stage. Each can be re-run on its own and reads only earlier stage documents and the library (PRD P2).
 * **The same everywhere.** Everything ships in the plugin; nothing is set up per repo (PRD P4, [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)).
 * **Plain words.** The PRD's stage names, in commands, documents, the dashboard and the guide (PRD P6, [0003](../decisions/0003-stage-names-from-the-prd.md)).
+* **Simple for people.** The harness is used by people, so cognitive simplicity is a necessity for adoption: fewer choices and one path, even where the tool could allow more (set by the owner, 2026-10-30; [0040](../decisions/0040-build-phases-one-at-a-time.md)).
+* **Managers enforce, the harness records.** Rules about how people work, such as QA review and tests first, are enforced by managers, who also grant exceptions. The harness warns and records; it doesn't block (set by the owner, 2026-10-30; [0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)).
 
 ## 1. Where the stage commands come from
 
@@ -85,7 +87,7 @@ The plugin is called `bagheera`, and Claude Code puts that name in front of each
 | `/bagheera:architecture` | Stage 2 | Optional ticket ID |
 | `/bagheera:plan` | Stage 3 | Optional ticket ID |
 | `/bagheera:test-plan` | Stage 4 | Optional ticket ID |
-| `/bagheera:build` | Stage 5, for one phase | Phase number; with none, the next unbuilt phase |
+| `/bagheera:build` | Stage 5: builds the next phase, or carries on with the open one (phases go one at a time, section 6) | None |
 | `/bagheera:verify` | Stage 6 | Optional ticket ID |
 | `/bagheera:demo` | Stage 7: prepares the demo script | Optional ticket ID |
 | `/bagheera:close` | Stage 8: runs automatically in CI; typed by hand, shows what Close is waiting for (section 9) | Optional ticket ID |
@@ -151,7 +153,7 @@ Each document's sections come from its stage's template. Sections 5 and 6 cover 
 ### Rules that keep merges simple
 
 1. **No two open PRs write the same file.** The planning PR writes only the feature's folder, each build phase writes only its own notes file there, and nothing shared, such as an index or a status file, is committed to a product repo.
-2. **Always branch from the main branch, never from an unmerged branch.** A phase that needs the previous phase's code waits for it to merge. With no stacked PRs, a squash merge never forces a rebase.
+2. **Always branch from the main branch, never from an unmerged branch.** A ticket's phases go one at a time: the next starts only after the previous one has merged ([0040](../decisions/0040-build-phases-one-at-a-time.md)). With no stacked PRs, a squash merge never forces a rebase.
 3. **Bring the main branch in by merging** (GitHub's "Update branch"), never by rebasing or force-pushing. Because of rule 1, this never conflicts on the harness's files, and nobody else's checkout breaks.
 4. **Branches are named after the ticket, not the person.**
 
@@ -187,7 +189,7 @@ Approval is a comment from someone in the right role. Stage commands stop withou
 | `spec.md` | A PM | `product_owners` |
 | `architecture.md` | A tech lead | `owners` |
 | `plan.md` | A tech lead and a PM | `owners` and `product_owners` |
-| `test-plan.md` | A PM for the acceptance criteria, and QA for the test cases | `product_owners` and `qa` |
+| `test-plan.md` | A PM for the acceptance criteria; QA for the test cases, encouraged but not required by the tool (below) | `product_owners` and `qa` |
 | The demo, on the planning PR (section 7) | A PM | `product_owners` |
 
 `domains.yaml` gains a `qa` entry per domain (design doc 1, section 4). Because each ticket lives in one repo, and each repo in one domain, there's never doubt about whose approval counts. In a minor revision, the PM's approval is optional (section 8).
@@ -195,8 +197,10 @@ Approval is a comment from someone in the right role. Stage commands stop withou
 ### How to approve
 
 * **Comment on the PR** with `/approved <document>` on its own line: `/approved spec`, `/approved architecture`, `/approved plan`, `/approved test-plan`, `/approved demo`. A GitHub review whose text contains the same line counts too, so a tech lead can approve the plan and the PR's merge in one step.
-* **The commenter's role decides what it counts for.** On `test-plan.md`, a PM's approval covers the criteria and QA's covers the cases; both are needed. On `plan.md`, one tech lead and one PM are needed.
-* **An approval covers the document as it was** when the approval was given. If a later commit changes that document, its approval no longer counts. Other documents keep theirs, but the stage check notes when a document changed after a later one was approved, so that later approver can take a look.
+* **The commenter's role decides what it counts for.** On `test-plan.md`, a PM's approval covers the criteria and QA's covers the cases. On `plan.md`, one tech lead and one PM are needed.
+* **An approval covers the document as it was** when the approval was given. If a later commit changes that document, its approval no longer counts, unless the change is a marked wording fix (below). Other documents keep theirs, but the stage check notes when a document changed after a later one was approved, so that later approver can take a look.
+* **Wording fixes keep an approval** ([0039](../decisions/0039-wording-fixes-keep-an-approval.md)). A wording fix corrects spelling, grammar or formatting and changes no meaning. When a stage command makes one, Claude marks the commit with the trailer `Bagheera-Change: wording`; a person editing by hand adds the same trailer. The marked commits stay listed on the PR, so approvers can see them and object.
+* **QA review is encouraged, not enforced by the tool** ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)). A missing QA approval of the test cases never stops a stage. The stage check warns, and the gap is recorded on the dashboard and in the weekly summary; managers decide when it's needed and grant exceptions.
 * **Nobody approves their own work.** An approval from anyone who committed a change to that document doesn't count.
 * **Local edits never count** (PRD C3). Approvals exist only as GitHub comments and reviews.
 
@@ -209,7 +213,7 @@ Every stage command runs it before doing anything else. It reads the PR's commen
 | Architecture | `spec.md` |
 | Plan | `spec.md`, `architecture.md` |
 | Test plan | `spec.md`, `architecture.md`, `plan.md` |
-| Build | All four planning documents, and the planning PR merged. After a revision: its approvals from roles other than the PM, and the revision PR merged (section 8) |
+| Build | All four planning documents, with the PM's approval of the test plan's criteria, and the planning PR merged; the previous phase merged. After a revision: the tech lead's approvals, and the revision PR merged (section 8). A missing QA approval only warns. |
 | Demo | Every phase merged (section 7) |
 
 When something is missing, the command stops and says what, who it's waiting on, and where:
@@ -220,7 +224,9 @@ Waiting on: @seeonee/payments-pms. PR: seeonee/payments-api#512
 To go ahead anyway: /bagheera:architecture --override "<reason>"
 ```
 
-Re-running a stage whose own document is already approved warns first, because changing that document cancels its approval.
+Re-running a stage whose own document is already approved warns first, because changing that document cancels its approval unless the change is wording only.
+
+**Warnings, not stops.** Two gaps are warned about and recorded on the dashboard and in the weekly summary, but never stop anything: a missing QA approval of the test cases, and a phase PR without a tests-first commit (section 6). Managers act on them (0038).
 
 ### Overrides
 
@@ -278,9 +284,9 @@ Each phase is built tests first in its own PR (PRD P5), and every acceptance cri
 
 ### One phase, step by step
 
-`/bagheera:build 2`, or `/bagheera:build` for the next unbuilt phase:
+`/bagheera:build` builds the next phase. A ticket's phases go one at a time, in order, even when they're independent, to keep the path simple ([0040](../decisions/0040-build-phases-one-at-a-time.md)).
 
-1. **Check.** The stage check confirms that all four planning documents are approved and the planning PR has merged (section 4). If this phase needs the previous one's code, it must have merged too (section 3, rule 2).
+1. **Check.** The stage check confirms that the planning documents are approved, the planning PR has merged and the previous phase has merged (section 4).
 2. **Branch.** It creates `PAY-412/phase-2` from the main branch.
 3. **Tests first.** It writes tests for the phase's criteria from `test-plan.md`, named with their IDs, runs them, and confirms they fail for the expected reason (missing behaviour, not a broken test). It commits them on their own, marked with the trailer `Bagheera-Step: tests-first`.
 4. **Code.** It writes code until the phase's tests pass, along with the repo's existing tests. The phase's work sits behind the flag named in the plan, using the org's own flag system.
@@ -296,7 +302,7 @@ The developer reviews and steers throughout; Build is a working session with Cla
 | Check | What it does | If it fails |
 | --- | --- | --- |
 | **Criteria coverage** | Every criterion assigned to this phase has at least one test whose name carries its ID | The check fails |
-| **Tests first** | The PR's first commit is the tests-first commit | A warning on the PR, in keeping with soft enforcement |
+| **Tests first** | The PR's first commit is the tests-first commit | A warning on the PR, recorded on the dashboard and in the weekly summary. Managers enforce tests first ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)). |
 | **Criteria results** | Reads the test results and keeps one PR comment up to date with a table by criterion | Shows "no result" for a criterion whose tests didn't run |
 
 The results comment looks like this:
@@ -344,7 +350,7 @@ When a demo, or anything else after planning has merged, turns up more work, the
    * **Minor:** it stays within the ticket's approved scope. For example, a criterion clarified or tightened, a small change to wording or behaviour, or a fix where the build didn't meet a criterion as intended.
    * **Major:** a new capability, criteria the spec's goals don't cover, or a change to interfaces other tickets rely on. The command doesn't revise; it drafts a new, linked ticket for the developer and PM to create in Jira.
 3. **One revision PR.** For a minor change, it works out which documents change (usually the test plan and the plan, sometimes the spec or the architecture), opens `PAY-412/revision-1` with the edits, and posts any questions as one comment, as Intake does (section 5).
-4. **Approval.** The tech lead approves plan and architecture changes, and QA approves new test cases, as usual (section 4). **The PM is mentioned, but their approval is optional.** The stage check doesn't wait for it, and it doesn't count as an override.
+4. **Approval.** The tech lead approves plan and architecture changes, as usual, and QA's review of new test cases is encouraged, as everywhere (section 4). **The PM is mentioned, but their approval is optional.** The stage check doesn't wait for it, and it doesn't count as an override.
 5. **Build and demo again.** Once the revision merges, `/bagheera:build` builds the new phase and `/bagheera:demo` prepares the next demo. The PM's `/approved demo` after it also counts as their approval of every minor revision since the last demo.
 
 ### Rules
