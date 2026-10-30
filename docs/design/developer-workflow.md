@@ -27,7 +27,7 @@ The stage commands are our own, adapted once from GitHub Spec Kit **v1.2.5** (co
 | Our stage | Taken from Spec Kit | Written by us |
 | --- | --- | --- |
 | 1 Intake | `specify` and `clarify` instructions; spec template | Drafting from the Jira ticket and linked documents (P1); open questions for the PM (C2) |
-| 2 Architecture | `plan` instructions; plan template (research, data model, interfaces) | Diagram and proposed decisions (PRD §5) |
+| 2 Architecture | `plan` instructions; plan template (research, data model, interfaces) | Diagram, proposed decisions (PRD §5) and a standards check ([design doc 4, section 6](standards-and-review.md#6-project-principles-from-the-standards)) |
 | 3 Plan | `tasks` instructions; tasks template | 2–6 phases, each shippable on its own behind a flag |
 | 4 Test plan | — | All of it: acceptance criteria with stable IDs (C4), test cases |
 | 5 Build | `implement` instructions | Tests first (P5), one PR per phase |
@@ -42,7 +42,7 @@ The stage commands are our own, adapted once from GitHub Spec Kit **v1.2.5** (co
 | Helper scripts (bash, PowerShell, Python) | They mostly number features, resolve presets and support many AI tools. One short script of our own finds or creates the feature's folder (`specs/<TICKET>/`) and branch, and lists its stage documents. |
 | Extension hooks (`.specify/extensions.yml`) and presets | We change the content directly instead |
 | Support for other AI tools | We only run in Claude Code |
-| `constitution` | Becomes project principles generated from the standards (PRD R5, design doc 4) |
+| `constitution` | Replaced by the standards check in the architecture, filled from the current standards (PRD R5; [design doc 4, section 6](standards-and-review.md#6-project-principles-from-the-standards)) |
 | `taskstoissues` | Jira is link-only ([0006](../decisions/0006-jira-link-only.md)) |
 | `checklist`, `converge` | Not needed for the PRD's stages; the quarterly review can bring them in later |
 
@@ -123,7 +123,7 @@ _Decided: [ADR 0030](../decisions/0030-one-planning-pr-per-feature.md) for PRs a
 ```text
 specs/PAY-412/
   spec.md              Intake: the spec, with open questions for the PM
-  architecture.md      Architecture: components, interfaces, data model, a diagram, proposed decisions
+  architecture.md      Architecture: components, interfaces, data model, a diagram, proposed decisions, a standards check
   contracts/           Architecture, only when the feature defines machine-readable interfaces (OpenAPI, protobuf)
   plan.md              Plan: 2–6 phases, each shippable on its own behind a flag
   test-plan.md         Test plan: acceptance criteria with stable IDs, and test cases, per phase

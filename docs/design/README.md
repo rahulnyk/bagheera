@@ -15,7 +15,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Approved** |
 | 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **Approved** |
 | 3 | [`developer-workflow.md`](developer-workflow.md) ([walkthrough deck](developer-workflow-walkthrough.pptx)) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Approved**; amended with the owner's answers on 2026-10-30 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)–[0040](../decisions/0040-build-phases-one-at-a-time.md)) |
-| 4 | [`standards-and-review.md`](standards-and-review.md) | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **In progress** |
+| 4 | [`standards-and-review.md`](standards-and-review.md) | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **Draft complete**, awaiting your approval |
 | 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | Not started |
 | 6 | `distribution-security-and-cost.md` | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | Not started |
 
@@ -61,7 +61,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 3. Revealing the standards relevant to the work, including when someone codes outside the stage commands ([0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md)). **Done:** [0043](../decisions/0043-reveal-standards-on-first-edit.md), a hook reveals them on the first edit of each kind of file
 4. The PR review: what it checks, how findings are shown and reported (R3, R6). **Done:** [0044](../decisions/0044-blocking-findings-fail-verify-tech-leads-dismiss.md), blocking findings fail Verify; a tech lead can dismiss with a reason
 5. Forbidden actions: deny rules, and whether a guard hook is needed (R4). **Done:** [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md), deny rules and GitHub's rules now; the sandbox trialled in the pilot
-6. Project principles generated from the standards (R5)
+6. Project principles generated from the standards (R5). **Done:** [0046](../decisions/0046-standards-check-in-the-architecture.md), a standards check in the architecture, filled from the current standards
 
 **5. Status and dashboard**
 1. Where status data lives ([0005](../decisions/0005-view-only-dashboard.md))
@@ -147,6 +147,7 @@ Agreed decisions that change the PRD's wording. The PRD is the owner's document,
 | §8 Preferred building blocks; §9 Foundations; Appendix B | "DeepWiki-Open, run once per repo, to draft the first service pages (K8)"; "first service pages drafted by DeepWiki"; "the one-off DeepWiki run … keep them" | A seeding skill run in Claude Code, once per repo; DeepWiki-Open as the fallback. Q8's "DeepWiki setup" no longer applies. | [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md) |
 | C3 | "A stage refuses to start until its artifact is approved by the designated role" | Add: "unless the developer overrides on purpose; every override is recorded and shown" | [0032](../decisions/0032-stage-check-stops-and-records-overrides.md) |
 | §5 stage 7; C6; P7 | Demo output "Short script and recording of the acceptance criteria running"; C6 "so the PM can accept without a meeting"; P7 "in CI (stages 6–8)" | A short demo script from the criteria; the developer demos it live or shares a recording, as they choose; the PM approves on the planning PR. P7: Verify and Close in CI, Demo run by the developer | [0035](../decisions/0035-demo-run-by-the-developer.md) |
+| R5 | "The feature pipeline's templates and project principles are generated from the standards" | The architecture template has a standards check section, filled from the current standards on each run; no separate principles file | [0046](../decisions/0046-standards-check-in-the-architecture.md) |
 | K4 | "Agents may merge service and feature page changes after automated checks" | Agents may merge only changes whose every statement restates approved work; inferred changes need the page's owning team | [0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md) |
 
 ## Naming register

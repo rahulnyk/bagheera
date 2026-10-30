@@ -1,6 +1,6 @@
 # Standards and review
 
-_Status: in progress · Design doc 4 of 6 · [All design docs](README.md)_
+_Status: draft complete, awaiting the owner's approval · Design doc 4 of 6 · [All design docs](README.md)_
 
 Standards are written once by their owners and applied everywhere: in Claude's context when it designs and writes code, checked on every PR, with dangerous actions blocked outright (PRD G2). This doc says how rules are named, how the first standards get written, how sessions see the relevant ones, what the PR review checks and how its findings are reported, how forbidden actions are blocked, and how project principles come from the standards.
 
@@ -10,6 +10,7 @@ Covers PRD R1–R6. It builds on [design doc 1](knowledge-library.md), which set
 
 * **Written once, by their owners.** Standards are owner-approved pages in the library; the harness can propose changes but never approves them (PRD R1; design doc 1, section 2).
 * **Simple for people.** One question per page, stable names for rules, and as few levels as possible (design doc 3).
+* **Owners decide what blocks.** Only written blocking rules fail a PR, and a tech lead can dismiss a mistaken finding, on record (section 4). The only things blocked with no way round them are the four forbidden actions (section 5).
 
 ## 1. Rules within a standard
 
@@ -243,6 +244,33 @@ In a test repo, the platform team tries to make Claude deploy, force-push, read 
 
 Until the pilot decision, deploy commands and production credentials are blocked only in the usual forms, outside the pilot team's sandboxed machines. So R4's "blocked outright" isn't fully met for those two in the meantime. The decision before rollout closes this.
 
-## Still to come
+## 6. Project principles from the standards
 
-6. Project principles generated from the standards
+_Decided: [ADR 0046](../decisions/0046-standards-check-in-the-architecture.md)._
+
+There's no separate principles file. The architecture itself carries a short standards check, filled from the current standards each time it is drafted (PRD R5).
+
+### The standards check
+
+`architecture.md` has a "Standards check" section. When `/bagheera:architecture` runs, it fills the section from the blocking standards revealed for the services involved (section 3): one line for each rule that bears on the design, saying how the design meets it, or marking an exception with its reason.
+
+```markdown
+## Standards check
+
+| Rule | How the design meets it |
+| --- | --- |
+| sec-1 | The refund service reads the payment key from the vault |
+| sec-3 | Refund logs carry the card's last four digits only |
+| deploy-2 | **Exception:** the refund job runs hourly from stage for one release, while ops moves it. Tech lead to confirm. |
+```
+
+### Rules
+
+* **Blocking rules only**, and only those that bear on the design, to keep it short. Advisory standards are still followed, and Build and Verify bring in everything else (sections 3 and 4).
+* **The tech lead's approval covers it.** `/approved architecture` includes the standards check and any exception in it (design doc 3, section 4).
+* **An approved exception still shows in Verify.** The finding appears on the PR, and the tech lead dismisses it there, citing the approved architecture (section 4). So the exception is on record, and reaches the standard's owners in the weekly report.
+* **Always from the current standards.** Re-running Architecture refreshes the section. If a standard changes after approval, nothing is regenerated behind anyone's back; Verify checks the code against the current standards anyway.
+
+### Note on the PRD
+
+R5 says the pipeline's "templates and project principles are generated from the standards". Here the template stays fixed and its standards section is filled from them, with no separate principles file. The wording change is listed for the owner in [the design index](README.md#prd-wording-to-update).
