@@ -15,7 +15,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | 1 | [`knowledge-library.md`](knowledge-library.md) ([walkthrough deck](knowledge-library-walkthrough.pptx)) | How the knowledge library is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it | K1–K7, K9, K10 | **Approved** |
 | 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **Approved** |
 | 3 | [`developer-workflow.md`](developer-workflow.md) ([walkthrough deck](developer-workflow-walkthrough.pptx)) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Approved**; amended with the owner's answers on 2026-10-30 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)–[0040](../decisions/0040-build-phases-one-at-a-time.md)) |
-| 4 | `standards-and-review.md` | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **In progress** |
+| 4 | [`standards-and-review.md`](standards-and-review.md) | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **In progress** |
 | 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | Not started |
 | 6 | `distribution-security-and-cost.md` | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | Not started |
 
@@ -56,7 +56,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 **4. Standards and review**
 
 Doc 1 already set the standard page's header, shape, layout and owner approval ([0015](../decisions/0015-typed-page-headers.md), [0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)).
-1. Rules within a standard: IDs, and whether blocking is set per page or per rule (R1, R6)
+1. Rules within a standard: IDs, and whether blocking is set per page or per rule (R1, R6). **Done:** [0041](../decisions/0041-blocking-per-page-numbered-rules.md), per page; rules numbered `sec-3`
 2. Writing the first standards (Foundations)
 3. Revealing the standards relevant to the work, including when someone codes outside the stage commands ([0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md))
 4. The PR review: what it checks, how findings are shown and reported (R3, R6)
