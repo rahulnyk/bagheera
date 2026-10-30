@@ -162,7 +162,7 @@ Standards, and decision records written by people, record their provenance once 
 
 | Field | What it holds |
 | --- | --- |
-| `approved_by` | Who approved the page |
+| `approved_by` | Who approved the page: the owning team, written when the PR opens; the PR records the person ([design doc 4, section 2](standards-and-review.md#2-writing-the-first-standards)) |
 | `approval` | Link to the approval |
 
 ### Fields by page type

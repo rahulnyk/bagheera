@@ -57,7 +57,7 @@ These are the questions I expect to bring, in order. They will change as we lear
 
 Doc 1 already set the standard page's header, shape, layout and owner approval ([0015](../decisions/0015-typed-page-headers.md), [0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)).
 1. Rules within a standard: IDs, and whether blocking is set per page or per rule (R1, R6). **Done:** [0041](../decisions/0041-blocking-per-page-numbered-rules.md), per page; rules numbered `sec-3`
-2. Writing the first standards (Foundations)
+2. Writing the first standards (Foundations). **Done:** [0042](../decisions/0042-draft-first-standards-from-owners-documents.md), Claude drafts from the owners' documents; owners edit and approve
 3. Revealing the standards relevant to the work, including when someone codes outside the stage commands ([0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md))
 4. The PR review: what it checks, how findings are shown and reported (R3, R6)
 5. Forbidden actions: deny rules, and whether a guard hook is needed (R4)
@@ -89,7 +89,7 @@ Kept up to date with every doc, so the total stays visible (the owner's request,
 | Part | What it is | Where designed |
 | --- | --- | --- |
 | `seeonee/bagheera` repo | The plugin, the workflows and their scripts | Docs 1–3 |
-| The plugin | `/bagheera`, the eight stage commands and `/bagheera:revise`; the knowledge skill; `seed-service-page`; Baloo and a read-only code reader (subagents); the session-start hook; the feature and stage-check scripts | Docs 1–3 |
+| The plugin | `/bagheera`, the eight stage commands and `/bagheera:revise`; the knowledge skill; `seed-service-page`; `draft-standard`; Baloo and a read-only code reader (subagents); the session-start hook; the feature and stage-check scripts | Docs 1–3 |
 | The library repo (Council Rock) | Pages, `domains.yaml`, the library checker, lychee | Doc 1 |
 | Verify workflow | On every PR in onboarded repos, through one org ruleset | Doc 3, section 9; doc 4 |
 | Curation run | Hourly: library updates from merged PRs, Close, bookkeeping. Weekly: the library check and summary | Doc 1, sections 6 and 8; doc 3, section 9 |

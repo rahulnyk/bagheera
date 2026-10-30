@@ -38,7 +38,7 @@ domain: org
 owners: ["@seeonee/security"]
 status: active
 last_verified: {date: 2026-11-02, review: "library PR #81"}
-approved_by: "@ravi"
+approved_by: "@seeonee/security"
 approval: <link to library PR #81>
 applies_to: []
 enforcement: blocking
@@ -64,9 +64,43 @@ Each standard page names its owning team in `owners`. That can differ from the d
 * A rule line that doesn't start with its ID fails the shape check.
 * A rule ID that disappears, rather than being marked retired, fails the shape check. The checker compares the page with the main branch.
 
+## 2. Writing the first standards
+
+_Decided: [ADR 0042](../decisions/0042-draft-first-standards-from-owners-documents.md)._
+
+Claude drafts each standard from the documents its owners point to; the owners edit and approve it.
+
+### How a standard is drafted
+
+1. **Start.** An owner, or a platform engineer with them, runs `/bagheera:draft-standard` and gives it the topic, the owning team, where it applies, whether it blocks, a prefix, and the source documents (pasted in or attached).
+2. **Draft.** Claude writes one page in the standard format (section 1; design doc 1, section 4): numbered rules, each with a one-line reason and a short example, within 500 words. A longer topic, or one with both blocking and advisory rules, becomes more than one page.
+3. **Report.** It lists what it left out and why, for the PR description: rules a linter already enforces, statements too vague to check, duplicates of other standards, and anything that contradicts an org standard.
+4. **PR.** It opens a library PR to the page's owners with the person's own GitHub access. The page is written as `active`, with `approval` set to that PR, because it can only merge once the owners approve it; nothing is edited afterwards. The library checks run, including both planted-instruction screens, since the source documents are outside text (design doc 1, section 7).
+5. **Approve.** The owners edit the PR as they see fit and approve it. As an owner-written page, their approval means they vouch for every line (design doc 1, section 1).
+
+### Rules for drafting
+
+* **The owners choose the sources.** Claude rewrites them into short rules rather than copying them; long passages copied word for word are flagged by the pattern screen anyway.
+* **Every rule can be checked.** A reviewer, person or Claude, must be able to tell from a diff whether the rule is broken. Vague advice ("write clean code") is left out and listed in the report.
+* **Don't restate what a linter enforces.** The page links to the linter's settings instead, so the PR review never duplicates a check CI already runs.
+* **Domain standards add to org standards, never contradict them** (design doc 1, section 3). The skill checks a draft against the org standards and flags conflicts in the report.
+
+### What comes first
+
+Foundations writes only what the pilot needs. Other teams add their own languages' standards when they join.
+
+| Standard | Typical owners | Why first |
+| --- | --- | --- |
+| Secrets and personal data | The security team | Blocking, and it applies to every repo |
+| Deployment and environments: what may run where, and who may use production credentials | The platform or operations team | PRD R1's "deployment per environment"; it also underpins forbidden actions (section 5) |
+| The pilot team's languages | The pilot domain's tech leads | Build reveals them while code is written (PRD R2) |
+
+### Changing a standard later
+
+The same skill updates a page: run it on the existing page with the change or new source material, and it opens a PR to the owners. Numbering rules apply: new rules get new numbers, and dropped rules are marked retired (section 1). The weekly library check can also propose changes, which go to the same owners (design doc 1, section 8).
+
 ## Still to come
 
-2. Writing the first standards
 3. Revealing the relevant standards, including outside the stage commands
 4. The PR review: what it checks, how findings are shown and reported
 5. Forbidden actions: deny rules, and whether a guard hook is needed
