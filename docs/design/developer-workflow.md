@@ -132,7 +132,7 @@ specs/PAY-412/
 
 * **One document per stage.** Spec Kit's separate research, data-model and quickstart files are folded into `architecture.md`, so an approver reads one page.
 * **Diagrams are Mermaid** inside the document. GitHub renders them on the PR page, so PMs see them without developer tools (PRD C1).
-* **Only `spec.md` has a header**, recording the ticket and its related tickets. The folder and file names say the rest.
+* **Only `spec.md` has a header**, recording the ticket, its related tickets, and the story's named PM, tech lead and QA ([design doc 5, section 2](status-and-dashboard.md#2-the-status-model)). The folder and file names say the rest.
 * **The harness writes nothing else in the repo.** Where status lives is design doc 5.
 * **Close writes nothing here.** It builds the feature entry in the library (design doc 1, section 5).
 

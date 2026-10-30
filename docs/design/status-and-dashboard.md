@@ -42,9 +42,60 @@ GitHub is the record. Every 15 minutes the dashboard sync job reads each story's
 * **Nothing is stored anywhere else:** no status file in product repos (design doc 3, section 3, rule 1), nothing in the library, which holds settled knowledge only (design doc 1, section 5), and no database.
 * **It stays within GitHub's limits.** The sync reads through the harness's GitHub App, batching its queries.
 
+## 2. The status model
+
+_Decided: [ADR 0050](../decisions/0050-named-people-per-story-team-fallback.md)._
+
+Each story has a stage, a status, who it's waiting on, and since when, plus a few markers for managers.
+
+### Stage
+
+The PRD's eight stages (design doc 3), worked out from the work:
+
+| Stage | When |
+| --- | --- |
+| 1 Intake to 4 Test plan | The planning PR is open; the stage is the latest document in it |
+| 5 Build, phase N of M | A phase PR is open as a draft, or the next phase hasn't started |
+| 6 Verify, phase N of M | The phase PR is marked ready for review: Verify and people are reviewing it |
+| 7 Demo | Every phase has merged, and the demo isn't accepted yet |
+| 8 Close | The PM has approved the demo; the feature entry is on its way into the library |
+| Revision N | A revision PR is open (design doc 3, section 8); afterwards the story returns to Build |
+
+### Status
+
+| Status | Means | Waiting on |
+| --- | --- | --- |
+| **Drafting** | The developer is writing a document or code: the next document isn't ready, or the PR is a draft | The developer |
+| **Questions open** | Questions are posted on the PR and not yet written into the document (design doc 3, section 5) | Whoever they're for |
+| **Waiting for approval** | A document is ready and lacks an approval from a required role | The named approvers |
+| **In review** | A phase PR is ready, Verify passes, and code review is pending | The PR's reviewers |
+| **Fixing** | Verify fails, or a reviewer asked for changes | The developer |
+| **Waiting for demo** | Every phase has merged, and there's no `/approved demo` yet | The developer, to give the demo; then the PM |
+| **Shipped** | The feature entry has merged into the library | — |
+
+"Since" is when the story entered its current status, from GitHub's timestamps (section 1).
+
+### Who a story waits on
+
+* **Named at Intake.** The spec's header records `pm`, `tech_lead` and `qa` as GitHub usernames. Intake suggests the PM from the Jira ticket and the others from the domain's teams in `domains.yaml`, and the developer confirms. Changing the names later doesn't cancel an approval of the spec, because it doesn't change what the spec says.
+* **Requested as reviewers.** When a document is ready, the stage command requests the named approvers as reviewers on the planning PR: the PM for the spec, the tech lead for the architecture, both for the plan, and the PM and QA for the test plan. GitHub notifies them and lists the PR in their review requests (section 5). Phase PRs use the repo's usual code reviewers.
+* **Team fallback.** Anyone in the role's team can still approve (design doc 3, section 4), and the developer can change a name, so an absence never blocks a story.
+* **Shown on the dashboard.** The sync makes whoever the story is waiting on the planning PR's assignees, so "waiting on me" is a simple filter (section 4).
+
+### Markers
+
+Markers flag what managers act on (design doc 3, principles). They show next to the status and in the weekly summary (section 6).
+
+| Marker | When |
+| --- | --- |
+| **Override** | A stage started, or the planning PR merged, without a required approval (design doc 3, section 4) |
+| **No QA review** | The test cases have no QA approval ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)) |
+| **No tests-first** | A phase PR has no tests-first commit ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)) |
+| **Self-dismissal** | A Verify finding was dismissed by the PR's own author ([0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)) |
+| **Stuck** | The same status for more than 2 working days; a starting point to tune in the pilot |
+
 ## Still to come
 
-2. The status model: stages, states, who it's waiting on
 3. What the dashboard is built on
 4. Views and filters
 5. Notifications
