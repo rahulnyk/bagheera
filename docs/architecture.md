@@ -4,6 +4,8 @@ _Status: draft, updated 2026-10-26 with the owner's decisions · Source of truth
 
 > **Read with the decisions.** The owner's decisions of 2026-10-26 ([decisions/](decisions/)) change some parts below: approval is an `/approved` comment rather than ruleset approvals, Spec Kit is likely carried in the plugin, commands use the PRD's stage names, and the knowledge library is more cautious. The [design docs](design/README.md) work out each area in detail and replace this page's detail where they differ.
 
+> **Diagram.** A block-level diagram of the current design (design docs 1–4) is in [components.drawio](components.drawio); open it in the draw.io app or at app.diagrams.net. The diagram below is the original sketch.
+
 ## Summary
 
 Bagheera is two GitHub repos plus configuration of existing tools. One Claude Code plugin, installed for everyone through managed settings, loads the org's knowledge and standards into every session. Each product repo uses GitHub Spec Kit with our preset and extension, so every feature follows the same stage commands. Each stage writes a markdown file to `specs/<TICKET>/` and opens a pull request; the stage is approved when that PR merges with the right person's approval, which GitHub rulesets enforce. In CI, claude-code-action reviews every PR and updates the knowledge base from merged work, and a sync job keeps a GitHub Project dashboard current. The only code written from scratch is one small helper script. Where a decision is open, this draft shows the option I'd put first, marked _(Decision n)_.

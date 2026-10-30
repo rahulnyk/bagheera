@@ -82,7 +82,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 
 ## Moving parts and dependencies
 
-Kept up to date with every doc, so the total stays visible (the owner's request, 2026-10-29, [0037](../decisions/0037-verify-as-an-org-ruleset-workflow.md)).
+Kept up to date with every doc, so the total stays visible (the owner's request, 2026-10-29, [0037](../decisions/0037-verify-as-an-org-ruleset-workflow.md)). A block-level diagram of these parts and how they connect is in [components.drawio](../components.drawio).
 
 ### What the platform team runs
 
