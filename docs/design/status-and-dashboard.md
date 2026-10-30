@@ -136,9 +136,35 @@ GitHub's own fields add the repository and the reviewers. That's 11 fields of th
 
 Cost and adoption by team (PRD V6) stay in Claude's own analytics (design doc 6); project fields can't hold them. They meet the stories only in the weekly summary (section 6).
 
+## 4. Views and filters
+
+_Decided: [ADR 0052](../decisions/0052-five-shared-dashboard-views.md)._
+
+Five shared views, set up once by the platform team, appear as tabs. Anyone can filter further and save their own.
+
+| View | Layout | Shows | Order |
+| --- | --- | --- | --- |
+| **Waiting on me** (first tab) | Table | Every story, phase or revision row assigned to the viewer, which is everything waiting on them (section 2) | Oldest first |
+| **All stories** | Table | Story rows that haven't shipped, filterable by team, PM, stage and status | Grouped by team |
+| **By stage** | Board | Story rows in one column per stage | — |
+| **Needs attention** | Table | Story rows that are stuck or carry a marker: override, no QA review, no tests-first, self-dismissal | Oldest first |
+| **Shipped** | Table | Shipped stories, until they're archived | Newest first |
+
+For example, a PM opening the dashboard sees:
+
+```text
+Waiting on me                                      Since    Status
+PAY-412  Retry failed payments · planning PR       2 days   Waiting for approval: test plan
+PAY-398  Refund webhooks · phase 2 PR              5 hours  Questions open: Q7
+PAY-350  Saved cards · planning PR                 4 days   Waiting for demo  ⚑ Stuck
+```
+
+* **Filtering** uses the project's filter bar on the sync job's fields, for example `team:payments status:"Waiting for approval"`.
+* **"Where is feature X, and what is it waiting on?"** Search for the ticket in All stories: the row shows its stage, status, who it's waiting on and since when (PRD §7's leadership measure).
+* **Each row opens its PR,** where people act; the dashboard itself is view-only ([0005](../decisions/0005-view-only-dashboard.md)).
+
 ## Still to come
 
-4. Views and filters
 5. Notifications
 6. The weekly summary
 7. The Jira link

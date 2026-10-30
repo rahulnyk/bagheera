@@ -67,7 +67,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 1. Where status data lives ([0005](../decisions/0005-view-only-dashboard.md)). **Done:** [0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md), GitHub is the record; the dashboard holds the derived status
 2. The status model: stages, states, who it's waiting on, recorded overrides. **Done:** [0050](../decisions/0050-named-people-per-story-team-fallback.md), seven statuses, markers for managers, named people with team fallback
 3. What the dashboard is built on. **Done:** [0051](../decisions/0051-dashboard-on-an-org-github-project.md), an org-level GitHub Project
-4. Views and filters
+4. Views and filters. **Done:** [0052](../decisions/0052-five-shared-dashboard-views.md), five shared views, "Waiting on me" first
 5. Notifications
 6. The weekly summary
 7. The Jira link ([0006](../decisions/0006-jira-link-only.md))
