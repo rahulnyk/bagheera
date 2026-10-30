@@ -66,7 +66,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 **5. Status and dashboard**
 1. Where status data lives ([0005](../decisions/0005-view-only-dashboard.md)). **Done:** [0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md), GitHub is the record; the dashboard holds the derived status
 2. The status model: stages, states, who it's waiting on, recorded overrides. **Done:** [0050](../decisions/0050-named-people-per-story-team-fallback.md), seven statuses, markers for managers, named people with team fallback
-3. What the dashboard is built on
+3. What the dashboard is built on. **Done:** [0051](../decisions/0051-dashboard-on-an-org-github-project.md), an org-level GitHub Project
 4. Views and filters
 5. Notifications
 6. The weekly summary
@@ -95,7 +95,7 @@ Kept up to date with every doc, so the total stays visible (the owner's request,
 | Curation run | Hourly: library updates from merged PRs, Close, bookkeeping. Weekly: the library check and summary | Doc 1, sections 6 and 8; doc 3, section 9 |
 | Dashboard sync | Every 15 minutes: feature status, the criteria results table, and re-running Verify after a dismissal | Doc 3, sections 6 and 9; doc 4, section 4; doc 5 |
 | GitHub App | Opens library PRs and posts comments | Doc 1, section 6 |
-| GitHub Project | The dashboard | Doc 5 |
+| GitHub Project | The dashboard: story, phase and revision rows; fields written only by the sync job | Doc 5, section 3 |
 
 In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No servers and nothing self-hosted.
 

@@ -94,9 +94,50 @@ Markers flag what managers act on (design doc 3, principles). They show next to 
 | **Self-dismissal** | A Verify finding was dismissed by the PR's own author ([0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)) |
 | **Stuck** | The same status for more than 2 working days; a starting point to tune in the pilot |
 
+## 3. What the dashboard is built on
+
+_Decided: [ADR 0051](../decisions/0051-dashboard-on-an-org-github-project.md), following [0005](../decisions/0005-view-only-dashboard.md)._
+
+The dashboard is one org-level GitHub Project. It is configuration, not a build: the sync job fills it in, and people read it.
+
+### Rows
+
+* **One row per story:** its planning PR, added by the sync job when Intake opens it. The row's title opens the PR.
+* **Phase and revision PRs are rows too,** linked to their story by the ticket. Most views show story rows only; "waiting on me" also shows the exact phase or revision PR that needs the viewer, which gives V2's "direct link to the PR needing approval".
+* **Shipped stories are archived automatically** after a few weeks, using the project's own auto-archive, so the live views stay short. A project holds up to 50,000 items, archive included.
+
+### Fields
+
+The sync job writes these and nothing else does (section 1).
+
+| Field | Kind | Example |
+| --- | --- | --- |
+| Ticket | Text | `PAY-412` |
+| Row | Single select | Story · Phase · Revision |
+| Stage | Single select | 4 Test plan |
+| Status | Single select | Waiting for approval |
+| Since | Date | 2026-11-03 |
+| Waiting on | GitHub's own Assignees | `@asha` |
+| Team | Single select | payments, from `domains.yaml` |
+| PM | Text | `@asha` |
+| Phases | Text | 1 / 3 |
+| Criteria | Text | 5 / 7 passing |
+| Markers | Text | Override · No QA review |
+
+GitHub's own fields add the repository and the reviewers. That's 11 fields of the 50 a project allows. "For how long" shows as the "Since" date, and the "Stuck" marker flags anything over the limit (section 2).
+
+### Who can see and change it
+
+* **Visible to everyone in the org** who can read the repos, which includes PMs, QA and leadership ([0001](../decisions/0001-github-access-for-pms-qa-and-leadership.md)).
+* **Written only by the sync job,** through the harness's GitHub App. The platform team administers the project; everyone else can read it and save their own views (section 4).
+* **No automations besides auto-archive,** so nothing changes a field behind the sync job's back.
+
+### What it doesn't hold
+
+Cost and adoption by team (PRD V6) stay in Claude's own analytics (design doc 6); project fields can't hold them. They meet the stories only in the weekly summary (section 6).
+
 ## Still to come
 
-3. What the dashboard is built on
 4. Views and filters
 5. Notifications
 6. The weekly summary
