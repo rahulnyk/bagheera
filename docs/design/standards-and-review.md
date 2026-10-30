@@ -2,6 +2,8 @@
 
 _Status: draft complete, awaiting the owner's approval · Design doc 4 of 6 · [All design docs](README.md)_
 
+_Team walkthrough deck: [standards-and-review-walkthrough.pptx](standards-and-review-walkthrough.pptx) ([PDF](standards-and-review-walkthrough.pdf))._
+
 Standards are written once by their owners and applied everywhere: in Claude's context when it designs and writes code, checked on every PR, with dangerous actions blocked outright (PRD G2). This doc says how rules are named, how the first standards get written, how sessions see the relevant ones, what the PR review checks and how its findings are reported, how forbidden actions are blocked, and how project principles come from the standards.
 
 Covers PRD R1–R6. It builds on [design doc 1](knowledge-library.md), which set the standard page's header, shape, layout and owner approval (sections 3 and 4) and when stages reveal standards (section 9), and on [design doc 3](developer-workflow.md), which set where Verify runs (section 9).
