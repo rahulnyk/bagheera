@@ -65,7 +65,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 
 **5. Status and dashboard**
 1. Where status data lives ([0005](../decisions/0005-view-only-dashboard.md)). **Done:** [0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md), GitHub is the record; the dashboard holds the derived status
-2. The status model: stages, states, who it's waiting on, recorded overrides
+2. The status model: stages, states, who it's waiting on, recorded overrides. **Done:** [0050](../decisions/0050-named-people-per-story-team-fallback.md), seven statuses, markers for managers, named people with team fallback
 3. What the dashboard is built on
 4. Views and filters
 5. Notifications
