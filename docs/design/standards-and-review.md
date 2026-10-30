@@ -1,6 +1,6 @@
 # Standards and review
 
-_Status: draft complete, awaiting the owner's approval · Design doc 4 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-30 · Design doc 4 of 6 · [All design docs](README.md)_
 
 _Team walkthrough deck: [standards-and-review-walkthrough.pptx](standards-and-review-walkthrough.pptx) ([PDF](standards-and-review-walkthrough.pdf))._
 
