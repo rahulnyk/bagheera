@@ -68,7 +68,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 2. The status model: stages, states, who it's waiting on, recorded overrides. **Done:** [0050](../decisions/0050-named-people-per-story-team-fallback.md), seven statuses, markers for managers, named people with team fallback
 3. What the dashboard is built on. **Done:** [0051](../decisions/0051-dashboard-on-an-org-github-project.md), an org-level GitHub Project
 4. Views and filters. **Done:** [0052](../decisions/0052-five-shared-dashboard-views.md), five shared views, "Waiting on me" first
-5. Notifications
+5. Notifications. **Done:** [0053](../decisions/0053-github-notifications-now-slack-later.md), GitHub's own notifications for now; Slack later (set by the owner)
 6. The weekly summary
 7. The Jira link ([0006](../decisions/0006-jira-link-only.md))
 
@@ -135,6 +135,7 @@ DeepWiki-Open and its Docker setup ([0024](../decisions/0024-seed-service-pages-
 | Status data in the knowledge library versus PRD K1's page types | Decided: status is derived from GitHub and lives only in the dashboard ([0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md)) | Resolved |
 | DeepWiki-Open needs an Anthropic API key via LiteLLM, not a Claude subscription | Decided: seed with a Claude Code skill instead, which works on a subscription or an API key ([0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)) | Resolved |
 | The sandbox for everyone, for some repos, or deny rules only; until then R4 is only partly met for deploy commands and production credentials | [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) | `docs/plan.md`, as a pilot exit decision |
+| Slack integration: GitHub's scheduled reminders, after the pilot | [0053](../decisions/0053-github-notifications-now-slack-later.md) | `docs/plan.md` |
 | Each repo's CI must save JUnit test results for the criteria table | [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md) | `docs/plan.md`, as an onboarding step |
 | Claude plan and model access (Q7, Q8) not known yet | Settings delivery, CI sign-in and team cost reporting depend on it; the docs keep both paths open | Doc 6 |
 

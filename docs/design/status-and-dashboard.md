@@ -163,8 +163,31 @@ PAY-350  Saved cards · planning PR                 4 days   Waiting for demo  �
 * **"Where is feature X, and what is it waiting on?"** Search for the ticket in All stories: the row shows its stage, status, who it's waiting on and since when (PRD §7's leadership measure).
 * **Each row opens its PR,** where people act; the dashboard itself is view-only ([0005](../decisions/0005-view-only-dashboard.md)).
 
+## 5. Notifications
+
+_Decided: [ADR 0053](../decisions/0053-github-notifications-now-slack-later.md), set by the owner._
+
+GitHub's own notifications, for now. Slack comes later.
+
+| When | Who hears | How |
+| --- | --- | --- |
+| A document is ready for approval | The named approvers | They're requested as reviewers on the planning PR (section 2) |
+| Questions are posted, or answers are written in | Whoever the questions are for | An @mention in the stage command's comment (design doc 3, section 5) |
+| A phase PR is ready for code review | Its reviewers | GitHub's usual review request |
+| Verify finds a problem | The PR's author | GitHub's notice of a failed check |
+| Anything starts waiting on someone else | The new person | The sync makes them an assignee, and GitHub notifies people when they're assigned |
+
+### Rules
+
+* **Each person chooses how GitHub reaches them,** by email, web or mobile, in their own GitHub settings. The onboarding guide tells PMs and approvers to switch on email for review requests, mentions and assignments.
+* **"Waiting on me" is the backstop.** Everything waiting on a person is always in that view, whether or not they saw the notification (section 4).
+* **Records aren't notifications.** Overrides, dismissals and other markers go to the Needs attention view and the weekly summary (sections 4 and 6), not to anyone's inbox.
+
+### Later: Slack
+
+GitHub's scheduled reminders can post a daily list to each team's Slack channel of the PRs its members have been asked to review. It's configuration only: an org owner authorises the Slack workspace once, and team maintainers set the times. It's planned for after the pilot in `docs/plan.md`.
+
 ## Still to come
 
-5. Notifications
 6. The weekly summary
 7. The Jira link
