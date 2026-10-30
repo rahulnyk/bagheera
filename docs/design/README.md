@@ -60,7 +60,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 2. Writing the first standards (Foundations). **Done:** [0042](../decisions/0042-draft-first-standards-from-owners-documents.md), Claude drafts from the owners' documents; owners edit and approve
 3. Revealing the standards relevant to the work, including when someone codes outside the stage commands ([0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md)). **Done:** [0043](../decisions/0043-reveal-standards-on-first-edit.md), a hook reveals them on the first edit of each kind of file
 4. The PR review: what it checks, how findings are shown and reported (R3, R6). **Done:** [0044](../decisions/0044-blocking-findings-fail-verify-tech-leads-dismiss.md), blocking findings fail Verify; a tech lead can dismiss with a reason
-5. Forbidden actions: deny rules, and whether a guard hook is needed (R4)
+5. Forbidden actions: deny rules, and whether a guard hook is needed (R4). **Done:** [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md), deny rules and GitHub's rules now; the sandbox trialled in the pilot
 6. Project principles generated from the standards (R5)
 
 **5. Status and dashboard**
@@ -103,8 +103,8 @@ In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No se
 
 | Who | What | How often | Where designed |
 | --- | --- | --- | --- |
-| GitHub org owners (the company's org managers; confirmed by the owner, 2026-10-30) | Install the harness's GitHub App; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify; create PM, tech lead and QA teams where missing | Once, in Foundations (about an hour) | Docs 1 and 3 |
-| Claude admin | Settings that install the plugin on every laptop; CI credentials and a spend limit | Once | Doc 6 |
+| GitHub org owners (the company's org managers; confirmed by the owner, 2026-10-30) | Install the harness's GitHub App; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify, which also blocks force-push and needs owner review on protected paths; create PM, tech lead and QA teams where missing | Once, in Foundations (about an hour) | Docs 1 and 3 |
+| Claude admin | Settings that install the plugin on every laptop, with the deny rules; the sandbox for the pilot team; CI credentials and a spend limit | Once, and when the deny list changes | Docs 4 and 6 |
 | Each team | JUnit test results from its CI; review its seeded service pages | Once per repo, at onboarding | Docs 2 and 3 |
 | Approvers and page owners | Approve stage documents; review library PRs | Ongoing, as part of their normal work | Docs 1 and 3 |
 | Managers | Hold teams to approvals, QA review and tests first, using the dashboard; grant exceptions | Ongoing | Doc 3 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)) |
@@ -133,6 +133,7 @@ DeepWiki-Open and its Docker setup ([0024](../decisions/0024-seed-service-pages-
 | Caution versus PRD K4 and the "updated within a day" target | Decided: only restated approved work merges without a person ([0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)) | Resolved; K4 holds in a narrower form |
 | Status data in the knowledge library versus PRD K1's page types | [0005](../decisions/0005-view-only-dashboard.md) mentions a wiki folder as one option; [0030](../decisions/0030-one-planning-pr-per-feature.md) rules out a shared status file in product repos | Doc 5, step 1 |
 | DeepWiki-Open needs an Anthropic API key via LiteLLM, not a Claude subscription | Decided: seed with a Claude Code skill instead, which works on a subscription or an API key ([0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)) | Resolved |
+| The sandbox for everyone, for some repos, or deny rules only; until then R4 is only partly met for deploy commands and production credentials | [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) | `docs/plan.md`, as a pilot exit decision |
 | Each repo's CI must save JUnit test results for the criteria table | [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md) | `docs/plan.md`, as an onboarding step |
 | Claude plan and model access (Q7, Q8) not known yet | Settings delivery, CI sign-in and team cost reporting depend on it; the docs keep both paths open | Doc 6 |
 

@@ -179,7 +179,70 @@ Build opens phase PRs as drafts, so the review lands before people are asked. Th
 
 Each review is a Claude run on every PR, so it counts towards CI spend. PRD §7 sets a budget per merged PR; spend limits and reporting are design doc 6.
 
+## 5. Forbidden actions
+
+_Decided: [ADR 0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md)._
+
+Four things are blocked outright for Claude (PRD R4): deploy commands, force-push, production credentials and edits to protected paths. Deploying is a PRD non-goal: existing CD deploys on merge.
+
+### What blocks what
+
+| Forbidden action | Deny rules, for everyone | GitHub's server-side rules | The sandbox, pilot team only |
+| --- | --- | --- | --- |
+| **Force-push** | The usual forms | Truly blocked on main branches | — |
+| **Edits to protected paths** | The usual forms | Truly blocked from main: changes need their owners' review | Writes limited to the repo |
+| **Deploy commands** | The usual forms | — | Truly blocked: production hosts unreachable |
+| **Production credentials** | Claude's file tools and common file commands can't read them | — | Truly blocked: credential folders unreadable |
+
+**Why "the usual forms".** Claude Code's deny rules for shell commands match the command as Claude usually writes it. Anthropic's documentation says such a rule "isn't a security boundary around the program": the same program run by its full path, inside `sh -c` or from a script isn't caught. Read deny rules stop Claude's file tools and commands like `cat`, but not a program, such as a cloud command-line tool, that reads its own credentials. The sandbox closes those gaps at the operating-system level.
+
+### Deny rules, for everyone
+
+Set in managed settings, which developers can't override; how they reach laptops is design doc 6. For example:
+
+```json
+{
+  "permissions": {
+    "disableBypassPermissionsMode": "disable",
+    "deny": [
+      "Bash(kubectl apply *)", "Bash(kubectl delete *)", "Bash(helm upgrade *)", "Bash(helm install *)",
+      "Bash(terraform apply *)", "Bash(terraform destroy *)",
+      "Bash(git push --force *)", "Bash(git push -f *)", "Bash(git push --force-with-lease *)",
+      "Read(~/.aws/**)", "Read(~/.kube/**)", "Read(~/.config/gcloud/**)", "Read(**/.env.production)",
+      "Edit(.github/workflows/**)", "Edit(.github/CODEOWNERS)"
+    ]
+  }
+}
+```
+
+* **The real list comes from the standards.** The deployment and environments standard (section 2) says what may run where; its blocking rules become deny rules here. The list lives in `seeonee/bagheera`, the platform team maintains it, and the standard's owners approve changes to it.
+* **Bypass mode is off,** so nobody can switch the checks off.
+
+### GitHub's server-side rules
+
+Set by the org managers in the same org ruleset that runs Verify (design doc 3, section 9):
+
+* main branches can't be force-pushed or deleted;
+* changes to protected paths, such as workflows and the owners file, need their owners' review before they can merge.
+
+### In CI
+
+Verify runs with read-only access to the repo and the harness's GitHub App, and no cloud or deploy credentials. So none of the four is possible there in the first place (design doc 3, section 9).
+
+### The sandbox trial, pilot team only
+
+* **Setup.** Managed settings for the pilot team's machines turn the sandbox on and require it: Claude Code won't start without it, and Claude can't ask to run a command outside it. Credential folders are unreadable. Only listed hosts are reachable (GitHub, package registries, and the internal services the pilot's work needs), and production hosts are denied.
+* **What we measure.** How often it gets in the way: hosts that had to be added, Docker-based tests that couldn't run, machines that couldn't run it (native Windows needs WSL2).
+* **Pilot exit decision** (`docs/plan.md`): the sandbox for everyone, for some repos, or deny rules only. If it's adopted, the PRD's "there is no sandbox" assumption changes.
+
+### Red-team test, before the pilot
+
+In a test repo, the platform team tries to make Claude deploy, force-push, read production credentials and edit protected paths: directly, through scripts, via full paths and inside `sh -c`. It does this once with deny rules alone and once with the sandbox. The results go into the pilot exit decision, and it's repeated whenever the deny list or the sandbox settings change.
+
+### Note on the PRD
+
+Until the pilot decision, deploy commands and production credentials are blocked only in the usual forms, outside the pilot team's sandboxed machines. So R4's "blocked outright" isn't fully met for those two in the meantime. The decision before rollout closes this.
+
 ## Still to come
 
-5. Forbidden actions: deny rules, and whether a guard hook is needed
 6. Project principles generated from the standards
