@@ -16,7 +16,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **Approved** |
 | 3 | [`developer-workflow.md`](developer-workflow.md) ([walkthrough deck](developer-workflow-walkthrough.pptx)) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Approved**; amended with the owner's answers on 2026-10-30 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)–[0040](../decisions/0040-build-phases-one-at-a-time.md)) |
 | 4 | [`standards-and-review.md`](standards-and-review.md) ([walkthrough deck](standards-and-review-walkthrough.pptx)) | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **Approved**; your answers of 2026-10-30 folded in ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md), [0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)) |
-| 5 | `status-and-dashboard.md` | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | **In progress** |
+| 5 | [`status-and-dashboard.md`](status-and-dashboard.md) | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | **In progress** |
 | 6 | `distribution-security-and-cost.md` | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | Not started |
 
 **Why this order.** The knowledge library is the heart of the design and the first rollout phase (PRD §9, Foundations), and the other docs refer to it. Seeding follows because it fills the library. The developer workflow comes next because standards, status and the dashboard all depend on what each stage writes. Distribution comes last because it depends on the Claude plan, which isn't known yet.
@@ -64,7 +64,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 6. Project principles generated from the standards (R5). **Done:** [0046](../decisions/0046-standards-check-in-the-architecture.md), a standards check in the architecture, filled from the current standards
 
 **5. Status and dashboard**
-1. Where status data lives ([0005](../decisions/0005-view-only-dashboard.md))
+1. Where status data lives ([0005](../decisions/0005-view-only-dashboard.md)). **Done:** [0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md), GitHub is the record; the dashboard holds the derived status
 2. The status model: stages, states, who it's waiting on, recorded overrides
 3. What the dashboard is built on
 4. Views and filters
@@ -132,7 +132,7 @@ DeepWiki-Open and its Docker setup ([0024](../decisions/0024-seed-service-pages-
 | Carrying Spec Kit in the plugin versus the PRD's "Spec Kit with a preset and extension" | Decided: copy its content into the plugin ([0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)) | Resolved; PRD §8 wording to update |
 | Jungle Book component names versus PRD §8, Appendix B and CLAUDE.md | [0010](../decisions/0010-naming.md) proposes about five themed names | Naming register, as components come up |
 | Caution versus PRD K4 and the "updated within a day" target | Decided: only restated approved work merges without a person ([0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)) | Resolved; K4 holds in a narrower form |
-| Status data in the knowledge library versus PRD K1's page types | [0005](../decisions/0005-view-only-dashboard.md) mentions a wiki folder as one option; [0030](../decisions/0030-one-planning-pr-per-feature.md) rules out a shared status file in product repos | Doc 5, step 1 |
+| Status data in the knowledge library versus PRD K1's page types | Decided: status is derived from GitHub and lives only in the dashboard ([0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md)) | Resolved |
 | DeepWiki-Open needs an Anthropic API key via LiteLLM, not a Claude subscription | Decided: seed with a Claude Code skill instead, which works on a subscription or an API key ([0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)) | Resolved |
 | The sandbox for everyone, for some repos, or deny rules only; until then R4 is only partly met for deploy commands and production credentials | [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) | `docs/plan.md`, as a pilot exit decision |
 | Each repo's CI must save JUnit test results for the criteria table | [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md) | `docs/plan.md`, as an onboarding step |
