@@ -100,7 +100,7 @@ Verify and Close mostly run in CI, through the same skills (section 9). The deve
 * **Full names everywhere.** Docs, the guide, the dashboard and the commands' own output always show `/bagheera:<stage>`. A bare `/intake` would also work, but a bare `/plan` opens Claude Code's planning mode and a bare `/verify` runs its built-in check, so mixing the two forms would confuse people.
 * **The ticket is typed once.** Only Intake needs it. Later stages work it out from the feature's branch (section 3), and accept it as an argument when run elsewhere.
 * **Stages start only when someone asks.** Each stage skill is marked so that Claude can't start it on its own (`disable-model-invocation`). A stage runs when a developer types it or a CI workflow calls it.
-* **Each stage pre-approves only what it needs.** For example, Intake reads the ticket and writes in the feature folder; Build edits code and runs tests. Forbidden actions are blocked separately, by deny rules (design doc 4).
+* **Each stage pre-approves only what it needs.** For example, Intake reads the ticket, comments its link on it and writes in the feature folder; Build edits code and runs tests. Forbidden actions are blocked separately, by deny rules (design doc 4).
 * **Re-running is the same command.** A stage can be re-run on its own (P2). What it overwrites, and how approval carries over, is sections 3 and 4.
 
 ## 3. What each stage writes, and how it reaches the main branch
@@ -247,7 +247,7 @@ The back-and-forth happens between people on the PR page, without Bagheera. The 
 
 ### How it goes
 
-1. **Draft.** `/bagheera:intake PAY-412` drafts `spec.md`, ending with numbered open questions, each saying who it's for (PM or tech lead). It opens the planning PR and posts one comment listing the questions, mentioning the role's team so GitHub notifies them. If there are no questions, it asks for approval straight away.
+1. **Draft.** `/bagheera:intake PAY-412` drafts `spec.md`, ending with numbered open questions, each saying who it's for (PM or tech lead). It opens the planning PR, whose description starts with a link to the ticket, and posts one comment listing the questions, mentioning the role's team so GitHub notifies them. It also comments once on the Jira ticket with a link to the planning PR (design doc 5, section 7). If there are no questions, it asks for approval straight away.
 2. **Discuss on the PR.** The PM answers in ordinary PR comments: all in one or spread out, inline or not ("Q2: no, card payments only"). The developer and tech lead ask follow-ups the same way. Nobody runs a command.
 3. **Finalise.** When the developer is satisfied, they run `/bagheera:intake` once more. It reads the whole discussion and:
    * writes each answer into the spec next to its question, with who gave it and a link to the comment

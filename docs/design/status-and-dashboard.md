@@ -240,6 +240,31 @@ Weekly summary: 26 Oct – 1 Nov 2026                        @seeonee/bagheera-w
 * **A missing source is said, not hidden.** If a section's source isn't connected yet, such as cost before design doc 6 is in place, the section says so.
 * **Same App, one more permission.** The sync job writes the issue through the harness's GitHub App, which needs to write issues in `seeonee/bagheera` (design doc 6).
 
+## 7. The Jira link
+
+_Decided: [ADR 0055](../decisions/0055-intake-comments-the-link-on-the-jira-ticket.md), following [0006](../decisions/0006-jira-link-only.md)._
+
+Jira links to the work; it doesn't show the stage (PRD V5's minimum). The stage is on the dashboard, one click away.
+
+### How the link is made
+
+* **Jira to GitHub.** When Intake opens the planning PR, it posts one comment on the Jira ticket, with the developer's own Jira access through the plugin's Jira connector (the same connector that reads the ticket):
+
+  ```text
+  Bagheera: planning PR seeonee/payments-api#512 · status on the dashboard
+  ```
+
+  "Status on the dashboard" opens the All stories view filtered to the ticket.
+* **GitHub to Jira.** The planning PR's description starts with a link to the ticket, and the dashboard's Ticket field shows the key (section 3).
+* **One link is enough.** Each ticket has one repo and one planning PR (design doc 3, section 3), which links its phase and revision PRs. A major change becomes a new ticket, which gets its own link at its own Intake.
+
+### Rules
+
+* **Once per ticket.** Later runs of Intake, including the finalising run, don't comment again.
+* **Never a stop.** If the comment can't be posted, for example because the developer can't comment on that ticket, Intake says so and carries on, and the developer can paste the link by hand.
+* **Nothing else writes to Jira.** CI has no Jira access, and nobody keeps Jira fields in step.
+* **If the company already runs Atlassian's GitHub for Jira app,** it also lists the branches and PRs in the ticket's Development panel, because branch names start with the ticket key. It needs nothing from Bagheera.
+
 ## Still to come
 
-7. The Jira link
+The dashboard's name, proposed to the owner (naming register).

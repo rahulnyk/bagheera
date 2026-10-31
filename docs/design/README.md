@@ -70,7 +70,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 4. Views and filters. **Done:** [0052](../decisions/0052-five-shared-dashboard-views.md), five shared views, "Waiting on me" first
 5. Notifications. **Done:** [0053](../decisions/0053-github-notifications-now-slack-later.md), GitHub's own notifications for now; Slack later (set by the owner)
 6. The weekly summary. **Done:** [0054](../decisions/0054-weekly-summary-as-a-github-issue.md), a weekly GitHub issue in `seeonee/bagheera`, mentioning a readers team and the owners named in it
-7. The Jira link ([0006](../decisions/0006-jira-link-only.md))
+7. The Jira link ([0006](../decisions/0006-jira-link-only.md)). **Done:** [0055](../decisions/0055-intake-comments-the-link-on-the-jira-ticket.md), Intake comments the planning PR's link on the ticket
 
 **6. Distribution, security and cost**
 1. Plugin packaging and the marketplace
@@ -117,7 +117,7 @@ After setup, onboarding a repo needs nobody outside the platform team and the jo
 | Service | Used for |
 | --- | --- |
 | GitHub (Team or Enterprise plan, for org rulesets on private repos) | Code, PRs, approvals, CI, the dashboard |
-| Jira | Ticket text for Intake; links from the dashboard |
+| Jira | Ticket text for Intake; one link comment per ticket, posted by Intake |
 | Anthropic | Claude, on laptops and in CI |
 
 ### Removed along the way

@@ -54,7 +54,7 @@ Each part is here because a must-have fails without it (next table). Only the he
 | **Managed settings** | Force-install the plugin; allow only our marketplace; deny forbidden actions | G2, G3 | Claude Code managed settings (Decision 1) |
 | **Plugin: session-start hook** | Refresh the local knowledge base copy; load the repo's service page, its standards and "what's next" | G1–G3 | `SessionStart` hook. CLAUDE.md imports can't pick the page per repo |
 | **Plugin: skills** | `standards-review` (local and CI); `knowledge` (search pages, record lessons) | G1, G2 | Claude Code skills |
-| **Plugin: Jira connector** | Read the ticket and linked pages at intake | G3, G4 | Atlassian Rovo MCP server |
+| **Plugin: Jira connector** | Read the ticket and linked pages at intake; comment the planning PR's link on the ticket ([0055](decisions/0055-intake-comments-the-link-on-the-jira-ticket.md)) | G3, G4 | Atlassian Rovo MCP server |
 | **Helper script** | `context`, `status`, `gate`, `kb-check`, `dashboard-sync` | G1–G5 | **Built:** Spec Kit's status can't see GitHub approvals; Projects automations only react to merge or close |
 | **Spec Kit + org preset** | Our templates and command changes for stages 1–3 and 5 | G2–G4 | Spec Kit 1.2 preset |
 | **Org extension** | Test plan, demo and status commands | G3, G4 | Spec Kit extension; community ones are unreviewed code for laptops |
@@ -131,8 +131,8 @@ Adoption and cost (V6) stay in Claude's analytics, joined to the stories only in
 | 3 | What counts as approval (C3) | An `/approved` comment by the designated role; stage commands stop without it, and deliberate overrides are recorded | [0002](decisions/0002-soft-approval-by-comment.md), [0032](decisions/0032-stage-check-stops-and-records-overrides.md) |
 | 4 | Stage and command names (P6) | The PRD's stage names, with a light Jungle Book touch | [0003](decisions/0003-stage-names-from-the-prd.md) |
 | 5 | How Spec Kit reaches each repo (P4, D1) | Its templates and prompts are copied into the plugin as our own commands, and its changes reviewed every quarter | [0004](decisions/0004-carry-spec-kit-in-the-plugin.md), [0028](decisions/0028-adapt-spec-kit-once-and-review-it-quarterly.md) |
-| 6 | Dashboard (V1–V4, Q3) | View-only, with links; data source to brainstorm | [0005](decisions/0005-view-only-dashboard.md) |
-| 7 | Jira (Q6, V5) | Link only | [0006](decisions/0006-jira-link-only.md) |
+| 6 | Dashboard (V1–V4, Q3) | View-only, with links; an org GitHub Project whose status the sync job derives from GitHub | [0005](decisions/0005-view-only-dashboard.md), [0049](decisions/0049-github-is-the-record-dashboard-holds-derived-status.md), [0051](decisions/0051-dashboard-on-an-org-github-project.md) |
+| 7 | Jira (Q6, V5) | Link only: Intake comments the planning PR's link on the ticket | [0006](decisions/0006-jira-link-only.md), [0055](decisions/0055-intake-comments-the-link-on-the-jira-ticket.md) |
 | 8 | One knowledge base or one per domain (Q5) | One master library; hierarchy later if needed | [0007](decisions/0007-one-knowledge-library.md) |
 | 9 | Knowledge auto-merge and injection risk (K4, K5) | Cautious; sources recorded per statement; only restated approved work merges without a person | [0008](decisions/0008-caution-and-provenance-for-the-knowledge-library.md), [0012](decisions/0012-record-provenance-per-statement.md), [0013](decisions/0013-merge-only-restated-approved-work-without-a-person.md) |
 | 10 | Seeding (K8) | A seeding skill run in Claude Code, locally, once per repo; DeepWiki-Open as the fallback | [0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md), replacing [0009](decisions/0009-seed-service-pages-with-deepwiki-open.md) |

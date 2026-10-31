@@ -22,3 +22,7 @@ Chosen option: link only, for now. How the link is made is settled in design doc
 
 * Good, because there is no Jira write access or field set-up to maintain.
 * Bad, because people who live in Jira must follow the link to see the stage.
+
+## More information
+
+How the link is made: [0055](0055-intake-comments-the-link-on-the-jira-ticket.md), Intake comments the planning PR's link on the ticket.
