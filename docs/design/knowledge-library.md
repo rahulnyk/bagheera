@@ -364,7 +364,7 @@ Once a week, a check runs across the whole library. For each finding, the agent 
 
 ### The weekly summary
 
-A short summary for the platform team, also shown on the dashboard (design doc 5):
+The library's part of the one weekly summary, a GitHub issue for the platform team, page owners, managers and leadership ([design doc 5, section 6](status-and-dashboard.md#6-the-weekly-summary)):
 
 * open library PRs by domain and by age
 * service pages overdue for verification, and the share verified in the last 90 days

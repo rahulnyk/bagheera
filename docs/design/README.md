@@ -69,7 +69,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 3. What the dashboard is built on. **Done:** [0051](../decisions/0051-dashboard-on-an-org-github-project.md), an org-level GitHub Project
 4. Views and filters. **Done:** [0052](../decisions/0052-five-shared-dashboard-views.md), five shared views, "Waiting on me" first
 5. Notifications. **Done:** [0053](../decisions/0053-github-notifications-now-slack-later.md), GitHub's own notifications for now; Slack later (set by the owner)
-6. The weekly summary
+6. The weekly summary. **Done:** [0054](../decisions/0054-weekly-summary-as-a-github-issue.md), a weekly GitHub issue in `seeonee/bagheera`, mentioning a readers team and the owners named in it
 7. The Jira link ([0006](../decisions/0006-jira-link-only.md))
 
 **6. Distribution, security and cost**
@@ -92,9 +92,9 @@ Kept up to date with every doc, so the total stays visible (the owner's request,
 | The plugin | `/bagheera`, the eight stage commands and `/bagheera:revise`; the knowledge skill; `seed-service-page`; `draft-standard`; Baloo and a read-only code reader (subagents); the session-start and first-edit hooks; the feature and stage-check scripts | Docs 1–3 |
 | The library repo (Council Rock) | Pages, `domains.yaml`, `prefixes.yaml`, the library checker, lychee | Docs 1 and 4 |
 | Verify workflow | On every PR in onboarded repos, through one org ruleset | Doc 3, section 9; doc 4 |
-| Curation run | Hourly: library updates from merged PRs, Close, bookkeeping. Weekly: the library check and summary | Doc 1, sections 6 and 8; doc 3, section 9 |
-| Dashboard sync | Every 15 minutes: feature status, the criteria results table, and re-running Verify after a dismissal | Doc 3, sections 6 and 9; doc 4, section 4; doc 5 |
-| GitHub App | Opens library PRs and posts comments | Doc 1, section 6 |
+| Curation run | Hourly: library updates from merged PRs, Close, bookkeeping. Weekly: the library check | Doc 1, sections 6 and 8; doc 3, section 9 |
+| Dashboard sync | Every 15 minutes: feature status, the criteria results table, and re-running Verify after a dismissal. Weekly: the summary issue | Doc 3, sections 6 and 9; doc 4, section 4; doc 5 |
+| GitHub App | Opens library PRs, posts comments, writes the dashboard and the weekly summary issue | Doc 1, section 6; doc 5 |
 | GitHub Project | The dashboard: story, phase and revision rows; fields written only by the sync job | Doc 5, section 3 |
 
 In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No servers and nothing self-hosted.
@@ -103,7 +103,7 @@ In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No se
 
 | Who | What | How often | Where designed |
 | --- | --- | --- | --- |
-| GitHub org owners (the company's org managers; confirmed by the owner, 2026-10-30) | Install the harness's GitHub App; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify, which also blocks force-push and needs owner review on protected paths; create PM, tech lead and QA teams where missing | Once, in Foundations (about an hour) | Docs 1 and 3 |
+| GitHub org owners (the company's org managers; confirmed by the owner, 2026-10-30) | Install the harness's GitHub App; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify, which also blocks force-push and needs owner review on protected paths; create PM, tech lead and QA teams where missing, and the `bagheera-weekly` readers team for the weekly summary | Once, in Foundations (about an hour) | Docs 1, 3 and 5 |
 | Claude admin | Settings that install the plugin on every laptop, with the deny rules; the sandbox for the pilot team; CI credentials and a spend limit | Once, and when the deny list changes | Docs 4 and 6 |
 | Each team | JUnit test results from its CI; review its seeded service pages | Once per repo, at onboarding | Docs 2 and 3 |
 | Approvers and page owners | Approve stage documents; review library PRs | Ongoing, as part of their normal work | Docs 1 and 3 |

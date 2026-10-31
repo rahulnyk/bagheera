@@ -187,7 +187,59 @@ GitHub's own notifications, for now. Slack comes later.
 
 GitHub's scheduled reminders can post a daily list to each team's Slack channel of the PRs its members have been asked to review. It's configuration only: an org owner authorises the Slack workspace once, and team maintainers set the times. It's planned for after the pilot in `docs/plan.md`.
 
+## 6. The weekly summary
+
+_Decided: [ADR 0054](../decisions/0054-weekly-summary-as-a-github-issue.md)._
+
+Once a week the dashboard sync writes a one-page summary as a GitHub issue in `seeonee/bagheera` (PRD V7). It takes in design doc 1's library summary as one section, so there's one weekly summary, not two.
+
+### How it reaches people
+
+* **A new issue every Monday morning,** covering the week before, titled for example `Weekly summary: 26 Oct – 1 Nov 2026` and labelled `weekly-summary`. The sync job pins it to the top of the repo's issues and closes last week's.
+* **Readers join one team.** The issue @mentions `@seeonee/bagheera-weekly`, which managers, leadership and the platform team join; anyone can ask to join. GitHub tells them by email, web or mobile, as they've chosen (section 5).
+* **Owners hear about their own part.** A standard's owners are @mentioned on the rows about their rules (PRD R6; design doc 4, section 4). A domain's owners are @mentioned on library PRs of theirs that have waited more than five working days (design doc 1, section 8). Only owners with something listed are mentioned that week.
+* **Linked from the dashboard.** The project's README links to the list of past summaries, so they're one click away and searchable.
+* **Comments are open,** so a reader can ask about a line and everyone sees the answer.
+
+### What it says
+
+Six short sections. Each gives counts and the five oldest or largest items, with links to their PRs or pages; the rest is folded under "show all", so the summary stays one page.
+
+| Section | What it shows | Mainly for | Worked out from |
+| --- | --- | --- | --- |
+| **1. Shipped** | Stories shipped, by team, against the average of the last four weeks; median working days from Intake to shipped | Leadership | Feature entries in the library; planning PRs |
+| **2. Stuck** | Stories in the same status for more than 2 working days, grouped by what they wait on (spec, architecture, plan, test plan, code review, demo), with who and since when; the median time from a document being ready to the PM's first response (PRD §7, G4) | Leadership, managers | The dashboard's fields and the planning PRs |
+| **3. For managers** | Overrides, no QA review, no tests-first and self-dismissals, by team, each with its PR | Managers | The markers (section 2) |
+| **4. Standards findings** | Findings and dismissals by team and by rule, rules with the most findings first, with who dismissed each and why | Standards owners, managers | Verify's check runs (design doc 4, section 4) |
+| **5. Library health** | Open library PRs by domain and age; service pages overdue for verification, and the share verified in the last 90 days; findings opened and closed; planted-instruction alarms, and how many were false | Page owners, the platform team | The library repo (design doc 1, section 8) |
+| **6. Adoption and cost** | Active users, sessions, spend and PRs with AI help, by team (PRD V6); CI cost per merged PR (PRD §7) | Leadership, the platform team | Claude's analytics and CI usage (design doc 6) |
+
+For example:
+
+```text
+Weekly summary: 26 Oct – 1 Nov 2026                        @seeonee/bagheera-weekly
+
+1. Shipped      4 stories (4-week average 3) · median 9 working days from Intake
+                payments 2 · checkout 1 · accounts 1
+2. Stuck        3 stories
+                Test plan  PAY-412  Retry failed payments   4 days  @asha, @ravi
+                Demo       PAY-350  Saved cards             6 days  @meera
+                PMs' median first response: 0.6 working days
+3. Managers     2 overrides · 1 no QA review · 3 no tests-first · 1 self-dismissal
+4. Standards    14 findings · 5 dismissed
+                sec-3  6 findings, 2 dismissed  @seeonee/architecture-council
+5. Library      7 open PRs, 1 over five working days (@seeonee/payments-tech-leads)
+                86% of service pages verified in the last 90 days
+6. Cost         41 active users · 312 sessions · spend by team · CI cost per merged PR
+```
+
+### Rules
+
+* **It reports; it doesn't act.** Every fix happens on the PR or page a line links to, like the dashboard ([0005](../decisions/0005-view-only-dashboard.md)).
+* **Derived, never typed.** Everything comes from GitHub (section 1), plus Claude's analytics for cost. History and trends are worked out fresh each week, so nothing extra is stored; the closed issues are the archive.
+* **A missing source is said, not hidden.** If a section's source isn't connected yet, such as cost before design doc 6 is in place, the section says so.
+* **Same App, one more permission.** The sync job writes the issue through the harness's GitHub App, which needs to write issues in `seeonee/bagheera` (design doc 6).
+
 ## Still to come
 
-6. The weekly summary
 7. The Jira link

@@ -188,7 +188,7 @@ Build opens phase PRs as drafts, so the review lands before people are asked. Th
 ### Reporting by team and rule (PRD R6)
 
 * **The record lives on the PR.** Each Verify run writes its findings into its check run on GitHub: rule ID, file and line, blocking or advisory, and whether it was fixed or dismissed. There's no separate store.
-* **Weekly.** The weekly summary (design doc 5) counts findings and dismissals by team and by rule, with who dismissed each and why, and sends each standard's owners the part about their rules.
+* **Weekly.** The weekly summary ([design doc 5, section 6](status-and-dashboard.md#6-the-weekly-summary)) counts findings and dismissals by team and by rule, with who dismissed each and why, and @mentions each standard's owners on the rows about their rules.
 * **What it tells people.** A rule with many dismissals is probably unclear or wrong, and its owners can fix it. A rule one team breaks often points to something that team hasn't understood, which is for managers.
 
 ### Cost
