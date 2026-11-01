@@ -1,6 +1,6 @@
 # Status and dashboard
 
-_Status: draft complete, awaiting the owner's approval · Design doc 5 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-11-01 · Design doc 5 of 6 · [All design docs](README.md)_
 
 One simple dashboard shows every story, what it's waiting on and for how long, so PMs, tech leads, QA, managers and leadership can see where things stand without asking anyone (PRD G4, G5). This doc says where status comes from, how it's worked out, what the dashboard is built on, its views, notifications, the weekly summary and the Jira link.
 
