@@ -16,7 +16,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | 2 | [`seeding.md`](seeding.md) | How a Claude Code skill drafts the first service pages and how those drafts are reviewed | K8 | **Approved** |
 | 3 | [`developer-workflow.md`](developer-workflow.md) ([walkthrough deck](developer-workflow-walkthrough.pptx)) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Approved**; amended with the owner's answers on 2026-10-30 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)–[0040](../decisions/0040-build-phases-one-at-a-time.md)) |
 | 4 | [`standards-and-review.md`](standards-and-review.md) ([walkthrough deck](standards-and-review-walkthrough.pptx)) | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **Approved**; your answers of 2026-10-30 folded in ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md), [0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)) |
-| 5 | [`status-and-dashboard.md`](status-and-dashboard.md) | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | **In progress** |
+| 5 | [`status-and-dashboard.md`](status-and-dashboard.md) | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | **Draft complete**, awaiting your approval |
 | 6 | `distribution-security-and-cost.md` | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | Not started |
 
 **Why this order.** The knowledge library is the heart of the design and the first rollout phase (PRD §9, Foundations), and the other docs refer to it. Seeding follows because it fills the library. The developer workflow comes next because standards, status and the dashboard all depend on what each stage writes. Distribution comes last because it depends on the Claude plan, which isn't known yet.
@@ -71,6 +71,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 5. Notifications. **Done:** [0053](../decisions/0053-github-notifications-now-slack-later.md), GitHub's own notifications for now; Slack later (set by the owner)
 6. The weekly summary. **Done:** [0054](../decisions/0054-weekly-summary-as-a-github-issue.md), a weekly GitHub issue in `seeonee/bagheera`, mentioning a readers team and the owners named in it
 7. The Jira link ([0006](../decisions/0006-jira-link-only.md)). **Done:** [0055](../decisions/0055-intake-comments-the-link-on-the-jira-ticket.md), Intake comments the planning PR's link on the ticket
+8. The dashboard's name (naming register). **Done:** [0056](../decisions/0056-name-the-dashboard-plainly.md), "Bagheera dashboard", kept plain
 
 **6. Distribution, security and cost**
 1. Plugin packaging and the marketplace
@@ -162,4 +163,4 @@ Themed names are proposed to the owner first ([0010](../decisions/0010-naming.md
 | The plugin, which prefixes every command | Delivery harness plugin | `bagheera` (commands are `/bagheera:<stage>`) | Approved ([0029](../decisions/0029-stage-commands-under-the-bagheera-plugin.md)) |
 | The knowledge library | Knowledge library | Council Rock | Approved ([0023](../decisions/0023-name-council-rock-and-baloo.md)) |
 | The knowledge agent | Knowledge agent | Baloo | Approved ([0023](../decisions/0023-name-council-rock-and-baloo.md)) |
-| The dashboard | Dashboard | — | To propose in doc 5 |
+| The dashboard | Bagheera dashboard | None, kept plain | Approved ([0056](../decisions/0056-name-the-dashboard-plainly.md)) |

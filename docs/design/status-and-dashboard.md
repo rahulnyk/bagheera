@@ -1,6 +1,6 @@
 # Status and dashboard
 
-_Status: in progress · Design doc 5 of 6 · [All design docs](README.md)_
+_Status: draft complete, awaiting the owner's approval · Design doc 5 of 6 · [All design docs](README.md)_
 
 One simple dashboard shows every story, what it's waiting on and for how long, so PMs, tech leads, QA, managers and leadership can see where things stand without asking anyone (PRD G4, G5). This doc says where status comes from, how it's worked out, what the dashboard is built on, its views, notifications, the weekly summary and the Jira link.
 
@@ -98,7 +98,7 @@ Markers flag what managers act on (design doc 3, principles). They show next to 
 
 _Decided: [ADR 0051](../decisions/0051-dashboard-on-an-org-github-project.md), following [0005](../decisions/0005-view-only-dashboard.md)._
 
-The dashboard is one org-level GitHub Project. It is configuration, not a build: the sync job fills it in, and people read it.
+The dashboard is one org-level GitHub Project, titled **Bagheera dashboard** ([0056](../decisions/0056-name-the-dashboard-plainly.md)). It is configuration, not a build: the sync job fills it in, and people read it.
 
 ### Rows
 
@@ -195,7 +195,7 @@ Once a week the dashboard sync writes a one-page summary as a GitHub issue in `s
 
 ### How it reaches people
 
-* **A new issue every Monday morning,** covering the week before, titled for example `Weekly summary: 26 Oct – 1 Nov 2026` and labelled `weekly-summary`. The sync job pins it to the top of the repo's issues and closes last week's.
+* **A new issue every Monday morning,** covering the week before, titled for example `Bagheera weekly summary: 26 Oct – 1 Nov 2026` and labelled `weekly-summary`. The sync job pins it to the top of the repo's issues and closes last week's.
 * **Readers join one team.** The issue @mentions `@seeonee/bagheera-weekly`, which managers, leadership and the platform team join; anyone can ask to join. GitHub tells them by email, web or mobile, as they've chosen (section 5).
 * **Owners hear about their own part.** A standard's owners are @mentioned on the rows about their rules (PRD R6; design doc 4, section 4). A domain's owners are @mentioned on library PRs of theirs that have waited more than five working days (design doc 1, section 8). Only owners with something listed are mentioned that week.
 * **Linked from the dashboard.** The project's README links to the list of past summaries, so they're one click away and searchable.
@@ -217,7 +217,7 @@ Six short sections. Each gives counts and the five oldest or largest items, with
 For example:
 
 ```text
-Weekly summary: 26 Oct – 1 Nov 2026                        @seeonee/bagheera-weekly
+Bagheera weekly summary: 26 Oct – 1 Nov 2026               @seeonee/bagheera-weekly
 
 1. Shipped      4 stories (4-week average 3) · median 9 working days from Intake
                 payments 2 · checkout 1 · accounts 1
@@ -251,10 +251,10 @@ Jira links to the work; it doesn't show the stage (PRD V5's minimum). The stage 
 * **Jira to GitHub.** When Intake opens the planning PR, it posts one comment on the Jira ticket, with the developer's own Jira access through the plugin's Jira connector (the same connector that reads the ticket):
 
   ```text
-  Bagheera: planning PR seeonee/payments-api#512 · status on the dashboard
+  Bagheera: planning PR seeonee/payments-api#512 · status on the Bagheera dashboard
   ```
 
-  "Status on the dashboard" opens the All stories view filtered to the ticket.
+  The dashboard link opens the All stories view filtered to the ticket.
 * **GitHub to Jira.** The planning PR's description starts with a link to the ticket, and the dashboard's Ticket field shows the key (section 3).
 * **One link is enough.** Each ticket has one repo and one planning PR (design doc 3, section 3), which links its phase and revision PRs. A major change becomes a new ticket, which gets its own link at its own Intake.
 
@@ -265,6 +265,3 @@ Jira links to the work; it doesn't show the stage (PRD V5's minimum). The stage 
 * **Nothing else writes to Jira.** CI has no Jira access, and nobody keeps Jira fields in step.
 * **If the company already runs Atlassian's GitHub for Jira app,** it also lists the branches and PRs in the ticket's Development panel, because branch names start with the ticket key. It needs nothing from Bagheera.
 
-## Still to come
-
-The dashboard's name, proposed to the owner (naming register).
