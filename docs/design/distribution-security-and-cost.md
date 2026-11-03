@@ -80,9 +80,41 @@ The Claude admin adds these to the managed settings once (how managed settings r
 * **A git sign-in that works without a prompt.** Claude Code fetches in the background and never asks for a password. Most developers already have this from cloning repos: an SSH key loaded in their agent, or a stored HTTPS credential. The onboarding guide has a one-line check, and the usual fix if it fails (`gh auth login`, then `gh auth setup-git`).
 * **Nothing else.** If a fetch ever fails, the plugin keeps working from the last version fetched, and `/plugin` shows the error.
 
+## 2. How settings reach laptops
+
+_Decided: [ADR 0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), set by the owner._
+
+The managed settings are one file in `seeonee/bagheera`, `settings/managed-settings.json`. It holds the plugin switch (section 1), the deny rules (design doc 4, section 5) and the lock on other plugins (still to come). It changes by PR and is reviewed like code (section 6). How it reaches laptops differs between the pilot and the rollout.
+
+### During the pilot: installed by hand
+
+Nothing is set in the admin console. Each pilot engineer, on a Mac, installs the plugin once:
+
+```bash
+claude plugin marketplace add seeonee/bagheera#release
+claude plugin install bagheera@seeonee
+```
+
+Then, in `/plugin`, under **Marketplaces**, they select `seeonee` and turn on auto-update, so fixes during the pilot arrive on their own (section 1).
+
+* **The same plugin and the same `release` branch** as everyone gets later, so the pilot tests what ships.
+* **Read access** to `seeonee/bagheera` goes to the pilot engineers first, and to everyone at rollout.
+* **The deny rules and the sandbox trial** can't come with the plugin, because a plugin can't carry permission or sandbox settings. Where they go for the pilot is still to come.
+
+### After the pilot: the claude.ai admin console
+
+* **A Claude org owner pastes the merged settings file** into the admin console (Organization settings, then Claude Code, then Managed settings).
+* **Claude Code fetches it** at startup and checks hourly, so a change reaches everyone within about an hour, including Claude Code on the web.
+* **One policy for everyone** in the company's Claude org.
+* **Nothing to redo on pilot machines.** The console's settings register the same marketplace by name, take over from the hand-made install, and switch the plugin on for good.
+* **It needs a Team or Enterprise plan** (PRD Q7); the design assumes one.
+* **It's a guard on the developer's machine, not a hard barrier.** It doesn't reach someone signed in with a personal account or an API key. GitHub's own rules still block force-push and changes to protected paths on the server (design doc 4, section 5).
+
 ## Still to come
 
-2. How settings reach laptops, and blocking other plugins and marketplaces (D1)
+* The pilot's deny rules and sandbox settings
+* What the settings lock: other plugins and marketplaces (D1)
+
 3. CI credentials (D3)
 4. Spend limits and reporting (D4)
 5. Adoption and cost by team (V6)

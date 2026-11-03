@@ -126,7 +126,7 @@ Adoption and cost (V6) stay in Claude's analytics, joined to the stories only in
 
 | # | Decision | Outcome | Record |
 | --- | --- | --- | --- |
-| 1 | Claude plan and model access (Q7, Q8) | Open: set by the organisation; the owner will update. The design keeps both paths. | — |
+| 1 | Claude plan and model access (Q7, Q8) | Open: set by the organisation; the owner will update. The design assumes a Team or Enterprise plan for the admin console. | [0058](decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md) |
 | 2 | GitHub access for PMs, QA and leadership (Q2) | Yes | [0001](decisions/0001-github-access-for-pms-qa-and-leadership.md) |
 | 3 | What counts as approval (C3) | An `/approved` comment by the designated role; stage commands stop without it, and deliberate overrides are recorded | [0002](decisions/0002-soft-approval-by-comment.md), [0032](decisions/0032-stage-check-stops-and-records-overrides.md) |
 | 4 | Stage and command names (P6) | The PRD's stage names, with a light Jungle Book touch | [0003](decisions/0003-stage-names-from-the-prd.md) |

@@ -75,7 +75,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 
 **6. Distribution, security and cost**
 1. Plugin packaging and the marketplace. **Done:** [0057](../decisions/0057-release-the-plugin-from-a-release-branch.md), one marketplace in `seeonee/bagheera`, released from a `release` branch
-2. How settings reach laptops (depends on the Claude plan)
+2. How settings reach laptops (depends on the Claude plan). **Done:** [0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), the claude.ai admin console after the pilot; pilot engineers install the plugin by hand (set by the owner)
 3. CI credentials
 4. Spend limits and reporting
 5. Adoption and cost by team
@@ -104,8 +104,8 @@ In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No se
 
 | Who | What | How often | Where designed |
 | --- | --- | --- | --- |
-| GitHub org owners (the company's org managers; confirmed by the owner, 2026-10-30) | Install the harness's GitHub App; give every engineer read access to `seeonee/bagheera`; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify, which also blocks force-push and needs owner review on protected paths; create PM, tech lead and QA teams where missing, and the `bagheera-weekly` readers team for the weekly summary | Once, in Foundations (about an hour) | Docs 1, 3, 5 and 6 |
-| Claude admin | Settings that install the plugin on every laptop, with the deny rules; the sandbox for the pilot team; CI credentials and a spend limit | Once, and when the deny list changes; never per release | Docs 4 and 6 |
+| GitHub org owners (the company's org managers; confirmed by the owner, 2026-10-30) | Install the harness's GitHub App; give read access to `seeonee/bagheera`, to pilot engineers first and everyone at rollout; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify, which also blocks force-push and needs owner review on protected paths; create PM, tech lead and QA teams where missing, and the `bagheera-weekly` readers team for the weekly summary | Once, in Foundations (about an hour) | Docs 1, 3, 5 and 6 |
+| Claude admin (an owner of the company's Claude org) | After the pilot, paste the reviewed managed settings into the admin console: the plugin for everyone, with the deny rules; CI credentials and a spend limit | Once, and when the settings file changes; never per release | Docs 4 and 6 |
 | Each team | JUnit test results from its CI; review its seeded service pages | Once per repo, at onboarding | Docs 2 and 3 |
 | Approvers and page owners | Approve stage documents; review library PRs | Ongoing, as part of their normal work | Docs 1 and 3 |
 | Architecture council (principal and senior staff) | Own the first standards, the prefix register and the deny list; edit them as needed | Foundations, then ongoing | Doc 4 ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)) |
@@ -138,7 +138,7 @@ DeepWiki-Open and its Docker setup ([0024](../decisions/0024-seed-service-pages-
 | The sandbox for everyone, for some repos, or deny rules only; until then R4 is only partly met for deploy commands and production credentials | [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) | `docs/plan.md`, as a pilot exit decision |
 | Slack integration: GitHub's scheduled reminders, after the pilot | [0053](../decisions/0053-github-notifications-now-slack-later.md) | `docs/plan.md` |
 | Each repo's CI must save JUnit test results for the criteria table | [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md) | `docs/plan.md`, as an onboarding step |
-| Claude plan and model access (Q7, Q8) not known yet | Settings delivery, CI sign-in and team cost reporting depend on it; the docs keep both paths open | Doc 6 |
+| Claude plan and model access (Q7, Q8) not confirmed | The design now assumes a Team or Enterprise plan, which the admin console needs ([0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md)); CI sign-in and team cost reporting also depend on it | Doc 6; owner to confirm |
 
 ## PRD wording to update
 
