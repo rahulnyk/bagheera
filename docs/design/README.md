@@ -17,7 +17,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | 3 | [`developer-workflow.md`](developer-workflow.md) ([walkthrough deck](developer-workflow-walkthrough.pptx)) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Approved**; amended with the owner's answers on 2026-10-30 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)–[0040](../decisions/0040-build-phases-one-at-a-time.md)) |
 | 4 | [`standards-and-review.md`](standards-and-review.md) ([walkthrough deck](standards-and-review-walkthrough.pptx)) | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **Approved**; your answers of 2026-10-30 folded in ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md), [0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)) |
 | 5 | [`status-and-dashboard.md`](status-and-dashboard.md) | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | **Approved** |
-| 6 | `distribution-security-and-cost.md` | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | **In progress** |
+| 6 | [`distribution-security-and-cost.md`](distribution-security-and-cost.md) | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | **In progress** |
 
 **Why this order.** The knowledge library is the heart of the design and the first rollout phase (PRD §9, Foundations), and the other docs refer to it. Seeding follows because it fills the library. The developer workflow comes next because standards, status and the dashboard all depend on what each stage writes. Distribution comes last because it depends on the Claude plan, which isn't known yet.
 
@@ -74,7 +74,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 8. The dashboard's name (naming register). **Done:** [0056](../decisions/0056-name-the-dashboard-plainly.md), "Bagheera dashboard", kept plain
 
 **6. Distribution, security and cost**
-1. Plugin packaging and the marketplace
+1. Plugin packaging and the marketplace. **Done:** [0057](../decisions/0057-release-the-plugin-from-a-release-branch.md), one marketplace in `seeonee/bagheera`, released from a `release` branch
 2. How settings reach laptops (depends on the Claude plan)
 3. CI credentials
 4. Spend limits and reporting
@@ -89,7 +89,7 @@ Kept up to date with every doc, so the total stays visible (the owner's request,
 
 | Part | What it is | Where designed |
 | --- | --- | --- |
-| `seeonee/bagheera` repo | The plugin, the workflows and their scripts | Docs 1–3 |
+| `seeonee/bagheera` repo | The marketplace, the plugin, the workflows and their scripts; releases from its `release` branch | Docs 1–3; doc 6, section 1 |
 | The plugin | `/bagheera`, the eight stage commands and `/bagheera:revise`; the knowledge skill; `seed-service-page`; `draft-standard`; Baloo and a read-only code reader (subagents); the session-start and first-edit hooks; the feature and stage-check scripts | Docs 1–3 |
 | The library repo (Council Rock) | Pages, `domains.yaml`, `prefixes.yaml`, the library checker, lychee | Docs 1 and 4 |
 | Verify workflow | On every PR in onboarded repos, through one org ruleset | Doc 3, section 9; doc 4 |
@@ -104,8 +104,8 @@ In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No se
 
 | Who | What | How often | Where designed |
 | --- | --- | --- | --- |
-| GitHub org owners (the company's org managers; confirmed by the owner, 2026-10-30) | Install the harness's GitHub App; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify, which also blocks force-push and needs owner review on protected paths; create PM, tech lead and QA teams where missing, and the `bagheera-weekly` readers team for the weekly summary | Once, in Foundations (about an hour) | Docs 1, 3 and 5 |
-| Claude admin | Settings that install the plugin on every laptop, with the deny rules; the sandbox for the pilot team; CI credentials and a spend limit | Once, and when the deny list changes | Docs 4 and 6 |
+| GitHub org owners (the company's org managers; confirmed by the owner, 2026-10-30) | Install the harness's GitHub App; give every engineer read access to `seeonee/bagheera`; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify, which also blocks force-push and needs owner review on protected paths; create PM, tech lead and QA teams where missing, and the `bagheera-weekly` readers team for the weekly summary | Once, in Foundations (about an hour) | Docs 1, 3, 5 and 6 |
+| Claude admin | Settings that install the plugin on every laptop, with the deny rules; the sandbox for the pilot team; CI credentials and a spend limit | Once, and when the deny list changes; never per release | Docs 4 and 6 |
 | Each team | JUnit test results from its CI; review its seeded service pages | Once per repo, at onboarding | Docs 2 and 3 |
 | Approvers and page owners | Approve stage documents; review library PRs | Ongoing, as part of their normal work | Docs 1 and 3 |
 | Architecture council (principal and senior staff) | Own the first standards, the prefix register and the deny list; edit them as needed | Foundations, then ongoing | Doc 4 ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)) |
