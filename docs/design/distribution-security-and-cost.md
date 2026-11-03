@@ -84,7 +84,7 @@ The Claude admin adds these to the managed settings once (how managed settings r
 
 _Decided: [ADR 0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), set by the owner._
 
-The managed settings are one file in `seeonee/bagheera`, `settings/managed-settings.json`. It holds the plugin switch (section 1), the deny rules (design doc 4, section 5) and the lock on other plugins (still to come). It changes by PR and is reviewed like code (section 6). How it reaches laptops differs between the pilot and the rollout.
+Bagheera's settings are files in `seeonee/bagheera`, changed by PR and reviewed like code (section 6). During the pilot there is one, `settings/pilot-user-settings.json`, which pilot engineers copy into their own settings. At rollout it becomes `settings/managed-settings.json`, which goes into the admin console and holds the plugin switch (section 1), the deny rules (design doc 4, section 5) and the lock on other plugins (still to come). The deny list is in one file at a time, so it's never kept in two places.
 
 ### During the pilot: installed by hand
 
@@ -99,7 +99,23 @@ Then, in `/plugin`, under **Marketplaces**, they select `seeonee` and turn on au
 
 * **The same plugin and the same `release` branch** as everyone gets later, so the pilot tests what ships.
 * **Read access** to `seeonee/bagheera` goes to the pilot engineers first, and to everyone at rollout.
-* **The deny rules and the sandbox trial** can't come with the plugin, because a plugin can't carry permission or sandbox settings. Where they go for the pilot is still to come.
+* **The deny rules and the sandbox trial** can't come with the plugin, because a plugin can't carry permission or sandbox settings. They go in each engineer's own settings (below).
+
+### The pilot's deny rules and sandbox
+
+_Decided: [ADR 0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md), set by the owner._
+
+Only a handful of trusted engineers take part, so their own settings file is enough.
+
+* **One file to copy from.** `seeonee/bagheera` holds `settings/pilot-user-settings.json`: the deny rules (design doc 4, section 5), bypass mode off, and the sandbox settings for the trial (design doc 4, section 5). At setup, each pilot engineer adds its contents to `~/.claude/settings.json`; the platform team helps anyone who already has settings there.
+* **What still holds.**
+  * Deny rules win over allow rules from any settings file, so a repo's own settings can't loosen them.
+  * With `failIfUnavailable`, Claude Code won't start if the sandbox can't run. With `allowUnsandboxedCommands` off, Claude can't ask to run a command outside it.
+* **What doesn't.**
+  * The engineer can change the file; the pilot relies on their agreement not to.
+  * The list of allowed hosts can only be locked in managed settings. In the pilot, an unlisted host prompts the engineer instead of being blocked. Those prompts are useful: they show which hosts the trial needs.
+* **When the deny list changes** during the pilot, the platform team asks the pilot engineers to copy the file again.
+* **At rollout,** the deny rules move into the console's settings file, where developers can't change them. Whether the sandbox goes there too is the pilot exit decision (design doc 4, section 5).
 
 ### After the pilot: the claude.ai admin console
 
@@ -112,7 +128,6 @@ Then, in `/plugin`, under **Marketplaces**, they select `seeonee` and turn on au
 
 ## Still to come
 
-* The pilot's deny rules and sandbox settings
 * What the settings lock: other plugins and marketplaces (D1)
 
 3. CI credentials (D3)

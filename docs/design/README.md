@@ -75,7 +75,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 
 **6. Distribution, security and cost**
 1. Plugin packaging and the marketplace. **Done:** [0057](../decisions/0057-release-the-plugin-from-a-release-branch.md), one marketplace in `seeonee/bagheera`, released from a `release` branch
-2. How settings reach laptops (depends on the Claude plan). **Done:** [0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), the claude.ai admin console after the pilot; pilot engineers install the plugin by hand (set by the owner)
+2. How settings reach laptops (depends on the Claude plan). **Done:** [0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), the claude.ai admin console after the pilot; pilot engineers install the plugin by hand (set by the owner); [0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md), the pilot's deny rules and sandbox in each engineer's own settings (set by the owner)
 3. CI credentials
 4. Spend limits and reporting
 5. Adoption and cost by team
@@ -135,7 +135,7 @@ DeepWiki-Open and its Docker setup ([0024](../decisions/0024-seed-service-pages-
 | Caution versus PRD K4 and the "updated within a day" target | Decided: only restated approved work merges without a person ([0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)) | Resolved; K4 holds in a narrower form |
 | Status data in the knowledge library versus PRD K1's page types | Decided: status is derived from GitHub and lives only in the dashboard ([0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md)) | Resolved |
 | DeepWiki-Open needs an Anthropic API key via LiteLLM, not a Claude subscription | Decided: seed with a Claude Code skill instead, which works on a subscription or an API key ([0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)) | Resolved |
-| The sandbox for everyone, for some repos, or deny rules only; until then R4 is only partly met for deploy commands and production credentials | [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) | `docs/plan.md`, as a pilot exit decision |
+| The sandbox for everyone, for some repos, or deny rules only; until then R4 is only partly met for deploy commands and production credentials, and in the pilot the deny rules hold by agreement ([0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md)) | [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) | `docs/plan.md`, as a pilot exit decision |
 | Slack integration: GitHub's scheduled reminders, after the pilot | [0053](../decisions/0053-github-notifications-now-slack-later.md) | `docs/plan.md` |
 | Each repo's CI must save JUnit test results for the criteria table | [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md) | `docs/plan.md`, as an onboarding step |
 | Claude plan and model access (Q7, Q8) not confirmed | The design now assumes a Team or Enterprise plan, which the admin console needs ([0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md)); CI sign-in and team cost reporting also depend on it | Doc 6; owner to confirm |

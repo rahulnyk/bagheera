@@ -37,3 +37,5 @@ Chosen option: C.
 Detail in [design/standards-and-review.md, section 5](../design/standards-and-review.md#5-forbidden-actions). Sources: Claude Code docs, [permissions](https://code.claude.com/docs/en/permissions) and [sandboxing](https://code.claude.com/docs/en/sandboxing).
 
 Amended by [0047](0047-architecture-council-owns-standards-prefixes-deny-list.md): the deny list is seeded with the harness's scaffolding and edited by the architecture council.
+
+Amended by [0059](0059-pilot-settings-in-engineers-own-settings-file.md): in the pilot, the deny rules and the sandbox are in each pilot engineer's own settings, by agreement, not in managed settings; unlisted hosts prompt instead of being blocked. They move into managed settings at rollout.

@@ -247,8 +247,8 @@ Verify runs with read-only access to the repo and the harness's GitHub App, and 
 
 ### The sandbox trial, pilot team only
 
-* **Setup.** Managed settings for the pilot team's machines turn the sandbox on and require it: Claude Code won't start without it, and Claude can't ask to run a command outside it. Credential folders are unreadable. Only listed hosts are reachable (GitHub, package registries, and the internal services the pilot's work needs), and production hosts are denied.
-* **What we measure.** How often it gets in the way: hosts that had to be added, Docker-based tests that couldn't run, machines that couldn't run it (native Windows needs WSL2).
+* **Setup.** The pilot engineers' own settings turn the sandbox on, by agreement ([0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md); design doc 6, section 2): Claude Code won't start without it, and Claude can't ask to run a command outside it. Credential folders are unreadable. Listed hosts are reachable (GitHub, package registries, and the internal services the pilot's work needs), production hosts are denied, and any other host prompts the engineer, since only managed settings can block unlisted hosts outright.
+* **What we measure.** How often it gets in the way: hosts that had to be added, Docker-based tests that couldn't run, machines that couldn't run it. The pilot engineers are all on Macs, where the sandbox runs; native Windows would need WSL2 later.
 * **Pilot exit decision** (`docs/plan.md`): the sandbox for everyone, for some repos, or deny rules only. If it's adopted, the PRD's "there is no sandbox" assumption changes.
 
 ### Red-team test, before the pilot
