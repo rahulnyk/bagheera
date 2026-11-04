@@ -19,6 +19,8 @@ The delivery path and a simple knowledge library ([0069](decisions/0069-first-sy
 
 Scripts, the format check included, run on a Mac with only `git` and `gh` installed.
 
+**Assumed:** the org has a Claude Code plugin marketplace, governed by its internal policies. Publishing Bagheera through it is outside our scope ([0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md)).
+
 ### The delivery path
 
 | Command | What it does | Writes | Approved by |
@@ -290,7 +292,6 @@ On `seeonee/bagheera-test`, with Jira ticket `TEST-1`. One platform engineer is 
 | Library approvers don't review, or the wrong person approves | PR age; who approved | The platform team chases, and doesn't merge until a fitting person approves |
 | The Claude plan and model access aren't confirmed (PRD Q7, Q8) | Before week 1 | The owner confirms; the pilot needs Claude Code seats |
 | Confluence pages are out of date or vague | The seed run's report of what it left out | Owners rewrite or drop rules before approving |
-| The org has no plugin marketplace yet, or it publishes fixes slowly | Before week 1; time from a fix to the pilot | The owner confirms the marketplace and its owning team; agree a quick path for pilot fixes |
 | Seat usage limits slow seeding or library updates | Each run's usage | Seed repo by repo; use an API key for those runs |
 | Deny rules hold only by agreement in the pilot | The red-team results | The sandbox trial; locked settings at rollout |
 

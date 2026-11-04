@@ -161,6 +161,7 @@ The pilot is proof that the concept works end to end, not a measure of efficienc
 
 * **GitHub** for code, review and CI. **Jira** for tickets. **Anthropic API** for model access. Any design that depends on these must say so.
 * Claude Code is the agent runtime, locally and in CI.
+* The org has a Claude Code plugin marketplace, governed by its internal policies. Publishing Bagheera through it is outside Bagheera's scope.
 * Effort: 2 engineers, about 6–8 weeks to a pilot with one team of 6–8 engineers on at least 10 real tickets; then rollout 2–3 teams at a time.
 * Plugins, hooks and MCP servers run with the engineer's permissions on their machine; there is no sandbox.
 * Build as little as possible. Prefer first-party and widely used open-source tools; anything built must say what was considered and why it didn't fit.

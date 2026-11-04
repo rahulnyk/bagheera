@@ -22,7 +22,7 @@ Set by the owner: A. Once the plugin is built, publishing it and the governance 
 * **The marketplace's owning team's:** publishing each version, who can install it, the review it needs before publishing, including security's review of what runs on laptops (PRD D2), and the lock on other plugins and MCP servers (PRD D1).
 * **Dropped from our design:** our own marketplace, the `release` branch, and our release and lock rules.
 * **Still ours:** the deny rules file, which isn't part of the plugin ([0059](0059-pilot-settings-in-engineers-own-settings-file.md)).
-* **To confirm** before week 1: the org's marketplace and its owning team, and how quickly they publish a fix during the pilot.
+* **Assumed:** the org has a Claude Code plugin marketplace, governed by its internal policies. Publishing through it is outside Bagheera's scope.
 
 ### Consequences
 
