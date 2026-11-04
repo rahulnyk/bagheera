@@ -1,10 +1,10 @@
 # Bagheera — Lean architecture
 
-_Status: draft, updated 2026-10-26 with the owner's decisions · Source of truth: [prd.md](prd.md)_
+_Status: the first sketch, from 2026-10-26. The [design docs](design/README.md) and [decisions](decisions/) replace it wherever they differ. The first system to build is [decision 0069](decisions/0069-first-system-delivery-path-and-knowledge-library.md). · Source of truth: [prd.md](prd.md)_
 
 > **Read with the decisions.** The owner's decisions of 2026-10-26 ([decisions/](decisions/)) change some parts below: approval is an `/approved` comment rather than ruleset approvals, Spec Kit is likely carried in the plugin, commands use the PRD's stage names, and the knowledge library is more cautious. The [design docs](design/README.md) work out each area in detail and replace this page's detail where they differ.
 
-> **Diagram.** A block-level diagram of the current design (design docs 1–4) is in [components.drawio](components.drawio); open it in the draw.io app or at app.diagrams.net. The diagram below is the original sketch.
+> **Diagram.** A block-level diagram of the full design at rollout (design docs 1–4) is in [components.drawio](components.drawio); open it in the draw.io app or at app.diagrams.net. The diagram below is the original sketch.
 
 ## Summary
 
