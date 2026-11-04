@@ -56,9 +56,9 @@ Each stage writes a markdown artifact into the feature's repo, in a folder named
 | --- | --- | --- | --- | --- |
 | 1 | Intake | Spec from the Jira ticket and PRD, with open questions for the PM | PM | G3, G4 |
 | 2 | Architecture | Components, interfaces, data model, diagram, proposed decisions | Tech lead | G2, G3 |
-| 3 | Plan | 2–6 phases, each shippable on its own behind a flag | Tech lead + PM | G3, G4 |
+| 3 | Plan | 2–6 phases, built one at a time | Tech lead + PM | G3, G4 |
 | 4 | Test plan | Per phase: acceptance criteria in plain English (Given/When/Then), plus test cases | PM (criteria), QA (cases) | G4 |
-| 5 | Build phase N | Tests first, then code, one PR per phase | Code review + CI | G2, G3 |
+| 5 | Build phase N | Tests first, then code, in the ticket's one PR | Code review + CI | G2, G3 |
 | 6 | Verify | Automated standards and security review, test results, coverage | CI green + reviewer | G2 |
 | 7 | Demo | Short script and recording of the acceptance criteria running | PM | G4 |
 | 8 | Close | Feature summary and accepted decisions added to the knowledge base | Automatic for the summary; owners for decisions | G1 |

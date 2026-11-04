@@ -25,3 +25,5 @@ Set by the owner: no. Within a ticket, phases are built one at a time, in order,
 ## More information
 
 Detail in [design/developer-workflow.md, sections 3 and 6](../design/developer-workflow.md#6-build). Amends [0029](0029-stage-commands-under-the-bagheera-plugin.md) (the build command's argument), [0030](0030-one-planning-pr-per-feature.md) (rule 2) and [0034](0034-build-tests-first-and-show-criteria-results.md).
+
+Amended by [0075](0075-one-pr-per-ticket.md): phases are built one at a time within the ticket's one PR, so there is no "previous phase merged" check.

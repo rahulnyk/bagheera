@@ -16,6 +16,9 @@ _Where this section and the rest of the doc differ, this section wins. The first
 | --- | --- |
 | Section 4: who approves | In the first system, only the PM and tech lead named in the spec's header; no team fallback and no QA name ([0072](../decisions/0072-named-pm-and-tech-lead-approve.md)) |
 | Section 4: wording fixes keep an approval | Dropped. Any change to a document cancels its approval ([0074](../decisions/0074-any-change-cancels-an-approval.md)) |
+| Section 3: PRs and branches | One branch and one PR per ticket, `PAY-412`: the spec, the plan, then the code. No planning PR, phase PRs, merge rules or feature-folder check ([0075](../decisions/0075-one-pr-per-ticket.md)) |
+| Section 6: one PR per phase | Phases are built one at a time within the ticket's PR; Build ticks each off in the PR's description. One notes file per ticket ([0075](../decisions/0075-one-pr-per-ticket.md)) |
+| Section 8: revision PRs | In the first system, re-running a stage changes its document in the same PR; after merge, more work is a new ticket ([0075](../decisions/0075-one-pr-per-ticket.md)) |
 
 ## Principles
 

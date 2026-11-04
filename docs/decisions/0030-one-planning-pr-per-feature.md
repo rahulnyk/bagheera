@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by [0075](0075-one-pr-per-ticket.md)
 date: 2026-10-29
 deciders: RN (owner)
 ---
