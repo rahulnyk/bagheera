@@ -163,13 +163,13 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 * Build as little as possible. Prefer first-party and widely used open-source tools; anything built must say what was considered and why it didn't fit.
 * **Preferred building blocks** (use unless there's a strong reason not to):
     * **GitHub Spec Kit** as the backbone of stages 1–4, customised through an org **preset** (our templates) and an org **extension** (the stages Spec Kit lacks, such as the test plan and the demo).
-    * **DeepWiki-Open**, run once per repo, to draft the first service pages (K8); then the knowledge agent takes over. It's never a second source of truth.
+    * **A seeding skill in Claude Code**, run once per repo, to draft the first service pages (K8); then the knowledge agent takes over. It's never a second source of truth.
     * **claude-code-action** for everything that runs in CI; one Claude Code **plugin**, distributed through managed settings, for everything on laptops.
 * **Naming:** keep a light Jungle Book theme. The product is **Bagheera**; give themed names only to a few top-level things where a name helps people talk about them. Agents, commands, skills, files and workflows get plain descriptive names. Never use generic placeholder company names; the placeholder GitHub org is `seeonee`.
 
 ## 9. Rollout
 
-1. **Foundations.** Knowledge base with standards written by their owners; first service pages drafted by DeepWiki; self-updating on merge; adoption and cost visibility switched on.
+1. **Foundations.** Knowledge base with standards written by their owners; first service pages drafted by the seeding skill; self-updating on merge; adoption and cost visibility switched on.
 2. **Pilot, stages 1–4.** One team, one real feature; PMs approve in PRs; dashboard live.
 3. **Pilot, stages 5–8.** Build, CI review, demo, close.
 4. **Org rollout.** 2–3 teams at a time, each adding its service pages; the platform team owns Bagheera.
@@ -187,7 +187,7 @@ Expand only once the pilot team uses the approvals rather than skipping them.
 | Q5 | One org-wide knowledge base, or one per domain with shared standards? | Knowledge base |
 | Q6 | Does Jira need to show the stage, or is a link from Jira enough? | Jira integration |
 | Q7 | Claude plan (Team / Enterprise / API Console), which decides what built-in usage analytics exist | Adoption and cost visibility |
-| Q8 | Data residency: Anthropic API, or Bedrock / Vertex? | Model access, DeepWiki setup |
+| Q8 | Data residency: Anthropic API, or Bedrock / Vertex? | Model access |
 | Q9 | Which team and feature pilot first, and what is that team's current meeting load? | Pilot, G4 baseline |
 
 ## Appendix A — Facts already checked (Oct 2026)
