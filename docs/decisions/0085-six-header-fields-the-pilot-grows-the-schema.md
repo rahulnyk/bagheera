@@ -20,7 +20,7 @@ Design doc 1 defines about 29 header fields across the four page types before an
 Chosen by the owner: A. Page types and their metadata are defined from the pilot itself.
 
 * **Six fields to start,** the ones Bagheera reads: `type`, `title`, `updated`, `expires` and `approved_by` on every page, and `repos` on service pages, so session start finds the page.
-* **Left to other places:** the path is the page's ID and holds its domain; `CODEOWNERS` names the owners; a feature entry is named after its ticket; a superseded decision gets an `expires` date and a link to the decision that replaces it.
+* **Left to other places:** the path is the page's ID and holds its domain; a feature entry is named after its ticket; a superseded decision gets an `expires` date and a link to the decision that replaces it.
 * **Body sections** start from doc 1's templates for each type, within their length limits. The format check requires them, so a page can't lose its context.
 * **Grown by the pilot.** A field or section is added only when a pilot page needs it and something reads it, by a PR to the schema in the library repo. At the pilot exit, the schema is fixed for rollout.
 

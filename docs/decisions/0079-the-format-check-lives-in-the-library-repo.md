@@ -19,7 +19,7 @@ The library's format check runs on every library PR, including owners' own edits
 
 Chosen by the owner: A.
 
-* The checker script and the page schemas live in the library repo, under `checks/`, owned by the platform team through `CODEOWNERS`.
+* The checker script and the page schemas live in the library repo, under `checks/`, changed only by the platform team.
 * The library's workflow runs it on every PR with no secrets, and the branch rule requires it.
 * `/bagheera:update-library` runs the same script from its local copy of the library.
 * The script checks that links between pages resolve; lychee isn't used.

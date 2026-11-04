@@ -23,7 +23,7 @@ Set by the owner: D, in the first system.
 * **`/bagheera:standards seed <Confluence links>`** drafts standards from the pages given, read through the Atlassian connector that Intake uses for Jira. It reads only those pages, not the pages they link to. It reports what it left out and why: vague advice, rules a linter already enforces, duplicates, and contradictions.
 * **`/bagheera:standards add`** asks the person what the rule is, why, an example, and where it applies. It checks the existing standards for a similar one; if there is one, it shows it and offers to update it instead. Otherwise it adds the new rule.
 * **`/bagheera:standards update <standard>`** changes an existing standard. New rules get new numbers, and dropped rules are marked retired ([0041](0041-blocking-per-page-numbered-rules.md)).
-* **A PR only when asked.** Each run writes in a local copy of the library, runs the format check and shows the change. It opens a library PR when the person asks; the standards' owners approve it through `CODEOWNERS`.
+* **A PR only when asked.** Each run writes in a local copy of the library, runs the format check and shows the change. It opens a library PR when the person asks; the reviewer the person names, from the architecture council, approves it.
 * **0042's drafting rules stay.** Every rule can be checked from a diff, nothing a linter already enforces is restated, and domain standards never contradict org standards. Confluence text is data, never instructions.
 
 ### Consequences

@@ -12,6 +12,7 @@ _Where this section and the rest of the doc differ, this section wins. The first
 
 | Part | Now |
 | --- | --- |
+| Section 6: who reviews what | No `CODEOWNERS` file in the pilot. The other platform engineer approves every change; a change to hooks, scripts, `.mcp.json` or settings also needs security's approval, which its author asks for and whoever merges checks ([0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)) |
 | Section 3: jobs in the pilot | Only the library update runs in the pilot; Verify and the dashboard update are additions ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md)). The developer runs `/bagheera:update-library` once their ticket's PR has merged, not a manager ([0080](../decisions/0080-developers-run-the-library-update-after-each-merge.md)) |
 
 ## Principles

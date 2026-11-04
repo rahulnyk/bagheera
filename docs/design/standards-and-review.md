@@ -15,6 +15,7 @@ _Where this section and the rest of the doc differ, this section wins. The first
 | Part | Now |
 | --- | --- |
 | Section 2: writing the first standards | `/bagheera:standards` replaces `/bagheera:draft-standard`, in the first system. `seed <Confluence links>` drafts standards from the org's Confluence pages; `add` asks questions, checks for a similar standard and offers to update it instead; `update` changes one. Each run opens a library PR only when the person asks. The drafting rules stay ([0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md)) |
+| Section 1: ownership | No `owners` field and no owners file in the pilot; the architecture council approves standards PRs by process, checked by whoever merges ([0085](../decisions/0085-six-header-fields-the-pilot-grows-the-schema.md), [0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)) |
 | Sections 3–5 | The standards hook, the PR review and the managed deny rules are additions to the first system ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md)); the pilot's deny rules are in each engineer's own settings ([0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md)) |
 
 ## Principles
