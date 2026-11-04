@@ -1,6 +1,6 @@
 # Distribution, security and cost
 
-_Status: draft complete, awaiting the owner's approval · Design doc 6 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-11-04 · Design doc 6 of 6 · [All design docs](README.md)_
 
 From rollout, Bagheera reaches every laptop and every CI run the same way, with nothing for developers to install; in the pilot, a handful of engineers install it by hand and run everything on their laptops. Changes to it are as carefully reviewed as production code. This doc says how the plugin is packaged and released, how settings reach laptops, where the jobs run (laptops in the pilot, CI at rollout) and how CI signs in, how spend is capped and reported, how adoption and cost are shown by repository, and how changes to Bagheera are reviewed and released.
 
