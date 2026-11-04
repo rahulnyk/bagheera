@@ -1,13 +1,14 @@
 # Seeding
 
-_Status: approved by the owner, 2026-10-29; simplified by the owner, 2026-11-04 ([0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md)) · Design doc 2 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-29; simplified by the owner, 2026-11-04 ([0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md), [0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)) · Design doc 2 of 6 · [All design docs](README.md)_
 
-**Changes since approval** ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [ADR 0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md)). Where these differ from the rest of the doc, they win:
+**Changes since approval** ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [ADR 0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md), [ADR 0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)). Where these differ from the rest of the doc, they win:
 
 * Seeded pages carry no footnote on each statement for now. The seeding PR lists the files and commits the skill read, and reviewers check the page against the code.
 * Seeded pages get an `expires` date, 90 days after their PR is approved, instead of `last_verified` ([design doc 1, shelf life](knowledge-library.md#shelf-life)).
 * After seeding, `/bagheera:update-library` keeps the page current, run on demand in the pilot, rather than an hourly run.
 * The seeding PR's description is a short report: the commit read, conflicts between docs and code, and what the skill couldn't work out. The list of where to look (section 2) is guidance inside the skill. There's no DeepWiki-Open fallback: if drafts are poor, we improve the skill or owners write the page ([ADR 0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md)).
+* The skill borrows DeepWiki-Open's method, and DeepWiki-Open is never run: it plans before it writes, writes only from the planned files, skips vendored code, build output, lock files and env and secret files, and the PR's description gives the files and line ranges behind each section (section 1, [ADR 0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)).
 
 Existing services get a first-draft page from a one-off automated pass over their code, so the library isn't empty on day one (PRD K8). This doc says what runs that pass, what it reads and writes, how the drafts are reviewed, and how to run it for each repo.
 
@@ -43,9 +44,9 @@ payments-api retries a failed charge up to 3 times over 24 hours.[^s1]
 [^s1]: inferred · read from `internal/charge/retry.go` at seeonee/payments-api@a1b2c3d on 2026-11-02 · <link to the file at that commit> · reviewed in library PR #12
 ```
 
-### Why not DeepWiki-Open
+### Why we don't run DeepWiki-Open
 
-The PRD names DeepWiki-Open for this, and [0009](../decisions/0009-seed-service-pages-with-deepwiki-open.md) first chose it. Checking what it takes to run changed that:
+The PRD named DeepWiki-Open for this, and [0009](../decisions/0009-seed-service-pages-with-deepwiki-open.md) first chose it. Checking what it takes to run changed that:
 
 | | DeepWiki-Open | Claude Code with a seeding skill |
 | --- | --- | --- |
@@ -55,7 +56,22 @@ The PRD names DeepWiki-Open for this, and [0009](../decisions/0009-seed-service-
 | Coverage | Indexes every file | Reads what it judges relevant; section 2 gives it a fixed list of places to look, and the owners' review catches gaps |
 | Upkeep | A third-party tool whose README now points to a hosted "2.0" successor | One skill in our plugin |
 
-**Fallback.** If the drafts for the first real repo are poor, we switch to DeepWiki-Open through its bundled LiteLLM proxy, with an Anthropic API key and Ollama's `nomic-embed-text` for indexing, pinned to a known version.
+### What we borrow from DeepWiki-Open
+
+_Decided by the owner: [ADR 0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)._
+
+We don't run DeepWiki-Open; our skill borrows its method, from its wiki prompts at commit `f89c59a` (3 Nov 2026, MIT licence).
+
+| Borrowed | In our skill |
+| --- | --- |
+| It plans the wiki from the file tree and README before writing, listing the files relevant to each page | Pass 1, the plan: the repo's services and, for each section of each page, the files to read (section 2's list says where to look). The person running it confirms the plan |
+| Each page is written only from its relevant files | Pass 2, the pages: written from the planned files only. Anything not found is left out and listed as not worked out |
+| Vendored code, build output, lock files and env files are skipped | The same filter, so seeding never reads credentials. Repo docs stay in (0025), unlike DeepWiki-Open's default |
+| Each section cites its files and line ranges | In the seeding PR's description, linked at the commit read, so reviewers check each section in one click. The page itself carries no sources (0070) |
+
+**Left behind:** its server, web app, embeddings and retrieval, Docker, LiteLLM and Ollama; its wiki format and page structure; diagrams on every page.
+
+**Its text.** We write our own instructions. If any of its prompt text is copied, its MIT notice goes in `third_party/deepwiki-open/` with the commit, as for Spec Kit (design doc 3, section 1). It's adapted once, with no regular review.
 
 ### Why not a code map
 
@@ -63,7 +79,7 @@ A parser can turn code into an exact map of files, functions and calls (an abstr
 
 ### Note on the PRD
 
-K8 asks for "a one-off automated pass over their code", which this meets. PRD §8, §9 (Foundations) and Appendix B name DeepWiki-Open; the wording change is listed for the owner in [the design index](README.md#prd-wording-to-update).
+K8 asks for "a one-off automated pass over their code", which this meets. PRD §8, §9 (Foundations) and Appendix B named DeepWiki-Open; they now name the seeding skill (applied 2026-11-04, logged in [the design index](README.md#prd-wording-to-update)).
 
 ## 2. What the skill reads and writes
 
@@ -204,9 +220,9 @@ A platform engineer runs it, with someone from the joining team at hand to confi
 * A run reads a lot of code. On a subscription it counts against the plan's usage limits, so a large domain may need more than one sitting; seed repo by repo. With an API key, it is ordinary spend (spend limits are design doc 6).
 * The pilot domain's runs are timed and their usage noted, to plan the later waves.
 
-### When to fall back to DeepWiki-Open
+### If drafts are poor
 
-If reviewers rewrite or delete more than half the statements across the pilot domain's pages, the drafts aren't saving time. Then we switch to DeepWiki-Open for later waves (section 1). The threshold is a starting point.
+If reviewers rewrite or delete more than half the statements across a domain's pages, the drafts aren't saving time. We improve the skill before the next domain is seeded, and owners write any page that's beyond fixing ([0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md)).
 
 ## What this adds to the harness
 

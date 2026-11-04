@@ -41,3 +41,5 @@ Chosen option: A. A skill in the plugin applies the knowledge agent's page forma
 Detail in [design/seeding.md](../design/seeding.md). A parser-based code map (an AST) was also discussed: it describes the code's structure, not what a service is for, so it doesn't meet K8 on its own. It may later help check that `depends_on` links match the code.
 
 Amended by [0077](0077-short-seeding-report-no-deepwiki-fallback.md): no DeepWiki-Open fallback.
+
+Amended by [0082](0082-seeding-skill-borrows-deepwiki-opens-method.md): the skill borrows DeepWiki-Open's method; DeepWiki-Open itself is never run.

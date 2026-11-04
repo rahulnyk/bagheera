@@ -166,7 +166,7 @@ The pilot is proof that the concept works end to end, not a measure of efficienc
 * Build as little as possible. Prefer first-party and widely used open-source tools; anything built must say what was considered and why it didn't fit.
 * **Preferred building blocks** (use unless there's a strong reason not to):
     * **GitHub Spec Kit** as the backbone of stages 1–4, customised through an org **preset** (our templates) and an org **extension** (the stages Spec Kit lacks, such as the test plan and the demo).
-    * **A seeding skill in Claude Code**, run once per repo, to draft the first service pages (K8); then the knowledge agent takes over. It's never a second source of truth.
+    * **A seeding skill in Claude Code**, our own, borrowing DeepWiki-Open's method, run once per repo to draft the first service pages (K8); then the knowledge agent takes over. It's never a second source of truth.
     * **claude-code-action** for everything that runs in CI; one Claude Code **plugin**, distributed through managed settings, for everything on laptops.
 * **Naming:** keep a light Jungle Book theme. The product is **Bagheera**; give themed names only to a few top-level things where a name helps people talk about them. Agents, commands, skills, files and workflows get plain descriptive names. Never use generic placeholder company names; the placeholder GitHub org is `seeonee`.
 
@@ -210,7 +210,7 @@ From the first design attempt. Re-verify before relying on them.
 
 ## Appendix B — Lessons from the first attempt
 
-* Too many moving parts for a 2-person team: three repos, a self-hosted monitoring stack, a session-digest queue, six CI workflows and sixteen decisions at once. Spec Kit (preset + extension) and the one-off DeepWiki run were sound; keep them.
+* Too many moving parts for a 2-person team: three repos, a self-hosted monitoring stack, a session-digest queue, six CI workflows and sixteen decisions at once. Spec Kit's method and a one-off seeding pass were sound; keep them, as content in our plugin and a seeding skill of our own that borrows DeepWiki-Open's method.
 * Too many themed names: every agent and repo had a Jungle Book name. Keep the theme light and the terminology plain.
 * The PM and leadership interface was an afterthought (Grafana). Design it for them from the start.
 * Decisions must be explained in plain language and taken one at a time, each with a recommendation.

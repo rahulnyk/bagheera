@@ -34,3 +34,5 @@ Chosen by the owner: A.
 ## More information
 
 Amends [0024](0024-seed-service-pages-with-a-claude-code-skill.md), dropping its fallback. Detail in [design/seeding.md](../design/seeding.md) and [plan.md, section 1](../plan.md#the-knowledge-library).
+
+Amended by [0082](0082-seeding-skill-borrows-deepwiki-opens-method.md): the seeding PR also gives the files and line ranges behind each section.
