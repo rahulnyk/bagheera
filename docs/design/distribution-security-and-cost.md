@@ -213,8 +213,31 @@ _Set by the owner ([ADR 0062](../decisions/0062-pilot-runs-verify-library-and-da
 * **Its key is one organisation secret,** shared with the repos whose `bagheera` property is `on`, so Verify can use it where it runs. One App, one secret, one install.
 * **Accepted on purpose:** a workflow written in an onboarded repo could read the key and act as Bagheera. That takes a deliberate, reviewed change to the repo's workflows, and everything the App does is on record in GitHub, so it isn't designed against now.
 
+## 4. Spend limits and reporting
+
+_Decided: [ADR 0065](../decisions/0065-cap-ci-spend-per-job-and-per-month.md)._
+
+CI spend is capped per job and reported separately from seat usage (PRD D4). Nothing here is built: it's Claude Code's own flags and the Console's own limits.
+
+### In the pilot
+
+There's no CI spend. Verify and the update commands run within people's seat allowance, under whatever limits the company's Claude plan already sets. The platform team notes what a few Verify and library-update runs cost, from Claude Code's own usage figures, to set the caps below.
+
+### At rollout
+
+* **Per job.** Each workflow passes Claude Code's own caps to the Claude Code GitHub Action:
+
+  ```yaml
+  - uses: anthropics/claude-code-action@v1
+    with:
+      claude_args: --max-budget-usd 3 --max-turns 40
+  ```
+
+  A run stops at its cap. The cap works from Claude Code's own estimate, so a run can pass it slightly; the numbers leave room for that. The figures shown are placeholders until the pilot's runs give real ones.
+* **Per month.** One spend limit on CI's Console workspace (section 3), set with headroom. If it's ever reached, Verify can't run and PRs wait, so the platform team watches CI spend in the weekly summary and raises the limit before that happens.
+* **Reported apart from seats.** The Console's cost page shows the CI workspace's spend; seat usage is reported on claude.ai. The weekly summary shows both (section 5).
+
 ## Still to come
 
-4. Spend limits and reporting (D4)
 5. Adoption and cost by team (V6)
 6. How changes to Bagheera are reviewed and released (D2)
