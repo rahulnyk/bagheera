@@ -33,3 +33,5 @@ Chosen option: A.
 ## More information
 
 Detail in [design/status-and-dashboard.md, section 2](../design/status-and-dashboard.md#2-the-status-model). Adds three fields to the spec's header ([design doc 3, section 3](../design/developer-workflow.md#3-what-each-stage-writes-and-how-it-reaches-the-main-branch)).
+
+Amended by [0072](0072-named-pm-and-tech-lead-approve.md): in the first system, only the PM and tech lead named in the spec approve, with no team fallback and no QA name.

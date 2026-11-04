@@ -42,7 +42,7 @@ The stage commands are adapted from Spec Kit's templates and instructions ([0028
 **Approvals** (C3)
 
 * An approval is `/approved spec` or `/approved plan` on its own line, in a PR comment or review.
-* It counts only from the PM or tech lead named in the spec's header. Intake asks the developer to confirm them, and each command requests its approver as a reviewer, so GitHub notifies them and lists the PR in their review requests (Q1).
+* It counts only from the PM or tech lead named in the spec's header. Intake suggests them and the developer confirms; each command requests its approver as a reviewer, so GitHub notifies them and lists the PR in their review requests. To swap someone, the developer edits the header and the new person approves ([0072](decisions/0072-named-pm-and-tech-lead-approve.md)).
 * It doesn't count from anyone who committed to the document. Any later change to the document cancels it (Q3).
 * Every command checks first. Without the approvals it needs, it stops, says what's missing and who it's waiting on, and links the PR. There's no override (Q2).
 
@@ -288,7 +288,7 @@ Brought to the owner one at a time; each answer is recorded as an ADR and folded
 
 | # | Question | Recommended |
 | --- | --- | --- |
-| Q1 | Who counts as the PM and tech lead ([0050](decisions/0050-named-people-per-story-team-fallback.md)) | One PM and one tech lead named in the spec's header; no team fallback, no QA |
+| Q1 | Who counts as the PM and tech lead ([0050](decisions/0050-named-people-per-story-team-fallback.md)) | **Decided** ([0072](decisions/0072-named-pm-and-tech-lead-approve.md)): one PM and one tech lead named in the spec's header; no team fallback, no QA |
 | Q2 | Overrides of the stage check ([0032](decisions/0032-stage-check-stops-and-records-overrides.md)) | None: a stop is a stop |
 | Q3 | Changes after an approval ([0039](decisions/0039-wording-fixes-keep-an-approval.md)) | Any change cancels it; no wording-fix trailer |
 | Q4 | Branches and phases ([0030](decisions/0030-one-planning-pr-per-feature.md), [0040](decisions/0040-build-phases-one-at-a-time.md)) | A planning PR, then phase PRs one at a time; no folder check or written merge rules |
