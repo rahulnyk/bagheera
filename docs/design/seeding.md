@@ -1,6 +1,12 @@
 # Seeding
 
-_Status: approved by the owner, 2026-10-29 · Design doc 2 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-29; simplified by the owner, 2026-11-04 ([0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)) · Design doc 2 of 6 · [All design docs](README.md)_
+
+**Changes since approval** ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)). Where these differ from the rest of the doc, they win:
+
+* Seeded pages carry no footnote on each statement for now. The seeding PR lists the files and commits the skill read, and reviewers check the page against the code.
+* Seeded pages get an `expires` date, 90 days after their PR is approved, instead of `last_verified` ([design doc 1, shelf life](knowledge-library.md#shelf-life)).
+* After seeding, `/bagheera:update-library` keeps the page current, run on demand in the pilot, rather than an hourly run.
 
 Existing services get a first-draft page from a one-off automated pass over their code, so the library isn't empty on day one (PRD K8). This doc says what runs that pass, what it reads and writes, how the drafts are reviewed, and how to run it for each repo.
 

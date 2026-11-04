@@ -28,3 +28,5 @@ Chosen option: C. Both screens run on every library PR, including PRs that would
 ## More information
 
 Detail in [design/knowledge-library.md, section 7](../design/knowledge-library.md#7-checks).
+
+Set aside for now by [0070](0070-knowledge-expires-and-every-change-is-checked-once.md): the first system leaves this out; it can come back when the pilot shows it is needed.

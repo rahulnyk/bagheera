@@ -1,12 +1,44 @@
 # Knowledge library
 
-_Status: approved by the owner, 2026-10-28 · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-28; simplified by the owner, 2026-11-04 ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md), [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)) · Design doc 1 of 6 · [All design docs](README.md)_
 
 _Team walkthrough deck: [knowledge-library-walkthrough.pptx](knowledge-library-walkthrough.pptx) ([PDF](knowledge-library-walkthrough.pdf))._
 
 The knowledge library, **Council Rock**, is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
 
 Covers PRD K1–K7, K9 and K10. Seeding the first service pages (K8) is [design doc 2](README.md).
+
+## Changes since approval
+
+_Simplified by the owner on 2026-11-04 ([ADR 0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md), [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)). Where this section and the rest of the doc differ, this section wins._
+
+| Part | Now |
+| --- | --- |
+| Section 1: sources on every statement, and trust levels | Left out for now. Each library PR lists the merged PRs and documents its changes came from |
+| Section 2: changes that merge by themselves | Dropped for good. Every library change needs its owners' approval |
+| Section 4: `last_verified` | Replaced by `expires`; see shelf life below |
+| Section 4: `domains.yaml` and prefixes | Left out for now. A hand-written owners file routes each folder's PRs to its owners |
+| Section 6: the curation run | In the pilot, a manager runs it on demand with `/bagheera:update-library`. It opens one library PR per run. It also curates every page it writes: the type's header fields and shape, the Open Knowledge Format, and working links |
+| Section 7: checks | One format check, run by `/bagheera:update-library` before it opens a PR and on every library PR, including owners' own edits. The planted-instruction screens are left out for now; owner review is the guard |
+| Section 8: corrections | The weekly check, re-verification and the corrections flow are dropped. Expiry replaces them |
+| Section 9: how sessions read it | At session start, a hook loads the repo's service page and the library's index; Claude opens other pages when it needs them. The step-by-step reveal through the graph is left out for now |
+
+### Shelf life
+
+Knowledge perishes. Every page has an `expires` date, and past it the page is a hint, not a fact.
+
+| Page type | Expires |
+| --- | --- |
+| Service | 90 days after its last approved change |
+| Feature | 90 days after its last approved change |
+| Decision | Never, until superseded |
+| Standard | Never, until changed or retired |
+
+* **Set when a page is written:** the approval date plus its type's shelf life. Owners can set any page to another date, or to `never`.
+* **Renewed** by any approved change that touches the page, or by a PR that changes only the date, when an owner confirms the page is still right.
+* **Past its date,** sessions still see the page, labelled `expired on <date>: check against the code before relying on it`. The stage commands don't put anything from an expired page into a spec or plan without checking it first.
+* **Nothing re-checks pages on a timer.** An unchanged page that's still right simply stops being trusted until someone renews it.
+* **The PRD's measure** "service pages verified by a person in the last 90 days" becomes "service pages within their shelf life": every change is approved by a person.
 
 ## Principles
 
@@ -16,6 +48,8 @@ These apply to every section below.
 * **Brief, but never without context.** Set by the owner on 2026-10-28. We actively fight verbosity, but not at the cost of context. A decision without its context is as good as lost; a decision buried in long reasoning and detailed logs is just as unusable. Each page keeps the essentials and links to the full detail, which stays where it was written (the approved spec, the plan, the PR). Enforced by fixed page shapes and length limits ([0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md), section 4).
 
 ## 1. Provenance and trust
+
+_Left out for now ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)); see [Changes since approval](#changes-since-approval)._
 
 _Decided: [ADR 0012](../decisions/0012-record-provenance-per-statement.md), following [0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md)._
 
@@ -61,6 +95,8 @@ The checks themselves are section 7. For provenance, a check rejects:
 When a session loads a page, Claude sees which statements are settled (owner-approved or approved work) and which are inferred. The session-start instructions tell it to treat inferred statements as hints to confirm in the code, not as facts. Section 9 covers what is loaded.
 
 ## 2. Merge rules under caution
+
+_Dropped: every library change needs its owners' approval ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md))._
 
 _Decided: [ADR 0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)._
 
@@ -154,7 +190,7 @@ The format stays compatible with the Open Knowledge Format (PRD K10): a YAML hea
 | `domain` | A domain from `domains.yaml`, or `org` | `payments` |
 | `owners` | GitHub teams who own the page | `["@seeonee/payments-tech-leads"]` |
 | `status` | Depends on the type; see below | `active` |
-| `last_verified` | When the page was last verified, and the library PR whose approval verified it (the approver is recorded on the PR) | `{date: 2026-10-20, review: "library PR #57"}` |
+| `expires` | When the page stops being trusted without a check (shelf life, in [Changes since approval](#changes-since-approval)), or `never` | `2027-01-18` |
 
 ### Fields on owner-written pages
 
@@ -186,7 +222,7 @@ title: Payments API
 domain: payments
 owners: ["@seeonee/payments-tech-leads"]
 status: active
-last_verified: {date: 2026-10-20, review: "library PR #57"}
+expires: 2027-01-18
 repos: [seeonee/payments-api]
 languages: [go]
 depends_on: [services/payments/ledger-svc]
@@ -194,9 +230,7 @@ environments: [dev, stage, prod]
 ---
 # Payments API
 
-Charges cards and retries failed charges.[^s1]
-
-[^s1]: approved work · PAY-412 spec, `/approved` by @asha on 2026-10-20 · <link>
+Charges cards and retries failed charges.
 ```
 
 ### `domains.yaml`
@@ -277,6 +311,8 @@ PRD §5 adds "accepted decisions" to the library at Close. Proposing them when t
 
 ## 6. The curation run
 
+_Simplified ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)); see [Changes since approval](#changes-since-approval)._
+
 _Decided: [ADR 0018](../decisions/0018-protect-the-library-with-owner-review.md) for approvals. The rest follows from sections 1–5._
 
 ### When it runs
@@ -309,6 +345,8 @@ Every hour, a workflow in the library repo sweeps the PRs merged since its last 
 
 ## 7. Checks
 
+_Simplified to one format check on every change ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)); see [Changes since approval](#changes-since-approval)._
+
 _Decided: [ADR 0019](../decisions/0019-screen-for-planted-instructions-twice.md) for the planted-instructions screen. The other checks follow from sections 1–6._
 
 These run on every library PR and on every push to one, whether the knowledge agent or a person opened it. The library's branch rules require them (section 6), so nothing merges while one fails, including PRs that would otherwise merge by themselves.
@@ -330,6 +368,8 @@ These run on every library PR and on every push to one, whether the knowledge ag
 **Testing the screens.** Before the pilot, and whenever the agent's instructions or the screens change, a test set of at least ten deliberately planted PR descriptions and diffs runs through the whole curation run. It passes only if no planted text reaches a merged page: each one must be ignored by the agent or blocked by a check.
 
 ## 8. Corrections
+
+_Dropped: expiry replaces the weekly check and re-verification ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md))._
 
 _Decided: [ADR 0020](../decisions/0020-send-findings-to-owners-as-library-prs.md)._
 
@@ -376,6 +416,8 @@ The library's part of the one weekly summary, a GitHub issue for the platform te
 * **The platform team** runs the curation run, the checks and the weekly check; clears planted-instruction false alarms; and chases PRs that wait too long.
 
 ## 9. How sessions read it
+
+_Simplified for the first system ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)); see [Changes since approval](#changes-since-approval)._
 
 _Decided: [ADR 0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md), which replaces [0021](../decisions/0021-load-a-compact-starter-set-at-session-start.md). Principle set by the owner on 2026-10-28._
 

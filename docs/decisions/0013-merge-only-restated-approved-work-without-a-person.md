@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by [0070](0070-knowledge-expires-and-every-change-is-checked-once.md)
 date: 2026-10-27
 deciders: RN (owner)
 ---

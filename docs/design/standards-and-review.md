@@ -40,7 +40,7 @@ title: Secrets and personal data
 domain: org
 owners: ["@seeonee/architecture-council"]
 status: active
-last_verified: {date: 2026-11-02, review: "library PR #81"}
+expires: never
 approved_by: "@seeonee/architecture-council"
 approval: <link to library PR #81>
 applies_to: []
