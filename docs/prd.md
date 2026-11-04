@@ -26,7 +26,7 @@ These are the five goals Bagheera exists for. Every requirement in §6 serves at
 | **G2** | **Enforce standards across the org** | Standards are written once by their owners and applied everywhere: loaded into every session, checked on every PR, with dangerous actions blocked outright |
 | **G3** | **A standard, confusion-free way for any developer to be highly productive** | Any engineer, in any repo, follows the same few commands from ticket to merged code, always knows the next step, and needs no setup |
 | **G4** | **PMs inside the development loop, with fast feedback** | PMs review and approve the spec, acceptance criteria and demo where the work happens, within hours not weeks, replacing many weekly status and clarification meetings |
-| **G5** | **Visibility for leadership** | One place showing every story's stage, what's waiting on whom, throughput, adoption and cost by team, without anyone compiling a report |
+| **G5** | **Visibility for leadership** | One place showing every story's stage, what's waiting on whom, throughput, adoption and cost by repository, without anyone compiling a report |
 
 ### Non-goals
 
@@ -60,12 +60,12 @@ Each stage writes a markdown artifact into the feature's repo, in a folder named
 | 4 | Test plan | Per phase: acceptance criteria in plain English (Given/When/Then), plus test cases | PM (criteria), QA (cases) | G4 |
 | 5 | Build phase N | Tests first, then code, in the ticket's one PR | Code review + CI | G2, G3 |
 | 6 | Verify | Automated standards and security review, test results, coverage | CI green + reviewer | G2 |
-| 7 | Demo | Short script and recording of the acceptance criteria running | PM | G4 |
-| 8 | Close | Feature summary and accepted decisions added to the knowledge base | Automatic for the summary; owners for decisions | G1 |
+| 7 | Demo | A short demo script from the acceptance criteria, which the developer demos live or as a recording | PM | G4 |
+| 8 | Close | Feature summary and accepted decisions added to the knowledge base | A person, on the library PR | G1 |
 
 ## 6. Requirements
 
-Priority: **M** must have for the pilot, **S** should have for the pilot, **L** later (org rollout).
+Priority: **M** must have, **S** should have, **L** later (org rollout). The pilot starts with the first system and adds the rest one at a time (§9).
 
 ### 6.1 Knowledge management (G1)
 
@@ -74,9 +74,9 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 | K1 | One git repo of plain markdown pages: org standards and rules; one page per service; decisions (ADRs); one entry per shipped feature; an index; git history as the change log | M |
 | K2 | Pages follow a defined schema (types, header fields, naming, links) that a machine can check | M |
 | K3 | On every merged PR, an agent proposes updates to the affected service page and feature entry, and proposes new decisions | M |
-| K4 | Agents may merge service and feature page changes after automated checks; standards and decisions need their human owners' approval | M |
+| K4 | Agents never merge; every library change needs a person's approval, recorded on the page and the PR | M |
 | K5 | PR text, tickets, pasted documents and diffs are untrusted input to the knowledge agent; injected instructions must not reach merged pages | M |
-| K6 | A scheduled check reports broken links, contradictions, stale service pages (code changed, page didn't) and orphan pages | M |
+| K6 | Every library change is checked for format and links when it's made. Every page has a shelf life, after which sessions treat it as a hint to check against the code. When pages disagree, the newer wins, and sessions say so | M |
 | K7 | Every Claude Code session, in any repo, can read the knowledge base and starts with the relevant service page in context | M |
 | K8 | Existing services get a first-draft page from a one-off automated pass over their code, not written from scratch | M |
 | K9 | Lessons and gotchas found during a session are captured for the knowledge base | S |
@@ -90,7 +90,7 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 | R2 | The standards relevant to the language and service being changed are in Claude's context when it designs or writes code | M |
 | R3 | Every PR gets an automated review against the standards and for security before human review, by an agent separate from the one that wrote the code | M |
 | R4 | Forbidden actions are blocked outright, not just discouraged: deploy commands, force-push, production credentials, edits to protected paths | M |
-| R5 | The feature pipeline's templates and project principles are generated from the standards, so specs and plans follow them by construction | S |
+| R5 | The architecture's template has a standards check, filled from the current standards on each run, so designs follow them by construction | S |
 | R6 | Standards violations found in review are reported by team and rule, so owners see which rules are misunderstood | L |
 
 ### 6.3 Developer workflow (G3)
@@ -103,7 +103,7 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 | P4 | The same commands and behaviour in every repo and on every machine, installed and updated centrally with no developer setup | M |
 | P5 | Build writes failing tests from the test plan before any code, and is done when they pass | M |
 | P6 | Plain, consistent terminology across commands, artifacts and docs; a new joiner can follow the path from a one-page guide | M |
-| P7 | The same capabilities run locally (stages 1–5) and in CI (stages 6–8) | M |
+| P7 | The same commands run on laptops and in CI: Verify and the library update move to CI at rollout; the developer runs the demo | M |
 | P8 | Onboarding a repo or team takes under a day of platform effort and no per-team code | L |
 
 ### 6.4 PM collaboration (G4)
@@ -112,10 +112,10 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 | --- | --- | --- |
 | C1 | PMs review and approve artifacts as rendered pages in a PR, without developer tooling | M |
 | C2 | Open questions in the spec are visible to the PM and answerable inline; answers flow into the next stage | M |
-| C3 | A stage refuses to start until its artifact is approved by the designated role; editing a file locally must not count as approval | M |
+| C3 | A stage refuses to start until its artifact is approved by the designated role, unless the developer overrides on purpose; every override is recorded on the PR. Editing a file locally must not count as approval | M |
 | C4 | Acceptance criteria have stable IDs reused as automated test names, so the PM can see which criteria pass | M |
 | C5 | PMs are notified when something needs their review, and see everything waiting on them in one list | M |
-| C6 | The demo is generated from the acceptance criteria on a preview environment, so the PM can accept without a meeting | S (depends on preview environments; Q4) |
+| C6 | The demo script is generated from the acceptance criteria; the developer demos it on the stage environment, live or recorded, and the PM accepts on the ticket's PR | S |
 
 ### 6.5 Leadership visibility (G5)
 
@@ -126,8 +126,8 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 | V3 | Usable by people who don't use developer or ops tools | M |
 | V4 | Status is derived from the artifacts and PRs, never entered by hand | M |
 | V5 | Jira reflects stage changes, or at least links to the feature's artifacts | S |
-| V6 | Adoption and cost per team: active users, sessions, spend, PRs with AI assistance | M |
-| V7 | A weekly one-page summary: what shipped, what's stuck at which approval, cost by team | S |
+| V6 | Adoption and cost per repository, from each job's recorded cost and GitHub; per-person figures in Claude's own dashboards | M |
+| V7 | A weekly one-page summary: what shipped, what's stuck at which approval, cost by repository | S |
 | V8 | Cost per feature, with an alert on outliers | L |
 
 ### 6.6 Distribution, security and cost (all goals)
@@ -146,7 +146,7 @@ The pilot is proof that the concept works end to end, not a measure of efficienc
 | Goal | Pilot target |
 | --- | --- |
 | G3, G4 | At least 10 tickets taken through intake, plan and build, each with its spec and plan approved by the named PM and tech lead before Build |
-| G1 | Each of those tickets updates the library (service pages, decisions, feature entry), approved by the pages' owners |
+| G1 | Each of those tickets updates the library (service pages, decisions, feature entry), approved by its tech lead or PM |
 
 **After the pilot,** these measure efficiency; their targets are set then:
 
@@ -166,17 +166,17 @@ The pilot is proof that the concept works end to end, not a measure of efficienc
 * Plugins, hooks and MCP servers run with the engineer's permissions on their machine; there is no sandbox.
 * Build as little as possible. Prefer first-party and widely used open-source tools; anything built must say what was considered and why it didn't fit.
 * **Preferred building blocks** (use unless there's a strong reason not to):
-    * **GitHub Spec Kit** as the backbone of stages 1–4, customised through an org **preset** (our templates) and an org **extension** (the stages Spec Kit lacks, such as the test plan and the demo).
+    * **GitHub Spec Kit**'s templates and method as the backbone of stages 1–4, adapted once into the plugin's commands, under the PRD's stage names.
     * **A seeding skill in Claude Code**, our own, borrowing DeepWiki-Open's method, run once per repo to draft the first service pages (K8); then the knowledge agent takes over. It's never a second source of truth.
     * **claude-code-action** for everything that runs in CI; one Claude Code **plugin**, published through the org's plugin marketplace, for everything on laptops.
 * **Naming:** keep a light Jungle Book theme. The product is **Bagheera**; give themed names only to a few top-level things where a name helps people talk about them. Agents, commands, skills, files and workflows get plain descriptive names. Never use generic placeholder company names; the placeholder GitHub org is `seeonee`.
 
 ## 9. Rollout
 
-1. **Foundations.** Knowledge base with standards written by their owners; first service pages drafted by the seeding skill; self-updating on merge; adoption and cost visibility switched on.
-2. **Pilot, stages 1–4.** One team, at least 10 tickets; PMs approve in PRs; dashboard live.
-3. **Pilot, stages 5–8.** Build, CI review, demo, close.
-4. **Org rollout.** 2–3 teams at a time, each adding its service pages; the platform team owns Bagheera.
+1. **The first system.** The delivery path (intake, plan and build, with approvals in the ticket's PR) and the knowledge library: standards seeded from the org's documents, service pages seeded per repo, and the library updated after each merge ([plan](plan.md)).
+2. **Pilot.** One team, at least 10 tickets, proving the first system works end to end.
+3. **Additions,** one at a time, each when the pilot shows it's needed.
+4. **Org rollout.** 2–3 teams at a time, each repo seeded before its first ticket; the platform team owns Bagheera.
 
 Expand only once the pilot team uses the approvals rather than skipping them.
 
@@ -184,12 +184,7 @@ Expand only once the pilot team uses the approvals rather than skipping them.
 
 | # | Question | Blocks |
 | --- | --- | --- |
-| Q1 | Real GitHub org name, and where Bagheera's repos live | Foundations |
-| Q2 | Do PMs and QA have GitHub accounts with review rights? | Approvals, dashboard |
-| Q3 | Is the dashboard view-only, or should people approve, nudge or reassign from it? | Dashboard |
-| Q4 | Do all services have per-PR preview environments? | Demo stage |
-| Q5 | One org-wide knowledge base, or one per domain with shared standards? | Knowledge base |
-| Q6 | Does Jira need to show the stage, or is a link from Jira enough? | Jira integration |
+| Q1 | Real GitHub org name, and where Bagheera's repos live | The first system |
 | Q7 | Claude plan (Team / Enterprise / API Console), which decides what built-in usage analytics exist | Adoption and cost visibility |
 | Q8 | Data residency: Anthropic API, or Bedrock / Vertex? | Model access |
 | Q9 | Which team pilots first, and with which tickets? | Pilot |

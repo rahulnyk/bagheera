@@ -154,7 +154,7 @@ One team of 6–8 engineers, at least 10 real tickets, on Macs (PRD §8, §9). T
 ### Setup
 
 1. **Choose the team and its first tickets** (PRD Q9).
-2. **Access.** The marketplace's owning team lets the pilot engineers install the plugin. Everyone in the pilot, engineers, PM, tech lead and the architecture council, gets write access to the library: engineers push library-update branches, and GitHub counts approvals only from people with write access. Only the platform team merges library PRs, by agreement. The PM and tech lead need GitHub accounts with review rights (PRD Q2).
+2. **Access.** The marketplace's owning team lets the pilot engineers install the plugin. Everyone in the pilot, engineers, PM, tech lead and the architecture council, gets write access to the library: engineers push library-update branches, and GitHub counts approvals only from people with write access. Only the platform team merges library PRs, by agreement. The PM and tech lead need GitHub accounts with review rights ([0001](decisions/0001-github-access-for-pms-qa-and-leadership.md)).
 3. **Seed** the repos the first tickets will land in, the week before, and hold the team's review session.
 4. **Install** (section 1) and onboard (section 5).
 5. **A 30-minute walkthrough** for the engineers, the PM and the tech lead: the five commands, the two approval comments, and what to do when a command stops.
