@@ -17,6 +17,7 @@ _Simplified by the owner on 2026-11-04 ([ADR 0069](../decisions/0069-first-syste
 | Section 1: sources on every statement, and trust levels | Left out for now. Each library PR lists the merged PRs and documents its changes came from, and each page records who approved what it says (below) |
 | Section 2: changes that merge by themselves | Dropped for good. Every library change needs its owners' approval |
 | Section 4: `last_verified` | Replaced by `updated` and `expires`; see shelf life below. `approved_by` moves to every page |
+| Section 3: `index.md` and `CHANGELOG.md` | No `CHANGELOG.md`: git history is the change log. `/bagheera:update-library` rewrites `index.md` in its PR, one line per page with its `expires` date; nothing else writes it, and there's no bookkeeping PR ([ADR 0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)) |
 | Section 4: `domains.yaml` and prefixes | Left out for now. A hand-written owners file routes each folder's PRs to its owners |
 | Section 6: the curation run | In the pilot, a manager runs it on demand with `/bagheera:update-library`. It opens one library PR per run. It also curates every page it writes: the type's header fields and shape, the Open Knowledge Format, and working links |
 | Section 7: checks | One format check, run by `/bagheera:update-library` before it opens a PR and on every library PR, including owners' own edits. The planted-instruction screens are left out for now; owner review is the guard |

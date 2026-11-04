@@ -71,7 +71,7 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 
 | ID | Requirement | P |
 | --- | --- | --- |
-| K1 | One git repo of plain markdown pages: org standards and rules; one page per service; decisions (ADRs); one entry per shipped feature; an index and a change log | M |
+| K1 | One git repo of plain markdown pages: org standards and rules; one page per service; decisions (ADRs); one entry per shipped feature; an index; git history as the change log | M |
 | K2 | Pages follow a defined schema (types, header fields, naming, links) that a machine can check | M |
 | K3 | On every merged PR, an agent proposes updates to the affected service page and feature entry, and proposes new decisions | M |
 | K4 | Agents may merge service and feature page changes after automated checks; standards and decisions need their human owners' approval | M |
