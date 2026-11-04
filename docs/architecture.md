@@ -73,7 +73,7 @@ Each part is here because a must-have fails without it (next table). Only the he
 | ID | Met by | Flags |
 | --- | --- | --- |
 | K1, K2 | Knowledge base repo; schema checked by `kb-check` | |
-| K3 | Knowledge workflow, hourly | A sweep, not per merge: org-required workflows can't fire on merge. Meets "within a day". |
+| K3 | Knowledge workflow, hourly | A sweep, not per merge: org-required workflows can't fire on merge. |
 | K4 | KB rulesets: owners approve standards and decisions; the rest auto-merges | **Test early:** "no general approval plus owner review". |
 | K5 | Edit-only agent, path allowlist, tool-less injection screen | **Costly, and no guarantee** (Decision 9). |
 | K6 | Knowledge workflow, weekly | Contradictions are best effort. |

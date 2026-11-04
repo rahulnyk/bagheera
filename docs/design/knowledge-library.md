@@ -81,7 +81,6 @@ A change from the knowledge agent enters the library on its own only when a pers
 
 **Effect on the PRD's targets and K4.**
 
-* *Pages updated within a day of a change (≥ 90%):* feature entries meet it on their own; service pages depend on how fast the service's team reviews. Pending library reviews appear on the dashboard and in the weekly summary (section 8).
 * *Pages verified by a person in the last 90 days (≥ 80%):* each review of inferred statements counts as verification, which helps.
 * *K4* ("agents may merge service and feature page changes after automated checks") holds in a narrower form: the agent merges only what restates approved work.
 
@@ -282,7 +281,7 @@ _Decided: [ADR 0018](../decisions/0018-protect-the-library-with-owner-review.md)
 
 ### When it runs
 
-Every hour, a workflow in the library repo sweeps the PRs merged since its last run in the code repos listed in `domains.yaml`, oldest first. It sweeps rather than reacting to each merge because GitHub can't trigger an org-wide workflow on a merge, and a workflow in every repo would add a file to each one. The sweep still meets the "within a day" target. In the pilot, a manager runs the same steps on demand with `/bagheera:update-library` ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md); design doc 6, section 3).
+Every hour, a workflow in the library repo sweeps the PRs merged since its last run in the code repos listed in `domains.yaml`, oldest first. It sweeps rather than reacting to each merge because GitHub can't trigger an org-wide workflow on a merge, and a workflow in every repo would add a file to each one. In the pilot, a manager runs the same steps on demand with `/bagheera:update-library` ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md); design doc 6, section 3).
 
 ### Step by step
 

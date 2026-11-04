@@ -180,7 +180,6 @@ _Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-u
 * **What the pilot gives up:**
   * The dashboard and the library are only as fresh as the last run. Approval requests still reach people straight away, because the stage commands request reviewers themselves (design doc 5, section 5); only the sync's assignments wait.
   * Verify holds through the repo's branch rule and the developer's agreement, and its cost shows in each developer's own usage, so the PRD's "CI cost per merged PR" isn't measured in the pilot.
-  * PRD G1's pilot target, service pages updated within a day of a merge, needs the library update at least daily (an open item in [the design index](README.md)).
 
 ### At rollout: the same commands in CI
 
