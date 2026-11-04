@@ -1,8 +1,8 @@
 # Distribution, security and cost
 
-_Status: in progress · Design doc 6 of 6 · [All design docs](README.md)_
+_Status: draft complete, awaiting the owner's approval · Design doc 6 of 6 · [All design docs](README.md)_
 
-Bagheera reaches every laptop and every CI run the same way, with nothing for developers to install, and changes to it are as carefully reviewed as production code. This doc says how the plugin is packaged and released, how settings reach laptops, how CI signs in, how spend is capped and reported, how adoption and cost are shown by repository, and how changes to Bagheera are reviewed and released.
+Bagheera reaches every laptop and every CI run the same way, with nothing for developers to install, and changes to it are as carefully reviewed as production code. This doc says how the plugin is packaged and released, how settings reach laptops, where the jobs run (laptops in the pilot, CI at rollout) and how CI signs in, how spend is capped and reported, how adoption and cost are shown by repository, and how changes to Bagheera are reviewed and released.
 
 Covers PRD P4, D1–D4 and V6, and the CI side of P7. It builds on [design doc 3](developer-workflow.md), which set the commands and what runs in CI, on [design doc 4](standards-and-review.md), which set the deny rules and the sandbox trial, and on [design doc 5](status-and-dashboard.md), whose weekly summary reports adoption and cost.
 
@@ -128,13 +128,13 @@ Only a handful of trusted engineers take part, so their own settings file is eno
 
 ### What the settings lock at rollout
 
-_Decided: [ADR 0060](../decisions/0060-lock-plugins-and-mcp-servers-leave-own-files.md)._
+_Decided: [ADR 0060](../decisions/0060-lock-plugins-and-mcp-servers-leave-own-files.md), amended by [ADR 0067](../decisions/0067-review-changes-by-pr-with-code-owners.md)._
 
 Engineers can't add unapproved extensions, and everyone runs the same version (PRD D1). The lock covers what runs code from outside: plugins and MCP servers. It needs managed settings, so it starts at rollout; in the pilot nothing is locked.
 
 | Kind | At rollout |
 | --- | --- |
-| **Plugins** | Only from our marketplace, `seeonee/bagheera` at `release`. The flags that load a plugin for one session are rejected, and plugins synced from claude.ai don't load in Claude Code |
+| **Plugins** | Installed only from our marketplace, `seeonee/bagheera` at `release`; plugins synced from claude.ai don't load in Claude Code. Loading a plugin folder for one session with `--plugin-dir` still works, so platform engineers can try unreleased versions (section 6) |
 | **MCP servers** (connections to outside tools) | Only those on the approved list, starting with the Jira connector. Claude Code's built-in ones, such as the IDE connection, still work |
 | **Hooks, plain skills, agents, CLAUDE.md files** in repos and personal settings | Unchanged. They're the engineer's or the team's own, reviewed in their own repos |
 
@@ -145,7 +145,6 @@ In the console's settings file, alongside the plugin switch (section 1) and the 
   "strictKnownMarketplaces": [
     { "source": "github", "repo": "seeonee/bagheera", "ref": "release" }
   ],
-  "disableSideloadFlags": true,
   "syncClaudeAiPlugins": false,
   "allowManagedMcpServersOnly": true,
   "allowedMcpServers": [
@@ -156,7 +155,7 @@ In the console's settings file, alongside the plugin switch (section 1) and the 
 
 * **Adding an extra plugin.** Someone asks for it, for example one of Anthropic's own; it's reviewed (section 6) and added to our marketplace as an entry pinned to an exact commit. Anyone can then install it with `claude plugin install <name>@seeonee`; only `bagheera` is switched on for everyone.
 * **Adding an MCP server.** The same way: reviewed, then added to `allowedMcpServers` by its address.
-* **What people see if they try something else.** Adding another marketplace, or starting Claude Code with `--plugin-dir`, fails with a message naming the company's policy.
+* **What people see if they try something else.** Adding another marketplace fails with a message naming the company's policy.
 * **Plugins people already installed** from other marketplaces stop loading at rollout. The rollout note says so in advance, with how to ask for one to be added.
 
 ## 3. Where the jobs run
@@ -258,6 +257,28 @@ Spend and adoption are reported by repository, the simplest unit: each job alrea
 * **Everything else stays in Claude's own dashboards,** linked from the weekly summary: active users, sessions and spend per person on claude.ai, and CI's workspace total on the Console.
 * **Not split by repo:** developers' own sessions, running the stage commands and building. That spend stays per person in Claude's dashboards.
 
-## Still to come
+## 6. Reviewing and releasing changes to Bagheera
 
-6. How changes to Bagheera are reviewed and released (D2)
+_Decided: [ADR 0067](../decisions/0067-review-changes-by-pr-with-code-owners.md)._
+
+Changes to Bagheera are reviewed like production code, and security owns the parts that run on laptops (PRD D2). It's GitHub's own review and branch rules, set by the platform team in `seeonee/bagheera`; nobody else needs to set anything up.
+
+### Who reviews what
+
+| Paths in `seeonee/bagheera` | Code owners | Why |
+| --- | --- | --- |
+| Everything | The platform team | Every change is a PR to `main`, approved by the other platform engineer |
+| `plugins/bagheera/hooks/`, `plugins/bagheera/scripts/`, `plugins/bagheera/.mcp.json` | Security, with the platform team | They run on laptops (PRD D2) |
+| `settings/` | Security and the architecture council, with the platform team | They set what may run on laptops, and hold the deny list, which the council edits ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)) |
+
+A `CODEOWNERS` file names them, and the branch rule on `main` requires a code owner's approval for their paths. `main` and `release` both need a PR, and neither allows force-push.
+
+### Trying and releasing a change
+
+1. **Merge to `main`** after review.
+2. **Try it.** A platform engineer loads `main` from a checkout with `claude --plugin-dir plugins/bagheera` and runs the changed commands on a test repo. The Spec Kit review each quarter takes this path too (design doc 3, section 1).
+3. **Release.** The `main` to `release` PR raises the version and lists what changed; the other platform engineer approves it (section 1). It reaches everyone within about a session.
+4. **Roll back** with a new release (section 1).
+
+* **No fast lane.** Urgent fixes take the same path; it's short.
+* **When one platform engineer is away,** changes wait for them, or for a code owner who can review.

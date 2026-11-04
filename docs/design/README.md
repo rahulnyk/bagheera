@@ -17,7 +17,7 @@ A doc is done when you approve it. Then we start the next. After all six, the ph
 | 3 | [`developer-workflow.md`](developer-workflow.md) ([walkthrough deck](developer-workflow-walkthrough.pptx)) | The stage commands, how Spec Kit is carried, what each stage writes, how approval works, the build and demo steps | P1–P7, C1–C4, C6 | **Approved**; amended with the owner's answers on 2026-10-30 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)–[0040](../decisions/0040-build-phases-one-at-a-time.md)) |
 | 4 | [`standards-and-review.md`](standards-and-review.md) ([walkthrough deck](standards-and-review-walkthrough.pptx)) | Standards format and ownership, which standards each session gets, the PR review, blocking forbidden actions | R1–R6 | **Approved**; your answers of 2026-10-30 folded in ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md), [0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)) |
 | 5 | [`status-and-dashboard.md`](status-and-dashboard.md) | Where status data lives, the status model, the dashboard, notifications, the weekly summary, the Jira link | V1–V7, C5 | **Approved** |
-| 6 | [`distribution-security-and-cost.md`](distribution-security-and-cost.md) | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | **In progress** |
+| 6 | [`distribution-security-and-cost.md`](distribution-security-and-cost.md) | How the plugin reaches every machine, CI credentials, spend limits, adoption and cost reporting, changing the harness safely | D1–D4, P4, V6 | **Draft complete**, awaiting your approval |
 
 **Why this order.** The knowledge library is the heart of the design and the first rollout phase (PRD §9, Foundations), and the other docs refer to it. Seeding follows because it fills the library. The developer workflow comes next because standards, status and the dashboard all depend on what each stage writes. Distribution comes last because it depends on the Claude plan, which isn't known yet.
 
@@ -79,7 +79,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 3. Where the jobs run, and CI credentials. **Done:** [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md), in the pilot Verify, the library update and the dashboard update run on laptops from commands; at rollout, CI with one GitHub App (set by the owner); [0063](../decisions/0063-one-github-app-key-shared-with-onboarded-repos.md), its key one org secret shared with onboarded repos (set by the owner). [0061](../decisions/0061-ci-signs-in-to-claude-with-workload-identity-federation.md), from rollout, each CI run's GitHub identity exchanged for short-lived Claude access, only for our workflows
 4. Spend limits and reporting. **Done:** [0065](../decisions/0065-cap-ci-spend-per-job-and-per-month.md), per-run caps in each workflow and one monthly limit on CI's Console workspace
 5. Adoption and cost by team. **Done:** [0066](../decisions/0066-report-job-spend-by-repository.md), by repository instead: each run records its cost, and the weekly summary adds them up (set by the owner)
-6. How changes to the harness are reviewed and released
+6. How changes to the harness are reviewed and released. **Done:** [0067](../decisions/0067-review-changes-by-pr-with-code-owners.md), PRs with code owners, tried with `--plugin-dir` before each release
 
 ## Moving parts and dependencies
 
@@ -112,6 +112,7 @@ In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No se
 | Approvers and page owners | Approve stage documents; review library PRs | Ongoing, as part of their normal work | Docs 1 and 3 |
 | Architecture council (principal and senior staff) | Own the first standards, the prefix register and the deny list; edit them as needed | Foundations, then ongoing | Doc 4 ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)) |
 | Managers | Hold teams to approvals, QA review and tests first, using the dashboard; grant exceptions | Ongoing | Doc 3 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)) |
+| Security | Code owner review of what runs on laptops in `seeonee/bagheera`: hooks, scripts, MCP settings and the settings files | When those change | Doc 6, section 6 ([0067](../decisions/0067-review-changes-by-pr-with-code-owners.md)) |
 
 **For the pilot,** much less is needed ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)): nothing from the Claude admin or the GitHub org owners. The pilot repos' admins add one branch rule requiring the `bagheera/verify` mark; the platform team, which administers `seeonee/bagheera` and the library repo, gives pilot engineers and managers access; and the dashboard is an org project, which org members can create unless the org restricts it.
 
