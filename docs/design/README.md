@@ -17,6 +17,8 @@ The six design docs describe Bagheera's full design: how each area works, in eno
 
 ## Moving parts
 
+A block-level diagram of these parts and how they connect is in [components.drawio](../components.drawio); open it in the draw.io app or at app.diagrams.net.
+
 ### What the platform team runs
 
 | Part | What it is | When |
