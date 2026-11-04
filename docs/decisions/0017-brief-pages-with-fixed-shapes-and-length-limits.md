@@ -28,3 +28,5 @@ Chosen option: B. Every page type has required sections with limits; the check f
 ## More information
 
 Shapes, limits and writing rules: [design/knowledge-library.md, section 4](../design/knowledge-library.md#shape-and-length).
+
+Amended by [0085](0085-six-header-fields-the-pilot-grows-the-schema.md): the shapes are starting templates in the schema, required by the format check; the pilot adds or drops sections by PR.

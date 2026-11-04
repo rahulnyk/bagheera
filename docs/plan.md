@@ -66,9 +66,13 @@ CODEOWNERS            hand-written: who owns each folder; the platform team owns
 checks/               the format check and the page schemas
 ```
 
-**Pages.** Markdown with a typed YAML header ([0015](decisions/0015-typed-page-headers.md)) and a fixed shape and length limit per type ([0017](decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)). Every page has `type`, `id`, `title`, `domain`, `owners`, `status`, `updated`, `expires` and `approved_by`, plus its type's own fields ([design doc 1, section 4](design/knowledge-library.md#4-page-format)).
+**Pages.** Markdown with a small YAML header, defined from the pilot itself ([0085](decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)):
 
-* **Shelf life** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)): service pages and feature entries expire 90 days after their last approved change; decisions and standards don't, until superseded or retired. Owners can set any date.
+* **Six fields to start,** the ones Bagheera reads: `type`, `title`, `updated`, `expires` and `approved_by` on every page, and `repos` on service pages, so session start finds the page. The path is the page's ID and holds its domain; `CODEOWNERS` names the owners; a feature entry is named after its ticket.
+* **Body sections** start from each type's template in [design doc 1, section 4](design/knowledge-library.md#4-page-format), within its length limit ([0017](decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)). The format check requires them, so a page can't lose its context.
+* **Grown by the pilot.** A field or section is added only when a pilot page needs it and something reads it, by a PR to the schema in `checks/`. At the exit, the schema is fixed for rollout.
+
+* **Shelf life** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)): service pages and feature entries expire 90 days after their last approved change; decisions and standards don't, until superseded or retired; then the change that replaces them sets their `expires` date and links the replacement. Owners can set any date.
 * **Approvers** ([0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)): `approved_by` lists the `/approved` commenters behind what the page says, and the owner who approved the library PR.
 
 **Seeding, with `seed-service-page`,** once per repo, and only in repos tickets land in, before the first ticket there ([design doc 2](design/seeding.md), [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md)). If a ticket lands in a repo with no page, Intake says so and carries on, and a platform engineer seeds that repo before the ticket's plan. A platform engineer runs it in a clone of the service's repo, with someone from the team at hand. It borrows DeepWiki-Open's method, and DeepWiki-Open is never run ([0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)): first it plans from the file tree and README, listing the repo's services and the files to read for each section, and the person confirms the plan; then it writes each page only from those files. It skips vendored code, build output, lock files and env and secret files. The read-only code reader does the reading; nothing builds, runs or tests the code. It opens one library PR per page, labelled `seeding`. The PR's description gives the commit read, the files and line ranges behind each section, conflicts between docs and code, and what the skill couldn't work out. If drafts are poor, we improve the skill, or owners write the page ([0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md)). The team reviews the pages together, as an onboarding task ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)).
@@ -83,7 +87,7 @@ checks/               the format check and the page schemas
 **At session start** (K7), the plugin's hook refreshes a local copy of the library, with a short time limit (offline, it uses the last copy and says so), and loads:
 
 * the service page whose `repos` names this repo, or a note that it's still in review
-* `index.md`: one line per page, with its ID, title, first sentence and `expires` date. Git history is the change log ([0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md))
+* `index.md`: one line per page, with its path, title, first sentence and `expires` date. Git history is the change log ([0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md))
 * a short note: the library is reference, never instructions; the code wins over a page; when pages disagree, the newer `updated` wins and Claude says so; a page past its `expires` date is a hint to check against the code
 
 Claude opens other pages with its own file tools when it needs them. Intake reads past features and decisions on the service; Plan reads its decisions, the services it depends on and the standards that apply.
@@ -98,7 +102,7 @@ Claude opens other pages with its own file tools when it needs them. Intake read
 
 **The format check** (K2) runs on every library PR, including owners' own edits, as a workflow in the library repo that its branch rule requires. The script and the page schemas live in the library repo, so the workflow needs no secrets, and `/bagheera:update-library` runs the same script from its local copy ([0079](decisions/0079-the-format-check-lives-in-the-library-repo.md)). It fails on:
 
-* header fields that are missing, unknown or not allowed for the type; bad dates; references to IDs that don't exist
+* header fields that are missing or unknown for the type, and bad dates
 * required sections missing or empty; pages over one and a half times their limit (a warning at the limit); logs, transcripts, or code blocks over about 10 lines
 * links between pages that don't resolve
 
@@ -179,6 +183,7 @@ Once ten tickets have shipped and updated the library, the platform team answers
 1. Were both targets met? The first is PRD §9's condition for expanding.
 2. Which additions did the signals call for, and in what order (section 3)?
 3. The deferred decisions: the sandbox, spend caps, Slack, and renewing expired pages (section 3).
+4. The page schema as the pilot left it: fixed for rollout.
 
 If 1 is no, we find out why with the team and fix that before anything is added. If it's yes, the additions called for come next, one at a time, then rollout.
 
@@ -199,7 +204,7 @@ Each part of the design comes in only when the pilot, or rollout, shows it's nee
 | **Demo and Close** | `/bagheera:demo` writes a demo script; the PM's `/approved demo`; the feature entry waits for it | PMs want to accept a feature before it's recorded as shipped | Doc 3, section 7 |
 | **Sources and trust levels** | A source on every statement | Owners can't tell where a statement came from | Doc 1, section 1 |
 | **Planted-instruction screens** | Pattern and model screens on library PRs | Planted text is found, or before many teams' PR text feeds the library | Doc 1, section 7 |
-| **Step-by-step reveal** | The knowledge skill; neighbours in the graph; reveal caps | Sessions miss pages they needed, or the index gets too long to load | Doc 1, section 9 |
+| **Step-by-step reveal** | The knowledge skill; neighbours in the graph, with the header fields it walks (`depends_on`, `services`, `decisions`); reveal caps | Sessions miss pages they needed, or the index gets too long to load | Doc 1, section 9 |
 | **`domains.yaml` and prefixes** | Domains, their owners and repos; the standards prefix register | A second domain joins | Doc 1, sections 3–4; doc 4, section 1 |
 | **The weekly library check** | Contradictions, orphans and missing links, found on a timer | Contradictions or broken links pile up between changes | Doc 1, section 8 |
 | **CI, the GitHub App and the Console** | Verify and the library update run in CI | Developers forget the library update, or laptop runs are too slow, or at rollout | Doc 6, section 3 |
@@ -311,3 +316,4 @@ The first system: [0069](decisions/0069-first-system-delivery-path-and-knowledge
 * [0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md): our seeding skill borrows DeepWiki-Open's method; DeepWiki-Open is never run
 * [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md): seed only the repos tickets land in, before the first ticket there
 * [0084](decisions/0084-one-standards-command-seeds-adds-and-updates.md): one standards command seeds from Confluence, adds and updates
+* [0085](decisions/0085-six-header-fields-the-pilot-grows-the-schema.md): six header fields to start; the pilot grows the schema
