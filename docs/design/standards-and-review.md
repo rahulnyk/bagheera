@@ -1,12 +1,21 @@
 # Standards and review
 
-_Status: approved by the owner, 2026-10-30 · Design doc 4 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-30; changed by the owner, 2026-11-04 ([0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md)) · Design doc 4 of 6 · [All design docs](README.md)_
 
 _Team walkthrough deck: [standards-and-review-walkthrough.pptx](standards-and-review-walkthrough.pptx) ([PDF](standards-and-review-walkthrough.pdf))._
 
 Standards are written once by their owners and applied everywhere: in Claude's context when it designs and writes code, checked on every PR, with dangerous actions blocked outright (PRD G2). This doc says how rules are named, how the first standards get written, how sessions see the relevant ones, what the PR review checks and how its findings are reported, how forbidden actions are blocked, and how project principles come from the standards.
 
 Covers PRD R1–R6. It builds on [design doc 1](knowledge-library.md), which set the standard page's header, shape, layout and owner approval (sections 3 and 4) and when stages reveal standards (section 9), and on [design doc 3](developer-workflow.md), which set where Verify runs (section 9).
+
+## Changes since approval
+
+_Where this section and the rest of the doc differ, this section wins. The first system is in [`docs/plan.md`](../plan.md)._
+
+| Part | Now |
+| --- | --- |
+| Section 2: writing the first standards | `/bagheera:standards` replaces `/bagheera:draft-standard`, in the first system. `seed <Confluence links>` drafts standards from the org's Confluence pages; `add` asks questions, checks for a similar standard and offers to update it instead; `update` changes one. Each run opens a library PR only when the person asks. The drafting rules stay ([0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md)) |
+| Sections 3–5 | The standards hook, the PR review and the managed deny rules are additions to the first system ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md)); the pilot's deny rules are in each engineer's own settings ([0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md)) |
 
 ## Principles
 

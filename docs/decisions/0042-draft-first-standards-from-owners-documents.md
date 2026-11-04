@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by [0084](0084-one-standards-command-seeds-adds-and-updates.md)
 date: 2026-10-30
 deciders: RN (owner)
 ---
