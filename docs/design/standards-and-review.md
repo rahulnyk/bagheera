@@ -40,8 +40,10 @@ title: Secrets and personal data
 domain: org
 owners: ["@seeonee/architecture-council"]
 status: active
+updated: 2026-11-02
 expires: never
-approved_by: "@seeonee/architecture-council"
+approved_by:
+  - {who: "@meera", what: "library PR #81", date: 2026-11-02}
 approval: <link to library PR #81>
 applies_to: []
 enforcement: blocking

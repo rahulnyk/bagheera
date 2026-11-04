@@ -1,6 +1,6 @@
 # Knowledge library
 
-_Status: approved by the owner, 2026-10-28; simplified by the owner, 2026-11-04 ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md), [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)) · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-28; simplified by the owner, 2026-11-04 ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md), [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)) · Design doc 1 of 6 · [All design docs](README.md)_
 
 _Team walkthrough deck: [knowledge-library-walkthrough.pptx](knowledge-library-walkthrough.pptx) ([PDF](knowledge-library-walkthrough.pdf))._
 
@@ -10,17 +10,17 @@ Covers PRD K1–K7, K9 and K10. Seeding the first service pages (K8) is [design 
 
 ## Changes since approval
 
-_Simplified by the owner on 2026-11-04 ([ADR 0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md), [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)). Where this section and the rest of the doc differ, this section wins._
+_Simplified by the owner on 2026-11-04 ([ADR 0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md), [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [ADR 0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)). Where this section and the rest of the doc differ, this section wins._
 
 | Part | Now |
 | --- | --- |
-| Section 1: sources on every statement, and trust levels | Left out for now. Each library PR lists the merged PRs and documents its changes came from |
+| Section 1: sources on every statement, and trust levels | Left out for now. Each library PR lists the merged PRs and documents its changes came from, and each page records who approved what it says (below) |
 | Section 2: changes that merge by themselves | Dropped for good. Every library change needs its owners' approval |
-| Section 4: `last_verified` | Replaced by `expires`; see shelf life below |
+| Section 4: `last_verified` | Replaced by `updated` and `expires`; see shelf life below. `approved_by` moves to every page |
 | Section 4: `domains.yaml` and prefixes | Left out for now. A hand-written owners file routes each folder's PRs to its owners |
 | Section 6: the curation run | In the pilot, a manager runs it on demand with `/bagheera:update-library`. It opens one library PR per run. It also curates every page it writes: the type's header fields and shape, the Open Knowledge Format, and working links |
 | Section 7: checks | One format check, run by `/bagheera:update-library` before it opens a PR and on every library PR, including owners' own edits. The planted-instruction screens are left out for now; owner review is the guard |
-| Section 8: corrections | The weekly check, re-verification and the corrections flow are dropped. Expiry replaces them |
+| Section 8: corrections | The weekly check, re-verification and the corrections flow are dropped. Expiry replaces them, and contradictions are flagged when used (below) |
 | Section 9: how sessions read it | At session start, a hook loads the repo's service page and the library's index; Claude opens other pages when it needs them. The step-by-step reveal through the graph is left out for now |
 
 ### Shelf life
@@ -39,6 +39,26 @@ Knowledge perishes. Every page has an `expires` date, and past it the page is a 
 * **Past its date,** sessions still see the page, labelled `expired on <date>: check against the code before relying on it`. The stage commands don't put anything from an expired page into a spec or plan without checking it first.
 * **Nothing re-checks pages on a timer.** An unchanged page that's still right simply stops being trusted until someone renews it.
 * **The PRD's measure** "service pages verified by a person in the last 90 days" becomes "service pages within their shelf life": every change is approved by a person.
+* **Later, not now:** a small workflow for managers to review expired pages and renew them.
+
+### Who approved it
+
+Every page's header records who stands behind what it says, in `approved_by`: the people whose `/approved` comments approved the work it came from, such as the PM on a spec or the tech lead on a plan, and the owner who approved the library PR. Each change replaces the list with the approvals behind that change. `updated` is the date of the last approved change.
+
+```yaml
+updated: 2026-10-24
+expires: 2027-01-22
+approved_by:
+  - {who: "@asha", what: "PAY-412 spec", date: 2026-10-20}
+  - {who: "@ravi", what: "library PR #57", date: 2026-10-24}
+```
+
+### When pages disagree
+
+* **The newest wins.** When two pages disagree, the one with the later `updated` date is taken as more likely right.
+* **Flagged when used.** A session or stage command that relies on pages that disagree says so, names both, and goes with the newer. `/bagheera:update-library` also notes in its PR any page its changes contradict, so the owners can fix it.
+* **Expired pages lose.** A contradicting page past its `expires` date is simply ignored.
+
 
 ## Principles
 
@@ -190,15 +210,16 @@ The format stays compatible with the Open Knowledge Format (PRD K10): a YAML hea
 | `domain` | A domain from `domains.yaml`, or `org` | `payments` |
 | `owners` | GitHub teams who own the page | `["@seeonee/payments-tech-leads"]` |
 | `status` | Depends on the type; see below | `active` |
-| `expires` | When the page stops being trusted without a check (shelf life, in [Changes since approval](#changes-since-approval)), or `never` | `2027-01-18` |
+| `updated` | The date of the page's last approved change | `2026-10-24` |
+| `expires` | When the page stops being trusted without a check ([shelf life](#shelf-life)), or `never` | `2027-01-22` |
+| `approved_by` | Who approved what the page says: `/approved` commenters on the work it came from, and the library PR's approver ([who approved it](#who-approved-it)) | `[{who: "@asha", what: "PAY-412 spec", date: 2026-10-20}]` |
 
 ### Fields on owner-written pages
 
-Standards, and decision records written by people, record their provenance once (section 1):
+Standards, and decision records written by people, record their approver in `approved_by` like every other page ([who approved it](#who-approved-it)), with a link to the approval:
 
 | Field | What it holds |
 | --- | --- |
-| `approved_by` | Who approved the page: the owning team, written when the PR opens; the PR records the person ([design doc 4, section 2](standards-and-review.md#2-writing-the-first-standards)) |
 | `approval` | Link to the approval |
 
 ### Fields by page type
@@ -222,7 +243,11 @@ title: Payments API
 domain: payments
 owners: ["@seeonee/payments-tech-leads"]
 status: active
-expires: 2027-01-18
+updated: 2026-10-24
+expires: 2027-01-22
+approved_by:
+  - {who: "@asha", what: "PAY-412 spec", date: 2026-10-20}
+  - {who: "@ravi", what: "library PR #57", date: 2026-10-24}
 repos: [seeonee/payments-api]
 languages: [go]
 depends_on: [services/payments/ledger-svc]
