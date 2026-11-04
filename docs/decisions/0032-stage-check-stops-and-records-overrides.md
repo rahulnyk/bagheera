@@ -32,3 +32,5 @@ Chosen option: A. Each stage command runs the stage check first. Without a curre
 Detail in [design/developer-workflow.md, section 4](../design/developer-workflow.md#4-approval). Resolves the conflict flagged in [0002](0002-soft-approval-by-comment.md).
 
 Amended by [0038](0038-managers-enforce-qa-review-and-tests-first.md) (QA's approval of test cases warns instead of stopping) and [0039](0039-wording-fixes-keep-an-approval.md) (marked wording fixes keep an approval).
+
+Kept in the first system by [0073](0073-keep-the-override-in-the-first-system.md); with no dashboard, overrides are seen on the PR.
