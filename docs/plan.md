@@ -12,7 +12,7 @@ The delivery path and a simple knowledge library ([0069](decisions/0069-first-sy
 
 | Part | What it holds |
 | --- | --- |
-| `seeonee/bagheera` | The plugin's source and the pilot settings file. Each version is published to the org's plugin marketplace by its owning team; publishing and its governance are outside our scope ([0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md)) |
+| `seeonee/bagheera` | The plugin's source and the pilot settings file |
 | The plugin, `bagheera` | Six commands: `/bagheera`, `/bagheera:intake`, `/bagheera:plan`, `/bagheera:build`, `/bagheera:update-library`, and `/bagheera:standards` for standards owners. One skill, `seed-service-page`. Two subagents: the library writer (Baloo) and a read-only code reader. The session-start hook. Templates for the spec, the plan and the four page types. A few scripts. The Atlassian connector, for Jira tickets and Confluence pages |
 | The library repo, Council Rock (`seeonee/knowledge-library`; name to confirm, PRD Q1) | Typed pages in four folders, `index.md`, and the format check with its workflow |
 | A test repo, `seeonee/bagheera-test` | A small service and a Jira test project, for the end-to-end check (section 5) |
@@ -38,7 +38,7 @@ The stage commands are adapted from Spec Kit's templates and instructions ([0028
 
 1. **Spec.** Intake posts the open questions in one PR comment, mentioning the PM. The PM answers in ordinary PR comments. Running `/bagheera:intake` again writes the answers into the spec and asks for approval ([0033](decisions/0033-answer-open-questions-in-pr-comments.md)). The PM comments `/approved spec`.
 2. **Plan.** Plan drafts `plan.md` and raises any questions for the tech lead the same way. The tech lead comments `/approved plan`.
-3. **Build.** Phases go one at a time, in the same PR ([0040](decisions/0040-build-phases-one-at-a-time.md)). For each, Build writes the tests for the phase's criteria with the criterion's ID in their names, confirms they fail, and commits them first. It then writes code until they pass, and records lessons in the notes file. It ticks the phase off in the PR's description, not in `plan.md`, so the plan's approval stands, and lists each criterion, its tests and their result in its own run. Nothing checks this in CI ([0076](decisions/0076-criteria-ids-in-test-names-results-in-the-pr.md)).
+3. **Build.** Phases go one at a time, in the same PR ([0040](decisions/0040-build-phases-one-at-a-time.md)). For each, Build writes the tests for the phase's criteria with the criterion's ID in their names, confirms they fail, and commits them first. It then writes code until they pass, and records lessons in the notes file. It ticks the phase off in the PR's description, leaving `plan.md` and its approval untouched, and lists each criterion, its tests and their result in its own run ([0076](decisions/0076-criteria-ids-in-test-names-results-in-the-pr.md)).
 4. **Review and merge.** After the last phase, Build marks the PR ready, and code review goes as usual. Once it merges, the developer runs `/bagheera:update-library` (below).
 5. **Handover.** Every command commits and pushes when it ends, so nothing lives only on a laptop. A ticket is handed over by reassigning it in Jira; the new developer runs `/bagheera PAY-412`.
 
@@ -67,16 +67,17 @@ index.md              one line per page, written only by /bagheera:update-librar
 checks/               the format check and the page schemas
 ```
 
+Git history is the change log ([0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)).
+
 **Pages.** Markdown with a small YAML header, defined from the pilot itself ([0085](decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)):
 
 * **Six fields to start,** the ones Bagheera reads: `type`, `title`, `updated`, `expires` and `approved_by` on every page, and `repos` on service pages, so session start finds the page. The path is the page's ID and holds its domain; a feature entry is named after its ticket.
 * **Body sections** start from each type's template in [design doc 1, section 4](design/knowledge-library.md#4-page-format), within its length limit ([0017](decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)). The format check requires them, so a page can't lose its context.
 * **Grown by the pilot.** A field or section is added only when a pilot page needs it and something reads it, by a PR to the schema in `checks/`. At the exit, the schema is fixed for rollout.
-
 * **Shelf life** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)): service pages and feature entries expire 90 days after their last approved change; decisions and standards don't, until superseded or retired; then the change that replaces them sets their `expires` date and links the replacement. Owners can set any date.
 * **Approvers** ([0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)): `approved_by` lists the `/approved` commenters behind what the page says, and its library PR by number; GitHub records who approved and merged that PR ([0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)).
 
-**Seeding, with `seed-service-page`,** once per repo, and only in repos tickets land in, before the first ticket there ([design doc 2](design/seeding.md), [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md)). If a ticket lands in a repo with no page, Intake says so and carries on, and a platform engineer seeds that repo before the ticket's plan. A platform engineer runs it in a clone of the service's repo, with someone from the team at hand. It borrows DeepWiki-Open's method, and DeepWiki-Open is never run ([0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)): first it plans from the file tree and README, listing the repo's services and the files to read for each section, and the person confirms the plan; then it writes each page only from those files. It skips vendored code, build output, lock files and env and secret files. The read-only code reader does the reading; nothing builds, runs or tests the code. It opens one library PR per page, labelled `seeding`. The PR's description gives the commit read, the files and line ranges behind each section, conflicts between docs and code, and what the skill couldn't work out. If drafts are poor, we improve the skill, or owners write the page ([0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md)). The team reviews the pages together, as an onboarding task ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)).
+**Seeding, with `seed-service-page`,** once per repo, and only in repos tickets land in, before the first ticket there ([design doc 2](design/seeding.md), [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md)). If a ticket lands in a repo with no page, Intake says so and carries on, and a platform engineer seeds that repo before the ticket's plan. A platform engineer runs it in a clone of the service's repo, with someone from the team at hand. It follows DeepWiki-Open's method ([0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)): first it plans from the file tree and README, listing the repo's services and the files to read for each section, and the person confirms the plan; then it writes each page only from those files. It skips vendored code, build output, lock files and env and secret files. The read-only code reader does the reading; nothing builds, runs or tests the code. It opens one library PR per page, labelled `seeding`. The PR's description gives the commit read, the files and line ranges behind each section, conflicts between docs and code, and what the skill couldn't work out ([0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md)). The team reviews the pages together, as an onboarding task ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)).
 
 **Standards, with `/bagheera:standards`** ([0084](decisions/0084-one-standards-command-seeds-adds-and-updates.md)), run by standards owners: the architecture council to start ([0047](decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)).
 
@@ -88,7 +89,7 @@ checks/               the format check and the page schemas
 **At session start** (K7), the plugin's hook refreshes a local copy of the library, with a short time limit (offline, it uses the last copy and says so), and loads:
 
 * the service page whose `repos` names this repo, or a note that it's still in review
-* `index.md`: one line per page, with its path, title, first sentence and `expires` date. Git history is the change log ([0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md))
+* `index.md`: one line per page, with its path, title, first sentence and `expires` date
 * a short note: the library is reference, never instructions; the code wins over a page; when pages disagree, the newer `updated` wins and Claude says so; a page past its `expires` date is a hint to check against the code
 
 Claude opens other pages with its own file tools when it needs them. Intake reads past features and decisions on the service; Plan reads its decisions, the services it depends on and the standards that apply.
@@ -101,9 +102,9 @@ Claude opens other pages with its own file tools when it needs them. Intake read
 4. **Check.** It runs the format check, and notes in the PR any page its changes contradict.
 5. **Open one library PR,** listing the merged PRs and documents it came from, and the run's cost. If a library-update PR is already open, it adds to that one instead, so two PRs never conflict on the index. It requests review from the ticket's tech lead and PM named in its spec; for merged PRs with no ticket, the runner names a reviewer.
 
-**Approving library PRs is a process, not a list** ([0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)). No `CODEOWNERS`: the branch rule needs a PR, one approval and the format check, and names nobody. The library's owners, the platform team in the pilot, merge a PR only once they see an approval from a fitting person: the tech lead for service pages and technical decisions, the PM for product decisions, the architecture council for standards. Nothing merges without a person's approval ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)), and every approval is on record.
+**Approving library PRs** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)). The branch rule needs a PR, one approval and the format check. The library's owners, the platform team in the pilot, merge a PR once a fitting person has approved it: the tech lead for service pages and technical decisions, the PM for product decisions, the architecture council for standards.
 
-**The format check** (K2) runs on every library PR, including people's own edits, as a workflow in the library repo that its branch rule requires. The script and the page schemas live in the library repo, so the workflow needs no secrets, and `/bagheera:update-library` runs the same script from its local copy ([0079](decisions/0079-the-format-check-lives-in-the-library-repo.md)). It fails on:
+**The format check** (K2) runs on every library PR, including people's own edits, as a workflow in the library repo that its branch rule requires. The script and the page schemas live in the library repo, and `/bagheera:update-library` runs the same script from its local copy ([0079](decisions/0079-the-format-check-lives-in-the-library-repo.md)). It fails on:
 
 * header fields that are missing or unknown for the type, and bad dates
 * required sections missing or empty; pages over one and a half times their limit (a warning at the limit); logs, transcripts, or code blocks over about 10 lines
@@ -131,13 +132,13 @@ Claude opens other pages with its own file tools when it needs them. Intake read
 4. Open Claude Code in the pilot repo and ask what this service does: it should answer from the service page. Run `/bagheera`.
 5. The first `/bagheera:intake` asks for a Jira sign-in through the connector.
 
-**Changing and publishing it** ([0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md)): every change is a PR to `main`, approved by the other platform engineer, and tried with `claude --plugin-dir plugins/bagheera` on the test repo. A new version raises the version in `plugin.json` and goes to the org's plugin marketplace, whose owning team publishes it and governs it: who can install it, the review it needs, including security's review of what runs on laptops (PRD D2), and the lock on other plugins (PRD D1). Changes to the settings file, which isn't part of the plugin, still need security's approval, and the architecture council's for the deny rules ([0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)).
+**Changing and publishing it** ([0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md)): every change is a PR to `main`, approved by the other platform engineer, and tried with `claude --plugin-dir plugins/bagheera` on the test repo. A new version raises the version in `plugin.json` and goes to the org's plugin marketplace, which publishes it under the org's policies.
 
 ### Build order
 
 Two platform engineers, two tracks, about six weeks to the pilot (PRD §8 allows 6–8).
 
-1. **Week 1, both.** The two repos, with their branch rules; an empty plugin published to the org's marketplace, so its publishing process is known well before the pilot; the test repo, a Jira test project and a Confluence test page. Draft the settings file, so security's review starts early.
+1. **Week 1, both.** The two repos, with their branch rules; an empty plugin published to the org's marketplace, to learn its process early; the test repo, a Jira test project and a Confluence test page. Draft the settings file, so security's review starts early.
 2. **Weeks 1–4, in parallel**, each step tested before the next:
    * **The delivery path:** the feature script (finds or creates the branch and folder) and the stage check → `/bagheera:intake` with the Jira connector → `/bagheera:plan` → `/bagheera:build` → `/bagheera`.
    * **The library:** page templates, schemas and the format check, with its workflow → the session-start hook → `seed-service-page`, tried on the test repo and then early on one real pilot repo, since draft quality is the biggest unknown → `/bagheera:standards` → `/bagheera:update-library`.
@@ -162,7 +163,7 @@ The platform team checks in with the team for 15 minutes each week, and reads ev
 
 ### Pilot targets
 
-Two, from PRD §7. The platform team counts them from GitHub; there's no dashboard yet.
+Two, from PRD §7. The platform team counts them from GitHub.
 
 | Target | Counted from |
 | --- | --- |
@@ -200,7 +201,7 @@ Each part of the design comes in only when the pilot, or rollout, shows it's nee
 | **The standards hook** | Relevant standards revealed on the first edit of each kind of file | Code breaks a written standard that Claude could have read | Doc 4, section 3 |
 | **The dashboard and weekly summary** | `/bagheera:update-dashboard`: the GitHub Project, its views, and a weekly issue | People ask where a feature stands, or approvals wait unseen; more than a few features in flight | Doc 5 |
 | **The Jira comment** | Intake comments the PR's link on the ticket | People look for the work from Jira and can't find it | Doc 5, section 7 |
-| **Phase PRs** | One PR per phase, each branched from the main branch after the last merges | Ticket PRs are too large to review well | Doc 3, section 3 ([0030](decisions/0030-one-planning-pr-per-feature.md)) |
+| **Phase PRs** | One PR per phase, each branched from the main branch after the last merges | Ticket PRs are too large to review well | [0075](decisions/0075-one-pr-per-ticket.md) |
 | **A separate architecture stage** | `/bagheera:architecture`, approved before the plan | Plans are too long to approve at once, or tech leads want to settle the design before the phases | Doc 3 |
 | **The test plan** | `/bagheera:test-plan`: QA's test cases under each criterion | QA wants to review test cases before Build | Doc 3, section 6 |
 | **Criteria coverage and results table** | A check that every criterion has a test; each repo's CI saves JUnit results for a table on each ticket's PR | PMs ask which criteria pass after later changes, or criteria go untested | Doc 3, section 6 |
@@ -210,9 +211,8 @@ Each part of the design comes in only when the pilot, or rollout, shows it's nee
 | **Step-by-step reveal** | The knowledge skill; neighbours in the graph, with the header fields it walks (`depends_on`, `services`, `decisions`); reveal caps | Sessions miss pages they needed, or the index gets too long to load | Doc 1, section 9 |
 | **Page ownership** | Who owns which pages, so GitHub requests and requires the right approvers | Maintainers can't tell who should approve, or wrong approvals get merged. Designed as minimal as possible then | [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md) |
 | **`domains.yaml` and prefixes** | Domains, their owners and repos; the standards prefix register | A second domain joins | Doc 1, sections 3–4; doc 4, section 1 |
-| **The weekly library check** | Contradictions, orphans and missing links, found on a timer | Contradictions or broken links pile up between changes | Doc 1, section 8 |
 | **CI, the GitHub App and the Console** | Verify and the library update run in CI | Developers forget the library update, or laptop runs are too slow, or at rollout | Doc 6, section 3 |
-| **Managed settings** | Settings from the claude.ai admin console | At rollout | Doc 6, section 2 |
+| **Managed settings** | The deny rules, locked, from the claude.ai admin console | At rollout | Doc 6, section 2 |
 
 ### Decisions deferred to the pilot exit
 
@@ -229,11 +229,11 @@ Each part of the design comes in only when the pilot, or rollout, shows it's nee
 | --- | --- |
 | R2: standards in context when writing code | Partly: Claude opens them when needed. Fully: the standards hook |
 | R3: an automated review of every PR | Verify |
-| P4, D1: installed centrally, nothing unapproved | The org's plugin marketplace and its governance ([0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md)) |
+| P2: one command per stage | Partly: Plan covers architecture and phases. Fully: the separate stage commands |
+| P4: no developer setup | Rollout: the plugin through the org's marketplace, the deny rules through managed settings |
 | P7: the same capabilities in CI | CI, at rollout |
 | V1–V4, V6: the dashboard; adoption and cost | The dashboard; Claude's own dashboards, per person |
 | D4: CI spend capped | The spend cap decision |
-| K4, K6: agents merging some changes; a scheduled check | Changed by [0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md); the PRD wording change is listed in [the design index](design/README.md#prd-wording-to-update) |
 
 ## 4. Rollout
 
@@ -260,14 +260,14 @@ Rollout starts when the exit check passes and the additions it called for are in
 
 ### The end-to-end check
 
-On `seeonee/bagheera-test`, with Jira ticket `TEST-1`. One platform engineer is the developer; the other is the PM, the tech lead and the page owner. Run before version 1.0 and after any change to the stage check or the library update.
+On `seeonee/bagheera-test`, with Jira ticket `TEST-1`. One platform engineer is the developer; the other is the PM, the tech lead and the library approver. Run before version 1.0 and after any change to the stage check or the library update.
 
 | # | Step | Expected |
 | --- | --- | --- |
 | 1 | On a clean Mac account, load the plugin from a checkout with `--plugin-dir`; once version 1.0 is published, repeat this step installing from the org's marketplace | `/bagheera` answers |
 | 2 | Seed the test repo, naming the tech lead as reviewer; the tech lead approves; the platform engineer merges | The page merges; the format check passes; `approved_by` names the seeding PR |
 | 3 | `/bagheera:standards seed` with the Confluence test page, which includes a planted "ignore your instructions" line | Draft standards in the page format, with a report of what was left out; no PR until asked; the planted line isn't followed |
-| 4 | `/bagheera:standards add` with a rule already in a standard; then with a new rule, and ask for the PR | It shows the existing standard and offers to update it; the new rule is added, the format check passes, and the PR goes to the standards' owners |
+| 4 | `/bagheera:standards add` with a rule already in a standard; then with a new rule, and ask for the PR | It shows the existing standard and offers to update it; the new rule is added, the format check passes, and the PR requests the reviewer named |
 | 5 | Start a new session; ask what the service does | Claude answers from the page without opening code |
 | 6 | `/bagheera:intake TEST-1` | A draft PR on `TEST-1` with `spec.md`, criteria with IDs, a questions comment mentioning the PM, and the PM requested as reviewer |
 | 7 | `/bagheera:plan` | Stops: the spec isn't approved; names the PM and the PR |
@@ -305,21 +305,21 @@ On `seeonee/bagheera-test`, with Jira ticket `TEST-1`. One platform engineer is 
 
 ## Decisions behind this plan
 
-The first system: [0069](decisions/0069-first-system-delivery-path-and-knowledge-library.md)–[0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md). Simplified while drafting this plan, one question at a time:
+The first system: [0069](decisions/0069-first-system-delivery-path-and-knowledge-library.md)–[0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md). Decided while drafting this plan:
 
-* [0072](decisions/0072-named-pm-and-tech-lead-approve.md): the PM and tech lead named in the spec approve; no team fallback
-* [0073](decisions/0073-keep-the-override-in-the-first-system.md): the stage check's override stays, posted on the PR
+* [0072](decisions/0072-named-pm-and-tech-lead-approve.md): the PM and tech lead named in the spec approve
+* [0073](decisions/0073-keep-the-override-in-the-first-system.md): a stop can be overridden, on the record
 * [0074](decisions/0074-any-change-cancels-an-approval.md): any change to a document cancels its approval
 * [0075](decisions/0075-one-pr-per-ticket.md): one PR per ticket; phases one at a time within it
 * [0076](decisions/0076-criteria-ids-in-test-names-results-in-the-pr.md): criteria IDs in test names, results listed in the PR
-* [0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md): a short seeding report, and no DeepWiki-Open fallback
+* [0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md): a short seeding report
 * [0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md): git history is the change log; the library update keeps the index
 * [0079](decisions/0079-the-format-check-lives-in-the-library-repo.md): the format check lives in the library repo
 * [0080](decisions/0080-developers-run-the-library-update-after-each-merge.md): developers run the library update after each merge
 * [0081](decisions/0081-the-pilot-proves-it-works-end-to-end.md): the pilot proves it works end to end, on at least 10 tickets
-* [0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md): our seeding skill borrows DeepWiki-Open's method; DeepWiki-Open is never run
-* [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md): seed only the repos tickets land in, before the first ticket there
+* [0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md): the seeding skill follows DeepWiki-Open's method
+* [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md): each repo is seeded before its first ticket
 * [0084](decisions/0084-one-standards-command-seeds-adds-and-updates.md): one standards command seeds from Confluence, adds and updates
 * [0085](decisions/0085-six-header-fields-the-pilot-grows-the-schema.md): six header fields to start; the pilot grows the schema
-* [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): no code owners; approvers recorded, and checked by whoever merges
-* [0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md): the plugin is published to the org's plugin marketplace, whose owning team governs it
+* [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): approvers are recorded, and checked by whoever merges
+* [0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md): the plugin is published through the org's plugin marketplace
