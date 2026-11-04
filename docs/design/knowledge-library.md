@@ -1,160 +1,25 @@
 # Knowledge library
 
-_Status: approved by the owner, 2026-10-28; simplified by the owner, 2026-11-04 ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md), [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)) · Design doc 1 of 6 · [All design docs](README.md)_
+_Status: approved by the owner; current with the decisions of 2026-11-04 · Design doc 1 of 6 · [All design docs](README.md)_
 
-_Team walkthrough deck: [knowledge-library-walkthrough.pptx](knowledge-library-walkthrough.pptx) ([PDF](knowledge-library-walkthrough.pdf))._
+The knowledge library, **Council Rock**, is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is laid out, what pages look like, how long knowledge is trusted, what the library learns and when, how it is kept current, approved and checked, and how sessions read it. What the first system includes, and when the rest arrives, is in [the plan](../plan.md).
 
-The knowledge library, **Council Rock**, is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it is structured, where each piece of knowledge comes from, how it is curated, checked and corrected, and how sessions read it.
-
-Covers PRD K1–K7, K9 and K10. Seeding the first service pages (K8) is [design doc 2](README.md).
-
-## Changes since approval
-
-_Simplified by the owner on 2026-11-04 ([ADR 0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md), [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [ADR 0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)). Where this section and the rest of the doc differ, this section wins._
-
-| Part | Now |
-| --- | --- |
-| Section 1: sources on every statement, and trust levels | Left out for now. Each library PR lists the merged PRs and documents its changes came from, and each page records who approved what it says (below) |
-| Section 2: changes that merge by themselves | Dropped for good. Every library change needs its owners' approval |
-| Section 4: header fields | Six to start, the ones Bagheera reads: `type`, `title`, `updated`, `expires` and `approved_by` on every page, and `repos` on service pages. The path is the ID and holds the domain; `CODEOWNERS` names the owners; a superseded decision gets an `expires` date and a link to its replacement. Body sections start from this section's templates and are required. The pilot adds fields and sections as pages need them, by PR to the schema, and the schema is fixed at the exit ([ADR 0085](../decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)) |
-| Section 4: `last_verified` | Replaced by `updated` and `expires`; see shelf life below. `approved_by` moves to every page |
-| Section 3: `index.md` and `CHANGELOG.md` | No `CHANGELOG.md`: git history is the change log. `/bagheera:update-library` rewrites `index.md` in its PR, one line per page with its `expires` date; nothing else writes it, and there's no bookkeeping PR ([ADR 0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)) |
-| Section 4: `domains.yaml` and prefixes | Left out for now |
-| Section 6: how approval works on library PRs | No owners file. The branch rule needs a PR, one approval and the format check, and names nobody. `/bagheera:update-library` requests the ticket's named tech lead and PM; seeding and standards runs request whoever the runner names. The library's owners, the platform team in the pilot, merge only once a fitting person has approved. `approved_by` names the library PR by number; GitHub records who approved it. Page ownership is planned later, as minimal as possible ([ADR 0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)) |
-| Section 6: the curation run | In the pilot, the developer runs it with `/bagheera:update-library` once their ticket's PR has merged ([ADR 0080](../decisions/0080-developers-run-the-library-update-after-each-merge.md)). It opens one library PR per run, or adds to the one already open ([ADR 0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)). It also curates every page it writes: the type's header fields and shape, the Open Knowledge Format, and working links |
-| Section 7: checks | One format check, run by `/bagheera:update-library` before it opens a PR and on every library PR, including owners' own edits. The planted-instruction screens are left out for now; owner review is the guard |
-| Sections 4 and 7: where the check lives | The checker and page schemas live in the library repo, under `checks/`; its workflow needs no secrets, and `/bagheera:update-library` runs the same script. It checks links between pages itself; no lychee ([ADR 0079](../decisions/0079-the-format-check-lives-in-the-library-repo.md)) |
-| Section 8: corrections | The weekly check, re-verification and the corrections flow are dropped. Expiry replaces them, and contradictions are flagged when used (below) |
-| Section 9: how sessions read it | At session start, a hook loads the repo's service page and the library's index; Claude opens other pages when it needs them. The step-by-step reveal through the graph is left out for now |
-
-### Shelf life
-
-Knowledge perishes. Every page has an `expires` date, and past it the page is a hint, not a fact.
-
-| Page type | Expires |
-| --- | --- |
-| Service | 90 days after its last approved change |
-| Feature | 90 days after its last approved change |
-| Decision | Never, until superseded |
-| Standard | Never, until changed or retired |
-
-* **Set when a page is written:** the approval date plus its type's shelf life. Owners can set any page to another date, or to `never`.
-* **Renewed** by any approved change that touches the page, or by a PR that changes only the date, when an owner confirms the page is still right.
-* **Past its date,** sessions still see the page, labelled `expired on <date>: check against the code before relying on it`. The stage commands don't put anything from an expired page into a spec or plan without checking it first.
-* **Nothing re-checks pages on a timer.** An unchanged page that's still right simply stops being trusted until someone renews it.
-* **The PRD's measure** "service pages verified by a person in the last 90 days" becomes "service pages within their shelf life": every change is approved by a person.
-* **Later, not now:** a small workflow for managers to review expired pages and renew them.
-
-### Who approved it
-
-Every page's header records who stands behind what it says, in `approved_by`: the people whose `/approved` comments approved the work it came from, such as the PM on a spec or the tech lead on a plan, and the owner who approved the library PR. Each change replaces the list with the approvals behind that change. `updated` is the date of the last approved change.
-
-```yaml
-updated: 2026-10-24
-expires: 2027-01-22
-approved_by:
-  - {who: "@asha", what: "PAY-412 spec", date: 2026-10-20}
-  - {who: "@ravi", what: "library PR #57", date: 2026-10-24}
-```
-
-### When pages disagree
-
-* **The newest wins.** When two pages disagree, the one with the later `updated` date is taken as more likely right.
-* **Flagged when used.** A session or stage command that relies on pages that disagree says so, names both, and goes with the newer. `/bagheera:update-library` also notes in its PR any page its changes contradict, so the owners can fix it.
-* **Expired pages lose.** A contradicting page past its `expires` date is simply ignored.
-
+Covers PRD K1–K7, K9 and K10. Seeding the first service pages (K8) is [design doc 2](seeding.md); writing standards is [design doc 4](standards-and-review.md).
 
 ## Principles
 
-These apply to every section below.
+* **Brief, but never without context.** Set by the owner on 2026-10-28. We actively fight verbosity, but not at the cost of context. A decision without its context is as good as lost; a decision buried in long reasoning and detailed logs is just as unusable. Each page keeps the essentials and links to the full detail, which stays where it was written (the approved spec, the plan, the PR). Enforced by fixed page shapes and length limits (section 2).
+* **A person approves every change.** Agents draft; nothing merges without a person's approval, and every approval is on record (sections 3 and 6).
+* **Outside text is data.** PR text, tickets, documents and diffs are read as data, never followed as instructions (PRD K5).
+* **Knowledge perishes.** Every page has a shelf life, after which it's a hint, not a fact (section 3).
 
-* **Caution and provenance.** Every statement says where it came from, and nothing external is trusted blindly ([0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md)).
-* **Brief, but never without context.** Set by the owner on 2026-10-28. We actively fight verbosity, but not at the cost of context. A decision without its context is as good as lost; a decision buried in long reasoning and detailed logs is just as unusable. Each page keeps the essentials and links to the full detail, which stays where it was written (the approved spec, the plan, the PR). Enforced by fixed page shapes and length limits ([0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md), section 4).
-
-## 1. Provenance and trust
-
-_Left out for now ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)); see [Changes since approval](#changes-since-approval)._
-
-_Decided: [ADR 0012](../decisions/0012-record-provenance-per-statement.md), following [0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md)._
-
-Every statement in the library can be traced to where it came from, and says how far we trust it.
-
-### Trust levels
-
-| Level | What it covers | Examples | Can it be in the library? |
-| --- | --- | --- | --- |
-| **Owner-approved** | Written or approved by the named owner of the page or folder | A standard approved by the security owners; a decision record approved by its decision owners | Yes |
-| **Approved work** | Material approved through the delivery flow | A spec marked `/approved` by the PM; an architecture marked `/approved` by the tech lead; the record that a PR merged after review (which PR, which repo), but not conclusions drawn from its code | Yes, with a link to the approval |
-| **Inferred** | Worked out by the knowledge agent from code or approved documents, including the one-off seeding pass ([design doc 2](seeding.md)), and not yet checked by a person | "payments-api calls ledger-svc", read from a merged diff | Yes, marked as inferred until a person verifies it. When it may enter without a person is section 2. |
-| **External** | Text from outside the approved flow | Ticket descriptions, PR descriptions, pasted or linked documents, chat | Never as a statement. At most a link inside a source note, until a person confirms it. |
-
-A person can **verify** an inferred statement. In the library, that happens when an owner approves the library PR that adds it: its footnote points to that PR, and it then counts as owner-approved (section 6). Re-verifying pages over time is section 8.
-
-### How each statement records its source
-
-**Statements the knowledge agent writes** (service pages, feature entries, proposed decisions) each end with a footnote. The footnote gives the trust level, the source with a link, and the date. A statement is a sentence or list item that states a fact; headings and links need no footnote.
-
-```markdown
-payments-api retries a failed charge up to 3 times over 24 hours.[^s1]
-payments-api calls ledger-svc to record each charge.[^s2]
-
-[^s1]: approved work · PAY-412 spec, `/approved` by @asha on 2026-10-20 · <link to the approval comment>
-[^s2]: inferred · from the diff of seeonee/payments-api#431, merged 2026-10-24 · reviewed in library PR #57
-```
-
-**Pages written by their owners** (standards, and decision records written by people) record provenance once, in the page's front matter: owner, approved by, link to the approval, date. The owner vouches for the whole page, so they need no footnotes.
-
-GitHub renders footnotes, so people see them as numbered references. They are plain Markdown, which keeps the format portable (K10).
-
-### What a check enforces
-
-The checks themselves are section 7. For provenance, a check rejects:
-
-* any statement written by the agent without a footnote
-* any footnote whose link doesn't point to a source inside our GitHub org
-* any statement whose only source is external
-
-### What it means for Claude
-
-When a session loads a page, Claude sees which statements are settled (owner-approved or approved work) and which are inferred. The session-start instructions tell it to treat inferred statements as hints to confirm in the code, not as facts. Section 9 covers what is loaded.
-
-## 2. Merge rules under caution
-
-_Dropped: every library change needs its owners' approval ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md))._
-
-_Decided: [ADR 0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md)._
-
-A change from the knowledge agent enters the library on its own only when a person has already stood behind everything it says.
-
-| The change | Enters the library | Who reviews |
-| --- | --- | --- |
-| Every new or changed statement cites **approved work** or an **owner-approved** page, and all checks pass | By itself | Nobody; it shows in the change log |
-| Any statement is **inferred**, for example read from code | After review | The page's owning team; for a service page, the service's team |
-| A new or changed **decision record** | After approval | The decision's owners |
-| Any change to a **standard** | After approval | The standard's owners |
-| Any check fails, including the planted-instructions screens | Not until fixed | The page's owners (the platform team during the pilot); only the platform team clears a planted-instructions alarm (section 8) |
-| A statement whose only source is **external** | Never | Nobody; the check rejects it |
-
-**In practice.** Feature entries mostly restate the approved spec, architecture, plan and test plan, and the demo's approval, so they merge by themselves. Service-page changes read from code get a short review by the service's team. Reviewers see every statement with its source footnote, so they check sources, not prose. Their approval verifies the inferred statements in that PR (sections 1 and 6).
-
-**One PR never mixes the two kinds.** The knowledge agent puts changes that can merge by themselves and changes that need a person into separate PRs (section 6). How a reviewer's approval is recorded on a library PR is also section 6.
-
-**Effect on the PRD's targets and K4.**
-
-* *Pages verified by a person in the last 90 days (≥ 80%):* each review of inferred statements counts as verification, which helps.
-* *K4* ("agents may merge service and feature page changes after automated checks") holds in a narrower form: the agent merges only what restates approved work.
-
-**When to revisit.** After the pilot. If reviews turn into rubber stamps, relax to "merge with marks" (inferred statements merge marked, and owners verify later). If anything wrong gets through, tighten to "nothing without a person".
-
-## 3. Structure
+## 1. Layout
 
 _Decided: [ADR 0014](../decisions/0014-lay-out-the-library-by-type-then-domain.md), following [0007](../decisions/0007-one-knowledge-library.md)._
 
 One master library, with pages grouped by type first, then by domain.
 
 ```text
-domains.yaml                 each domain's owners and the code repos it covers
-prefixes.yaml                the prefix of each standard, assigned by the architecture council (design doc 4)
 standards/
   org/                       org-wide standards
   payments/                  additions that apply to one domain only
@@ -166,21 +31,23 @@ decisions/
   payments/0042-retry-limits.md
 features/
   payments/PAY-412.md
-index.md                     generated by a script
-CHANGELOG.md                 generated by a script
+index.md                     one line per page, written by the library update (section 5)
+checks/                      the format check and the page schemas (section 7)
 ```
 
 ### Rules
 
-1. Every page lives at `<type>/<domain>/<page>.md`. Org-wide content uses the domain `org`.
+1. Every page lives at `<type>/<domain>/<page>.md`. Org-wide content uses the domain `org`. The path is the page's ID.
 2. Each service belongs to exactly one domain: the team that owns its code. Other domains link to it.
-3. A feature goes under the domain of the team that delivered it. A decision that binds more than one domain goes in `decisions/org/`.
-4. Domain standards may add to org standards but not contradict them. The weekly check flags contradictions (section 8).
+3. A feature goes under the domain of the team that delivered it, named after its ticket. A decision that binds more than one domain goes in `decisions/org/`.
+4. Domain standards may add to org standards but not contradict them.
 5. Links are written as paths from the library root.
-6. Every page's header names its domain and a stable ID (section 4).
-7. `domains.yaml` lists each domain's owners and the code repos it covers. It decides who reviews a page and which domain a session is in.
-8. The harness reads a list of library repos, which starts with one entry.
-9. A script, not the knowledge agent, writes `index.md` and `CHANGELOG.md`.
+6. Git history is the change log ([0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)).
+7. The harness reads a list of library repos, which starts with one entry.
+
+### Domains
+
+With more than one domain, `domains.yaml` at the library's root lists each domain and the code repos it covers, so a session knows which domain it's in. Until then, each service page's `repos` field says which repo is which service.
 
 ### Splitting off a domain later
 
@@ -188,273 +55,198 @@ If a domain ever needs its own repo, for restricted access or size:
 
 1. `git filter-repo` copies `*/payments/` into a new repo with full history, keeping the same type-then-domain layout.
 2. One PR removes those folders from the master.
-3. The new repo is added to the harness's list of library repos, and the domain's entry moves from the master's `domains.yaml` to the new repo's.
+3. The new repo is added to the harness's list of library repos.
 4. A script turns links that now cross repos into full GitHub links. The domain is part of every path, so it finds them reliably.
 5. Org-wide content stays in the master. Sessions load `org/` from the master plus their own domain's repo.
 
-### What this layout means for dashboards
+## 2. Pages
 
-The story dashboard is built from PRs and stage documents in the product repos (PRD V4), not from the library. The type-first layout makes the library's own views straightforward: shipped features, decisions, and pages waiting for review, each one folder, filterable by domain.
+_Decided: [ADR 0015](../decisions/0015-typed-page-headers.md), [0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md) and [0085](../decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)._
 
-## 4. Page format
+Every page is Markdown with a small YAML header. The format stays compatible with the Open Knowledge Format (PRD K10): a YAML header, a required `type`, and plain Markdown below it.
 
-_Decided: [ADR 0015](../decisions/0015-typed-page-headers.md)._
+### Header
 
-Every page is a Markdown file with a YAML header. Each page type has its own set of header fields, defined in a schema and validated by a check (section 7). Fields the schema doesn't know are rejected, so typos don't pass silently. The schemas live with the harness's checks, not in the library.
+Six fields to start, the ones Bagheera reads. The pilot adds a field only when a page needs it and something reads it, by a PR to the schema in `checks/`. At the pilot exit, the schema is fixed for rollout ([0085](../decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)).
 
-The format stays compatible with the Open Knowledge Format (PRD K10): a YAML header, a required `type`, and plain Markdown below it. Our extra fields sit alongside `type`, so a later export needs no rewrite.
-
-### Fields on every page
-
-| Field | What it holds | Example |
-| --- | --- | --- |
-| `type` | `standard`, `service`, `decision` or `feature` | `service` |
-| `id` | A stable ID, set from the page's path when it is created. It never changes, even if the page later moves. Other pages refer to it. | `services/payments/payments-api` |
-| `title` | Human-readable title | `Payments API` |
-| `domain` | A domain from `domains.yaml`, or `org` | `payments` |
-| `owners` | GitHub teams who own the page | `["@seeonee/payments-tech-leads"]` |
-| `status` | Depends on the type; see below | `active` |
-| `updated` | The date of the page's last approved change | `2026-10-24` |
-| `expires` | When the page stops being trusted without a check ([shelf life](#shelf-life)), or `never` | `2027-01-22` |
-| `approved_by` | Who approved what the page says: `/approved` commenters on the work it came from, and the library PR's approver ([who approved it](#who-approved-it)) | `[{who: "@asha", what: "PAY-412 spec", date: 2026-10-20}]` |
-
-### Fields on owner-written pages
-
-Standards, and decision records written by people, record their approver in `approved_by` like every other page ([who approved it](#who-approved-it)), with a link to the approval:
-
-| Field | What it holds |
-| --- | --- |
-| `approval` | Link to the approval |
-
-### Fields by page type
-
-| Type | Fields | `status` values |
-| --- | --- | --- |
-| **Service** | `repos` (code repos), `languages`, `depends_on` (service IDs), `environments` | `active`, `deprecated`, `retired` |
-| **Decision** | `date`, `deciders`, `services` (IDs of the services it governs), `supersedes`, `superseded_by` (decision IDs) | `proposed`, `accepted`, `superseded`, `rejected` |
-| **Feature** | `ticket` (Jira key), `services` (IDs of the services it touched), `repo` (one per ticket, [design doc 3](developer-workflow.md#3-what-each-stage-writes-and-how-it-reaches-the-main-branch)), `related_tickets` (Jira keys of linked tickets in other repos), `prs`, `shipped` (date), `decisions` (decision IDs) | `shipped` |
-| **Standard** | `applies_to` (languages, services or environments; empty means everywhere), `enforcement` (`blocking` or `advisory`, used by the PR review in design doc 4), `prefix` (short, lower case, unique across the library; rules are numbered `<prefix>-<n>`, [design doc 4, section 1](standards-and-review.md#1-rules-within-a-standard)) | `draft`, `active`, `retired` |
-
-The ID references in these fields (`depends_on`, `services`, `decisions`, `supersedes`, `applies_to`) are the edges of the library's graph (section 9).
+| Field | On | What it holds | Example |
+| --- | --- | --- | --- |
+| `type` | Every page | `standard`, `service`, `decision` or `feature` | `service` |
+| `title` | Every page | Human-readable title | `Payments API` |
+| `updated` | Every page | The date of the page's last approved change | `2026-10-24` |
+| `expires` | Every page | When the page stops being trusted without a check (section 3), or `never` | `2027-01-22` |
+| `approved_by` | Every page | Who approved what the page says (section 3) | See the example |
+| `repos` | Service pages | The code repos the service lives in, so session start finds its page | `[seeonee/payments-api]` |
 
 ### Example: a service page
 
 ```markdown
 ---
 type: service
-id: services/payments/payments-api
 title: Payments API
-domain: payments
-owners: ["@seeonee/payments-tech-leads"]
-status: active
 updated: 2026-10-24
 expires: 2027-01-22
 approved_by:
   - {who: "@asha", what: "PAY-412 spec", date: 2026-10-20}
-  - {who: "@ravi", what: "library PR #57", date: 2026-10-24}
+  - {what: "library PR #57", date: 2026-10-24}
 repos: [seeonee/payments-api]
-languages: [go]
-depends_on: [services/payments/ledger-svc]
-environments: [dev, stage, prod]
 ---
 # Payments API
 
+## Purpose
 Charges cards and retries failed charges.
 ```
-
-### `domains.yaml`
-
-One entry per domain, plus `org`:
-
-```yaml
-payments:
-  owners: ["@seeonee/payments-tech-leads"]
-  product_owners: ["@seeonee/payments-pms"]
-  qa: ["@seeonee/payments-qa"]
-  repos: [seeonee/payments-api, seeonee/payments-web, seeonee/ledger-svc]
-org:
-  owners: ["@seeonee/architecture-council"]
-  product_owners: ["@seeonee/product-leads"]
-```
-
-`owners` review technical pages and decisions; `product_owners` review product decisions (section 5). The same teams, plus `qa`, approve a feature's stage documents in the product repo ([design doc 3, section 4](developer-workflow.md#4-approval)). `repos` tells a session which domain it is in (section 9).
 
 ### Shape and length
 
 _Decided: [ADR 0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)._
 
-Brief, but never without context (see Principles). Each page type has a fixed set of sections, each with a minimum and a maximum. The limits are starting points to tune during the pilot. The header and source footnotes don't count towards them.
+Each page type has a fixed set of sections, each with a minimum and a maximum. These are the starting templates; the pilot can add or drop a section by a PR to the schema. The limits are starting points to tune during the pilot, and the header doesn't count towards them.
 
 | Page | Required sections, in order | Limit |
 | --- | --- | --- |
 | **Decision** | Context (≤ 60 words) · Decision (one sentence) · Why (≤ 3 bullets) · Consequences (≤ 3 bullets) · Options considered (one line each) | ≤ 250 words |
-| **Service** | Purpose (≤ 2 sentences) · Interfaces · Depends on (one line on why, per entry in `depends_on`) · Data · Gotchas (one line each) | ≤ 400 words |
+| **Service** | Purpose (≤ 2 sentences) · Interfaces · Depends on (one line on why, per service) · Data · Gotchas (one line each) | ≤ 400 words |
 | **Feature** | What and why (≤ 3 sentences) · Acceptance criteria (ID and one line each) · Services touched · Decisions (links) · Lessons (≤ 5) | ≤ 300 words |
-| **Standard** | Rules: one line each, numbered `<prefix>-<n>`, with a one-line reason and a short example | ≤ 500 words; split the page if longer |
+| **Standard** | Rules: one line each, numbered `<prefix>-<n>`, with a one-line reason and a short example ([design doc 4, section 1](standards-and-review.md#1-rules-within-a-standard)) | ≤ 500 words; split the page if longer |
 
 Decision records use this shape whoever writes them, person or agent.
 
-**Writing rules**, for the knowledge agent and for people:
+**Writing rules**, for the library writer and for people:
 
-1. **Link, don't copy.** Detailed reasoning, discussion, logs and test output stay in their source; the footnote links to it.
+1. **Link, don't copy.** Detailed reasoning, discussion, logs and test output stay in their source; the page links to it.
 2. **Rewrite in place.** When knowledge changes, change the statement. No "update on <date>" entries; history lives in git and in superseded decisions.
 3. **Every statement earns its place.** Write for a future engineer or Claude session. No story of how it was decided, no restating the obvious.
 4. **No logs, stack traces, transcripts or chat excerpts**, and no code blocks longer than about 10 lines.
 
-**What the check does** (section 7):
+**What reviewers are asked**, on every library PR: "Is anything missing to understand this?" and "Is anything here not needed?"
 
-* fails if a required section is missing or empty, so a decision can't appear without its context
-* warns when a page reaches its limit, and fails at one and a half times it
-* rejects logs, transcripts and long code blocks
+## 3. Trust
 
-**What reviewers are asked**, on every library PR that needs a person: "Is anything missing to understand this?" and "Is anything here not needed?"
+_Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) and [0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)._
 
-## 5. What each stage adds
+### Shelf life
 
-_Decided: [ADR 0016](../decisions/0016-learn-decisions-when-approved-features-at-close.md)._
+Every page has an `expires` date, and past it the page is a hint, not a fact.
 
-The library learns from a feature at three moments: when a decision is approved, when code merges, and when the feature ships. Work in progress stays in the product repo's feature folder (`specs/<TICKET>/`) and on the dashboard.
+| Page type | Expires |
+| --- | --- |
+| Service | 90 days after its last approved change |
+| Feature | 90 days after its last approved change |
+| Decision | Never, until superseded |
+| Standard | Never, until changed or retired |
 
-| Stage | What the library gets | Who approves it |
+* **Set when a page is written:** the approval date plus its type's shelf life. Owners can set any page to another date, or to `never`.
+* **Renewed** by any approved change that touches the page, or by a PR that changes only the date, when someone confirms the page is still right.
+* **Superseded or retired:** the change that replaces a decision or retires a standard sets its `expires` date and links the replacement.
+* **Past its date,** sessions still see the page, labelled `expired on <date>: check against the code before relying on it`. The stage commands don't put anything from an expired page into a spec or plan without checking it first. An unchanged page that's still right stops being trusted until someone renews it.
+
+### Who approved it
+
+Every page's `approved_by` records who stands behind what it says: the people whose `/approved` comments approved the work it came from, such as the PM on a spec or the tech lead on a plan, and the library PR that brought it in. GitHub records who approved and merged that PR ([0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)). Each change replaces the list with the approvals behind that change. `updated` is the date of the last approved change.
+
+### When pages disagree
+
+* **The newest wins.** When two pages disagree, the one with the later `updated` date is taken as more likely right.
+* **Flagged when used.** A session or stage command that relies on pages that disagree says so, names both, and goes with the newer. The library update also notes in its PR any page its changes contradict, so it can be fixed.
+* **Expired pages lose.** A contradicting page past its `expires` date is ignored.
+
+## 4. What the library learns, and when
+
+_Decided: [ADR 0016](../decisions/0016-learn-decisions-when-approved-features-at-close.md), with [0075](../decisions/0075-one-pr-per-ticket.md)._
+
+Work in progress stays in the product repo's feature folder, `specs/<TICKET>/`. The library learns from it when the ticket's PR merges.
+
+| When | What the library gets | Approved by |
 | --- | --- | --- |
-| Intake | Proposed product decisions: only the PM's answers that set a rule beyond this feature | The domain's `product_owners` |
-| Architecture | Proposed technical decisions from the approved architecture | The domain's `owners`; `decisions/org/` and org owners if more than one domain is bound |
-| Plan, Test plan | Nothing yet | — |
-| Build (each phase PR) | Service page updates read from the merged code, and the lessons the engineer recorded | The service's team |
-| Verify, Demo | Nothing yet | — |
-| Close | The feature entry, built from the approved documents and the list of merged PRs | Merges by itself when every statement restates approved work (section 2) |
-| Any other merged PR (bug fix, refactor) | Service page updates read from the code | The service's team |
-| Standards | Changes only by their owners; the agent may propose, for example after the weekly check | The standard's owners |
+| A ticket's PR merges | Service page updates read from the merged code, and the lessons in the ticket's notes file | The ticket's tech lead |
+| | Decision records from the plan's proposed decisions | The ticket's tech lead; the architecture council if more than one domain is bound |
+| | Decision records from the spec's proposed product decisions | The ticket's PM |
+| | The feature entry, built from the approved documents and the PR | The ticket's tech lead or PM |
+| Any other merged PR (bug fix, refactor) | Service page updates read from the code | The service's tech lead |
+| A standard changes | Only through `/bagheera:standards` ([design doc 4, section 2](standards-and-review.md#2-writing-standards)) | The architecture council |
 
 ### Rules
 
-1. A PM's answer becomes a product decision only if it sets a rule beyond this feature. Intake marks such answers in the spec as proposed product decisions, the PM's approval of the spec confirms the mark, and the knowledge agent proposes exactly those ([design doc 3, section 5](developer-workflow.md#5-open-questions)). Answers specific to the feature reach the library through the feature entry at Close.
-2. If the build changes an approved decision, the agent proposes a new decision record that replaces the old one (`supersedes` and `superseded_by`, section 4). Its owners approve it again.
-3. Engineers record lessons and gotchas in the feature folder during the session, through the knowledge skill. They reach the service page when the PR merges. They are treated as inferred, so the service's team reviews them.
-4. The feature entry is written once, at Close, only from documents marked `/approved` and the list of merged PRs. A minor revision's PM-owned changes count as approved once the PM approves the demo that follows ([design doc 3, section 8](developer-workflow.md#8-another-iteration)). Close happens in the curation run once the PM's `/approved demo` is on the feature's planning PR and every phase has merged ([design doc 3, section 9](developer-workflow.md#9-what-runs-locally-and-what-runs-in-ci)).
-5. A feature's spec and architecture merge together, in its planning PR ([design doc 3, section 3](developer-workflow.md#3-what-each-stage-writes-and-how-it-reaches-the-main-branch)). The decisions from both are proposed when that PR merges: after the test plan is approved, and before Build.
+1. A PM's answer becomes a product decision only if it sets a rule beyond this feature. Intake marks such answers in the spec as proposed product decisions, the PM's approval of the spec confirms the mark, and the library update proposes exactly those ([design doc 3, section 5](developer-workflow.md#5-open-questions)). Answers specific to the feature reach the library through the feature entry.
+2. If the build changes an approved decision, the library update proposes a new decision record that replaces the old one (section 3).
+3. Engineers record lessons and gotchas in the ticket's `notes.md` during the session. They reach the service page when the PR merges, and the tech lead reviews them.
+4. Only approved work counts as approved. A document that went ahead on an override and was never approved proposes no decisions, and the feature entry leaves it out ([design doc 3, section 4](developer-workflow.md#4-approval)).
+5. With the Demo stage, the feature entry waits for the PM's `/approved demo` on the ticket's PR ([design doc 3, section 7](developer-workflow.md#7-demo)).
 
-### Note on the PRD
+## 5. Keeping it current
 
-PRD §5 adds "accepted decisions" to the library at Close. Proposing them when their stage is approved matches K3 ("on every merged PR … proposes new decisions") and gets decisions to other teams weeks earlier.
+_Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md) and [0080](../decisions/0080-developers-run-the-library-update-after-each-merge.md)._
 
-## 6. The curation run
+`/bagheera:update-library` keeps the library current. The developer runs it once their ticket's PR has merged, and `/bagheera` reminds them. The platform team runs it to catch up on merges nobody ran it for. At rollout it can run as a scheduled workflow instead ([design doc 6, section 3](distribution-security-and-cost.md#3-where-the-jobs-run)).
 
-_Simplified ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)); see [Changes since approval](#changes-since-approval)._
+1. **Gather** (a script, with the runner's GitHub access). Every PR merged in the repo since its last library update, with its diff, approved documents and notes file. Everything goes into a work folder marked as data, never instructions.
+2. **Write** (the library writer, **Baloo**). Claude edits pages in a copy of the library, following section 2's format, shapes and limits, and sets `updated`, `expires` and `approved_by`. It can read and edit files in that copy only: no shell, no web access and no GitHub token.
+3. **Index.** It rewrites `index.md` from every page's header: one line per page with its path, title, first sentence and `expires` date. Only the library update writes the index, so it also picks up pages merged since the last run, such as seeding PRs and people's own edits.
+4. **Check.** It runs the format check (section 7), and notes in the PR any page its changes contradict.
+5. **Open one library PR,** listing the merged PRs and documents it came from, and the run's cost. If a library-update PR is already open, it adds to that one, so two PRs never conflict on the index. It requests review from the ticket's tech lead and PM named in its spec; for merged PRs with no ticket, the runner names a reviewer.
 
-_Decided: [ADR 0018](../decisions/0018-protect-the-library-with-owner-review.md) for approvals. The rest follows from sections 1–5._
+## 6. Approving library PRs
 
-### When it runs
+_Decided: [ADR 0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md), following [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)._
 
-Every hour, a workflow in the library repo sweeps the PRs merged since its last run in the code repos listed in `domains.yaml`, oldest first. It sweeps rather than reacting to each merge because GitHub can't trigger an org-wide workflow on a merge, and a workflow in every repo would add a file to each one. In the pilot, a manager runs the same steps on demand with `/bagheera:update-library` ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md); design doc 6, section 3).
+* **Branch rules on the library's main branch:** every change goes through a PR, needs one approval, and needs the format check to pass.
+* **The library's owners merge,** the platform team in the pilot, once a fitting person has approved: the tech lead for service pages and technical decisions, the PM for product decisions, the architecture council for standards.
+* **Approvers need write access** to the library repo for GitHub to count their approval.
+* **Nobody approves their own PR,** as on GitHub everywhere.
+* **Stages stay soft.** Stage documents in product repos keep the `/approved` comment ([design doc 3, section 4](developer-workflow.md#4-approval)). Only the library, which every session trusts, needs an approval to merge.
 
-### Step by step
+## 7. The format check
 
-1. **Gather** (script, no AI). For each merged PR, it collects the title, description and diff; the changed files in `specs/<TICKET>/` with their `/approved` comments; and any recorded lessons. Everything goes into a work folder marked as untrusted. The agent's instructions name those files as data, never as instructions. It also collects planning PRs that received `/approved demo` since the last run and whose phases have all merged; those features are closed in this run (section 5).
-2. **Draft** (the knowledge agent, **Baloo**). Claude edits pages in a copy of the library, following the page format, shapes and limits (section 4), and adds a source footnote to every statement (section 1). It can read and edit files in that copy only: no shell, no web access and no GitHub token. Its runs aren't capped for now; each run records its cost, and caps are decided after the pilot ([0068](../decisions/0068-no-spend-caps-until-after-the-pilot.md)).
-3. **Sort** (script). It splits the edits into PRs by section 2's rules:
-   * **merges by itself:** feature entries, which may only restate approved work
-   * **needs owners:** everything else, one PR per page, so each goes to that page's owners
+_Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) and [0079](../decisions/0079-the-format-check-lives-in-the-library-repo.md)._
 
-   Edits outside the allowed folders (workflows, the owners file, `domains.yaml`) fail the run.
-4. **Open or update.** If an agent PR for the same page is already open, the run adds to it rather than opening a second one. Each PR's description lists the merged PRs it came from. A script then fills in the library PR's number in the footnotes of inferred statements ("reviewed in library PR #57").
-5. **Check.** The checks in section 7 run on every library PR.
-6. **Review and merge.** See below.
-7. **Bookkeeping** (script). After merges, a script keeps one bookkeeping PR open that regenerates `index.md` and `CHANGELOG.md`. Each run rebuilds it from the latest main branch, so bookkeeping PRs never conflict with each other, however many library PRs merge. Those paths need no owner review, so it merges on the checks alone.
+One script, in the library repo's `checks/` with the page schemas, changed only by the platform team. A workflow in the library repo runs it on every library PR, whoever opened it, and the branch rule requires it. `/bagheera:update-library` and `/bagheera:standards` run the same script before they open a PR. It fails on:
 
-### How approval works on library PRs
+* header fields that are missing or unknown for the type, and bad dates
+* required sections missing or empty, so a decision can't appear without its context; pages over one and a half times their limit, with a warning at the limit
+* logs, transcripts, or code blocks over about 10 lines
+* links between pages that don't resolve
+* for standards, the rule-numbering checks in [design doc 4, section 1](standards-and-review.md#what-the-format-check-adds)
 
-* **Branch rules on the library's main branch.** Every change goes through a PR. Changes under `standards/`, `services/` and `decisions/` need approval from that folder's owners. `features/`, `index.md` and `CHANGELOG.md` need the checks only.
-* **One place to name owners.** The owners file GitHub uses (CODEOWNERS) is generated from `domains.yaml`, plus each standard page's `owners` ([design doc 4, section 1](standards-and-review.md#1-rules-within-a-standard)). The owners file, `domains.yaml` and the workflows are themselves owned by the platform team; `prefixes.yaml` is owned by the architecture council ([design doc 4, section 1](standards-and-review.md#1-rules-within-a-standard)).
-* **The harness can propose but not approve.** Its GitHub App opens PRs but can't approve them, and can't change the owners file, `domains.yaml` or the workflows.
-* **Owners need write access** to the library repo for their approval to count.
-* **The approval is the verification.** An inferred statement's footnote names the library PR, and the page's `last_verified` names the same PR. The branch rules guarantee that PR had an owner's approval, so nothing has to be edited after approval.
-* **Stages stay soft.** Stage documents in the product repos keep the `/approved` comment ([0002](../decisions/0002-soft-approval-by-comment.md)). Only the library, which every session trusts, has hard protection.
-* **Test early.** Branch rules that require owner approval on some paths and none on others need confirming on a real repo (PRD Appendix A).
+When it fails, the PR stays open with the finding, and its author fixes it.
 
-## 7. Checks
+### Planted-instruction screens
 
-_Simplified to one format check on every change ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)); see [Changes since approval](#changes-since-approval)._
+An addition, for when planted text is found or many teams' PR text feeds the library ([the plan](../plan.md#3-additions); [0019](../decisions/0019-screen-for-planted-instructions-twice.md)). Both run on every library PR:
 
-_Decided: [ADR 0019](../decisions/0019-screen-for-planted-instructions-twice.md) for the planted-instructions screen. The other checks follow from sections 1–6._
-
-These run on every library PR and on every push to one, whether the knowledge agent or a person opened it. The library's branch rules require them (section 6), so nothing merges while one fails, including PRs that would otherwise merge by themselves.
-
-| Check | What it rejects | Built on |
+| Screen | What it rejects | Built on |
 | --- | --- | --- |
-| **Header** | Missing, misspelt or unknown fields; values not allowed for the page type; references to IDs that don't exist; a standard's `prefix` missing, already used, or not in `prefixes.yaml` | The schema per page type (section 4), run by the harness's library checker |
-| **Shape and length** | Missing or empty required sections; pages over one and a half times their limit (a warning at the limit); logs, transcripts, code blocks over about 10 lines | The library checker |
-| **Sources** | An agent statement without a footnote; a footnote linking outside our GitHub org; a statement whose only source is external; an inferred footnote without its library PR number; any inferred statement in a feature entry, since feature entries need no owner review and may only restate approved work | The library checker |
-| **Allowed paths** | Agent edits outside `standards/`, `services/`, `decisions/` and `features/`; changes to the owners file, `domains.yaml` or workflows by anyone but the platform team | The library checker |
-| **Links** | Broken links between pages and to sources | lychee |
-| **Planted instructions: patterns** | Text that addresses an AI or gives it orders; hidden HTML comments; invisible characters; encoded blobs; links outside our GitHub org; a run of about a dozen words or more copied word for word from an untrusted input such as a PR description or ticket | A short script in the library checker |
-| **Planted instructions: model** | Text aimed at an AI, and statements their cited sources don't support | A second Claude pass with no tools, reading only the page changes and the cited sources |
+| **Patterns** | Text that addresses an AI or gives it orders; hidden HTML comments; invisible characters; encoded blobs; links outside our GitHub org; a run of about a dozen words or more copied word for word from an untrusted input such as a PR description or ticket | A short script beside the format check |
+| **Model** | Text aimed at an AI | A second Claude pass with no tools, reading only the page changes and their inputs |
 
-**Why both screens.** The pattern script is cheap and predictable, and catches hidden tricks a model can be fooled by. The model catches plainly worded manipulation the patterns miss. The word-for-word rule enforces "external text is never stored as a statement".
+The pattern script is cheap and predictable, and catches hidden tricks a model can be fooled by; the model catches plainly worded manipulation the patterns miss. Only the platform team clears a screen's alarm. Before the screens go live, and whenever they change, a test set of at least ten planted PR descriptions and diffs runs through the library update; it passes only if no planted text reaches a merged page.
 
-**When a check fails**, the PR stays open and is labelled with the finding. Who handles it, and how a false alarm is cleared, is section 8.
+## 8. How sessions read it
 
-**Testing the screens.** Before the pilot, and whenever the agent's instructions or the screens change, a test set of at least ten deliberately planted PR descriptions and diffs runs through the whole curation run. It passes only if no planted text reaches a merged page: each one must be ignored by the agent or blocked by a check.
+_Decided: [ADR 0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md) and [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md). Principle set by the owner on 2026-10-28: reveal knowledge incrementally; nothing is loaded just in case._
 
-## 8. Corrections
+### At session start
 
-_Dropped: expiry replaces the weekly check and re-verification ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md))._
+The plugin's session-start hook refreshes a local copy of the library, with a short time limit (offline, it uses the last copy and says so), and loads:
 
-_Decided: [ADR 0020](../decisions/0020-send-findings-to-owners-as-library-prs.md)._
+* the service page whose `repos` names this repo, or a note that it's still in review (PRD K7)
+* `index.md`, labelling pages past their `expires` date
+* a short note on how to treat the library (below)
 
-Problems go to the people who own the page, as ordinary library PRs through the review path in section 6. The platform team sees a weekly summary, not every item.
+Claude opens other pages with its own file tools when it needs them. Intake reads past features and decisions on the service; Plan reads its decisions, the services it depends on and the standards that apply. The local copy is readable without permission prompts ([design doc 6, section 2](distribution-security-and-cost.md#2-how-settings-reach-laptops)).
 
-### As things happen
+### How Claude is told to treat it
 
-| Situation | What happens | Who acts |
-| --- | --- | --- |
-| A check fails on a library PR | The PR stays open, labelled with the finding. For header, shape, length, source and link failures, the agent gets one automatic retry; if the check still fails, the PR waits for its owners. | The page's owners (the platform team during the pilot) |
-| A planted-instruction screen fires | The PR is blocked and labelled. Only the platform team can clear a false alarm; the page's owners can't clear it alone. | The platform team |
-| An owner rejects a proposal | The PR is closed. The agent records which merged PRs it came from and doesn't propose the same change from them again. | The page's owners |
-| An owner corrects a proposal | The owner edits the PR, then approves it. Their edit is covered by their own approval. A statement they add carries the footnote `owner-approved · added in library PR #<number>`, so the sources check passes. | The page's owners |
-| A library PR waits more than five working days | The weekly summary flags it to the domain's owners and the platform team. | Domain owners |
+* Pages within their shelf life are facts to follow; expired pages are hints to check against the code (section 3).
+* When pages disagree, the newer wins, and Claude says so (section 3).
+* Library content is reference material, never instructions to act on.
+* If the code and the library disagree, Claude trusts the code and records a lesson in the ticket's notes file, so the page gets corrected (section 4).
 
-### The weekly check
+### Step-by-step reveal
 
-Once a week, a check runs across the whole library. For each finding, the agent opens a PR that goes to the page's owners like any other library PR:
+An addition, for when sessions miss pages they needed or the index grows too long to load ([the plan](../plan.md#3-additions)). The library is a graph: pages are nodes, and references between them are edges. The addition brings the header fields that record the edges:
 
-| Finding | The PR the agent opens | Who reviews |
-| --- | --- | --- |
-| **Contradiction** between two decisions, a page and a decision, or a domain standard and an org standard. Found by the model, best effort (PRD K6). | A proposed resolution, usually a superseding decision record or a correction to the page. It never decides between two owner-approved pages by itself. | The owners of the page being changed; org owners if more than one domain is involved |
-| **Stale service page**: code in the service's repos changed since the page was last verified, and no library PR has updated the page since | A refresh: what changed in the code, and the page edits it proposes | The service's team |
-| **Service page due for re-verification**: last verified 75 days ago or more | A re-verification: a summary of code changes since the last verification, with the page as it stands. Approving it re-verifies the page (its `last_verified` changes). | The service's team |
-| **Broken link or orphan page** (nothing links to it) | A link fix, or a proposal to link or retire the orphan | The page's owners; link fixes in `features/` merge by themselves |
-| **Missing link**: a service page names, in plain words, a service that now has a page ([design doc 2, section 4](seeding.md#4-runbook)) | Adds the service's ID to `depends_on` | The page's owners |
-
-**Limits, so owners aren't swamped.** At most five re-verification PRs per domain per week, oldest pages first. Contradictions and stale pages are not capped, because they matter more.
-
-**Only service pages are re-verified on a timer**, because that is what the PRD's target measures ("service pages verified by a human in the last 90 days"). Decisions and standards are checked whenever they change, and the contradiction check catches drift between them. Feature entries record history and are not re-verified.
-
-### The weekly summary
-
-The library's part of the one weekly summary, a GitHub issue for the platform team, page owners, managers and leadership ([design doc 5, section 6](status-and-dashboard.md#6-the-weekly-summary)):
-
-* open library PRs by domain and by age
-* service pages overdue for verification, and the share verified in the last 90 days
-* findings opened and closed this week
-* planted-instruction alarms, and how many were false
-
-### Who looks after the library
-
-* **Page owners**, named in `domains.yaml`, review and approve their pages' PRs.
-* **The platform team** runs the curation run, the checks and the weekly check; clears planted-instruction false alarms; and chases PRs that wait too long.
-
-## 9. How sessions read it
-
-_Simplified for the first system ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)); see [Changes since approval](#changes-since-approval)._
-
-_Decided: [ADR 0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md), which replaces [0021](../decisions/0021-load-a-compact-starter-set-at-session-start.md). Principle set by the owner on 2026-10-28._
-
-**Reveal knowledge incrementally.** The library is a graph: pages are nodes, and the references in their headers are the edges. A ticket only needs a small part of that graph, and even that part is revealed step by step, as the work needs it. Nothing is loaded just in case.
-
-### The graph
-
-| Edge | From → to | Recorded in |
+| Edge | From → to | Field |
 | --- | --- | --- |
 | depends on | service → service | `depends_on` |
 | governs | decision → service | `services` |
@@ -462,47 +254,33 @@ _Decided: [ADR 0022](../decisions/0022-reveal-the-library-incrementally-as-a-gra
 | decided | feature → decision | `decisions` |
 | applies to | standard → service, language or environment | `applies_to` |
 | replaces | decision → decision | `supersedes`, `superseded_by` |
-| belongs to | page → domain | `domain` |
 
-Links in page text are edges too.
+Links in page text are edges too. Two ways to reveal, both small:
 
-### At session start
+1. **Each stage reveals what it must have,** starting from the services the ticket touches: Intake, the product decisions governing them and past features on them; Architecture, their technical decisions, the Interfaces section of each service they depend on, and the blocking standards that apply (PRD R2); Build, the service's Gotchas.
+2. **Claude explores on demand.** A knowledge skill answers "what is around this page?" with one line per neighbour, and opens a full page only when asked.
 
-The plugin's session-start hook refreshes the local copy of the library (with a short time limit; offline, it uses the last copy and says so), works out the repo's service from `domains.yaml` and the service pages, and loads only:
-
-* the repo's service page (PRD K7)
-* one line on where the current feature stands: its stage, what it's waiting on, and the next step (design docs 3 and 5)
-* a short note telling Claude the library exists and how to explore it
-
-No standards, no decision index, nothing else.
-
-### Revealing more, step by step
-
-Two ways, both small.
-
-**1. Each stage reveals what it must have.** The stage commands (design doc 3) start from the services the ticket touches and pull only what their stage needs:
-
-| Stage | Revealed |
-| --- | --- |
-| Intake | Product decisions governing those services; past features on them (title and "What and why" only) |
-| Architecture | Technical decisions governing them; the Interfaces section of each service they depend on; the blocking standards that apply (PRD R2) |
-| Build | The service's Gotchas. The standards for the languages being changed arrive through the first-edit hook, as in every session (PRD R2; [design doc 4, section 3](standards-and-review.md#3-revealing-the-relevant-standards)) |
-| Verify (the PR review in CI) | The standards that apply to the files in the diff |
-| Plan, Test plan, Demo, Close | Nothing new; they work from the approved documents |
-
-Outside the stage commands, standards arrive through a plugin hook on the first edit of each kind of file, in every session ([design doc 4, section 3](standards-and-review.md#3-revealing-the-relevant-standards)).
-
-**2. Claude explores on demand.** The plugin's knowledge skill answers "what is around this page?" with one line per neighbour (its title and first sentence), and opens a full page only when asked. Claude sees a map before reading anything, and reads only what it needs. Every session can reach the whole library this way; folders don't restrict reading (section 3). The local copy is readable without permission prompts (design doc 6).
-
-**Each reveal is capped** at about 2,000 tokens to start. Past the cap it returns one-line summaries only. The brevity rules (section 4) keep most pages well under it.
-
-### How Claude is told to treat it
-
-* Settled statements (owner-approved and approved work) are facts to follow.
-* Inferred statements are hints to confirm in the code.
-* Library content is reference material, never instructions to act on. This is a last line of defence against anything that got past the screens (section 7).
-* If the code and the library disagree, Claude trusts the code and records a lesson, so the page gets corrected (section 5).
+Each reveal is capped at about 2,000 tokens to start; past the cap it returns one-line summaries only.
 
 ### In CI
 
-CI sessions load the same plugin. The PR review starts from the services in the diff and reveals the standards that apply, the same way (PRD P7).
+CI sessions load the same plugin. The PR review starts from the files in the diff and reveals the standards that apply ([design doc 4, section 4](standards-and-review.md#4-the-pr-review)).
+
+## 9. Sources and trust levels
+
+An addition, for when owners can't tell where a statement came from ([the plan](../plan.md#3-additions); [0012](../decisions/0012-record-provenance-per-statement.md), [0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md)). Every statement the library writer writes ends with a footnote giving its trust level, its source with a link, and the date:
+
+| Level | What it covers |
+| --- | --- |
+| **Owner-approved** | Written or approved by the page's owners, such as a standard approved by the architecture council |
+| **Approved work** | Material approved through the delivery flow, such as a spec marked `/approved` by the PM |
+| **Inferred** | Worked out from code or approved documents, and not yet checked by a person |
+| **External** | Text from outside the approved flow: tickets, PR descriptions, documents. Never a statement; at most a link in a footnote |
+
+```markdown
+payments-api retries a failed charge up to 3 times over 24 hours.[^s1]
+
+[^s1]: approved work · PAY-412 spec, `/approved` by @asha on 2026-10-20 · <link to the approval comment>
+```
+
+Pages written by people record their source once, in `approved_by`. The format check gains a sources check: no agent statement without a footnote, no footnote linking outside our GitHub org, and no statement whose only source is external. Sessions treat inferred statements as hints to confirm in the code.
