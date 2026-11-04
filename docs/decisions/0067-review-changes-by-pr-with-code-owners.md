@@ -38,3 +38,5 @@ Chosen option: A.
 Detail in [design/distribution-security-and-cost.md, section 6](../design/distribution-security-and-cost.md#6-reviewing-and-releasing-changes-to-bagheera). Amends [0060](0060-lock-plugins-and-mcp-servers-leave-own-files.md).
 
 Amended by [0086](0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): no code owners in the pilot; approvers are recorded and checked by whoever merges.
+
+Amended by [0087](0087-publish-to-the-orgs-plugin-marketplace.md): the plugin is published to the org's plugin marketplace, whose owning team governs publishing, its review and the lock on other plugins.

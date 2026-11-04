@@ -12,6 +12,7 @@ _Where this section and the rest of the doc differ, this section wins. The first
 
 | Part | Now |
 | --- | --- |
+| Sections 1, 2 and 6: the marketplace, releases and their review | The plugin is published to the org's plugin marketplace, whose owning team governs it: publishing, who can install, the review before publishing (including security's, PRD D2) and the lock on other plugins and MCP servers (PRD D1). We build, test and cut versions; our own marketplace, the `release` branch and its rules are dropped ([0087](../decisions/0087-publish-to-the-orgs-plugin-marketplace.md)) |
 | Section 6: who reviews what | No `CODEOWNERS` file in the pilot. The other platform engineer approves every change; a change to hooks, scripts, `.mcp.json` or settings also needs security's approval, which its author asks for and whoever merges checks ([0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)) |
 | Section 3: jobs in the pilot | Only the library update runs in the pilot; Verify and the dashboard update are additions ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md)). The developer runs `/bagheera:update-library` once their ticket's PR has merged, not a manager ([0080](../decisions/0080-developers-run-the-library-update-after-each-merge.md)) |
 

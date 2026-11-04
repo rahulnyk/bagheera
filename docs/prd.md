@@ -167,7 +167,7 @@ The pilot is proof that the concept works end to end, not a measure of efficienc
 * **Preferred building blocks** (use unless there's a strong reason not to):
     * **GitHub Spec Kit** as the backbone of stages 1–4, customised through an org **preset** (our templates) and an org **extension** (the stages Spec Kit lacks, such as the test plan and the demo).
     * **A seeding skill in Claude Code**, our own, borrowing DeepWiki-Open's method, run once per repo to draft the first service pages (K8); then the knowledge agent takes over. It's never a second source of truth.
-    * **claude-code-action** for everything that runs in CI; one Claude Code **plugin**, distributed through managed settings, for everything on laptops.
+    * **claude-code-action** for everything that runs in CI; one Claude Code **plugin**, published through the org's plugin marketplace, for everything on laptops.
 * **Naming:** keep a light Jungle Book theme. The product is **Bagheera**; give themed names only to a few top-level things where a name helps people talk about them. Agents, commands, skills, files and workflows get plain descriptive names. Never use generic placeholder company names; the placeholder GitHub org is `seeonee`.
 
 ## 9. Rollout

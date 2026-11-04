@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by [0087](0087-publish-to-the-orgs-plugin-marketplace.md)
 date: 2026-11-03
 deciders: RN (owner)
 ---

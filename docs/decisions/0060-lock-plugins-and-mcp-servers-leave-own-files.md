@@ -36,3 +36,5 @@ Chosen option: A.
 Detail in [design/distribution-security-and-cost.md, section 2](../design/distribution-security-and-cost.md#2-how-settings-reach-laptops). Who approves changes to the lists is design doc 6, section 6.
 
 Amended by [0067](0067-review-changes-by-pr-with-code-owners.md): the lock no longer rejects `--plugin-dir` and the other one-session flags, so platform engineers can try unreleased versions; the marketplace and MCP server locks stay.
+
+Amended by [0087](0087-publish-to-the-orgs-plugin-marketplace.md): the plugin is published to the org's plugin marketplace, whose owning team governs publishing, its review and the lock on other plugins.
