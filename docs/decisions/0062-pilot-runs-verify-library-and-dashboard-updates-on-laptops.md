@@ -37,3 +37,5 @@ Set by the owner: B, with one GitHub App at rollout.
 ## More information
 
 Option C was set aside because GitHub's models aren't Claude Code: we would build our own review and curation programs, CI would review differently from laptops, and PRD §8 names Claude Code and claude-code-action for CI. Detail in [design/distribution-security-and-cost.md, section 3](../design/distribution-security-and-cost.md#3-where-the-jobs-run).
+
+Amended by [0063](0063-one-github-app-key-shared-with-onboarded-repos.md): the App's key is one organisation secret shared with the onboarded repos, so the rollout plan has nothing left to settle there.

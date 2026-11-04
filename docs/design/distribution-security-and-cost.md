@@ -208,10 +208,11 @@ _Decided: [ADR 0061](../decisions/0061-ci-signs-in-to-claude-with-workload-ident
 
 ### At rollout: one GitHub App
 
-_Set by the owner ([ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md))._
+_Set by the owner ([ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md), [ADR 0063](../decisions/0063-one-github-app-key-shared-with-onboarded-repos.md))._
 
 * **One App gives the CI jobs their GitHub access:** reading the library and the plugin, opening library PRs, writing the dashboard and the weekly summary, posting results and re-running Verify. Each run gets an access token from it that lasts an hour.
-* **Its key is never readable from product repos.** Verify runs there, and any workflow in a repo can read the secrets shared with it. How Verify gets its GitHub access without that is settled in the rollout plan (`docs/plan.md`).
+* **Its key is one organisation secret,** shared with the repos whose `bagheera` property is `on`, so Verify can use it where it runs. One App, one secret, one install.
+* **Accepted on purpose:** a workflow written in an onboarded repo could read the key and act as Bagheera. That takes a deliberate, reviewed change to the repo's workflows, and everything the App does is on record in GitHub, so it isn't designed against now.
 
 ## Still to come
 
