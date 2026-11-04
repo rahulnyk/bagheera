@@ -2,7 +2,7 @@
 
 _Status: draft complete, awaiting the owner's approval · Design doc 6 of 6 · [All design docs](README.md)_
 
-Bagheera reaches every laptop and every CI run the same way, with nothing for developers to install, and changes to it are as carefully reviewed as production code. This doc says how the plugin is packaged and released, how settings reach laptops, where the jobs run (laptops in the pilot, CI at rollout) and how CI signs in, how spend is capped and reported, how adoption and cost are shown by repository, and how changes to Bagheera are reviewed and released.
+From rollout, Bagheera reaches every laptop and every CI run the same way, with nothing for developers to install; in the pilot, a handful of engineers install it by hand and run everything on their laptops. Changes to it are as carefully reviewed as production code. This doc says how the plugin is packaged and released, how settings reach laptops, where the jobs run (laptops in the pilot, CI at rollout) and how CI signs in, how spend is capped and reported, how adoption and cost are shown by repository, and how changes to Bagheera are reviewed and released.
 
 Covers PRD P4, D1–D4 and V6, and the CI side of P7. It builds on [design doc 3](developer-workflow.md), which set the commands and what runs in CI, on [design doc 4](standards-and-review.md), which set the deny rules and the sandbox trial, and on [design doc 5](status-and-dashboard.md), whose weekly summary reports adoption and cost.
 
