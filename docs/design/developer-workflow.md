@@ -8,6 +8,15 @@ A developer takes a feature from a Jira ticket to a shipped, demoed change throu
 
 Covers PRD P1–P7, C1–C4 and C6. It builds on [design doc 1](knowledge-library.md), which says what each stage adds to the knowledge library (section 5) and what each stage reveals from it (section 9).
 
+## Changes since approval
+
+_Where this section and the rest of the doc differ, this section wins. The first system, with three stage commands, is in [`docs/plan.md`](../plan.md) ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md))._
+
+| Part | Now |
+| --- | --- |
+| Section 4: who approves | In the first system, only the PM and tech lead named in the spec's header; no team fallback and no QA name ([0072](../decisions/0072-named-pm-and-tech-lead-approve.md)) |
+| Section 4: wording fixes keep an approval | Dropped. Any change to a document cancels its approval ([0074](../decisions/0074-any-change-cancels-an-approval.md)) |
+
 ## Principles
 
 * **One path.** One command per stage. Each can be re-run on its own and reads only earlier stage documents and the library (PRD P2).

@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by [0074](0074-any-change-cancels-an-approval.md)
 date: 2026-10-30
 deciders: RN (owner)
 ---

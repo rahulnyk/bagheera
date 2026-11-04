@@ -43,7 +43,7 @@ The stage commands are adapted from Spec Kit's templates and instructions ([0028
 
 * An approval is `/approved spec` or `/approved plan` on its own line, in a PR comment or review.
 * It counts only from the PM or tech lead named in the spec's header. Intake suggests them and the developer confirms; each command requests its approver as a reviewer, so GitHub notifies them and lists the PR in their review requests. To swap someone, the developer edits the header and the new person approves ([0072](decisions/0072-named-pm-and-tech-lead-approve.md)).
-* It doesn't count from anyone who committed to the document. Any later change to the document cancels it (Q3).
+* It doesn't count from anyone who committed to the document. Any later change to the document, even a typo fix, cancels it, and the approver comments again ([0074](decisions/0074-any-change-cancels-an-approval.md)).
 * Every command checks first. Without the approvals it needs, it stops, says what's missing and who it's waiting on, and links the PR.
 * **Overrides** ([0073](decisions/0073-keep-the-override-in-the-first-system.md)). `--override "<reason>"` goes ahead anyway, and the command posts the override on the PR: the stage, what was missing, the reason and who. It isn't an approval: nothing in an unapproved document reaches the library as approved work.
 
@@ -255,7 +255,7 @@ On `seeonee/bagheera-test`, with Jira ticket `TEST-1`. One platform engineer is 
 | 5 | `/bagheera:plan` | Stops: the spec isn't approved; names the PM and the PR |
 | 6 | The developer comments `/approved spec` | Doesn't count |
 | 7 | The PM answers; Intake again; the PM approves | Answers written in the spec with links; Plan can start |
-| 8 | Plan; the tech lead approves; then any edit to `plan.md` | The edit cancels the approval (Q3); re-approved, the planning PR merges |
+| 8 | Plan; the tech lead approves; then any edit to `plan.md` | The edit cancels the approval; re-approved, the planning PR merges |
 | 9 | Build phase 1 | A first commit of failing tests named with criterion IDs; then code; a PR listing criteria, tests and results |
 | 10 | Build again before phase 1 merges; then again with `--override "test"` | Stops: the previous phase hasn't merged. With the override, it goes ahead and posts the override on the PR; then close that PR |
 | 11 | Merge phase 1, build and merge phase 2 (the last) | As step 9 |
@@ -291,7 +291,7 @@ Brought to the owner one at a time; each answer is recorded as an ADR and folded
 | --- | --- | --- |
 | Q1 | Who counts as the PM and tech lead ([0050](decisions/0050-named-people-per-story-team-fallback.md)) | **Decided** ([0072](decisions/0072-named-pm-and-tech-lead-approve.md)): one PM and one tech lead named in the spec's header; no team fallback, no QA |
 | Q2 | Overrides of the stage check ([0032](decisions/0032-stage-check-stops-and-records-overrides.md)) | **Decided** ([0073](decisions/0073-keep-the-override-in-the-first-system.md)): kept, posted as a PR comment |
-| Q3 | Changes after an approval ([0039](decisions/0039-wording-fixes-keep-an-approval.md)) | Any change cancels it; no wording-fix trailer |
+| Q3 | Changes after an approval ([0039](decisions/0039-wording-fixes-keep-an-approval.md)) | **Decided** ([0074](decisions/0074-any-change-cancels-an-approval.md)): any change cancels it; no wording-fix trailer |
 | Q4 | Branches and phases ([0030](decisions/0030-one-planning-pr-per-feature.md), [0040](decisions/0040-build-phases-one-at-a-time.md)) | A planning PR, then phase PRs one at a time; no folder check or written merge rules |
 | Q5 | Tests first and criteria ([0034](decisions/0034-build-tests-first-and-show-criteria-results.md), [0038](decisions/0038-managers-enforce-qa-review-and-tests-first.md)) | IDs in test names; results listed in the phase PR; no trailer, CI checks or JUnit |
 | Q6 | Changes after planning has merged ([0036](decisions/0036-revise-with-one-command-minor-or-new-ticket.md)) | Re-run the stage command; no `/bagheera:revise`, no minor or major |
