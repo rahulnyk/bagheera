@@ -8,7 +8,7 @@ The [architecture](../architecture.md) says what the parts are. These docs say h
 
 A doc is done when you approve it. Then we start the next. After all six, the phased plan (`docs/plan.md`) follows.
 
-**Where things stand (2026-11-04).** All six docs are approved. They describe the full design, the target we grow towards. The first system to build is much smaller: the delivery path and a simple knowledge library ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md); library rules in [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) and [0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)). The rest is added one part at a time, when the pilot shows it's needed, in `docs/plan.md`. The walkthrough decks and the [diagram](../components.drawio) show the docs as first approved, before the later simplifications; where they differ, the docs and decisions win.
+**Where things stand (2026-11-04).** All six docs are approved. They describe the full design, the target we grow towards. The first system to build is much smaller: the delivery path and a simple knowledge library ([0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md); library rules in [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) and [0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)). The rest is added one part at a time, when the pilot shows it's needed, in [`docs/plan.md`](../plan.md) (draft, with simplification questions in progress). The walkthrough decks and the [diagram](../components.drawio) show the docs as first approved, before the later simplifications; where they differ, the docs and decisions win.
 
 ## The docs, in order
 
@@ -102,7 +102,7 @@ Kept up to date with every doc, so the total stays visible (the owner's request,
 
 In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No servers and nothing self-hosted.
 
-**In the pilot** ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)): the plugin, the two repos and the GitHub Project only. Verify, the library update and the dashboard update run from commands on laptops, with people's own access; the workflows and the GitHub App arrive at rollout (doc 6, section 3).
+**In the pilot** ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md), [0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md)): the first system only, which is the plugin and the two repos, with the library's format check as its one workflow. The library update runs from a command on a laptop, with the runner's own access. Verify, the dashboard, the GitHub App and the CI workflows are additions, each brought in when the pilot shows it's needed ([`docs/plan.md`](../plan.md)).
 
 ### What we need from other teams
 
@@ -116,7 +116,7 @@ In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No se
 | Managers | Hold teams to approvals, QA review and tests first, using the dashboard; grant exceptions | Ongoing | Doc 3 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)) |
 | Security | Code owner review of what runs on laptops in `seeonee/bagheera`: hooks, scripts, MCP settings and the settings files | When those change | Doc 6, section 6 ([0067](../decisions/0067-review-changes-by-pr-with-code-owners.md)) |
 
-**For the pilot,** much less is needed ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)): nothing from the Claude admin or the GitHub org owners. The pilot repos' admins add one branch rule requiring the `bagheera/verify` mark; the platform team, which administers `seeonee/bagheera` and the library repo, gives pilot engineers and managers access; and the dashboard is an org project, which org members can create unless the org restricts it.
+**For the pilot,** much less is needed ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md), [0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md)): nothing from the Claude admin, the GitHub org owners or the pilot repos' admins. The platform team, which administers `seeonee/bagheera` and the library repo, gives the pilot team access ([`docs/plan.md`](../plan.md), section 2). The `bagheera/verify` branch rule and the dashboard's org project arrive with Verify and the dashboard.
 
 After setup, onboarding a repo needs nobody outside the platform team and the joining team. Jira needs no admin work: developers' Jira access is already available (confirmed by the owner, 2026-10-30).
 
