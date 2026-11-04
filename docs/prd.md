@@ -143,7 +143,6 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 
 | Goal | Metric | Pilot target |
 | --- | --- | --- |
-| G1 | Pilot service pages updated within a day of a merge that changes them | ≥ 90% |
 | G1 | Service pages verified by a human in the last 90 days | ≥ 80% |
 | G2 | Merged PRs that went through the automated standards review | 100% in pilot repos |
 | G2 | Standards issues caught before human review vs. in human review | Rising share caught automatically |
