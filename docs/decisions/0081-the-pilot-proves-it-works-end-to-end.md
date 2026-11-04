@@ -34,4 +34,4 @@ Chosen by the owner: A, cut down further. A pilot proves the concept works end t
 
 ## More information
 
-PRD §7, §8, §9 and Q9 updated on the owner's choice; logged in [the design index](../design/README.md#prd-wording-to-update). Detail in [plan.md, section 2](../plan.md#2-the-pilot).
+PRD §7, §8, §9 and Q9 updated on the owner's choice; logged in [the design index](../design/README.md#prd-changes). Detail in [plan.md, section 2](../plan.md#2-the-pilot).

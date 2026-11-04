@@ -29,6 +29,6 @@ Two rules apply to every standard: start with what the pilot needs (security, de
 
 ## More information
 
-Detail in [design/standards-and-review.md, section 2](../design/standards-and-review.md#2-writing-the-first-standards).
+Detail in [design/standards-and-review.md, section 2](../design/standards-and-review.md#2-writing-standards).
 
 Amended by [0047](0047-architecture-council-owns-standards-prefixes-deny-list.md): the architecture council owns the first standards.

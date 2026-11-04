@@ -27,6 +27,6 @@ Chosen option: B, with the field list in the design doc. Every page has a YAML h
 
 ## More information
 
-Fields, statuses, an example and the `domains.yaml` format: [design/knowledge-library.md, section 4](../design/knowledge-library.md#4-page-format).
+Fields, statuses, an example and the `domains.yaml` format: [design/knowledge-library.md, section 4](../design/knowledge-library.md#2-pages).
 
 Amended by [0085](0085-six-header-fields-the-pilot-grows-the-schema.md): in the first system, six header fields to start, grown by the pilot.

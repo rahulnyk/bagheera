@@ -35,4 +35,4 @@ Set by the owner: D, in the first system.
 
 ## More information
 
-Replaces [0042](0042-draft-first-standards-from-owners-documents.md). Detail in [plan.md, section 1](../plan.md#the-knowledge-library) and [design/standards-and-review.md](../design/standards-and-review.md#changes-since-approval).
+Replaces [0042](0042-draft-first-standards-from-owners-documents.md). Detail in [plan.md, section 1](../plan.md#the-knowledge-library) and [design/standards-and-review.md](../design/standards-and-review.md#2-writing-standards).

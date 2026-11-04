@@ -72,7 +72,7 @@ Git history is the change log ([0078](decisions/0078-git-history-is-the-change-l
 **Pages.** Markdown with a small YAML header, defined from the pilot itself ([0085](decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)):
 
 * **Six fields to start,** the ones Bagheera reads: `type`, `title`, `updated`, `expires` and `approved_by` on every page, and `repos` on service pages, so session start finds the page. The path is the page's ID and holds its domain; a feature entry is named after its ticket.
-* **Body sections** start from each type's template in [design doc 1, section 4](design/knowledge-library.md#4-page-format), within its length limit ([0017](decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)). The format check requires them, so a page can't lose its context.
+* **Body sections** start from each type's template in [design doc 1, section 2](design/knowledge-library.md#2-pages), within its length limit ([0017](decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)). The format check requires them, so a page can't lose its context.
 * **Grown by the pilot.** A field or section is added only when a pilot page needs it and something reads it, by a PR to the schema in `checks/`. At the exit, the schema is fixed for rollout.
 * **Shelf life** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)): service pages and feature entries expire 90 days after their last approved change; decisions and standards don't, until superseded or retired; then the change that replaces them sets their `expires` date and links the replacement. Owners can set any date.
 * **Approvers** ([0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)): `approved_by` lists the `/approved` commenters behind what the page says, and its library PR by number; GitHub records who approved and merged that PR ([0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)).
@@ -206,11 +206,11 @@ Each part of the design comes in only when the pilot, or rollout, shows it's nee
 | **The test plan** | `/bagheera:test-plan`: QA's test cases under each criterion | QA wants to review test cases before Build | Doc 3, section 6 |
 | **Criteria coverage and results table** | A check that every criterion has a test; each repo's CI saves JUnit results for a table on each ticket's PR | PMs ask which criteria pass after later changes, or criteria go untested | Doc 3, section 6 |
 | **Demo and Close** | `/bagheera:demo` writes a demo script; the PM's `/approved demo`; the feature entry waits for it | PMs want to accept a feature before it's recorded as shipped | Doc 3, section 7 |
-| **Sources and trust levels** | A source on every statement | Owners can't tell where a statement came from | Doc 1, section 1 |
+| **Sources and trust levels** | A source on every statement | Owners can't tell where a statement came from | Doc 1, section 9 |
 | **Planted-instruction screens** | Pattern and model screens on library PRs | Planted text is found, or before many teams' PR text feeds the library | Doc 1, section 7 |
-| **Step-by-step reveal** | The knowledge skill; neighbours in the graph, with the header fields it walks (`depends_on`, `services`, `decisions`); reveal caps | Sessions miss pages they needed, or the index gets too long to load | Doc 1, section 9 |
+| **Step-by-step reveal** | The knowledge skill; neighbours in the graph, with the header fields it walks (`depends_on`, `services`, `decisions`); reveal caps | Sessions miss pages they needed, or the index gets too long to load | Doc 1, section 8 |
 | **Page ownership** | Who owns which pages, so GitHub requests and requires the right approvers | Maintainers can't tell who should approve, or wrong approvals get merged. Designed as minimal as possible then | [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md) |
-| **`domains.yaml` and prefixes** | Domains, their owners and repos; the standards prefix register | A second domain joins | Doc 1, sections 3–4; doc 4, section 1 |
+| **`domains.yaml` and `prefixes.yaml`** | Each domain and the code repos it covers; the architecture council's register of standards prefixes | A second domain joins | Doc 1, section 1; doc 4, section 1 |
 | **CI, the GitHub App and the Console** | Verify and the library update run in CI | Developers forget the library update, or laptop runs are too slow, or at rollout | Doc 6, section 3 |
 | **Managed settings** | The deny rules, locked, from the claude.ai admin console | At rollout | Doc 6, section 2 |
 
@@ -228,6 +228,7 @@ Each part of the design comes in only when the pilot, or rollout, shows it's nee
 | PRD | Met by |
 | --- | --- |
 | R2: standards in context when writing code | Partly: Claude opens them when needed. Fully: the standards hook |
+| R4: forbidden actions blocked outright | Partly: deny rules catch the usual forms. Fully: the sandbox decision |
 | R3: an automated review of every PR | Verify |
 | P2: one command per stage | Partly: Plan covers architecture and phases. Fully: the separate stage commands |
 | P4: no developer setup | Rollout: the plugin through the org's marketplace, the deny rules through managed settings |

@@ -32,4 +32,4 @@ Chosen by the owner: C. Building the index at session start could make sessions 
 
 ## More information
 
-Detail in [plan.md, section 1](../plan.md#the-knowledge-library) and [design/knowledge-library.md](../design/knowledge-library.md#changes-since-approval). PRD K1 updated on the owner's choice.
+Detail in [plan.md, section 1](../plan.md#the-knowledge-library) and [design/knowledge-library.md](../design/knowledge-library.md#5-keeping-it-current). PRD K1 updated on the owner's choice.

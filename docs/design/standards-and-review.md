@@ -22,7 +22,7 @@ A standard page is blocking or advisory as a whole, set by its owners. A blockin
 
 ### Numbered rules
 
-* Each standard's rules share a short prefix, unique across the library, such as `sec`, `go` or `pay-api`.
+* Each standard's rules share a short prefix, unique across the library, such as `sec`, `go` or `pay-api`. The architecture council assigns prefixes ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)), and records them in `prefixes.yaml` at the library's root once a second domain joins, alongside `domains.yaml` (design doc 1, section 1).
 * Its rules are numbered `<prefix>-<n>`: `sec-1`, `sec-2`… IDs are lower case so they can't be mistaken for Jira keys such as `PAY-412`, or turned into wrong links by Jira autolinks.
 * A number is never reused or changed. A dropped rule stays on the page, marked retired, so old findings still point somewhere.
 * Each rule is one line: the rule, a one-line reason and a short example (design doc 1, section 2).

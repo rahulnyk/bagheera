@@ -27,4 +27,4 @@ Chosen option: B. The starter set is the repo's service page, the standards that
 
 ## More information
 
-Detail in [design/knowledge-library.md, section 9](../design/knowledge-library.md#9-how-sessions-read-it).
+Detail in [design/knowledge-library.md, section 9](../design/knowledge-library.md#8-how-sessions-read-it).

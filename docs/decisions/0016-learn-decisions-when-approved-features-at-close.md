@@ -27,6 +27,6 @@ Chosen option: C. Product rules are proposed after Intake, technical decisions a
 
 ## More information
 
-Detail in [design/knowledge-library.md, section 5](../design/knowledge-library.md#5-what-each-stage-adds).
+Detail in [design/knowledge-library.md, section 5](../design/knowledge-library.md#4-what-the-library-learns-and-when).
 
 Under [0030](0030-one-planning-pr-per-feature.md), a feature's spec and architecture merge together in one planning PR, so the decisions from both are proposed when that PR merges, after the test plan is approved.

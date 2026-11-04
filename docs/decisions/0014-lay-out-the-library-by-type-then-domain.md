@@ -27,4 +27,4 @@ Chosen option: C. The owner weighed B's "domain as a knowledge tenant" view and 
 
 ## More information
 
-Rules and the split procedure: [design/knowledge-library.md, section 3](../design/knowledge-library.md#3-structure).
+Rules and the split procedure: [design/knowledge-library.md, section 3](../design/knowledge-library.md#1-layout).

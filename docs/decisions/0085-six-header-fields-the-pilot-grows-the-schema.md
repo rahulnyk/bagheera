@@ -32,4 +32,4 @@ Chosen by the owner: A. Page types and their metadata are defined from the pilot
 
 ## More information
 
-Amends [0015](0015-typed-page-headers.md) and [0017](0017-brief-pages-with-fixed-shapes-and-length-limits.md) for the first system. Detail in [plan.md, section 1](../plan.md#the-knowledge-library) and [design/knowledge-library.md](../design/knowledge-library.md#changes-since-approval).
+Amends [0015](0015-typed-page-headers.md) and [0017](0017-brief-pages-with-fixed-shapes-and-length-limits.md) for the first system. Detail in [plan.md, section 1](../plan.md#the-knowledge-library) and [design/knowledge-library.md](../design/knowledge-library.md#2-pages).
