@@ -2,7 +2,7 @@
 
 _Status: in progress · Design doc 6 of 6 · [All design docs](README.md)_
 
-Bagheera reaches every laptop and every CI run the same way, with nothing for developers to install, and changes to it are as carefully reviewed as production code. This doc says how the plugin is packaged and released, how settings reach laptops, how CI signs in, how spend is capped and reported, how adoption and cost are shown by team, and how changes to Bagheera are reviewed and released.
+Bagheera reaches every laptop and every CI run the same way, with nothing for developers to install, and changes to it are as carefully reviewed as production code. This doc says how the plugin is packaged and released, how settings reach laptops, how CI signs in, how spend is capped and reported, how adoption and cost are shown by repository, and how changes to Bagheera are reviewed and released.
 
 Covers PRD P4, D1–D4 and V6, and the CI side of P7. It builds on [design doc 3](developer-workflow.md), which set the commands and what runs in CI, on [design doc 4](standards-and-review.md), which set the deny rules and the sandbox trial, and on [design doc 5](status-and-dashboard.md), whose weekly summary reports adoption and cost.
 
@@ -174,12 +174,12 @@ _Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-u
 | Dashboard update: status, assignees, the criteria results table, and the weekly summary when one is due | `/bagheera:update-dashboard` | A manager | On demand, every few days |
 
 * **Own access only.** Each command runs with the person's own Claude seat and GitHub sign-in. The pilot has no CI workflow, no Console setup and no GitHub App.
-* **Verify stays separate from the author** (PRD R3). The command reviews in a fresh Claude that never sees the author's conversation, posts its findings on the PR, and marks the commit `bagheera/verify` passed or failed. Each pilot repo's branch rules require that mark before merging; the repo's admins set this once. A mark belongs to one commit, so after a new push the PR can't merge until Verify runs again.
+* **Verify stays separate from the author** (PRD R3). The command runs the review as a separate Claude Code process that never sees the author's conversation (section 5), posts its findings on the PR, and marks the commit `bagheera/verify` passed or failed. Each pilot repo's branch rules require that mark before merging; the repo's admins set this once. A mark belongs to one commit, so after a new push the PR can't merge until Verify runs again.
 * **Baloo stays boxed in.** `/bagheera:update-library` runs the curation run's steps (design doc 1, section 6). Scripts gather and sort with the manager's GitHub access; Baloo edits only a copy of the library, with no shell, no web and no GitHub access. Library PRs come from the manager's account, and page owners still approve them.
 * **Managers who run them** install the plugin like pilot engineers (section 2), and need write access to the library repo and the dashboard project, and read access to the pilot repos.
 * **What the pilot gives up:**
   * The dashboard and the library are only as fresh as the last run. Approval requests still reach people straight away, because the stage commands request reviewers themselves (design doc 5, section 5); only the sync's assignments wait.
-  * Verify holds through the repo's branch rule and the developer's agreement, and its cost shows in each developer's own usage, so the PRD's "CI cost per merged PR" isn't measured in the pilot.
+  * Verify holds through the repo's branch rule and the developer's agreement. Its cost counts against each developer's own seat, though each run still records it (section 5).
 
 ### At rollout: the same commands in CI
 
@@ -221,7 +221,7 @@ CI spend is capped per job and reported separately from seat usage (PRD D4). Not
 
 ### In the pilot
 
-There's no CI spend. Verify and the update commands run within people's seat allowance, under whatever limits the company's Claude plan already sets. The platform team notes what a few Verify and library-update runs cost, from Claude Code's own usage figures, to set the caps below.
+There's no CI spend. Verify and the update commands run within people's seat allowance, under whatever limits the company's Claude plan already sets. Each Verify and library-update run records its cost (section 5), which gives the numbers for the caps below.
 
 ### At rollout
 
@@ -237,7 +237,27 @@ There's no CI spend. Verify and the update commands run within people's seat all
 * **Per month.** One spend limit on CI's Console workspace (section 3), set with headroom. If it's ever reached, Verify can't run and PRs wait, so the platform team watches CI spend in the weekly summary and raises the limit before that happens.
 * **Reported apart from seats.** The Console's cost page shows the CI workspace's spend; seat usage is reported on claude.ai. The weekly summary shows both (section 5).
 
+## 5. Adoption and cost by repository
+
+_Decided: [ADR 0066](../decisions/0066-report-job-spend-by-repository.md), set by the owner._
+
+Spend and adoption are reported by repository, the simplest unit: each job already runs for one repo.
+
+### Spend
+
+* **Each run records its own cost.** Claude Code reports a run's estimated cost when it finishes.
+  * **Verify** writes it next to its findings: in its PR comment in the pilot, and in its check run at rollout. For example, `Verify passed · 2 advisory findings · $0.42`.
+  * **The library update** records its cost with its run.
+* **The same on laptops.** In the pilot, `/bagheera:verify` runs the review as a separate Claude Code process (`claude -p`), the same way CI does. So its cost is known, and it never sees the author's conversation (section 3). In the pilot sandbox, that process needs Anthropic's API on the allowed hosts.
+* **The weekly summary adds them up** (design doc 5, section 6): Verify spend per repo, library-update spend, and Verify spend per merged PR, which is the PRD's "CI cost per merged PR" (PRD §7).
+* **The cost is Claude Code's estimate at API prices.** At rollout, CI's real bill is on the Console's cost page (section 4). In the pilot, for people on seats, it measures relative cost, not what the company pays.
+
+### Adoption
+
+* **By repo, from GitHub,** in the weekly summary: stories started and shipped, Bagheera PRs merged, and who used the stage commands that week (PRD G3).
+* **Everything else stays in Claude's own dashboards,** linked from the weekly summary: active users, sessions and spend per person on claude.ai, and CI's workspace total on the Console.
+* **Not split by repo:** developers' own sessions, running the stage commands and building. That spend stays per person in Claude's dashboards.
+
 ## Still to come
 
-5. Adoption and cost by team (V6)
 6. How changes to Bagheera are reviewed and released (D2)

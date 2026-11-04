@@ -212,7 +212,7 @@ Six short sections. Each gives counts and the five oldest or largest items, with
 | **3. For managers** | Overrides, no QA review, no tests-first and self-dismissals, by team, each with its PR | Managers | The markers (section 2) |
 | **4. Standards findings** | Findings and dismissals by team and by rule, rules with the most findings first, with who dismissed each and why | Standards owners, managers | Verify's check runs (design doc 4, section 4) |
 | **5. Library health** | Open library PRs by domain and age; service pages overdue for verification, and the share verified in the last 90 days; findings opened and closed; planted-instruction alarms, and how many were false | Page owners, the platform team | The library repo (design doc 1, section 8) |
-| **6. Adoption and cost** | Active users, sessions, spend and PRs with AI help, by team (PRD V6); CI cost per merged PR (PRD §7) | Leadership, the platform team | Claude's analytics and CI usage (design doc 6) |
+| **6. Adoption and cost** | By repo: Verify and library-update spend, Verify spend per merged PR (PRD §7), stories started and shipped, Bagheera PRs merged, and who used the stage commands; links to Claude's own dashboards for active users, sessions and spend per person ([0066](../decisions/0066-report-job-spend-by-repository.md)) | Leadership, the platform team | Each run's recorded cost, GitHub, and Claude's dashboards (design doc 6, section 5) |
 
 For example:
 
@@ -230,7 +230,8 @@ Bagheera weekly summary: 26 Oct – 1 Nov 2026               @seeonee/bagheera-w
                 sec-3  6 findings, 2 dismissed  @seeonee/architecture-council
 5. Library      7 open PRs, 1 over five working days (@seeonee/payments-tech-leads)
                 86% of service pages verified in the last 90 days
-6. Cost         41 active users · 312 sessions · spend by team · CI cost per merged PR
+6. Cost         Verify $38 (payments-api $21 · checkout-web $17) · library update $6
+                $0.45 Verify spend per merged PR · 7 people used the stage commands
 ```
 
 ### Rules
