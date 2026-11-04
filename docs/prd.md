@@ -141,24 +141,27 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 
 ## 7. Success metrics
 
-| Goal | Metric | Pilot target |
-| --- | --- | --- |
-| G1 | Service pages verified by a human in the last 90 days | ≥ 80% |
-| G2 | Merged PRs that went through the automated standards review | 100% in pilot repos |
-| G2 | Standards issues caught before human review vs. in human review | Rising share caught automatically |
-| G3 | Pilot engineers using the pipeline weekly | ≥ 6 of the pilot team |
-| G3 | Features shipped end to end through all stages | 2 in the pilot |
-| G4 | Median time from an artifact PR opening to the PM's first response | < 1 working day |
-| G4 | PMs approve test plans without rewriting them | PM-written lines < 20% of the test plan |
-| G4 | Status and clarification meetings per pilot team per week | Down vs. the pre-pilot baseline (count it in week 1) |
-| G5 | Leadership can answer "where is feature X and what is it waiting on" without asking anyone | Yes, from the dashboard |
-| All | CI cost per merged PR | Within a budget agreed before the pilot |
+The pilot is proof that the concept works end to end, not a measure of efficiency. Efficiency is measured once the pilot works.
+
+| Goal | Pilot target |
+| --- | --- |
+| G3, G4 | At least 10 tickets taken through intake, plan and build, each with its spec and plan approved by the named PM and tech lead before Build |
+| G1 | Each of those tickets updates the library (service pages, decisions, feature entry), approved by the pages' owners |
+
+**After the pilot,** these measure efficiency; their targets are set then:
+
+* G1: service pages within their shelf life
+* G2: merged PRs that went through the automated standards review; standards issues caught before human review vs. in it
+* G3: engineers using the commands weekly
+* G4: time from a review request to the approver's first response; the PM-written share of the acceptance criteria; status and clarification meetings per team per week
+* G5: leadership can answer "where is feature X and what is it waiting on" without asking anyone
+* All: cost per merged PR
 
 ## 8. Constraints and assumptions
 
 * **GitHub** for code, review and CI. **Jira** for tickets. **Anthropic API** for model access. Any design that depends on these must say so.
 * Claude Code is the agent runtime, locally and in CI.
-* Effort: 2 engineers, about 6–8 weeks to a pilot with one team of 6–8 engineers on a real feature; then rollout 2–3 teams at a time.
+* Effort: 2 engineers, about 6–8 weeks to a pilot with one team of 6–8 engineers on at least 10 real tickets; then rollout 2–3 teams at a time.
 * Plugins, hooks and MCP servers run with the engineer's permissions on their machine; there is no sandbox.
 * Build as little as possible. Prefer first-party and widely used open-source tools; anything built must say what was considered and why it didn't fit.
 * **Preferred building blocks** (use unless there's a strong reason not to):
@@ -170,7 +173,7 @@ Priority: **M** must have for the pilot, **S** should have for the pilot, **L** 
 ## 9. Rollout
 
 1. **Foundations.** Knowledge base with standards written by their owners; first service pages drafted by the seeding skill; self-updating on merge; adoption and cost visibility switched on.
-2. **Pilot, stages 1–4.** One team, one real feature; PMs approve in PRs; dashboard live.
+2. **Pilot, stages 1–4.** One team, at least 10 tickets; PMs approve in PRs; dashboard live.
 3. **Pilot, stages 5–8.** Build, CI review, demo, close.
 4. **Org rollout.** 2–3 teams at a time, each adding its service pages; the platform team owns Bagheera.
 
@@ -188,7 +191,7 @@ Expand only once the pilot team uses the approvals rather than skipping them.
 | Q6 | Does Jira need to show the stage, or is a link from Jira enough? | Jira integration |
 | Q7 | Claude plan (Team / Enterprise / API Console), which decides what built-in usage analytics exist | Adoption and cost visibility |
 | Q8 | Data residency: Anthropic API, or Bedrock / Vertex? | Model access |
-| Q9 | Which team and feature pilot first, and what is that team's current meeting load? | Pilot, G4 baseline |
+| Q9 | Which team pilots first, and with which tickets? | Pilot |
 
 ## Appendix A — Facts already checked (Oct 2026)
 

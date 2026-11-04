@@ -169,6 +169,7 @@ Agreed decisions that change the PRD's wording. The PRD is the owner's document,
 | §9 Rollout | Foundations, then the pilot of stages 1–4, then 5–8, then org rollout | First the simplest system, the delivery path and the knowledge library, piloted end to end; then additions one at a time, as the pilot shows the need; then org rollout | [0069](../decisions/0069-first-system-delivery-path-and-knowledge-library.md) |
 | §5 stages 3 and 5 | Plan: "2–6 phases, each shippable on its own behind a flag"; Build: "Tests first, then code, one PR per phase" | Plan: "2–6 phases, built one at a time"; Build: "Tests first, then code, in the ticket's one PR". **Applied** to the PRD on the owner's decision, 2026-11-04 | [0075](../decisions/0075-one-pr-per-ticket.md) |
 | K1 | "an index and a change log" | "an index; git history as the change log". **Applied** to the PRD on the owner's decision, 2026-11-04 | [0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md) |
+| §7; §8 Effort; §9 step 2; Q9 | Ten pilot targets for the full design; "one team … on a real feature"; "which team and feature … meeting load" | Two pilot targets, proving the system works end to end on at least 10 tickets; efficiency measures listed for after the pilot. **Applied** to the PRD on the owner's decision, 2026-11-04 | [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md) |
 
 ## Naming register
 

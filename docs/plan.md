@@ -136,11 +136,11 @@ The stage check comes first because every command depends on it. Sessions read t
 
 ## 2. The pilot
 
-One team of 6–8 engineers, one real feature, on Macs (PRD §8, §9).
+One team of 6–8 engineers, at least 10 real tickets, on Macs (PRD §8, §9). The pilot proves that the delivery path and the library work end to end; it doesn't measure efficiency, which comes once the pilot works ([0081](decisions/0081-the-pilot-proves-it-works-end-to-end.md)).
 
 ### Setup
 
-1. **Choose the team and the feature** (PRD Q9). The team lead counts status and clarification meetings in the week before, as the baseline (G4).
+1. **Choose the team and its first tickets** (PRD Q9).
 2. **Access.** The platform team gives pilot engineers read access to `seeonee/bagheera` and write access to the library, so they can push library-update branches; the branch rule still needs the owners' approval. Page owners also need write access, so their approvals count. The PM and tech lead need GitHub accounts with review rights (PRD Q2).
 3. **Seed** the pilot domain the week before, and hold the team's review session.
 4. **Install** (section 1) and onboard (section 5).
@@ -148,35 +148,32 @@ One team of 6–8 engineers, one real feature, on Macs (PRD §8, §9).
 
 The platform team checks in with the team for 15 minutes each week, and reads every library PR.
 
-### What we measure
+### Pilot targets
 
-The platform team collects these each week, by hand, from GitHub and the runs' own records. There's no dashboard yet.
+Two, from PRD §7. The platform team counts them from GitHub; there's no dashboard yet.
 
-| Measure | From | PRD |
-| --- | --- | --- |
-| Engineers who used the commands that week | PR authors, the weekly check-in | G3: ≥ 6 of the team |
-| Stages started with their approvals in place; overrides and their reasons; work done around the commands | The tickets' PRs | §9: approvals used, not skipped |
-| Time from a review request to the approver's first response | PR timelines | G4: < 1 working day |
-| Share of the criteria the PM rewrote | The spec as drafted vs. as approved | G4: < 20% |
-| Status and clarification meetings per week | The team lead | G4: down vs. the baseline |
-| Merged PRs with no library update after two working days | The repo's merged PRs vs. library PRs | — |
-| Library PRs: days to review, and how much owners changed | Library PRs | — |
-| Seeded pages: minutes to review, and share of statements changed | Seeding PRs | Design doc 2 |
-| Service pages within their shelf life | The library | G1 (Q11) |
-| Contradictions flagged, and whether they were real | Session reports, library PRs | — |
-| Cost of each library-update and seeding run | The runs' own records | §7 (Q11) |
-| Deny-rule hits, sandbox prompts, hosts added, tests that couldn't run | The engineers' notes, settings changes | R4; the sandbox decision |
-| What people asked for that isn't there | The weekly check-in | Section 3's signals |
+| Target | Counted from |
+| --- | --- |
+| At least 10 tickets taken through intake, plan and build, each with its spec and plan approved by the named PM and tech lead before Build | The tickets' PRs |
+| Each of those tickets updates the library, approved by the pages' owners | Library PRs |
+
+### Noted along the way
+
+Not targets. The platform team writes these down at the weekly check-in, because they decide what comes next:
+
+* overrides and their reasons, and work done around the commands
+* what people asked for that isn't there (section 3's signals)
+* each run's recorded cost (the spend-cap decision)
+* deny-rule hits, sandbox prompts, hosts added and tests that couldn't run (the sandbox decision)
+* approvals that waited because someone missed GitHub's notification (the Slack decision)
 
 ### Exit check
 
-When the feature ships, the platform team answers these with the owner:
+Once ten tickets have shipped and updated the library, the platform team answers these with the owner:
 
-1. Did the feature go through intake, plan and build, with approvals used rather than overridden or worked around? This is PRD §9's condition for expanding.
-2. Did the PM and tech lead respond within a working day?
-3. Did sessions use the library, and did owners keep up with library PRs?
-4. Which additions did the pilot's signals call for, and in what order (section 3)?
-5. The deferred decisions: the sandbox, spend caps, Slack, and renewing expired pages (section 3).
+1. Were both targets met? The first is PRD §9's condition for expanding.
+2. Which additions did the signals call for, and in what order (section 3)?
+3. The deferred decisions: the sandbox, spend caps, Slack, and renewing expired pages (section 3).
 
 If 1 is no, we find out why with the team and fix that before anything is added. If it's yes, the additions called for come next, one at a time, then rollout.
 
@@ -281,7 +278,6 @@ On `seeonee/bagheera-test`, with Jira ticket `TEST-1`. One platform engineer is 
 | The Claude plan and model access aren't confirmed (PRD Q7, Q8) | Before week 1 | The owner confirms; the pilot needs Claude Code seats |
 | Seat usage limits slow seeding or library updates | Each run's usage | Seed repo by repo; use an API key for those runs |
 | Deny rules hold only by agreement in the pilot | The red-team results | The sandbox trial; locked settings at rollout |
-| One feature gives too little signal | At the exit check | A second feature before rollout |
 
 ### Onboarding
 
@@ -306,4 +302,4 @@ Brought to the owner one at a time; each answer is recorded as an ADR and folded
 | Q8 | The library's index and change log (PRD K1) | **Decided** ([0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)): `index.md` kept by `/bagheera:update-library`; git history is the change log |
 | Q9 | Where the format check lives (design doc 1, section 4) | **Decided** ([0079](decisions/0079-the-format-check-lives-in-the-library-repo.md)): in the library repo; no lychee |
 | Q10 | Who runs `/bagheera:update-library` ([0062](decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)) | **Decided** ([0080](decisions/0080-developers-run-the-library-update-after-each-merge.md)): the developer, after each merge |
-| Q11 | PRD §7's pilot targets | Keep those the first system can meet; move the rest to the additions that enable them |
+| Q11 | PRD §7's pilot targets | **Decided** ([0081](decisions/0081-the-pilot-proves-it-works-end-to-end.md)): two targets on at least 10 tickets; efficiency measured after the pilot |
