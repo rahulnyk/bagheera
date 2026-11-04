@@ -76,7 +76,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 **6. Distribution, security and cost**
 1. Plugin packaging and the marketplace. **Done:** [0057](../decisions/0057-release-the-plugin-from-a-release-branch.md), one marketplace in `seeonee/bagheera`, released from a `release` branch
 2. How settings reach laptops (depends on the Claude plan). **Done:** [0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), the claude.ai admin console after the pilot; pilot engineers install the plugin by hand (set by the owner); [0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md), the pilot's deny rules and sandbox in each engineer's own settings (set by the owner); [0060](../decisions/0060-lock-plugins-and-mcp-servers-leave-own-files.md), at rollout, plugins only from our marketplace and MCP servers only from an approved list
-3. CI credentials
+3. CI credentials. **Done (Claude):** [0061](../decisions/0061-ci-signs-in-to-claude-with-workload-identity-federation.md), each run's GitHub identity exchanged for short-lived Claude access, only for our workflows. GitHub credentials next
 4. Spend limits and reporting
 5. Adoption and cost by team
 6. How changes to the harness are reviewed and released
@@ -105,7 +105,7 @@ In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No se
 | Who | What | How often | Where designed |
 | --- | --- | --- | --- |
 | GitHub org owners (the company's org managers; confirmed by the owner, 2026-10-30) | Install the harness's GitHub App; give read access to `seeonee/bagheera`, to pilot engineers first and everyone at rollout; define the `bagheera` repo property, settable by the platform team; create the org ruleset for Verify, which also blocks force-push and needs owner review on protected paths; create PM, tech lead and QA teams where missing, and the `bagheera-weekly` readers team for the weekly summary | Once, in Foundations (about an hour) | Docs 1, 3, 5 and 6 |
-| Claude admin (an owner of the company's Claude org) | After the pilot, paste the reviewed managed settings into the admin console: the plugin for everyone, with the deny rules; CI credentials and a spend limit | Once, and when the settings file changes; never per release | Docs 4 and 6 |
+| Claude admin (an owner of the company's Claude org) | After the pilot, paste the reviewed managed settings into the admin console: the plugin for everyone, with the deny rules. For CI, before the pilot: a Console workspace, a service account and the two identity federation rules; a spend limit | Once, and when the settings file changes; never per release | Docs 4 and 6 |
 | Each team | JUnit test results from its CI; review its seeded service pages | Once per repo, at onboarding | Docs 2 and 3 |
 | Approvers and page owners | Approve stage documents; review library PRs | Ongoing, as part of their normal work | Docs 1 and 3 |
 | Architecture council (principal and senior staff) | Own the first standards, the prefix register and the deny list; edit them as needed | Foundations, then ongoing | Doc 4 ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)) |
@@ -119,7 +119,7 @@ After setup, onboarding a repo needs nobody outside the platform team and the jo
 | --- | --- |
 | GitHub (Team or Enterprise plan, for org rulesets on private repos) | Code, PRs, approvals, CI, the dashboard |
 | Jira | Ticket text for Intake; one link comment per ticket, posted by Intake |
-| Anthropic | Claude, on laptops and in CI |
+| Anthropic | Claude: Team or Enterprise seats on laptops; a Console workspace, billed per use, for CI |
 
 ### Removed along the way
 

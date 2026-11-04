@@ -159,9 +159,37 @@ In the console's settings file, alongside the plugin switch (section 1) and the 
 * **What people see if they try something else.** Adding another marketplace, or starting Claude Code with `--plugin-dir`, fails with a message naming the company's policy.
 * **Plugins people already installed** from other marketplaces stop loading at rollout. The rollout note says so in advance, with how to ask for one to be added.
 
+## 3. CI credentials
+
+CI uses short-lived credentials, with no long-lived keys in repos (PRD D3). Two CI jobs use Claude: Verify, on every PR in onboarded repos (design doc 3, section 9), and the curation run, where Baloo updates the library (design doc 1, section 6). The dashboard sync doesn't call Claude.
+
+### Which version CI runs
+
+* **Verify** runs from `seeonee/bagheera` at `release`: the org ruleset names that branch, so every repo runs the released workflow.
+* **The scheduled jobs**, the curation run and the dashboard sync, run in `seeonee/bagheera`. GitHub always starts scheduled workflows from the repo's default branch, `main`, so each one first checks out `release` and runs the plugin and scripts from there.
+* **The plugin in CI** is installed from the same marketplace and branch as on laptops (section 1), through the Claude Code GitHub Action's plugin inputs. So a laptop and a CI run on the same day run the same version.
+
+### Claude: short-lived access, only for our workflows
+
+_Decided: [ADR 0061](../decisions/0061-ci-signs-in-to-claude-with-workload-identity-federation.md)._
+
+* **Nothing is stored.** Each run asks GitHub for a signed identity token, which says which repo and which workflow it is. The Claude Code GitHub Action exchanges it in the Claude Console for access that expires in minutes. The workflow only needs GitHub's `id-token: write` permission, and the IDs it passes aren't secrets.
+* **Only our workflows qualify.** The Console checks each token against two rules:
+
+  | Rule | Admits | Used by |
+  | --- | --- | --- |
+  | Verify | The workflow `seeonee/bagheera/.github/workflows/verify.yml` at `release`, in any `seeonee` repo | Verify, on every PR |
+  | Scheduled jobs | Workflows in `seeonee/bagheera` itself, on `main`, which only the platform team can change | The curation run |
+
+  A workflow someone writes in a product repo matches neither rule, so it can't get Claude access.
+* **Access ends with the job.** Each token's lifetime is set to the job's time limit, and its scope allows calling Claude and nothing else in the Console.
+* **CI has its own Console workspace,** billed per use and reported apart from the seats laptops use (PRD D4). Its spend cap is section 4.
+* **One-time setup by the Claude admin,** in the Console's identity federation wizard: GitHub Actions as a trusted issuer, a service account, the workspace and the two rules.
+* **One thing to test in Foundations.** The Verify rule relies on GitHub naming the called workflow in the token of a ruleset-required run. If it doesn't, the rule falls back to admitting runs in `seeonee` repos, and the workspace's spend cap bounds any misuse.
+
 ## Still to come
 
-3. CI credentials (D3)
+* GitHub credentials: where the harness's GitHub App key lives, so only our workflows can use it
 4. Spend limits and reporting (D4)
 5. Adoption and cost by team (V6)
 6. How changes to Bagheera are reviewed and released (D2)
