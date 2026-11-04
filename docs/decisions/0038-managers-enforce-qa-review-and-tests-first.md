@@ -28,3 +28,5 @@ The PM's approval of the acceptance criteria still counts as before: the stage c
 ## More information
 
 Detail in [design/developer-workflow.md, sections 4 and 6](../design/developer-workflow.md#4-approval). Amends [0032](0032-stage-check-stops-and-records-overrides.md), [0034](0034-build-tests-first-and-show-criteria-results.md) and [0036](0036-revise-with-one-command-minor-or-new-ticket.md).
+
+Amended by [0076](0076-criteria-ids-in-test-names-results-in-the-pr.md): in the first system, there is no tests-first warning; the commit order on the PR shows it.

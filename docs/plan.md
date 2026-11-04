@@ -38,7 +38,7 @@ The stage commands are adapted from Spec Kit's templates and instructions ([0028
 
 1. **Spec.** Intake posts the open questions in one PR comment, mentioning the PM. The PM answers in ordinary PR comments. Running `/bagheera:intake` again writes the answers into the spec and asks for approval ([0033](decisions/0033-answer-open-questions-in-pr-comments.md)). The PM comments `/approved spec`.
 2. **Plan.** Plan drafts `plan.md` and raises any questions for the tech lead the same way. The tech lead comments `/approved plan`.
-3. **Build.** Phases go one at a time, in the same PR ([0040](decisions/0040-build-phases-one-at-a-time.md)). For each, Build writes the tests for the phase's criteria with the criterion's ID in their names, confirms they fail, and commits them first. It then writes code until they pass, and records lessons in the notes file. It ticks the phase off in the PR's description, not in `plan.md`, so the plan's approval stands, and lists each criterion, its tests and their result in its own run (Q5).
+3. **Build.** Phases go one at a time, in the same PR ([0040](decisions/0040-build-phases-one-at-a-time.md)). For each, Build writes the tests for the phase's criteria with the criterion's ID in their names, confirms they fail, and commits them first. It then writes code until they pass, and records lessons in the notes file. It ticks the phase off in the PR's description, not in `plan.md`, so the plan's approval stands, and lists each criterion, its tests and their result in its own run. Nothing checks this in CI ([0076](decisions/0076-criteria-ids-in-test-names-results-in-the-pr.md)).
 4. **Review and merge.** After the last phase, Build marks the PR ready, and code review goes as usual.
 5. **Handover.** Every command commits and pushes when it ends, so nothing lives only on a laptop. A ticket is handed over by reassigning it in Jira; the new developer runs `/bagheera PAY-412`.
 
@@ -191,7 +191,7 @@ Each part of the design comes in only when the pilot, or rollout, shows it's nee
 | **Phase PRs** | One PR per phase, each branched from the main branch after the last merges | Ticket PRs are too large to review well | Doc 3, section 3 ([0030](decisions/0030-one-planning-pr-per-feature.md)) |
 | **A separate architecture stage** | `/bagheera:architecture`, approved before the plan | Plans are too long to approve at once, or tech leads want to settle the design before the phases | Doc 3 |
 | **The test plan** | `/bagheera:test-plan`: QA's test cases under each criterion | QA wants to review test cases before Build | Doc 3, section 6 |
-| **The criteria results table** | Each repo's CI saves JUnit results; a table of criteria and results on each ticket's PR | PMs ask which criteria pass after later changes | Doc 3, section 6 |
+| **Criteria coverage and results table** | A check that every criterion has a test; each repo's CI saves JUnit results for a table on each ticket's PR | PMs ask which criteria pass after later changes, or criteria go untested | Doc 3, section 6 |
 | **Demo and Close** | `/bagheera:demo` writes a demo script; the PM's `/approved demo`; the feature entry waits for it | PMs want to accept a feature before it's recorded as shipped | Doc 3, section 7 |
 | **Sources and trust levels** | A source on every statement | Owners can't tell where a statement came from | Doc 1, section 1 |
 | **Planted-instruction screens** | Pattern and model screens on library PRs | Planted text is found, or before many teams' PR text feeds the library | Doc 1, section 7 |
@@ -297,7 +297,7 @@ Brought to the owner one at a time; each answer is recorded as an ADR and folded
 | Q2 | Overrides of the stage check ([0032](decisions/0032-stage-check-stops-and-records-overrides.md)) | **Decided** ([0073](decisions/0073-keep-the-override-in-the-first-system.md)): kept, posted as a PR comment |
 | Q3 | Changes after an approval ([0039](decisions/0039-wording-fixes-keep-an-approval.md)) | **Decided** ([0074](decisions/0074-any-change-cancels-an-approval.md)): any change cancels it; no wording-fix trailer |
 | Q4 | Branches and phases ([0030](decisions/0030-one-planning-pr-per-feature.md), [0040](decisions/0040-build-phases-one-at-a-time.md)) | **Decided** ([0075](decisions/0075-one-pr-per-ticket.md)): one PR per ticket; phases one at a time within it |
-| Q5 | Tests first and criteria ([0034](decisions/0034-build-tests-first-and-show-criteria-results.md), [0038](decisions/0038-managers-enforce-qa-review-and-tests-first.md)) | IDs in test names; results listed in the PR; no trailer, CI checks or JUnit |
+| Q5 | Tests first and criteria ([0034](decisions/0034-build-tests-first-and-show-criteria-results.md), [0038](decisions/0038-managers-enforce-qa-review-and-tests-first.md)) | **Decided** ([0076](decisions/0076-criteria-ids-in-test-names-results-in-the-pr.md)): IDs in test names; results listed in the PR; no trailer, CI checks or JUnit |
 | Q6 | Changes after planning has merged ([0036](decisions/0036-revise-with-one-command-minor-or-new-ticket.md)) | **Settled by [0075](decisions/0075-one-pr-per-ticket.md):** re-run the stage command in the same PR; after merge, a new ticket |
 | Q7 | Seeding's report and fallback (design doc 2) | A short report; no DeepWiki-Open fallback |
 | Q8 | The library's index and change log (PRD K1) | Built from headers when read; git history is the change log |

@@ -31,3 +31,5 @@ Chosen option: A. `/bagheera:build <phase>` writes the phase's tests from the te
 Detail in [design/developer-workflow.md, section 6](../design/developer-workflow.md#6-build).
 
 Amended by [0038](0038-managers-enforce-qa-review-and-tests-first.md) (a missing tests-first commit is also recorded on the dashboard; managers enforce it) and [0040](0040-build-phases-one-at-a-time.md) (phases one at a time; no phase number).
+
+Amended by [0076](0076-criteria-ids-in-test-names-results-in-the-pr.md): in the first system, no trailer, CI checks or JUnit table; the PR lists each criterion, its tests and their result from Build's run.
