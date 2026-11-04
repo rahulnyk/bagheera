@@ -193,7 +193,7 @@ Build opens phase PRs as drafts, so the review lands before people are asked. Th
 
 ### Cost
 
-Each review is a Claude run on every PR, so it counts towards CI spend. PRD §7 sets a budget per merged PR; spend limits and reporting are design doc 6.
+Each review is a Claude run on every PR, so it counts towards CI spend. PRD §7 sets a budget per merged PR. Each run records its cost (design doc 6, section 5), and whether to cap spend is decided after the pilot.
 
 ## 5. Forbidden actions
 

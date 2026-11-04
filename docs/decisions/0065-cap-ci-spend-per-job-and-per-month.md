@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by [0068](0068-no-spend-caps-until-after-the-pilot.md)
 date: 2026-11-04
 deciders: RN (owner)
 ---

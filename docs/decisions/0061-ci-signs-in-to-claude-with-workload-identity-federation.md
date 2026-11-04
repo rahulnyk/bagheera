@@ -36,3 +36,5 @@ Chosen option: A.
 Detail in [design/distribution-security-and-cost.md, section 3](../design/distribution-security-and-cost.md#3-where-the-jobs-run). Sources: Claude platform docs on [workload identity federation](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation) and [its GitHub Actions setup](https://platform.claude.com/docs/en/manage-claude/wif-providers/github-actions).
 
 Amended by [0062](0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md): this applies from rollout. In the pilot, Verify and the library update run on laptops with people's own Claude seats, and nothing runs in CI.
+
+Amended by [0068](0068-no-spend-caps-until-after-the-pilot.md): there is no spend cap for now, so if the Verify rule falls back to the org's repos, the recorded costs show any misuse instead.

@@ -200,9 +200,9 @@ _Decided: [ADR 0061](../decisions/0061-ci-signs-in-to-claude-with-workload-ident
 
   A workflow someone writes in a product repo matches neither rule, so it can't get Claude access.
 * **Access ends with the job.** Each token's lifetime is set to the job's time limit, and its scope allows calling Claude and nothing else in the Console.
-* **CI has its own Console workspace,** billed per use and reported apart from the seats laptops use (PRD D4). Its spend cap is section 4.
+* **CI has its own Console workspace,** billed per use and reported apart from the seats laptops use (PRD D4).
 * **One-time setup by the Claude admin,** in the Console's identity federation wizard: GitHub Actions as a trusted issuer, a service account, the workspace and the two rules.
-* **One thing to test before rollout.** The Verify rule relies on GitHub naming the called workflow in the token of a ruleset-required run. If it doesn't, the rule falls back to admitting runs in `seeonee` repos, and the workspace's spend cap bounds any misuse.
+* **One thing to test before rollout.** The Verify rule relies on GitHub naming the called workflow in the token of a ruleset-required run. If it doesn't, the rule falls back to admitting runs in `seeonee` repos; the recorded costs would show any misuse.
 
 ### At rollout: one GitHub App
 
@@ -214,27 +214,14 @@ _Set by the owner ([ADR 0062](../decisions/0062-pilot-runs-verify-library-and-da
 
 ## 4. Spend limits and reporting
 
-_Decided: [ADR 0065](../decisions/0065-cap-ci-spend-per-job-and-per-month.md)._
+_Decided: [ADR 0068](../decisions/0068-no-spend-caps-until-after-the-pilot.md), set by the owner; replaces [0065](../decisions/0065-cap-ci-spend-per-job-and-per-month.md)._
 
-CI spend is capped per job and reported separately from seat usage (PRD D4). Nothing here is built: it's Claude Code's own flags and the Console's own limits.
+No spend caps for now. Nobody knows yet what a sensible cap would be, so whether to have one, and at what level, is decided after the pilot from real costs.
 
-### In the pilot
-
-There's no CI spend. Verify and the update commands run within people's seat allowance, under whatever limits the company's Claude plan already sets. Each Verify and library-update run records its cost (section 5), which gives the numbers for the caps below.
-
-### At rollout
-
-* **Per job.** Each workflow passes Claude Code's own caps to the Claude Code GitHub Action:
-
-  ```yaml
-  - uses: anthropics/claude-code-action@v1
-    with:
-      claude_args: --max-budget-usd 3 --max-turns 40
-  ```
-
-  A run stops at its cap. The cap works from Claude Code's own estimate, so a run can pass it slightly; the numbers leave room for that. The figures shown are placeholders until the pilot's runs give real ones.
-* **Per month.** One spend limit on CI's Console workspace (section 3), set with headroom. If it's ever reached, Verify can't run and PRs wait, so the platform team watches CI spend in the weekly summary and raises the limit before that happens.
-* **Reported apart from seats.** The Console's cost page shows the CI workspace's spend; seat usage is reported on claude.ai. The weekly summary shows both (section 5).
+* **Reported, not capped.** Each Verify and library-update run records its cost, and the weekly summary adds them up by repository (section 5). At rollout, CI's spend also shows on its own Console workspace, apart from seats (section 3).
+* **In the pilot,** runs count against people's own seats, under whatever limits the company's Claude plan already sets.
+* **After the pilot** (`docs/plan.md`): cap or not. If yes, Claude Code's own `--max-budget-usd` and `--max-turns` cap each run, and a limit on CI's Console workspace caps each month; both are settings, with nothing to build.
+* **Until then,** PRD D4's "capped per job" isn't met.
 
 ## 5. Adoption and cost by repository
 

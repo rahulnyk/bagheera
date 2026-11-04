@@ -286,7 +286,7 @@ Every hour, a workflow in the library repo sweeps the PRs merged since its last 
 ### Step by step
 
 1. **Gather** (script, no AI). For each merged PR, it collects the title, description and diff; the changed files in `specs/<TICKET>/` with their `/approved` comments; and any recorded lessons. Everything goes into a work folder marked as untrusted. The agent's instructions name those files as data, never as instructions. It also collects planning PRs that received `/approved demo` since the last run and whose phases have all merged; those features are closed in this run (section 5).
-2. **Draft** (the knowledge agent, **Baloo**). Claude edits pages in a copy of the library, following the page format, shapes and limits (section 4), and adds a source footnote to every statement (section 1). It can read and edit files in that copy only: no shell, no web access, no GitHub token, and capped turns and spend.
+2. **Draft** (the knowledge agent, **Baloo**). Claude edits pages in a copy of the library, following the page format, shapes and limits (section 4), and adds a source footnote to every statement (section 1). It can read and edit files in that copy only: no shell, no web access and no GitHub token. Its runs aren't capped for now; each run records its cost, and caps are decided after the pilot ([0068](../decisions/0068-no-spend-caps-until-after-the-pilot.md)).
 3. **Sort** (script). It splits the edits into PRs by section 2's rules:
    * **merges by itself:** feature entries, which may only restate approved work
    * **needs owners:** everything else, one PR per page, so each goes to that page's owners

@@ -63,7 +63,7 @@ Each part is here because a must-have fails without it (next table). Only the he
 | **Knowledge workflow** | Hourly page updates from merged PRs; checks on KB PRs; weekly health report | G1 | claude-code-action; lychee |
 | **Dashboard sync workflow** | Write each story's status every 15 min; weekly summary | G4, G5 | GitHub Actions |
 | **Dashboard** | Story list, filters, "waiting on me" | G4, G5 | GitHub Projects (Decision 6) |
-| **Analytics + CI workspace** | Adoption and cost by team; CI spend limit; short-lived CI credentials | G5 | Claude analytics; Console workspace; workload identity |
+| **Analytics + CI workspace** | Adoption and cost by repository; CI spend reporting; short-lived CI credentials | G5 | Claude analytics; Console workspace; workload identity |
 | **Seeding** (one-off) | First draft of each service page | G1 | A seeding skill run in Claude Code (Decision 10) |
 
 **Left out:** a guard hook (deny rules and rulesets meet R4), an OpenTelemetry stack (built-in analytics cover V6), a session-digest queue (lessons travel with the feature's PR), per-repo workflow files, Anthropic's managed Code Review (can't read the knowledge base, never blocks).
@@ -95,7 +95,7 @@ Each part is here because a must-have fails without it (next table). Only the he
 | V6 | Claude analytics | **Costly unless Enterprise:** only its API groups by team. |
 | D2 | Security owns hooks, scripts and settings in the bagheera repo | |
 | D3 | Workload identity federation; one-hour GitHub App tokens | **Needs Anthropic API.** The App key is an org secret. |
-| D4 | `--max-budget-usd`, `--max-turns`, job timeouts; CI workspace limit | |
+| D4 | Each run records its cost; CI has its own Console workspace | Caps decided after the pilot ([0068](decisions/0068-no-spend-caps-until-after-the-pilot.md)) |
 
 Nothing is unmet. **Risks:** spec-only merges may trigger existing deploys (add a `specs/**` path filter); every PM, QA and leader needs a GitHub seat. **Assumptions:** GitHub underpins approvals, CI and the dashboard; Jira only intake; the Anthropic API only CI sign-in, CI cost and team analytics.
 
