@@ -22,7 +22,7 @@ Chosen by the owner: A, cut down further. A pilot proves the concept works end t
 * **The pilot runs at least 10 tickets,** not one feature.
 * **Two targets only:**
   * at least 10 tickets taken through intake, plan and build, each with its spec and plan approved by the named PM and tech lead before Build
-  * each of those tickets updates the library, approved by the pages' owners
+  * each of those tickets updates the library, approved by its tech lead or PM
 * **Efficiency measures wait until after the pilot:** shelf life, automated review, weekly use, response times, rewrites, meetings, the dashboard question and cost per merged PR. Their targets are set then.
 * **Noted along the way, not targets:** overrides and their reasons, what people asked for, each run's cost, and the sandbox's friction, because they decide the additions and the deferred decisions.
 

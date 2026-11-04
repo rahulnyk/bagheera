@@ -36,3 +36,5 @@ Set by the owner: B. As long as the approvers' names are recorded, the tool does
 ## More information
 
 Amends [0018](0018-protect-the-library-with-owner-review.md), [0067](0067-review-changes-by-pr-with-code-owners.md), [0070](0070-knowledge-expires-and-every-change-is-checked-once.md) and [0071](0071-newest-wins-and-approvers-recorded-on-each-page.md) for the pilot. Detail in [plan.md, section 1](../plan.md#the-knowledge-library).
+
+Amended by [0087](0087-publish-to-the-orgs-plugin-marketplace.md): security's review of the plugin's laptop parts is part of the org marketplace's governance; changes to the settings file still need security's approval.

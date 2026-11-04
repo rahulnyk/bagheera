@@ -20,7 +20,7 @@ deciders: RN (owner)
 Chosen by the owner: A.
 
 * The spec's header names one PM and one tech lead. Intake suggests them and the developer confirms.
-* Only their `/approved` counts. Each command requests its approver as a reviewer on the planning PR, so GitHub notifies them.
+* Only their `/approved` counts. Each command requests its approver as a reviewer on the ticket's PR, so GitHub notifies them.
 * To swap someone, for a holiday or a handover, the developer edits the header, and the new person approves.
 * No QA name and no team fallback. They come back only if the pilot or rollout shows they're needed.
 
