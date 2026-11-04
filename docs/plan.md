@@ -71,7 +71,7 @@ checks/               the format check and the page schemas
 * **Shelf life** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)): service pages and feature entries expire 90 days after their last approved change; decisions and standards don't, until superseded or retired. Owners can set any date.
 * **Approvers** ([0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)): `approved_by` lists the `/approved` commenters behind what the page says, and the owner who approved the library PR.
 
-**Seeding, with `seed-service-page`,** once per repo ([design doc 2](design/seeding.md)). A platform engineer runs it in a clone of the service's repo, with someone from the team at hand. It borrows DeepWiki-Open's method, and DeepWiki-Open is never run ([0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)): first it plans from the file tree and README, listing the repo's services and the files to read for each section, and the person confirms the plan; then it writes each page only from those files. It skips vendored code, build output, lock files and env and secret files. The read-only code reader does the reading; nothing builds, runs or tests the code. It opens one library PR per page, labelled `seeding`. The PR's description gives the commit read, the files and line ranges behind each section, conflicts between docs and code, and what the skill couldn't work out. If drafts are poor, we improve the skill, or owners write the page ([0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md)). The team reviews its pages together before its first ticket ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)).
+**Seeding, with `seed-service-page`,** once per repo, and only in repos tickets land in, before the first ticket there ([design doc 2](design/seeding.md), [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md)). If a ticket lands in a repo with no page, Intake says so and carries on, and a platform engineer seeds that repo before the ticket's plan. A platform engineer runs it in a clone of the service's repo, with someone from the team at hand. It borrows DeepWiki-Open's method, and DeepWiki-Open is never run ([0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)): first it plans from the file tree and README, listing the repo's services and the files to read for each section, and the person confirms the plan; then it writes each page only from those files. It skips vendored code, build output, lock files and env and secret files. The read-only code reader does the reading; nothing builds, runs or tests the code. It opens one library PR per page, labelled `seeding`. The PR's description gives the commit read, the files and line ranges behind each section, conflicts between docs and code, and what the skill couldn't work out. If drafts are poor, we improve the skill, or owners write the page ([0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md)). The team reviews the pages together, as an onboarding task ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)).
 
 **At session start** (K7), the plugin's hook refreshes a local copy of the library, with a short time limit (offline, it uses the last copy and says so), and loads:
 
@@ -128,7 +128,7 @@ Two platform engineers, two tracks, about five weeks to the pilot (PRD §8 allow
    * **The delivery path:** the feature script (finds or creates the branch and folder) and the stage check → `/bagheera:intake` with the Jira connector → `/bagheera:plan` → `/bagheera:build` → `/bagheera`.
    * **The library:** page templates, schemas and the format check, with its workflow → the session-start hook → `seed-service-page`, tried on the test repo and then early on one real pilot repo, since draft quality is the biggest unknown → `/bagheera:update-library`.
 3. **Week 4, both.** The end-to-end check and the red-team test (section 5); fixes; release 1.0.
-4. **Week 5, both.** Seed the pilot domain; the team's review session; the one-page guide; set up the pilot (section 2).
+4. **Week 5, both.** Seed the repos the first tickets land in; the team's review session; the one-page guide; set up the pilot (section 2).
 
 The stage check comes first because every command depends on it. Sessions read the library from day one, so the read path comes before the update, which only matters once work merges.
 
@@ -140,7 +140,7 @@ One team of 6–8 engineers, at least 10 real tickets, on Macs (PRD §8, §9). T
 
 1. **Choose the team and its first tickets** (PRD Q9).
 2. **Access.** The platform team gives pilot engineers read access to `seeonee/bagheera` and write access to the library, so they can push library-update branches; the branch rule still needs the owners' approval. Page owners also need write access, so their approvals count. The PM and tech lead need GitHub accounts with review rights (PRD Q2).
-3. **Seed** the pilot domain the week before, and hold the team's review session.
+3. **Seed** the repos the first tickets will land in, the week before, and hold the team's review session.
 4. **Install** (section 1) and onboard (section 5).
 5. **A 30-minute walkthrough** for the engineers, the PM and the tech lead: the five commands, the two approval comments, and what to do when a command stops.
 
@@ -230,7 +230,7 @@ Rollout starts when the exit check passes and the additions it called for are in
 2. **Read access to `seeonee/bagheera` for every engineer,** from the GitHub org owners.
 3. **Jobs move to CI** when developers forget the library update or laptop runs can't keep up ([0061](decisions/0061-ci-signs-in-to-claude-with-workload-identity-federation.md), [0063](decisions/0063-one-github-app-key-shared-with-onboarded-repos.md)). The GitHub org owners install the GitHub App and create the repo property and the org ruleset; the Claude admin sets up the Console workspace and the identity rules.
 4. **`domains.yaml`** arrives with the second domain, and generates `CODEOWNERS`.
-5. **Each domain is seeded the week before its teams join** ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)), with its review session as an onboarding task.
+5. **Each repo is seeded before its first ticket** ([0083](decisions/0083-seed-only-the-repos-tickets-land-in.md)), with its team's review as an onboarding task.
 
 **What stays the same:** the commands, the approvals and the library's rules. Onboarding a repo stays under a day of platform effort with no per-team code (PRD P8).
 
@@ -299,3 +299,4 @@ The first system: [0069](decisions/0069-first-system-delivery-path-and-knowledge
 * [0080](decisions/0080-developers-run-the-library-update-after-each-merge.md): developers run the library update after each merge
 * [0081](decisions/0081-the-pilot-proves-it-works-end-to-end.md): the pilot proves it works end to end, on at least 10 tickets
 * [0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md): our seeding skill borrows DeepWiki-Open's method; DeepWiki-Open is never run
+* [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md): seed only the repos tickets land in, before the first ticket there

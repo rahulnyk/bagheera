@@ -30,3 +30,5 @@ Chosen option: A. A domain is seeded the week before its teams join: the pilot t
 ## More information
 
 Detail in [design/seeding.md, section 3](../design/seeding.md#3-how-drafts-are-reviewed).
+
+Amended by [0083](0083-seed-only-the-repos-tickets-land-in.md): only the repos tickets land in are seeded, each before its first ticket; the review as an onboarding task stays.

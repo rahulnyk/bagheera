@@ -1,6 +1,6 @@
 # Seeding
 
-_Status: approved by the owner, 2026-10-29; simplified by the owner, 2026-11-04 ([0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md), [0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)) · Design doc 2 of 6 · [All design docs](README.md)_
+_Status: approved by the owner, 2026-10-29; simplified by the owner, 2026-11-04 ([0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md), [0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md), [0083](../decisions/0083-seed-only-the-repos-tickets-land-in.md)) · Design doc 2 of 6 · [All design docs](README.md)_
 
 **Changes since approval** ([ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [ADR 0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md), [ADR 0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)). Where these differ from the rest of the doc, they win:
 
@@ -9,6 +9,7 @@ _Status: approved by the owner, 2026-10-29; simplified by the owner, 2026-11-04 
 * After seeding, `/bagheera:update-library` keeps the page current, run on demand in the pilot, rather than an hourly run.
 * The seeding PR's description is a short report: the commit read, conflicts between docs and code, and what the skill couldn't work out. The list of where to look (section 2) is guidance inside the skill. There's no DeepWiki-Open fallback: if drafts are poor, we improve the skill or owners write the page ([ADR 0077](../decisions/0077-short-seeding-report-no-deepwiki-fallback.md)).
 * The skill borrows DeepWiki-Open's method, and DeepWiki-Open is never run: it plans before it writes, writes only from the planned files, skips vendored code, build output, lock files and env and secret files, and the PR's description gives the files and line ranges behind each section (section 1, [ADR 0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)).
+* Only the repos tickets land in are seeded, each before its first ticket, not a whole domain before its teams join (section 3, [ADR 0083](../decisions/0083-seed-only-the-repos-tickets-land-in.md)). If a ticket lands in a repo with no page, Intake says so and carries on, and the repo is seeded before the ticket's plan.
 
 Existing services get a first-draft page from a one-off automated pass over their code, so the library isn't empty on day one (PRD K8). This doc says what runs that pass, what it reads and writes, how the drafts are reviewed, and how to run it for each repo.
 
