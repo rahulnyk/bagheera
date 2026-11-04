@@ -29,3 +29,5 @@ Chosen option: A. One dashboard row per story, keyed on its planning PR. Duratio
 ## More information
 
 Detail in [design/status-and-dashboard.md, section 1](../design/status-and-dashboard.md#1-where-status-data-lives).
+
+Amended by [0062](0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md): in the pilot, the sync runs on demand when a manager runs `/bagheera:update-dashboard`, not every 15 minutes.

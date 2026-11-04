@@ -282,7 +282,7 @@ _Decided: [ADR 0018](../decisions/0018-protect-the-library-with-owner-review.md)
 
 ### When it runs
 
-Every hour, a workflow in the library repo sweeps the PRs merged since its last run in the code repos listed in `domains.yaml`, oldest first. It sweeps rather than reacting to each merge because GitHub can't trigger an org-wide workflow on a merge, and a workflow in every repo would add a file to each one. The sweep still meets the "within a day" target.
+Every hour, a workflow in the library repo sweeps the PRs merged since its last run in the code repos listed in `domains.yaml`, oldest first. It sweeps rather than reacting to each merge because GitHub can't trigger an org-wide workflow on a merge, and a workflow in every repo would add a file to each one. The sweep still meets the "within a day" target. In the pilot, a manager runs the same steps on demand with `/bagheera:update-library` ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md); design doc 6, section 3).
 
 ### Step by step
 

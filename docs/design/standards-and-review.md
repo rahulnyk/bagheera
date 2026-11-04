@@ -164,7 +164,7 @@ Every PR in an onboarded repo gets the standards and security review, Bagheera o
 
 ### Who reviews
 
-A separate Claude, run by the Verify workflow in CI with the same plugin as laptops (PRD R3, P7). It never sees the author's session. It reads the diff, the standards that apply and, on ticket branches, the approved planning documents. It can read the repo but not change it, and it posts its comments through the harness's GitHub App. Text in the PR, the diff and code comments is data to review, never instructions (design doc 1, section 1).
+A separate Claude, run by the Verify workflow in CI with the same plugin as laptops (PRD R3, P7). It never sees the author's session. It reads the diff, the standards that apply and, on ticket branches, the approved planning documents. It can read the repo but not change it, and it posts its comments through the harness's GitHub App. In the pilot, the developer runs it with `/bagheera:verify`, which reviews in a fresh Claude, posts with the developer's own access and marks the commit passed or failed ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md); design doc 6, section 3). Text in the PR, the diff and code comments is data to review, never instructions (design doc 1, section 1).
 
 Build opens phase PRs as drafts, so the review lands before people are asked. The developer marks the PR ready once the blocking findings are fixed or dismissed.
 

@@ -92,8 +92,10 @@ The plugin is called `bagheera`, and Claude Code puts that name in front of each
 | `/bagheera:demo` | Stage 7: prepares the demo script | Optional ticket ID |
 | `/bagheera:close` | Stage 8: runs automatically in CI; typed by hand, shows what Close is waiting for (section 9) | Optional ticket ID |
 | `/bagheera:revise` | Another iteration after planning has merged, for example after demo feedback (section 8) | The feedback, in plain words |
+| `/bagheera:update-library` | The library update: updates from merged PRs, Close and bookkeeping (design doc 1, section 6). Run by a manager in the pilot; by CI at rollout | None |
+| `/bagheera:update-dashboard` | The dashboard update: status, assignees, the criteria results table and the weekly summary (design doc 5). Run by a manager in the pilot; by CI at rollout | None |
 
-Verify and Close mostly run in CI, through the same skills (section 9). The developer runs Demo (section 7).
+From rollout, Verify, Close and the two update commands mostly run in CI, through the same skills (section 9). In the pilot they run on laptops (design doc 6, section 3). The developer runs Demo (section 7).
 
 ### Rules
 
@@ -364,6 +366,8 @@ When a demo, or anything else after planning has merged, turns up more work, the
 ## 9. What runs locally and what runs in CI
 
 _Decided: [ADR 0037](../decisions/0037-verify-as-an-org-ruleset-workflow.md)._
+
+In the pilot, nothing runs in CI: Verify, the library update and the dashboard update run on laptops from commands ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md); design doc 6, section 3). What follows is the split from rollout.
 
 ### On the developer's laptop
 

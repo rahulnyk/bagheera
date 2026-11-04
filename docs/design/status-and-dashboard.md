@@ -17,7 +17,7 @@ Covers PRD V1–V7 and C5; adoption and cost reporting (V6) is shared with [desi
 
 _Decided: [ADR 0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md), following [0005](../decisions/0005-view-only-dashboard.md)._
 
-GitHub is the record. Every 15 minutes the dashboard sync job reads each story's PRs, comments, checks and files, works out its status (section 2), and writes the result into the dashboard (section 3). Nothing else is stored.
+GitHub is the record. Every 15 minutes the dashboard sync job reads each story's PRs, comments, checks and files, works out its status (section 2), and writes the result into the dashboard (section 3). Nothing else is stored. In the pilot, a manager runs the sync on demand with `/bagheera:update-dashboard`, which also posts the weekly summary when one is due ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md); design doc 6, section 3).
 
 ### What it reads
 

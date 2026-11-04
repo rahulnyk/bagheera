@@ -159,17 +159,36 @@ In the console's settings file, alongside the plugin switch (section 1) and the 
 * **What people see if they try something else.** Adding another marketplace, or starting Claude Code with `--plugin-dir`, fails with a message naming the company's policy.
 * **Plugins people already installed** from other marketplaces stop loading at rollout. The rollout note says so in advance, with how to ask for one to be added.
 
-## 3. CI credentials
+## 3. Where the jobs run
 
-CI uses short-lived credentials, with no long-lived keys in repos (PRD D3). Two CI jobs use Claude: Verify, on every PR in onboarded repos (design doc 3, section 9), and the curation run, where Baloo updates the library (design doc 1, section 6). The dashboard sync doesn't call Claude.
+Three jobs work beyond one developer's session: Verify, on every phase PR (design doc 3, section 9); the library update, which is the curation run with Close and the weekly check (design doc 1, sections 5, 6 and 8); and the dashboard update, which is the sync with the criteria results table and the weekly summary (design doc 5). In the pilot they run on laptops, from commands. At rollout the same commands run in CI.
 
-### Which version CI runs
+### In the pilot: on laptops, from commands
+
+_Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md), set by the owner._
+
+| Job | Command | Who runs it | When |
+| --- | --- | --- | --- |
+| Verify | `/bagheera:verify` | The developer | Before marking a phase PR ready, and again after any push |
+| Library update: updates from merged PRs, Close, bookkeeping, and the weekly check when one is due | `/bagheera:update-library` | A manager | On demand, every few days |
+| Dashboard update: status, assignees, the criteria results table, and the weekly summary when one is due | `/bagheera:update-dashboard` | A manager | On demand, every few days |
+
+* **Own access only.** Each command runs with the person's own Claude seat and GitHub sign-in. The pilot has no CI workflow, no Console setup and no GitHub App.
+* **Verify stays separate from the author** (PRD R3). The command reviews in a fresh Claude that never sees the author's conversation, posts its findings on the PR, and marks the commit `bagheera/verify` passed or failed. Each pilot repo's branch rules require that mark before merging; the repo's admins set this once. A mark belongs to one commit, so after a new push the PR can't merge until Verify runs again.
+* **Baloo stays boxed in.** `/bagheera:update-library` runs the curation run's steps (design doc 1, section 6). Scripts gather and sort with the manager's GitHub access; Baloo edits only a copy of the library, with no shell, no web and no GitHub access. Library PRs come from the manager's account, and page owners still approve them.
+* **Managers who run them** install the plugin like pilot engineers (section 2), and need write access to the library repo and the dashboard project, and read access to the pilot repos.
+* **What the pilot gives up:**
+  * The dashboard and the library are only as fresh as the last run. Approval requests still reach people straight away, because the stage commands request reviewers themselves (design doc 5, section 5); only the sync's assignments wait.
+  * Verify holds through the repo's branch rule and the developer's agreement, and its cost shows in each developer's own usage, so the PRD's "CI cost per merged PR" isn't measured in the pilot.
+  * PRD G1's pilot target, service pages updated within a day of a merge, needs the library update at least daily (an open item in [the design index](README.md)).
+
+### At rollout: the same commands in CI
 
 * **Verify** runs from `seeonee/bagheera` at `release`: the org ruleset names that branch, so every repo runs the released workflow.
-* **The scheduled jobs**, the curation run and the dashboard sync, run in `seeonee/bagheera`. GitHub always starts scheduled workflows from the repo's default branch, `main`, so each one first checks out `release` and runs the plugin and scripts from there.
+* **The scheduled jobs** are the curation run, a workflow in the library repo (design doc 1, section 6), and the dashboard sync, a workflow in `seeonee/bagheera`. GitHub always starts scheduled workflows from the repo's default branch, so each one first checks out `seeonee/bagheera` at `release` and runs the plugin and scripts from there.
 * **The plugin in CI** is installed from the same marketplace and branch as on laptops (section 1), through the Claude Code GitHub Action's plugin inputs. So a laptop and a CI run on the same day run the same version.
 
-### Claude: short-lived access, only for our workflows
+### At rollout: how CI signs in to Claude
 
 _Decided: [ADR 0061](../decisions/0061-ci-signs-in-to-claude-with-workload-identity-federation.md)._
 
@@ -179,17 +198,23 @@ _Decided: [ADR 0061](../decisions/0061-ci-signs-in-to-claude-with-workload-ident
   | Rule | Admits | Used by |
   | --- | --- | --- |
   | Verify | The workflow `seeonee/bagheera/.github/workflows/verify.yml` at `release`, in any `seeonee` repo | Verify, on every PR |
-  | Scheduled jobs | Workflows in `seeonee/bagheera` itself, on `main`, which only the platform team can change | The curation run |
+  | Curation run | The curation workflow in the library repo, on its default branch; only the platform team can change it | The curation run |
 
   A workflow someone writes in a product repo matches neither rule, so it can't get Claude access.
 * **Access ends with the job.** Each token's lifetime is set to the job's time limit, and its scope allows calling Claude and nothing else in the Console.
 * **CI has its own Console workspace,** billed per use and reported apart from the seats laptops use (PRD D4). Its spend cap is section 4.
 * **One-time setup by the Claude admin,** in the Console's identity federation wizard: GitHub Actions as a trusted issuer, a service account, the workspace and the two rules.
-* **One thing to test in Foundations.** The Verify rule relies on GitHub naming the called workflow in the token of a ruleset-required run. If it doesn't, the rule falls back to admitting runs in `seeonee` repos, and the workspace's spend cap bounds any misuse.
+* **One thing to test before rollout.** The Verify rule relies on GitHub naming the called workflow in the token of a ruleset-required run. If it doesn't, the rule falls back to admitting runs in `seeonee` repos, and the workspace's spend cap bounds any misuse.
+
+### At rollout: one GitHub App
+
+_Set by the owner ([ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md))._
+
+* **One App gives the CI jobs their GitHub access:** reading the library and the plugin, opening library PRs, writing the dashboard and the weekly summary, posting results and re-running Verify. Each run gets an access token from it that lasts an hour.
+* **Its key is never readable from product repos.** Verify runs there, and any workflow in a repo can read the secrets shared with it. How Verify gets its GitHub access without that is settled in the rollout plan (`docs/plan.md`).
 
 ## Still to come
 
-* GitHub credentials: where the harness's GitHub App key lives, so only our workflows can use it
 4. Spend limits and reporting (D4)
 5. Adoption and cost by team (V6)
 6. How changes to Bagheera are reviewed and released (D2)

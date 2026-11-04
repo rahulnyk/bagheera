@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD D3: CI uses short-lived credentials, with no long-lived keys in repos. Verify runs inside each onboarded product repo, through the org ruleset ([0037](0037-verify-as-an-org-ruleset-workflow.md)), and any workflow a developer writes in that repo can read the secrets available there. The curation run and the dashboard sync run in `seeonee/bagheera`. How does CI sign in to Claude?
+PRD D3: CI uses short-lived credentials, with no long-lived keys in repos. Verify runs inside each onboarded product repo, through the org ruleset ([0037](0037-verify-as-an-org-ruleset-workflow.md)), and any workflow a developer writes in that repo can read the secrets available there. The curation run is a workflow in the library repo; the dashboard sync, which doesn't call Claude, runs in `seeonee/bagheera`. How does CI sign in to Claude?
 
 ## Considered options
 
@@ -20,7 +20,7 @@ PRD D3: CI uses short-lived credentials, with no long-lived keys in repos. Verif
 Chosen option: A.
 
 * **Nothing stored.** Workflows get GitHub's signed identity token for the run and the Claude Code GitHub Action exchanges it for short-lived Claude access.
-* **Only our workflows qualify.** One rule admits Verify from `seeonee/bagheera` at `release`, in whichever repo it runs; another admits the scheduled jobs that run in `seeonee/bagheera` itself. A workflow someone writes in a product repo matches neither.
+* **Only our workflows qualify.** One rule admits Verify from `seeonee/bagheera` at `release`, in whichever repo it runs; another admits the curation workflow in the library repo, which only the platform team can change. A workflow someone writes in a product repo matches neither.
 * **CI has its own Console workspace,** billed per use and reported apart from the seats laptops use (PRD D4).
 * **One-time setup by the Claude admin:** GitHub as a trusted issuer, a service account, the workspace and the two rules.
 
@@ -29,8 +29,10 @@ Chosen option: A.
 * Good, because there is no Claude key to leak, rotate or revoke.
 * Good, because it is built into the Claude Code GitHub Action we already use.
 * Bad, because it needs a Claude Console organisation for CI alongside the Team or Enterprise plan for laptops.
-* Bad, because the rule for Verify relies on GitHub naming the called workflow in the token of a ruleset-required run; this is tested once in Foundations. If it doesn't, the rule falls back to the org's repos, and the workspace's spend cap bounds any misuse.
+* Bad, because the rule for Verify relies on GitHub naming the called workflow in the token of a ruleset-required run; this is tested once before rollout. If it doesn't, the rule falls back to the org's repos, and the workspace's spend cap bounds any misuse.
 
 ## More information
 
-Detail in [design/distribution-security-and-cost.md, section 3](../design/distribution-security-and-cost.md#3-ci-credentials). Sources: Claude platform docs on [workload identity federation](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation) and [its GitHub Actions setup](https://platform.claude.com/docs/en/manage-claude/wif-providers/github-actions).
+Detail in [design/distribution-security-and-cost.md, section 3](../design/distribution-security-and-cost.md#3-where-the-jobs-run). Sources: Claude platform docs on [workload identity federation](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation) and [its GitHub Actions setup](https://platform.claude.com/docs/en/manage-claude/wif-providers/github-actions).
+
+Amended by [0062](0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md): this applies from rollout. In the pilot, Verify and the library update run on laptops with people's own Claude seats, and nothing runs in CI.

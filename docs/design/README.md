@@ -76,7 +76,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 **6. Distribution, security and cost**
 1. Plugin packaging and the marketplace. **Done:** [0057](../decisions/0057-release-the-plugin-from-a-release-branch.md), one marketplace in `seeonee/bagheera`, released from a `release` branch
 2. How settings reach laptops (depends on the Claude plan). **Done:** [0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), the claude.ai admin console after the pilot; pilot engineers install the plugin by hand (set by the owner); [0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md), the pilot's deny rules and sandbox in each engineer's own settings (set by the owner); [0060](../decisions/0060-lock-plugins-and-mcp-servers-leave-own-files.md), at rollout, plugins only from our marketplace and MCP servers only from an approved list
-3. CI credentials. **Done (Claude):** [0061](../decisions/0061-ci-signs-in-to-claude-with-workload-identity-federation.md), each run's GitHub identity exchanged for short-lived Claude access, only for our workflows. GitHub credentials next
+3. Where the jobs run, and CI credentials. **Done:** [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md), in the pilot Verify, the library update and the dashboard update run on laptops from commands; at rollout, CI with one GitHub App (set by the owner). [0061](../decisions/0061-ci-signs-in-to-claude-with-workload-identity-federation.md), from rollout, each CI run's GitHub identity exchanged for short-lived Claude access, only for our workflows
 4. Spend limits and reporting
 5. Adoption and cost by team
 6. How changes to the harness are reviewed and released
@@ -100,6 +100,8 @@ Kept up to date with every doc, so the total stays visible (the owner's request,
 
 In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No servers and nothing self-hosted.
 
+**In the pilot** ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)): the plugin, the two repos and the GitHub Project only. Verify, the library update and the dashboard update run from commands on laptops, with people's own access; the workflows and the GitHub App arrive at rollout (doc 6, section 3).
+
 ### What we need from other teams
 
 | Who | What | How often | Where designed |
@@ -110,6 +112,8 @@ In all: 2 repos, 1 plugin, 3 workflows, 1 GitHub App and 1 GitHub Project. No se
 | Approvers and page owners | Approve stage documents; review library PRs | Ongoing, as part of their normal work | Docs 1 and 3 |
 | Architecture council (principal and senior staff) | Own the first standards, the prefix register and the deny list; edit them as needed | Foundations, then ongoing | Doc 4 ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)) |
 | Managers | Hold teams to approvals, QA review and tests first, using the dashboard; grant exceptions | Ongoing | Doc 3 ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)) |
+
+**For the pilot,** much less is needed ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)): nothing from the Claude admin or the GitHub org owners. The pilot repos' admins add one branch rule requiring the `bagheera/verify` mark; the platform team, which administers `seeonee/bagheera` and the library repo, gives pilot engineers and managers access; and the dashboard is an org project, which org members can create unless the org restricts it.
 
 After setup, onboarding a repo needs nobody outside the platform team and the joining team. Jira needs no admin work: developers' Jira access is already available (confirmed by the owner, 2026-10-30).
 
@@ -136,6 +140,9 @@ DeepWiki-Open and its Docker setup ([0024](../decisions/0024-seed-service-pages-
 | Status data in the knowledge library versus PRD K1's page types | Decided: status is derived from GitHub and lives only in the dashboard ([0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md)) | Resolved |
 | DeepWiki-Open needs an Anthropic API key via LiteLLM, not a Claude subscription | Decided: seed with a Claude Code skill instead, which works on a subscription or an API key ([0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)) | Resolved |
 | The sandbox for everyone, for some repos, or deny rules only; until then R4 is only partly met for deploy commands and production credentials, and in the pilot the deny rules hold by agreement ([0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md)) | [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) | `docs/plan.md`, as a pilot exit decision |
+| PRD G1's pilot target, service pages updated within a day of a merge, against library updates run every few days in the pilot | [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md): managers run `/bagheera:update-library` on demand | Owner to decide: run it daily in the pilot, or change G1's pilot target |
+| At rollout, how Verify gets GitHub access without the App's key being readable from product repos | [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) | `docs/plan.md`, rollout phase |
+| PRD §7's "CI cost per merged PR" in the pilot, where Verify runs on people's own seats | [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) | Doc 6, sections 4 and 5 |
 | Slack integration: GitHub's scheduled reminders, after the pilot | [0053](../decisions/0053-github-notifications-now-slack-later.md) | `docs/plan.md` |
 | Each repo's CI must save JUnit test results for the criteria table | [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md) | `docs/plan.md`, as an onboarding step |
 | Claude plan and model access (Q7, Q8) not confirmed | The design now assumes a Team or Enterprise plan, which the admin console needs ([0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md)); CI sign-in and team cost reporting also depend on it | Doc 6; owner to confirm |
@@ -149,7 +156,7 @@ Agreed decisions that change the PRD's wording. The PRD is the owner's document,
 | §8 Preferred building blocks | GitHub Spec Kit "customised through an org preset … and an org extension" | Spec Kit's templates and method, copied into the plugin as commands with the PRD's stage names | [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md) |
 | §8 Preferred building blocks; §9 Foundations; Appendix B | "DeepWiki-Open, run once per repo, to draft the first service pages (K8)"; "first service pages drafted by DeepWiki"; "the one-off DeepWiki run … keep them" | A seeding skill run in Claude Code, once per repo; DeepWiki-Open as the fallback. Q8's "DeepWiki setup" no longer applies. | [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md) |
 | C3 | "A stage refuses to start until its artifact is approved by the designated role" | Add: "unless the developer overrides on purpose; every override is recorded and shown" | [0032](../decisions/0032-stage-check-stops-and-records-overrides.md) |
-| §5 stage 7; C6; P7 | Demo output "Short script and recording of the acceptance criteria running"; C6 "so the PM can accept without a meeting"; P7 "in CI (stages 6–8)" | A short demo script from the criteria; the developer demos it live or shares a recording, as they choose; the PM approves on the planning PR. P7: Verify and Close in CI, Demo run by the developer | [0035](../decisions/0035-demo-run-by-the-developer.md) |
+| §5 stage 7; C6; P7 | Demo output "Short script and recording of the acceptance criteria running"; C6 "so the PM can accept without a meeting"; P7 "in CI (stages 6–8)" | A short demo script from the criteria; the developer demos it live or shares a recording, as they choose; the PM approves on the planning PR. P7: Verify and Close in CI, Demo run by the developer; in the pilot, Verify and Close run on laptops | [0035](../decisions/0035-demo-run-by-the-developer.md), [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) |
 | R5 | "The feature pipeline's templates and project principles are generated from the standards" | The architecture template has a standards check section, filled from the current standards on each run; no separate principles file | [0046](../decisions/0046-standards-check-in-the-architecture.md) |
 | K4 | "Agents may merge service and feature page changes after automated checks" | Agents may merge only changes whose every statement restates approved work; inferred changes need the page's owning team | [0013](../decisions/0013-merge-only-restated-approved-work-without-a-person.md) |
 

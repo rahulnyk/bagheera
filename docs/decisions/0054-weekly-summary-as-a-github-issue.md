@@ -34,3 +34,5 @@ Chosen option: A.
 ## More information
 
 Detail in [design/status-and-dashboard.md, section 6](../design/status-and-dashboard.md#6-the-weekly-summary). Option C was set aside because it needs email credentials and a list to keep, against [0053](0053-github-notifications-now-slack-later.md).
+
+Amended by [0062](0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md): in the pilot, the summary is posted by `/bagheera:update-dashboard` when a manager runs it and one is due, with the manager's own access.
