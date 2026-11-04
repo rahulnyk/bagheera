@@ -21,6 +21,7 @@ _Simplified by the owner on 2026-11-04 ([ADR 0069](../decisions/0069-first-syste
 | Section 4: `domains.yaml` and prefixes | Left out for now. A hand-written owners file routes each folder's PRs to its owners |
 | Section 6: the curation run | In the pilot, a manager runs it on demand with `/bagheera:update-library`. It opens one library PR per run. It also curates every page it writes: the type's header fields and shape, the Open Knowledge Format, and working links |
 | Section 7: checks | One format check, run by `/bagheera:update-library` before it opens a PR and on every library PR, including owners' own edits. The planted-instruction screens are left out for now; owner review is the guard |
+| Sections 4 and 7: where the check lives | The checker and page schemas live in the library repo, under `checks/`; its workflow needs no secrets, and `/bagheera:update-library` runs the same script. It checks links between pages itself; no lychee ([ADR 0079](../decisions/0079-the-format-check-lives-in-the-library-repo.md)) |
 | Section 8: corrections | The weekly check, re-verification and the corrections flow are dropped. Expiry replaces them, and contradictions are flagged when used (below) |
 | Section 9: how sessions read it | At session start, a hook loads the repo's service page and the library's index; Claude opens other pages when it needs them. The step-by-step reveal through the graph is left out for now |
 

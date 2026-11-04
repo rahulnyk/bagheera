@@ -65,7 +65,7 @@ The stage commands are adapted from Spec Kit's templates and instructions ([0028
 standards/<domain>/   services/<domain>/   decisions/<domain>/   features/<domain>/
 index.md              one line per page, written only by /bagheera:update-library
 CODEOWNERS            hand-written: who owns each folder; the platform team owns everything else
-checks/               the format check and the page schemas (Q9)
+checks/               the format check and the page schemas
 ```
 
 **Pages.** Markdown with a typed YAML header ([0015](decisions/0015-typed-page-headers.md)) and a fixed shape and length limit per type ([0017](decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)). Every page has `type`, `id`, `title`, `domain`, `owners`, `status`, `updated`, `expires` and `approved_by`, plus its type's own fields ([design doc 1, section 4](design/knowledge-library.md#4-page-format)).
@@ -91,7 +91,7 @@ Claude opens other pages with its own file tools when it needs them. Intake read
 4. **Check.** It runs the format check, and notes in the PR any page its changes contradict.
 5. **Open one library PR,** listing the merged PRs and documents it came from, and the run's cost. If the last run's PR is still open, it adds to that one instead, so two PRs never conflict on the index. `CODEOWNERS` sends it to the owners; nothing merges without them ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)).
 
-**The format check** (K2) runs on every library PR, including owners' own edits, as a workflow in the library repo that its branch rule requires. `/bagheera:update-library` runs the same script before it opens a PR (Q9). It fails on:
+**The format check** (K2) runs on every library PR, including owners' own edits, as a workflow in the library repo that its branch rule requires. The script and the page schemas live in the library repo, so the workflow needs no secrets, and `/bagheera:update-library` runs the same script from its local copy ([0079](decisions/0079-the-format-check-lives-in-the-library-repo.md)). It fails on:
 
 * header fields that are missing, unknown or not allowed for the type; bad dates; references to IDs that don't exist
 * required sections missing or empty; pages over one and a half times their limit (a warning at the limit); logs, transcripts, or code blocks over about 10 lines
@@ -303,6 +303,6 @@ Brought to the owner one at a time; each answer is recorded as an ADR and folded
 | Q6 | Changes after planning has merged ([0036](decisions/0036-revise-with-one-command-minor-or-new-ticket.md)) | **Settled by [0075](decisions/0075-one-pr-per-ticket.md):** re-run the stage command in the same PR; after merge, a new ticket |
 | Q7 | Seeding's report and fallback (design doc 2) | **Decided** ([0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md)): a short report; no DeepWiki-Open fallback |
 | Q8 | The library's index and change log (PRD K1) | **Decided** ([0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)): `index.md` kept by `/bagheera:update-library`; git history is the change log |
-| Q9 | Where the format check lives (design doc 1, section 4) | In the library repo; no lychee |
+| Q9 | Where the format check lives (design doc 1, section 4) | **Decided** ([0079](decisions/0079-the-format-check-lives-in-the-library-repo.md)): in the library repo; no lychee |
 | Q10 | Who runs `/bagheera:update-library` ([0062](decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)) | A platform engineer, not a manager |
 | Q11 | PRD §7's pilot targets | Keep those the first system can meet; move the rest to the additions that enable them |
