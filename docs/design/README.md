@@ -75,7 +75,7 @@ Doc 1 already set the standard page's header, shape, layout and owner approval (
 
 **6. Distribution, security and cost**
 1. Plugin packaging and the marketplace. **Done:** [0057](../decisions/0057-release-the-plugin-from-a-release-branch.md), one marketplace in `seeonee/bagheera`, released from a `release` branch
-2. How settings reach laptops (depends on the Claude plan). **Done:** [0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), the claude.ai admin console after the pilot; pilot engineers install the plugin by hand (set by the owner); [0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md), the pilot's deny rules and sandbox in each engineer's own settings (set by the owner)
+2. How settings reach laptops (depends on the Claude plan). **Done:** [0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), the claude.ai admin console after the pilot; pilot engineers install the plugin by hand (set by the owner); [0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md), the pilot's deny rules and sandbox in each engineer's own settings (set by the owner); [0060](../decisions/0060-lock-plugins-and-mcp-servers-leave-own-files.md), at rollout, plugins only from our marketplace and MCP servers only from an approved list
 3. CI credentials
 4. Spend limits and reporting
 5. Adoption and cost by team

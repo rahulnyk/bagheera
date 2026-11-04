@@ -84,7 +84,7 @@ The Claude admin adds these to the managed settings once (how managed settings r
 
 _Decided: [ADR 0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md), set by the owner._
 
-Bagheera's settings are files in `seeonee/bagheera`, changed by PR and reviewed like code (section 6). During the pilot there is one, `settings/pilot-user-settings.json`, which pilot engineers copy into their own settings. At rollout it becomes `settings/managed-settings.json`, which goes into the admin console and holds the plugin switch (section 1), the deny rules (design doc 4, section 5) and the lock on other plugins (still to come). The deny list is in one file at a time, so it's never kept in two places.
+Bagheera's settings are files in `seeonee/bagheera`, changed by PR and reviewed like code (section 6). During the pilot there is one, `settings/pilot-user-settings.json`, which pilot engineers copy into their own settings. At rollout it becomes `settings/managed-settings.json`, which goes into the admin console and holds the plugin switch (section 1), the deny rules (design doc 4, section 5) and the lock on other plugins and MCP servers (below). The deny list is in one file at a time, so it's never kept in two places.
 
 ### During the pilot: installed by hand
 
@@ -126,9 +126,40 @@ Only a handful of trusted engineers take part, so their own settings file is eno
 * **It needs a Team or Enterprise plan** (PRD Q7); the design assumes one.
 * **It's a guard on the developer's machine, not a hard barrier.** It doesn't reach someone signed in with a personal account or an API key. GitHub's own rules still block force-push and changes to protected paths on the server (design doc 4, section 5).
 
-## Still to come
+### What the settings lock at rollout
 
-* What the settings lock: other plugins and marketplaces (D1)
+_Decided: [ADR 0060](../decisions/0060-lock-plugins-and-mcp-servers-leave-own-files.md)._
+
+Engineers can't add unapproved extensions, and everyone runs the same version (PRD D1). The lock covers what runs code from outside: plugins and MCP servers. It needs managed settings, so it starts at rollout; in the pilot nothing is locked.
+
+| Kind | At rollout |
+| --- | --- |
+| **Plugins** | Only from our marketplace, `seeonee/bagheera` at `release`. The flags that load a plugin for one session are rejected, and plugins synced from claude.ai don't load in Claude Code |
+| **MCP servers** (connections to outside tools) | Only those on the approved list, starting with the Jira connector. Claude Code's built-in ones, such as the IDE connection, still work |
+| **Hooks, plain skills, agents, CLAUDE.md files** in repos and personal settings | Unchanged. They're the engineer's or the team's own, reviewed in their own repos |
+
+In the console's settings file, alongside the plugin switch (section 1) and the deny rules:
+
+```json
+{
+  "strictKnownMarketplaces": [
+    { "source": "github", "repo": "seeonee/bagheera", "ref": "release" }
+  ],
+  "disableSideloadFlags": true,
+  "syncClaudeAiPlugins": false,
+  "allowManagedMcpServersOnly": true,
+  "allowedMcpServers": [
+    { "serverUrl": "https://mcp.atlassian.com/*" }
+  ]
+}
+```
+
+* **Adding an extra plugin.** Someone asks for it, for example one of Anthropic's own; it's reviewed (section 6) and added to our marketplace as an entry pinned to an exact commit. Anyone can then install it with `claude plugin install <name>@seeonee`; only `bagheera` is switched on for everyone.
+* **Adding an MCP server.** The same way: reviewed, then added to `allowedMcpServers` by its address.
+* **What people see if they try something else.** Adding another marketplace, or starting Claude Code with `--plugin-dir`, fails with a message naming the company's policy.
+* **Plugins people already installed** from other marketplaces stop loading at rollout. The rollout note says so in advance, with how to ask for one to be added.
+
+## Still to come
 
 3. CI credentials (D3)
 4. Spend limits and reporting (D4)
