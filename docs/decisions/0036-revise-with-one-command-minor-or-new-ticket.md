@@ -34,6 +34,8 @@ A revision PR (`PAY-412/revision-1`, `-2`, …) holds the changed planning docum
 
 ## More information
 
-Detail in [design/developer-workflow.md, section 8](../design/developer-workflow.md#8-another-iteration).
+Detail in [design/developer-workflow.md, section 8](../design/developer-workflow.md#7-demo).
 
 Amended by [0038](0038-managers-enforce-qa-review-and-tests-first.md): QA's review of new test cases is encouraged, not required by the tool.
+
+In the first system, [0075](0075-one-pr-per-ticket.md) settles this: before the ticket's PR merges, re-running a stage changes its document in the same PR; afterwards, more work is a new ticket. Revisions after a demo are settled when Demo is added.

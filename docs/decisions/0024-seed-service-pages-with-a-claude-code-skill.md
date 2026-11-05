@@ -34,8 +34,12 @@ Chosen option: A. A skill in the plugin applies the knowledge agent's page forma
 * Good, because it reuses the knowledge agent's rules and the library's checks and review.
 * Bad, because Claude Code reads what it judges relevant rather than indexing every file, so a large repo's corners can be missed. A fixed list of places to look and the owners' review offset this.
 * Bad, because a run counts against the subscription's usage limits, which may pace seeding across many repos.
-* Neutral: it departs from PRD §8, §9 and Appendix B, which name DeepWiki-Open. K8 itself is met. The wording change is listed for the owner in [design/README.md](../design/README.md#prd-wording-to-update).
+* Neutral: it departs from PRD §8, §9 and Appendix B, which name DeepWiki-Open. K8 itself is met. The wording change is listed for the owner in [design/README.md](../design/README.md#prd-changes).
 
 ## More information
 
 Detail in [design/seeding.md](../design/seeding.md). A parser-based code map (an AST) was also discussed: it describes the code's structure, not what a service is for, so it doesn't meet K8 on its own. It may later help check that `depends_on` links match the code.
+
+Amended by [0077](0077-short-seeding-report-no-deepwiki-fallback.md): no DeepWiki-Open fallback.
+
+Amended by [0082](0082-seeding-skill-borrows-deepwiki-opens-method.md): the skill borrows DeepWiki-Open's method; DeepWiki-Open itself is never run.

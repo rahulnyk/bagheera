@@ -30,6 +30,8 @@ Set by the owner.
 
 ## More information
 
-Replaces [0013](0013-merge-only-restated-approved-work-without-a-person.md) and [0020](0020-send-findings-to-owners-as-library-prs.md). Sets aside, for now, [0012](0012-record-provenance-per-statement.md), the screens in [0019](0019-screen-for-planted-instructions-twice.md), and the step-by-step reveal in [0022](0022-reveal-the-library-incrementally-as-a-graph.md). Detail in [design/knowledge-library.md](../design/knowledge-library.md#changes-since-approval).
+Replaces [0013](0013-merge-only-restated-approved-work-without-a-person.md) and [0020](0020-send-findings-to-owners-as-library-prs.md). Sets aside, for now, [0012](0012-record-provenance-per-statement.md), the screens in [0019](0019-screen-for-planted-instructions-twice.md), and the step-by-step reveal in [0022](0022-reveal-the-library-incrementally-as-a-graph.md). Detail in [design/knowledge-library.md](../design/knowledge-library.md#3-trust).
 
 Amended by [0071](0071-newest-wins-and-approvers-recorded-on-each-page.md): contradictions are flagged when pages are used, the newest page wins, and every page records who approved it.
+
+Amended by [0086](0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): no code owners in the pilot; approvers are recorded and checked by whoever merges.

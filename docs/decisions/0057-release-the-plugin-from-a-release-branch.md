@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: superseded by [0087](0087-publish-to-the-orgs-plugin-marketplace.md)
 date: 2026-11-03
 deciders: RN (owner)
 ---
@@ -35,4 +35,4 @@ Chosen option: A.
 
 ## More information
 
-Detail in [design/distribution-security-and-cost.md, section 1](../design/distribution-security-and-cost.md#1-packaging-and-releases). How changes are reviewed and tried before release is design doc 6, section 6.
+Detail in [design/distribution-security-and-cost.md, section 1](../design/distribution-security-and-cost.md#1-packaging-and-versions). How changes are reviewed and tried before release is design doc 6, section 6.

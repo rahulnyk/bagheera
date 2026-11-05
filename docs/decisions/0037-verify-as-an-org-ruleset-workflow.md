@@ -31,6 +31,6 @@ A table of the harness's moving parts and outside dependencies is kept in the de
 
 ## More information
 
-Detail in [design/developer-workflow.md, section 9](../design/developer-workflow.md#9-what-runs-locally-and-what-runs-in-ci). Source: GitHub docs, "Require workflows to pass before merging" in [available rules for rulesets](https://github.com/github/docs/blob/main/content/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets.md).
+Detail in [design/developer-workflow.md, section 9](../design/developer-workflow.md#8-what-runs-where). Source: GitHub docs, "Require workflows to pass before merging" in [available rules for rulesets](https://github.com/github/docs/blob/main/content/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets.md).
 
 Amended by [0062](0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md): in the pilot, the developer runs Verify on their laptop with `/bagheera:verify`, and the pilot repos' branch rules require its mark; the org ruleset and the scheduled jobs start at rollout.

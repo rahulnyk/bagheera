@@ -28,4 +28,6 @@ Chosen option: B. Changes to standards, services and decisions need an owner's G
 
 ## More information
 
-Detail in [design/knowledge-library.md, section 6](../design/knowledge-library.md#6-the-curation-run).
+Detail in [design/knowledge-library.md, section 6](../design/knowledge-library.md#6-approving-library-prs).
+
+Amended by [0086](0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): no code owners in the pilot; approvers are recorded and checked by whoever merges.

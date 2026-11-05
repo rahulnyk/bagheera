@@ -27,6 +27,6 @@ Chosen option: B. Stale pages, contradictions, broken links, orphans and service
 
 ## More information
 
-Detail in [design/knowledge-library.md, section 8](../design/knowledge-library.md#8-corrections).
+Detail in [design/knowledge-library.md, section 8](../design/knowledge-library.md#3-trust).
 
 Amended by [0054](0054-weekly-summary-as-a-github-issue.md): the platform team's weekly summary is the library section of the one weekly summary, posted as a GitHub issue.

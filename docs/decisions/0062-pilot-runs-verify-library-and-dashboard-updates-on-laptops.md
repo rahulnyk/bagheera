@@ -41,3 +41,5 @@ Option C was set aside because GitHub's models aren't Claude Code: we would buil
 Amended by [0063](0063-one-github-app-key-shared-with-onboarded-repos.md): the App's key is one organisation secret shared with the onboarded repos, so the rollout plan has nothing left to settle there.
 
 Amended by [0064](0064-drop-the-updated-within-a-day-target.md): PRD G1's "updated within a day" target is dropped, so running the library update every few days misses nothing.
+
+Amended by [0080](0080-developers-run-the-library-update-after-each-merge.md): in the first system, the developer runs `/bagheera:update-library` once their ticket's PR has merged.

@@ -27,4 +27,6 @@ Set by the owner.
 
 ## More information
 
-Detail in [design/knowledge-library.md](../design/knowledge-library.md#changes-since-approval).
+Detail in [design/knowledge-library.md](../design/knowledge-library.md#3-trust).
+
+Amended by [0086](0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): no code owners in the pilot; approvers are recorded and checked by whoever merges.

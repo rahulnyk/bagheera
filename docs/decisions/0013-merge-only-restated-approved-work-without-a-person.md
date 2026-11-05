@@ -27,4 +27,4 @@ Chosen option: B, for the pilot. Decisions and standards always need their owner
 
 ## More information
 
-Revisit after the pilot: relax to C if reviews become rubber stamps, tighten to A if anything wrong gets through. Detail in [design/knowledge-library.md, section 2](../design/knowledge-library.md#2-merge-rules-under-caution).
+Revisit after the pilot: relax to C if reviews become rubber stamps, tighten to A if anything wrong gets through. Detail in [design/knowledge-library.md, section 2](../design/knowledge-library.md#6-approving-library-prs).
