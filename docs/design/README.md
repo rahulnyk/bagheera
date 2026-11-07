@@ -17,7 +17,7 @@ The six design docs describe Bagheera's MVP: how each area works, in enough deta
 
 ## Moving parts
 
-A block-level diagram of these parts and how they connect is in [components.drawio](../components.drawio); open it in the draw.io app or at app.diagrams.net.
+[architecture-mvp.drawio](../architecture-mvp.drawio) shows these parts and how they connect, and [architecture-target.drawio](../architecture-target.drawio) shows the target state once an org adopts Bagheera widely; open them in the draw.io app or at app.diagrams.net.
 
 ### What the platform team builds
 

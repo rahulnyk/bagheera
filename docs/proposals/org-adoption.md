@@ -2,7 +2,7 @@
 
 _Status: proposal for the owner's review, 2026-11-07 · [PRD](../prd.md) · [The MVP plan](../plan.md)_
 
-Any team can adopt the [MVP](../plan.md) on its own. This proposal is for an org that adopts Bagheera widely: the parts that need org admins or coordination across teams. They are the PRD's **L** requirements. Each part comes in on its own, when its signal shows. The commands, the approvals and the library's rules stay as they are.
+Any team can adopt the [MVP](../plan.md) on its own. This proposal is for an org that adopts Bagheera widely: the parts that need org admins or coordination across teams. They are the PRD's **L** requirements. Each part comes in on its own, when its signal shows. The commands, the approvals and the library's rules stay as they are. [architecture-target.drawio](../architecture-target.drawio) shows the result next to the MVP.
 
 | Part | What it adds | Needs | Brought in when |
 | --- | --- | --- | --- |

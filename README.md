@@ -9,4 +9,4 @@ A delivery harness on Claude Code for an engineering org of ~100 engineers: know
 - [Design docs](docs/design/README.md): the MVP, area by area
 - [Decisions](docs/decisions/): the owner's decisions, one short record each
 - [Org-adoption proposal](docs/proposals/org-adoption.md): the parts that need org-wide coordination, for an org that adopts Bagheera widely
-- [Component diagram](docs/components.drawio): the parts and how they connect; open it in the draw.io app or at app.diagrams.net
+- Architecture diagrams, to open in the draw.io app or at app.diagrams.net: [the MVP](docs/architecture-mvp.drawio), and [the target state](docs/architecture-target.drawio) once an org adopts Bagheera widely
