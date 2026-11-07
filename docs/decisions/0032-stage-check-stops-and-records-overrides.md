@@ -1,36 +1,38 @@
 ---
 status: accepted
-date: 2026-10-29
+date: 2026-11-07
 deciders: RN (owner)
 ---
-# The stage check stops without approval, and deliberate overrides are recorded
+# The stage check stops without a current approval; a developer can override it, on the record
 
 ## Context and problem statement
 
-PRD C3 (must have) says a stage "refuses to start until its artifact is approved by the designated role; editing a file locally must not count as approval". The owner chose soft enforcement: an `/approved` comment, with managers holding teams to the process ([0002](0002-soft-approval-by-comment.md)). With one PR per ticket ([0075](0075-one-pr-per-ticket.md)), an approval is a comment naming the document, such as `/approved spec`. What should a stage command do when an earlier document isn't approved?
+PRD C3: a stage refuses to start until its document is approved, unless the developer overrides on purpose; every override is recorded on the PR, and editing a file locally never counts as approval. Approvals are `/approved` comments on the ticket's PR ([0002](0002-soft-approval-by-comment.md)). What does a stage command do when an earlier document isn't approved?
 
 ## Considered options
 
-* A. The command stops and says who it's waiting on; the developer can override on purpose, with a reason; every override is posted on the PR and shown on the dashboard
-* B. Hard enforcement: also a required CI check, so the planning PR can't merge until every document is approved; no overrides except by repo admins
-* C. Warn only: the command warns and carries on; the dashboard shows missing approvals
+* A. Stop and say what's missing; the developer can override on purpose, with a reason, posted on the PR
+* B. Stop, with no way past but an approval
+* C. Warn and carry on
 
 ## Decision outcome
 
-Chosen option: A. Each stage command runs the stage check first. Without a current approval from the designated role for every earlier document, it stops, names what's missing and who it's waiting on, and links to the PR. `--override "<reason>"` lets the developer go ahead; the command posts the override as a comment on the PR, and the dashboard and weekly summary show it. An approval counts only if it's newer than the last commit that changed the document: any change, a typo fix included, cancels it, and the approver comments again. An override is not an approval: the document stays unapproved, nothing in it reaches the library as approved work, and approving it later clears the flag. Merging the planning PR without every approval is not blocked, and counts as an override.
+Chosen by the owner: A.
+
+* **Checked first.** Every stage command runs the stage check before anything else, reading the PR's comments, reviews and commits with the developer's own GitHub access. Plan needs an approved spec; Build needs an approved spec and plan.
+* **Only a current approval counts.** An approval counts only if it's newer than the last commit that changed the document: any change, a typo fix included, cancels it, and someone approves again.
+* **A stop says why.** Without what it needs, the command stops, says what's missing and who was asked, and links the PR.
+* **Overrides.** `--override "<reason>"` goes ahead anyway; the reason can't be empty. The command posts the override on the PR: the stage, what was missing, the reason and who.
+* **An override isn't an approval.** Nothing in a document that was never approved reaches the library as approved work.
+* **Local edits never count.** Approvals exist only as GitHub comments and reviews.
 
 ### Consequences
 
-* Good, because C3's "refuses to start" holds by default, and a local edit never counts: approvals are GitHub comments from the right people.
-* Good, because enforcement stays soft, as the owner chose, while every skip is visible to managers.
-* Good, because the pilot can measure whether approvals are used or skipped (PRD §9).
-* Bad, because a determined team can still override every stage; managers act on what the dashboard shows.
-* PRD C3's wording should change to add "unless the developer overrides on purpose; every override is recorded and shown".
+* Good, because C3's "refuses to start" holds by default, and a local edit never counts.
+* Good, because enforcement stays soft, while every skip is on record where the work is.
+* Good, because the pilot can count how often approvals were skipped, and why (PRD §9).
+* Bad, because a determined team can override every stage; managers act on what the PR shows.
 
 ## More information
 
-Detail in [design/developer-workflow.md, section 4](../design/developer-workflow.md#4-approval). Resolves the conflict flagged in [0002](0002-soft-approval-by-comment.md).
-
-Amended by 0038 (QA's approval of test cases warns instead of stopping).
-
-Kept in the first system by [0073](0073-keep-the-override-in-the-first-system.md); with no dashboard, overrides are seen on the PR.
+Detail in [design/developer-workflow.md](../design/developer-workflow.md).

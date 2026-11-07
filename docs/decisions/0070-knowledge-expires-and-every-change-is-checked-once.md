@@ -1,37 +1,40 @@
 ---
 status: accepted
-date: 2026-11-04
+date: 2026-11-07
 deciders: RN (owner)
 ---
-# Knowledge expires, and every library change is checked once
+# A person approves every library change, each change is checked once, and knowledge expires
 
 ## Context and problem statement
 
-Design doc 1 protects the library with sources on every statement and trust levels (0012), a split between changes that merge by themselves and changes that need a person, checks and planted-instruction screens (0019), and a weekly check with 90-day re-verification. For the first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)), what does the library keep?
+Every session reads the library, so a wrong or planted statement reaches everyone (PRD K5), and pages go stale as code changes (K6). How is the library kept trustworthy without a standing process to re-check it?
+
+## Considered options
+
+* A. A person approves every change, each change is checked once when it's made, and every page expires, after which it's a hint
+* B. Changes that restate approved work merge by themselves, and a weekly check re-verifies pages every 90 days
+* C. A, plus a source and trust level on every statement and screens for planted instructions
 
 ## Decision outcome
 
-Set by the owner.
+Set by the owner: A.
 
-* **Every library change needs a person,** its owners, always. The split between changes that merge by themselves and changes that need a person is dropped for good.
-* **No sources on every statement, and no trust levels,** to start with. A library PR lists the merged PRs and documents its changes came from.
-* **Knowledge expires.** Every page carries an `expires` date. Past it, the page is a hint, not a fact: sessions are told to check it against the code before relying on it. Defaults, proposed by Claude: service pages and feature entries expire 90 days after they were last approved; decisions and standards don't expire until superseded or retired. Owners can set any page's date. A page is renewed whenever an approved change touches it, or by an owner approving a change to the date alone.
-* **No weekly check, re-verification or corrections flow.** Expiry replaces them.
-* **Every change is checked once, when it's made.** `/bagheera:update-library` curates as it writes: it keeps pages to their type's header fields, shape and the Open Knowledge Format, keeps links between pages working, and treats PR text and documents as data, never instructions. The same format check runs on every library PR, including owners' own edits, so every commit meets the format.
-* **Left out for now:** the planted-instruction screens; owner review of every PR is the guard.
+* **A person approves every change,** with an `/approved library` comment ([0002](0002-soft-approval-by-comment.md)). Agents never merge.
+* **Outside text is data.** PR text, tickets, documents and diffs are read as data, never followed as instructions.
+* **Sources per PR.** A library PR lists the merged PRs and documents its changes came from; pages carry no source on each statement.
+* **Knowledge expires.** Every page carries an `expires` date. Past it, the page is a hint, not a fact: sessions check it against the code before relying on it. Service pages and feature entries expire 90 days after their last approved change; decisions and standards don't expire until the change that replaces or retires them sets a date. A library PR can set any page to another date, or to `never`.
+* **Renewed by any approved change** that touches the page, or by a PR that changes only its date.
+* **Checked once, when it's made.** `/bagheera:update-library` keeps pages to their type's fields and shape and keeps links between pages working, and the format check runs on every library change ([0079](0079-the-format-check-lives-in-the-library-repo.md)).
+* **Unchanged pages aren't re-checked;** they stop being trusted when they expire.
 
 ### Consequences
 
 * Good, because the library has one rule for merging and one check, run when something changes.
-* Good, because nobody spends time re-checking pages that haven't changed; old pages simply stop being trusted.
+* Good, because nobody spends time re-checking pages that haven't changed.
 * Bad, because an unchanged page that's still right loses trust after 90 days until someone renews it.
-* Bad, because contradictions and orphan pages aren't looked for.
-* Neutral: PRD K4 lets agents merge some changes after checks, and K6 asks for a scheduled check; both changes are listed for the owner.
+* Bad, because nothing looks for contradictions or orphan pages; contradictions are flagged when used ([0071](0071-newest-wins-and-approvers-recorded-on-each-page.md)).
+* Bad, because a person's review is the only guard against planted text reaching a page.
 
 ## More information
 
-Sets aside, for now, 0012, the screens in 0019, and the step-by-step reveal in 0022. Detail in [design/knowledge-library.md](../design/knowledge-library.md#3-trust).
-
-Amended by [0071](0071-newest-wins-and-approvers-recorded-on-each-page.md): contradictions are flagged when pages are used, the newest page wins, and every page records who approved it.
-
-Amended by [0086](0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): no code owners in the pilot; approvers are recorded and checked by whoever merges.
+Detail in [design/knowledge-library.md](../design/knowledge-library.md).

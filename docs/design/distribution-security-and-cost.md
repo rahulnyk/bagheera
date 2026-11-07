@@ -151,7 +151,7 @@ Spend and adoption are reported by repository, the simplest unit: each job alrea
 
 ## 6. Changing Bagheera
 
-_Decided: [ADR 0067](../decisions/0067-review-changes-by-pr-with-code-owners.md), [0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md) and [0087](../decisions/0087-publish-to-the-orgs-plugin-marketplace.md)._
+_Decided: [ADR 0067](../decisions/0067-review-changes-by-pr-with-code-owners.md), [0002](../decisions/0002-soft-approval-by-comment.md) and [0087](../decisions/0087-publish-to-the-orgs-plugin-marketplace.md)._
 
 1. **A PR to `main`,** approved by the other platform engineer. `main` needs a PR and doesn't allow force-push.
 2. **Try it.** A platform engineer loads `main` from a checkout with `claude --plugin-dir plugins/bagheera` and runs the changed commands on the test repo. The Spec Kit review each quarter takes this path too (design doc 3, section 1).

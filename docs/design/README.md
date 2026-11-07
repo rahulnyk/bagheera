@@ -81,10 +81,10 @@ Changes made to the PRD to match the owner's decisions, all on 2026-11-04.
 | §5 stage 8 | Close's library changes approved by a person | [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) |
 | §6 priorities | The pilot starts with the first system and adds the rest one at a time | [0069](../decisions/0069-the-mvp-delivery-path-and-knowledge-library.md) |
 | K1 | An index; git history as the change log | [0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md) |
-| K4 | Agents never merge; every library change needs a person's approval, recorded on the page and the PR | [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md) |
+| K4 | Agents never merge; every library change needs a person's approval, recorded on the page and the PR | [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0002](../decisions/0002-soft-approval-by-comment.md) |
 | K6 | Checked when made; shelf life; the newer page wins | [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md) |
 | R5 | The architecture's standards check | 0046 |
-| C3 | Unless the developer overrides on purpose, recorded on the PR | [0032](../decisions/0032-stage-check-stops-and-records-overrides.md), [0073](../decisions/0073-keep-the-override-in-the-first-system.md) |
+| C3 | Unless the developer overrides on purpose, recorded on the PR | [0032](../decisions/0032-stage-check-stops-and-records-overrides.md), [0032](../decisions/0032-stage-check-stops-and-records-overrides.md) |
 | V6, V7 | Adoption and cost by repository | 0066 |
 | §7 | Two pilot targets on at least 10 tickets; efficiency measured after the pilot | [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md) |
 | §8 | Spec Kit adapted into the plugin; our own seeding skill on DeepWiki-Open's method; the plugin through the org's marketplace, assumed to exist; the pilot on at least 10 tickets | [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md), [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md), [0087](../decisions/0087-publish-to-the-orgs-plugin-marketplace.md), [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md) |

@@ -45,10 +45,10 @@ The stage commands are adapted from Spec Kit's templates and instructions ([0004
 **Approvals** (C3)
 
 * An approval is `/approved spec` or `/approved plan` on its own line, in a PR comment or review.
-* It counts only from the PM or tech lead named in the spec's header. Intake suggests them and the developer confirms; each command requests its approver as a reviewer, so GitHub notifies them and lists the PR in their review requests. To swap someone, the developer edits the header and the new person approves ([0072](decisions/0072-named-pm-and-tech-lead-approve.md)).
+* It counts only from the PM or tech lead named in the spec's header. Intake suggests them and the developer confirms; each command requests its approver as a reviewer, so GitHub notifies them and lists the PR in their review requests. To swap someone, the developer edits the header and the new person approves ([0002](decisions/0002-soft-approval-by-comment.md)).
 * It doesn't count from anyone who committed to the document. Any later change to the document, even a typo fix, cancels it, and the approver comments again ([0032](decisions/0032-stage-check-stops-and-records-overrides.md)).
 * Every command checks first. Without the approvals it needs, it stops, says what's missing and who it's waiting on, and links the PR.
-* **Overrides** ([0073](decisions/0073-keep-the-override-in-the-first-system.md)). `--override "<reason>"` goes ahead anyway, and the command posts the override on the PR: the stage, what was missing, the reason and who. It isn't an approval: nothing in an unapproved document reaches the library as approved work.
+* **Overrides** ([0032](decisions/0032-stage-check-stops-and-records-overrides.md)). `--override "<reason>"` goes ahead anyway, and the command posts the override on the PR: the stage, what was missing, the reason and who. It isn't an approval: nothing in an unapproved document reaches the library as approved work.
 
 | Command | Starts only when |
 | --- | --- |
@@ -75,7 +75,7 @@ Git history is the change log ([0078](decisions/0078-git-history-is-the-change-l
 * **Body sections** start from each type's template in [design doc 1, section 2](design/knowledge-library.md#2-pages), within its length limit ([0017](decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)). The format check requires them, so a page can't lose its context.
 * **Grown by the pilot.** A field or section is added only when a pilot page needs it and something reads it, by a PR to the schema in `checks/`. At the exit, the schema is fixed for rollout.
 * **Shelf life** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)): service pages and feature entries expire 90 days after their last approved change; decisions and standards don't, until superseded or retired; then the change that replaces them sets their `expires` date and links the replacement. Owners can set any date.
-* **Approvers** ([0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)): `approved_by` lists the `/approved` commenters behind what the page says, and its library PR by number; GitHub records who approved and merged that PR ([0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)).
+* **Approvers** ([0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)): `approved_by` lists the `/approved` commenters behind what the page says, and its library PR by number; GitHub records who approved and merged that PR ([0002](decisions/0002-soft-approval-by-comment.md)).
 
 **Seeding, with `seed-service-page`,** once per repo, and only in repos tickets land in, before the first ticket there ([design doc 2](design/seeding.md), [0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)). If a ticket lands in a repo with no page, Intake says so and carries on, and a platform engineer seeds that repo before the ticket's plan. A platform engineer runs it in a clone of the service's repo, with someone from the team at hand. It follows DeepWiki-Open's method ([0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md)): first it plans from the file tree and README, listing the repo's services and the files to read for each section, and the person confirms the plan; then it writes each page only from those files. It skips vendored code, build output, lock files and env and secret files. The read-only code reader does the reading; nothing builds, runs or tests the code. It opens one library PR per page, labelled `seeding`. The PR's description gives the commit read, the files and line ranges behind each section, conflicts between docs and code, and what the skill couldn't work out ([0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md)). The team reviews the pages together, as an onboarding task ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)).
 
@@ -102,7 +102,7 @@ Claude opens other pages with its own file tools when it needs them. Intake read
 4. **Check.** It runs the format check, and notes in the PR any page its changes contradict.
 5. **Open one library PR,** listing the merged PRs and documents it came from, and the run's cost. If a library-update PR is already open, it adds to that one instead, so two PRs never conflict on the index. It requests review from the ticket's tech lead and PM named in its spec; for merged PRs with no ticket, the runner names a reviewer.
 
-**Approving library PRs** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)). The branch rule needs a PR, one approval and the format check. The library's owners, the platform team in the pilot, merge a PR once a fitting person has approved it: the tech lead for service pages and technical decisions, the PM for product decisions, the architecture council for standards.
+**Approving library PRs** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0002](decisions/0002-soft-approval-by-comment.md)). The branch rule needs a PR, one approval and the format check. The library's owners, the platform team in the pilot, merge a PR once a fitting person has approved it: the tech lead for service pages and technical decisions, the PM for product decisions, the architecture council for standards.
 
 **The format check** (K2) runs on every library PR, including people's own edits, as a workflow in the library repo that its branch rule requires. The script and the page schemas live in the library repo, and `/bagheera:update-library` runs the same script from its local copy ([0079](decisions/0079-the-format-check-lives-in-the-library-repo.md)). It fails on:
 
@@ -112,7 +112,7 @@ Claude opens other pages with its own file tools when it needs them. Intake read
 
 ### Install and the deny rules file
 
-**The settings file,** `settings/pilot-user-settings.json` in `seeonee/bagheera` ([0059](decisions/0059-pilot-settings-in-engineers-own-settings-file.md)): the deny rules from [design doc 4, section 5](design/standards-and-review.md#5-forbidden-actions), bypass mode off, and the sandbox trial's settings. Changes to it need security's approval, and the architecture council's for the deny rules ([0067](decisions/0067-review-changes-by-pr-with-code-owners.md), [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)). It also allows reading the local library copy without prompts.
+**The settings file,** `settings/pilot-user-settings.json` in `seeonee/bagheera` ([0059](decisions/0059-pilot-settings-in-engineers-own-settings-file.md)): the deny rules from [design doc 4, section 5](design/standards-and-review.md#5-forbidden-actions), bypass mode off, and the sandbox trial's settings. Changes to it need security's approval, and the architecture council's for the deny rules ([0067](decisions/0067-review-changes-by-pr-with-code-owners.md), [0002](decisions/0002-soft-approval-by-comment.md)). It also allows reading the local library copy without prompts.
 
 **Install, once per pilot Mac:**
 
@@ -209,7 +209,7 @@ Each part of the design comes in only when the pilot, or rollout, shows it's nee
 | **Sources and trust levels** | A source on every statement | Owners can't tell where a statement came from | Doc 1, section 9 |
 | **Planted-instruction screens** | Pattern and model screens on library PRs | Planted text is found, or before many teams' PR text feeds the library | Doc 1, section 7 |
 | **Step-by-step reveal** | The knowledge skill; neighbours in the graph, with the header fields it walks (`depends_on`, `services`, `decisions`); reveal caps | Sessions miss pages they needed, or the index gets too long to load | Doc 1, section 8 |
-| **Page ownership** | Who owns which pages, so GitHub requests and requires the right approvers | Maintainers can't tell who should approve, or wrong approvals get merged. Designed as minimal as possible then | [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md) |
+| **Page ownership** | Who owns which pages, so GitHub requests and requires the right approvers | Maintainers can't tell who should approve, or wrong approvals get merged. Designed as minimal as possible then | [0002](decisions/0002-soft-approval-by-comment.md) |
 | **`domains.yaml` and `prefixes.yaml`** | Each domain and the code repos it covers; the architecture council's register of standards prefixes | A second domain joins | Doc 1, section 1; doc 4, section 1 |
 | **CI, the GitHub App and the Console** | Verify and the library update run in CI | Developers forget the library update, or laptop runs are too slow, or at rollout | Doc 6, section 3 |
 | **Managed settings** | The deny rules, locked, from the claude.ai admin console | At rollout | Doc 6, section 2 |
@@ -245,7 +245,7 @@ Rollout starts when the exit check passes and the additions it called for are in
 1. **The plugin for everyone,** through the org's marketplace and its owning team ([0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md)).
 2. **The deny rules locked,** in managed settings from the admin console (0058): the Claude admin pastes the reviewed settings file once. Pilot machines need nothing redone.
 3. **Jobs move to CI** when developers forget the library update or laptop runs can't keep up (0061, 0063). The GitHub org owners install the GitHub App and create the repo property and the org ruleset; the Claude admin sets up the Console workspace and the identity rules.
-4. **`domains.yaml`** arrives with the second domain. Page ownership, if rollout needs it, is planned then, as minimal as possible ([0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)).
+4. **`domains.yaml`** arrives with the second domain. Page ownership, if rollout needs it, is planned then, as minimal as possible ([0002](decisions/0002-soft-approval-by-comment.md)).
 5. **Each repo is seeded before its first ticket** ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)), with its team's review as an onboarding task.
 
 **What stays the same:** the commands, the approvals and the library's rules. Onboarding a repo stays under a day of platform effort with no per-team code (PRD P8).
@@ -308,8 +308,8 @@ On `seeonee/bagheera-test`, with Jira ticket `TEST-1`. One platform engineer is 
 
 The first system: [0069](decisions/0069-the-mvp-delivery-path-and-knowledge-library.md)–[0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md). Decided while drafting this plan:
 
-* [0072](decisions/0072-named-pm-and-tech-lead-approve.md): the PM and tech lead named in the spec approve
-* [0073](decisions/0073-keep-the-override-in-the-first-system.md): a stop can be overridden, on the record
+* [0002](decisions/0002-soft-approval-by-comment.md): the PM and tech lead named in the spec approve
+* [0032](decisions/0032-stage-check-stops-and-records-overrides.md): a stop can be overridden, on the record
 * [0075](decisions/0075-one-pr-per-ticket.md): one PR per ticket; phases one at a time within it
 * [0034](decisions/0034-build-tests-first-and-show-criteria-results.md): criteria IDs in test names, results listed in the PR
 * [0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md): a short seeding report
@@ -321,5 +321,5 @@ The first system: [0069](decisions/0069-the-mvp-delivery-path-and-knowledge-libr
 * [0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md): each repo is seeded before its first ticket
 * [0084](decisions/0084-one-standards-command-seeds-adds-and-updates.md): one standards command seeds from Confluence, adds and updates
 * [0015](decisions/0015-typed-page-headers.md): six header fields to start; the pilot grows the schema
-* [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): approvers are recorded, and checked by whoever merges
+* [0002](decisions/0002-soft-approval-by-comment.md): approvers are recorded, and checked by whoever merges
 * [0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md): the plugin is published through the org's plugin marketplace

@@ -115,7 +115,7 @@ specs/PAY-412/
 
 * **One document per stage,** so an approver reads one page.
 * **Diagrams are Mermaid** inside the document. GitHub renders them on the PR page, so PMs see them without developer tools (PRD C1).
-* **Only `spec.md` has a header,** recording the ticket, its related tickets, and the PM and tech lead named to approve it ([0072](../decisions/0072-named-pm-and-tech-lead-approve.md)).
+* **Only `spec.md` has a header,** recording the ticket, its related tickets, and the PM and tech lead named to approve it ([0002](../decisions/0002-soft-approval-by-comment.md)).
 * **The harness writes nothing else in the repo.** Status is worked out from GitHub (design doc 5).
 
 ### One branch and one PR per ticket
@@ -135,7 +135,7 @@ specs/PAY-412/
 
 ## 4. Approval
 
-_Decided: [ADR 0032](../decisions/0032-stage-check-stops-and-records-overrides.md), [0072](../decisions/0072-named-pm-and-tech-lead-approve.md) and [0073](../decisions/0073-keep-the-override-in-the-first-system.md), following [0002](../decisions/0002-soft-approval-by-comment.md)._
+_Decided: [ADR 0032](../decisions/0032-stage-check-stops-and-records-overrides.md), [0002](../decisions/0002-soft-approval-by-comment.md) and [0032](../decisions/0032-stage-check-stops-and-records-overrides.md), following [0002](../decisions/0002-soft-approval-by-comment.md)._
 
 Approval is a comment from the named person. Stage commands stop without it, but a developer can go ahead on purpose, on the record. Nothing technical blocks a merge; managers act on what they see (PRD C3).
 
@@ -184,7 +184,7 @@ Re-running a stage whose own document is already approved warns first, because c
 
 ### Overrides
 
-_Decided: [ADR 0073](../decisions/0073-keep-the-override-in-the-first-system.md)._
+_Decided: [ADR 0032](../decisions/0032-stage-check-stops-and-records-overrides.md)._
 
 * **On purpose, with a reason.** `--override "<reason>"` is the only way past a stop, and the reason can't be empty.
 * **On the record.** The command posts the override as a comment on the PR: which stage, what was missing, the reason, and who.

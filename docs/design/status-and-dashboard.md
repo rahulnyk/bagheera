@@ -43,7 +43,7 @@ GitHub is the record. The dashboard sync reads each story's PR, comments, checks
 
 ## 2. The status model
 
-_Decided: [ADR 0050](../decisions/0050-named-people-per-story-team-fallback.md) and [0072](../decisions/0072-named-pm-and-tech-lead-approve.md)._
+_Decided: [ADR 0002](../decisions/0002-soft-approval-by-comment.md) and [0002](../decisions/0002-soft-approval-by-comment.md)._
 
 Each story has a stage, a status, who it's waiting on, and since when, plus a few markers for managers.
 

@@ -1,33 +1,38 @@
 ---
 status: accepted
-date: 2026-10-26
+date: 2026-11-07
 deciders: RN (owner)
 ---
-# Approve a stage with an `/approved` comment, enforced by process
+# Anyone approves with an `/approved` comment; the approver is recorded, and who should approve is a process rule
 
 ## Context and problem statement
 
-Each stage's document needs approval from a designated role before the next stage starts (PRD §5, C3). The architecture draft proposed GitHub rulesets that require team approvals. How should approval work?
+Each stage document needs approval before the next stage starts (PRD §5, C3), and every library change needs a person's approval (K4). One team must be able to adopt Bagheera alone, and lists of who may approve what go out of date as people change. How is approval given and checked, on ticket PRs and library PRs alike?
 
 ## Considered options
 
-* A. GitHub ruleset that requires approval from named teams per file (hard enforcement)
-* B. CODEOWNERS per file (hard; can't require two roles on one file)
-* C. A custom approval check in CI (hard)
-* D. An `/approved` comment (or a similar action) on the stage PR by someone in the designated role, enforced by managers as a process
+* A. GitHub reviews required by branch rules, with `CODEOWNERS` per path
+* B. An `/approved` comment that counts only from the PM or tech lead named in the spec
+* C. An `/approved` comment from anyone, with the approver's name recorded; who should approve is a process rule
 
 ## Decision outcome
 
-Chosen option: D. Approval is a deliberate action on the PR, such as an `/approved` comment, by someone in the designated role. It is not enforced by branch protection; managers hold teams to the process.
+Chosen by the owner: C.
+
+* **One way to approve, on every PR.** A comment with `/approved <stage>` on its own line: `/approved spec` and `/approved plan` on the ticket's PR, and `/approved library` on a library PR. A GitHub review whose text contains the same line counts too.
+* **Anyone can approve.** The stage check doesn't look at who commented, the document's author included.
+* **The approver is recorded.** The stage check lists each approval it counts, with who and when, in the PR's description, and the library update copies the names into each page's `approved_by`.
+* **Who should approve is a process rule:** the PM approves the spec, the tech lead approves the plan, and the ticket's tech lead or PM approves its library PR. Every approval names who gave it, so managers can see when someone else did.
+* **Named so they can be asked.** The spec's header names the ticket's PM and tech lead; Intake suggests them and the developer confirms. Each command requests the person whose approval it needs as a reviewer, so GitHub notifies them.
+* **No `CODEOWNERS`** and no lists of approvers anywhere.
 
 ### Consequences
 
-* Good, because it is simple and needs no rulesets, and approvers only need to be able to comment.
-* Good, because an approval is a visible, timestamped record on the PR that tools can read.
-* Bad, because nothing technical stops a stage from going ahead without approval.
+* Good, because a team adopts it with no lists of people and nothing from org admins.
+* Good, because approvals look the same on every PR, and each one names who gave it.
+* Good, because an absent PM or tech lead never blocks a ticket: someone else can approve, on the record.
+* Bad, because nothing technical stops the wrong person approving, the author included. It shows on the PR, and managers act on it.
 
-### Conflict with the PRD (flagged)
+## More information
 
-PRD C3 (must have) says a stage "refuses to start until its artifact is approved by the designated role", and §9 says to expand only once the pilot team uses the approvals rather than skipping them. Proposed reconciliation, to confirm in design doc 3 (developer workflow): the stage command checks for an `/approved` comment from someone in the designated role and stops if there is none; the developer can override on purpose; every override is recorded and shown on the dashboard. That keeps enforcement soft but makes skipping visible. If accepted, PRD C3's wording should be updated to match.
-
-**Resolved** by [0032](0032-stage-check-stops-and-records-overrides.md): the owner accepted this reconciliation on 2026-10-29.
+The stage check and overrides: [0032](0032-stage-check-stops-and-records-overrides.md). Detail in [design/developer-workflow.md](../design/developer-workflow.md).

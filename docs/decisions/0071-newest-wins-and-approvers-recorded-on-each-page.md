@@ -1,23 +1,27 @@
 ---
 status: accepted
-date: 2026-11-04
+date: 2026-11-07
 deciders: RN (owner)
 ---
 # The newest page wins, contradictions are flagged when used, and each page records its approvers
 
 ## Context and problem statement
 
-[0070](0070-knowledge-expires-and-every-change-is-checked-once.md) dropped the weekly check, which looked for contradictions between pages, and the sources on every statement, which recorded who approved each piece of knowledge. Pages still can disagree, and people still need to know who approved what a page says.
+Pages can disagree, and nothing looks for contradictions on a timer ([0070](0070-knowledge-expires-and-every-change-is-checked-once.md)). People also need to know who stands behind what a page says.
+
+## Considered options
+
+* A. The newer page wins and contradictions are flagged when used; each page records who approved it
+* B. A scheduled check that finds contradictions and opens PRs to fix them
 
 ## Decision outcome
 
-Set by the owner.
+Set by the owner: A.
 
 * **The newest wins.** When two pages disagree, the one with the later `updated` date is taken as more likely right.
-* **Flagged when used.** A session or command that relies on pages that disagree says so, names both, and goes with the newer. `/bagheera:update-library` also notes in its PR any page its changes contradict, so the owners can fix it.
+* **Flagged when used.** A session or command that relies on pages that disagree says so, names both, and goes with the newer. `/bagheera:update-library` also notes in its PR any page its changes contradict, so it can be fixed.
 * **Expired pages lose.** A contradicting page past its `expires` date is ignored, without a flag.
-* **Approvers recorded.** Every page's header records who approved what it says: the people whose `/approved` comments approved the work it came from, such as the PM on a spec or the tech lead on a plan, and the owner who approved the library PR. Each change replaces the list with the approvals behind it.
-* **Later, not now:** a small workflow for managers to review expired knowledge and renew it.
+* **Approvers recorded.** Every page's `approved_by` names who approved the work it came from, such as the `/approved` comments on the spec and the plan, and the library PR that brought it in, whose `/approved library` comment names its approver ([0002](0002-soft-approval-by-comment.md)). Each change replaces the list with the approvals behind that change.
 
 ### Consequences
 
@@ -27,6 +31,4 @@ Set by the owner.
 
 ## More information
 
-Detail in [design/knowledge-library.md](../design/knowledge-library.md#3-trust).
-
-Amended by [0086](0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): no code owners in the pilot; approvers are recorded and checked by whoever merges.
+Detail in [design/knowledge-library.md](../design/knowledge-library.md).

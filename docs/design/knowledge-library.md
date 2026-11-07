@@ -143,7 +143,7 @@ Every page has an `expires` date, and past it the page is a hint, not a fact.
 
 ### Who approved it
 
-Every page's `approved_by` records who stands behind what it says: the people whose `/approved` comments approved the work it came from, such as the PM on a spec or the tech lead on a plan, and the library PR that brought it in. GitHub records who approved and merged that PR ([0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)). Each change replaces the list with the approvals behind that change. `updated` is the date of the last approved change.
+Every page's `approved_by` records who stands behind what it says: the people whose `/approved` comments approved the work it came from, such as the PM on a spec or the tech lead on a plan, and the library PR that brought it in. GitHub records who approved and merged that PR ([0002](../decisions/0002-soft-approval-by-comment.md)). Each change replaces the list with the approvals behind that change. `updated` is the date of the last approved change.
 
 ### When pages disagree
 
@@ -188,7 +188,7 @@ _Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-che
 
 ## 6. Approving library PRs
 
-_Decided: [ADR 0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md), following [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)._
+_Decided: [ADR 0002](../decisions/0002-soft-approval-by-comment.md), following [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)._
 
 * **Branch rules on the library's main branch:** every change goes through a PR, needs one approval, and needs the format check to pass.
 * **The library's owners merge,** the platform team in the pilot, once a fitting person has approved: the tech lead for service pages and technical decisions, the PM for product decisions, the architecture council for standards.
@@ -268,7 +268,7 @@ CI sessions load the same plugin. The PR review starts from the files in the dif
 
 ## 9. Sources and trust levels
 
-An addition, for when owners can't tell where a statement came from ([the plan](../plan.md#3-additions); 0012, [0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md)). Every statement the library writer writes ends with a footnote giving its trust level, its source with a link, and the date:
+An addition, for when owners can't tell where a statement came from ([the plan](../plan.md#3-additions); 0012, [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)). Every statement the library writer writes ends with a footnote giving its trust level, its source with a link, and the date:
 
 | Level | What it covers |
 | --- | --- |
