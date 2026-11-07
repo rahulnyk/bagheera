@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Design doc 2 gives each seeding PR a five-part report as its description: the commits read, places on a fixed list where nothing was found, conflicts between docs and code, dependencies without a page, and what the skill couldn't work out. If reviewers rewrite more than half the statements, seeding switches to DeepWiki-Open ([0024](0024-seed-service-pages-with-a-claude-code-skill.md)). How much of this does the first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)) keep?
+Design doc 2 gives each seeding PR a five-part report as its description: the commits read, places on a fixed list where nothing was found, conflicts between docs and code, dependencies without a page, and what the skill couldn't work out. If reviewers rewrite more than half the statements, seeding switches to DeepWiki-Open ([0024](0024-seed-service-pages-with-a-claude-code-skill.md)). How much of this does the first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)) keep?
 
 ## Considered options
 

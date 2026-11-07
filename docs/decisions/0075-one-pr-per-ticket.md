@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-The design gives each feature a planning PR, then one PR per phase, with four written merge rules and a feature-folder check in CI. [0040](0040-build-phases-one-at-a-time.md) builds the phases one at a time. The first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)) has no CI. How does a feature's work reach the main branch?
+The design gives each feature a planning PR, then one PR per phase, with four written merge rules and a feature-folder check in CI. [0040](0040-build-phases-one-at-a-time.md) builds the phases one at a time. The first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)) has no CI. How does a feature's work reach the main branch?
 
 ## Considered options
 

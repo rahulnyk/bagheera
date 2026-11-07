@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Design doc 1 has a script write `index.md` and `CHANGELOG.md`, with a bookkeeping PR kept open to regenerate them. PRD K1 asks for "an index and a change log", and the session-start hook loads the index. In the first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)), what is committed?
+Design doc 1 has a script write `index.md` and `CHANGELOG.md`, with a bookkeeping PR kept open to regenerate them. PRD K1 asks for "an index and a change log", and the session-start hook loads the index. In the first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)), what is committed?
 
 ## Considered options
 

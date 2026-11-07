@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-[0032](0032-stage-check-stops-and-records-overrides.md) lets a developer go past a stop with `--override "<reason>"`, recorded as a PR comment and listed on the dashboard. The first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)) has no dashboard, and an absent approver can be swapped in the spec's header ([0072](0072-named-pm-and-tech-lead-approve.md)). Is the override still worth having?
+[0032](0032-stage-check-stops-and-records-overrides.md) lets a developer go past a stop with `--override "<reason>"`, recorded as a PR comment and listed on the dashboard. The first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)) has no dashboard, and an absent approver can be swapped in the spec's header ([0072](0072-named-pm-and-tech-lead-approve.md)). Is the override still worth having?
 
 ## Considered options
 

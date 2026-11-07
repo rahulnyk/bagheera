@@ -6,7 +6,7 @@ The six design docs are the target. This plan says what we build first, how we p
 
 ## 1. The first system
 
-The delivery path and a simple knowledge library ([0069](decisions/0069-first-system-delivery-path-and-knowledge-library.md); library rules in [0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) and [0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)). No Claude job runs in CI, and nothing is needed from the Claude admin or the GitHub org owners.
+The delivery path and a simple knowledge library ([0069](decisions/0069-the-mvp-delivery-path-and-knowledge-library.md); library rules in [0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) and [0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)). No Claude job runs in CI, and nothing is needed from the Claude admin or the GitHub org owners.
 
 ### Parts
 
@@ -306,7 +306,7 @@ On `seeonee/bagheera-test`, with Jira ticket `TEST-1`. One platform engineer is 
 
 ## Decisions behind this plan
 
-The first system: [0069](decisions/0069-first-system-delivery-path-and-knowledge-library.md)–[0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md). Decided while drafting this plan:
+The first system: [0069](decisions/0069-the-mvp-delivery-path-and-knowledge-library.md)–[0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md). Decided while drafting this plan:
 
 * [0072](decisions/0072-named-pm-and-tech-lead-approve.md): the PM and tech lead named in the spec approve
 * [0073](decisions/0073-keep-the-override-in-the-first-system.md): a stop can be overridden, on the record

@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-[0062](0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) has a manager run `/bagheera:update-library` on demand, every few days, during the pilot. That needs the manager to install and learn Claude Code, and to remember to run it. Who runs it in the first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md))?
+[0062](0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) has a manager run `/bagheera:update-library` on demand, every few days, during the pilot. That needs the manager to install and learn Claude Code, and to remember to run it. Who runs it in the first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md))?
 
 ## Considered options
 

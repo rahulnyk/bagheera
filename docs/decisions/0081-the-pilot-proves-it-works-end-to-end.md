@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD §7 sets ten pilot targets for the full design: automated review, the dashboard, PM response times, meeting counts, CI cost and more. The first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)) has no Verify, dashboard, CI or test plan, so most can't be measured. G3 asks for 2 features, while §8 and §9 say one. What does the pilot measure?
+PRD §7 sets ten pilot targets for the full design: automated review, the dashboard, PM response times, meeting counts, CI cost and more. The first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)) has no Verify, dashboard, CI or test plan, so most can't be measured. G3 asks for 2 features, while §8 and §9 say one. What does the pilot measure?
 
 ## Considered options
 

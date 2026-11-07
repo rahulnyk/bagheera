@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Design doc 1 protects the library with sources on every statement and trust levels ([0012](0012-record-provenance-per-statement.md)), a split between changes that merge by themselves and changes that need a person, checks and planted-instruction screens ([0019](0019-screen-for-planted-instructions-twice.md)), and a weekly check with 90-day re-verification. For the first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)), what does the library keep?
+Design doc 1 protects the library with sources on every statement and trust levels ([0012](0012-record-provenance-per-statement.md)), a split between changes that merge by themselves and changes that need a person, checks and planted-instruction screens ([0019](0019-screen-for-planted-instructions-twice.md)), and a weekly check with 90-day re-verification. For the first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)), what does the library keep?
 
 ## Decision outcome
 

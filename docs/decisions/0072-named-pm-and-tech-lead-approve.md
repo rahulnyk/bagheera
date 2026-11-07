@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-[0050](0050-named-people-per-story-team-fallback.md) names a PM, a tech lead and QA in each spec's header, and lets anyone in the role's team approve as a fallback, with the teams taken from `domains.yaml`. The first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)) has no `domains.yaml`, so the stage check needs another way to know whose `/approved` counts.
+[0050](0050-named-people-per-story-team-fallback.md) names a PM, a tech lead and QA in each spec's header, and lets anyone in the role's team approve as a fallback, with the teams taken from `domains.yaml`. The first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)) has no `domains.yaml`, so the stage check needs another way to know whose `/approved` counts.
 
 ## Considered options
 

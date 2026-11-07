@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-The first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)) has a `standards/` folder but nothing that fills it. The org's standards are on Confluence pages today. How do standards get into the library, and how do owners add and change them afterwards?
+The first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)) has a `standards/` folder but nothing that fills it. The org's standards are on Confluence pages today. How do standards get into the library, and how do owners add and change them afterwards?
 
 ## Considered options
 

@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Design doc 1 defines about 29 header fields across the four page types before any page exists ([0015](0015-typed-page-headers.md)), and a fixed body shape per type ([0017](0017-brief-pages-with-fixed-shapes-and-length-limits.md)). The first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)) reads only a few of them. Should the page types be defined up front, or from the pilot?
+Design doc 1 defines about 29 header fields across the four page types before any page exists ([0015](0015-typed-page-headers.md)), and a fixed body shape per type ([0017](0017-brief-pages-with-fixed-shapes-and-length-limits.md)). The first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)) reads only a few of them. Should the page types be defined up front, or from the pilot?
 
 ## Considered options
 

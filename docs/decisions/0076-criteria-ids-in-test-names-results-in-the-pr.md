@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-[0034](0034-build-tests-first-and-show-criteria-results.md) and [0038](0038-managers-enforce-qa-review-and-tests-first.md) mark the tests-first commit with a trailer, warn in CI when it's missing, check in CI that every criterion has a test named with its ID, and keep a results table on the PR from each repo's JUnit output. The first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)) has no CI and no dashboard. How much of this does it keep?
+[0034](0034-build-tests-first-and-show-criteria-results.md) and [0038](0038-managers-enforce-qa-review-and-tests-first.md) mark the tests-first commit with a trailer, warn in CI when it's missing, check in CI that every criterion has a test named with its ID, and keep a results table on the PR from each repo's JUnit output. The first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)) has no CI and no dashboard. How much of this does it keep?
 
 ## Considered options
 
