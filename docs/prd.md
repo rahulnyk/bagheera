@@ -1,12 +1,12 @@
 # Bagheera — Product Requirements
 
-_Status: draft v2 for review · Owner: RN · 2026-10-25_
+_Status: draft for review · Owner: RN · 2026-11-07_
 
 ## 1. Summary
 
 Bagheera is a delivery harness on Claude Code for an engineering org of about 100 engineers. It gives every developer one clear way to take a feature from a Jira ticket to merged, reviewed, demoed code. Along the way it keeps the org's knowledge current, applies the org's standards automatically, brings PMs into the work as it happens, and shows leadership where everything stands.
 
-It is built mostly from tools that already exist (Claude Code, GitHub Spec Kit, claude-code-action, GitHub, Jira); we build only the glue that's missing.
+It is built mostly from tools that already exist (Claude Code, GitHub Spec Kit, claude-code-action, GitHub, Jira); we build only the glue that's missing. Any team can adopt it on its own; the parts that need org-wide coordination come when an org adopts it widely.
 
 ## 2. Problem
 
@@ -22,7 +22,7 @@ These are the five goals Bagheera exists for. Every requirement in §6 serves at
 
 | ID | Goal | What success looks like |
 | --- | --- | --- |
-| **G1** | **Knowledge management across the org** | One shared knowledge base of standards, services, decisions and shipped features that updates itself from merged work, and that Claude reads at the start of every session |
+| **G1** | **Knowledge management across the org** | A shared knowledge base of standards, services, decisions and shipped features that updates itself from merged work, and that Claude reads at the start of every session |
 | **G2** | **Enforce standards across the org** | Standards are written once by their owners and applied everywhere: loaded into every session, checked on every PR, with dangerous actions blocked outright |
 | **G3** | **A standard, confusion-free way for any developer to be highly productive** | Any engineer, in any repo, follows the same few commands from ticket to merged code, always knows the next step, and needs no setup |
 | **G4** | **PMs inside the development loop, with fast feedback** | PMs review and approve the spec, acceptance criteria and demo where the work happens, within hours not weeks, replacing many weekly status and clarification meetings |
@@ -41,16 +41,16 @@ These are the five goals Bagheera exists for. Every requirement in §6 serves at
 | User | Needs | Touchpoints |
 | --- | --- | --- |
 | **Engineer** (~100) | One obvious path from ticket to merge; context already loaded; no ceremony that doesn't pay for itself | Claude Code (terminal, IDE, desktop), GitHub PRs |
-| **Product manager** | Shape the spec early, answer questions quickly, approve acceptance criteria and demos, see what's waiting on them | Dashboard, GitHub PR review, Jira |
-| **Tech lead** | Approve architecture and plan; trust that standards are applied | GitHub PR review, dashboard |
-| **QA** | Approve test cases; see acceptance criteria tied to automated tests | GitHub PR review, dashboard |
-| **Engineering leadership** | Status, throughput, bottlenecks, adoption and cost | Dashboard, weekly summary |
-| **Standards owners** (senior engineers, security) | Own the standards and rules; approve any change to them | Knowledge base PRs |
-| **Platform team** (2 engineers) | Run, change and roll out Bagheera safely | Bagheera's repos, admin consoles |
+| **Product manager** | Shape the spec early, answer questions quickly, approve acceptance criteria and demos, see what's waiting on them | GitHub PR review, Jira |
+| **Tech lead** | Approve the plan; trust that standards are applied | GitHub PR review |
+| **QA** | Approve test cases; see acceptance criteria tied to automated tests | GitHub PR review |
+| **Engineering leadership** | Status, throughput, bottlenecks, adoption and cost | Dashboard, weekly summary (at org adoption) |
+| **Standards owners** (a team's tech lead and senior engineers) | Own their team's standards and approve changes to them | Library PRs |
+| **Platform team** (2 engineers) | Build and change Bagheera safely, and help teams adopt it | Bagheera's repo |
 
 ## 5. Feature lifecycle
 
-Each stage writes a markdown artifact into the feature's repo, in a folder named after the ticket, and opens or updates a PR. The next stage won't start until the right person has approved.
+Each stage writes a markdown artifact into the feature's repo, in a folder named after the ticket, in the ticket's one PR. The next stage won't start until its artifact is approved. Who approves is a process rule, and every approval records who gave it.
 
 | # | Stage | Output | Approved by | Goals |
 | --- | --- | --- | --- | --- |
@@ -59,39 +59,41 @@ Each stage writes a markdown artifact into the feature's repo, in a folder named
 | 3 | Plan | 2–6 phases, built one at a time | Tech lead + PM | G3, G4 |
 | 4 | Test plan | Per phase: acceptance criteria in plain English (Given/When/Then), plus test cases | PM (criteria), QA (cases) | G4 |
 | 5 | Build phase N | Tests first, then code, in the ticket's one PR | Code review + CI | G2, G3 |
-| 6 | Verify | Automated standards and security review, test results, coverage | CI green + reviewer | G2 |
+| 6 | Verify | Automated standards and security review, test results, coverage | Reviewer | G2 |
 | 7 | Demo | A short demo script from the acceptance criteria, which the developer demos live or as a recording | PM | G4 |
 | 8 | Close | Feature summary and accepted decisions added to the knowledge base | A person, on the library PR | G1 |
 
 ## 6. Requirements
 
-Priority: **M** must have, **S** should have, **L** later (org rollout). The pilot starts with the first system and adds the rest one at a time (§9).
+Priority: **M** must have, **S** should have, **L** at org adoption: it needs org admins or coordination across teams, and is met by the [org-adoption proposal](proposals/org-adoption.md). One team can meet every M and S on its own.
 
 ### 6.1 Knowledge management (G1)
 
 | ID | Requirement | P |
 | --- | --- | --- |
-| K1 | One git repo of plain markdown pages: org standards and rules; one page per service; decisions (ADRs); one entry per shipped feature; an index; git history as the change log | M |
+| K1 | One git repo per team of plain markdown pages: the team's standards and rules; one page per service; decisions (ADRs); one entry per shipped feature; an index; git history as the change log | M |
 | K2 | Pages follow a defined schema (types, header fields, naming, links) that a machine can check | M |
 | K3 | On every merged PR, an agent proposes updates to the affected service page and feature entry, and proposes new decisions | M |
 | K4 | Agents never merge; every library change needs a person's approval, recorded on the page and the PR | M |
 | K5 | PR text, tickets, pasted documents and diffs are untrusted input to the knowledge agent; injected instructions must not reach merged pages | M |
 | K6 | Every library change is checked for format and links when it's made. Every page has a shelf life, after which sessions treat it as a hint to check against the code. When pages disagree, the newer wins, and sessions say so | M |
-| K7 | Every Claude Code session, in any repo, can read the knowledge base and starts with the relevant service page in context | M |
+| K7 | Every Claude Code session in the team's repos can read the team's knowledge base and starts with the relevant service page in context | M |
 | K8 | Existing services get a first-draft page from a one-off automated pass over their code, not written from scratch | M |
 | K9 | Lessons and gotchas found during a session are captured for the knowledge base | S |
 | K10 | The page format is portable beyond Claude Code (KnowledgeX / Open Knowledge Format is a candidate) | L |
+| K11 | One knowledge base for the whole org, with org standards owned centrally, read by every session in any repo | L |
 
 ### 6.2 Enforcing standards (G2)
 
 | ID | Requirement | P |
 | --- | --- | --- |
-| R1 | Standards (coding, security, deployment per environment, dos and don'ts) live in the knowledge base, owned and approved by named humans | M |
+| R1 | Standards (coding, security, deployment per environment, dos and don'ts) live in the knowledge base, owned by named people, and every change to them is approved by a person | M |
 | R2 | The standards relevant to the language and service being changed are in Claude's context when it designs or writes code | M |
 | R3 | Every PR gets an automated review against the standards and for security before human review, by an agent separate from the one that wrote the code | M |
 | R4 | Forbidden actions are blocked outright, not just discouraged: deploy commands, force-push, production credentials, edits to protected paths | M |
 | R5 | The architecture's template has a standards check, filled from the current standards on each run, so designs follow them by construction | S |
 | R6 | Standards violations found in review are reported by team and rule, so owners see which rules are misunderstood | L |
+| R7 | The blocks on forbidden actions are locked centrally, so no developer can loosen them | L |
 
 ### 6.3 Developer workflow (G3)
 
@@ -100,11 +102,12 @@ Priority: **M** must have, **S** should have, **L** later (org rollout). The pil
 | P1 | A developer starts a feature from a Jira ticket ID with one command; the spec is drafted from the ticket and linked documents | M |
 | P2 | Each stage has one command, produces the artifact in §5, and can be re-run on its own (it reads only earlier artifacts plus the knowledge base) | M |
 | P3 | At any point, one command (or the session start) tells the developer where the feature stands and what to do next | M |
-| P4 | The same commands and behaviour in every repo and on every machine, installed and updated centrally with no developer setup | M |
-| P5 | Build writes failing tests from the test plan before any code, and is done when they pass | M |
+| P4 | The same commands and behaviour in every repo and on every machine, installed from the org's plugin marketplace and updated automatically | M |
+| P5 | Build writes failing tests from the acceptance criteria before any code, and is done when they pass | M |
 | P6 | Plain, consistent terminology across commands, artifacts and docs; a new joiner can follow the path from a one-page guide | M |
-| P7 | The same commands run on laptops and in CI: Verify and the library update move to CI at rollout; the developer runs the demo | M |
+| P7 | The same commands also run in CI, unchanged: the automated review on every PR, and the library update on a schedule | L |
 | P8 | Onboarding a repo or team takes under a day of platform effort and no per-team code | L |
+| P9 | Installed and enabled centrally, with no developer setup | L |
 
 ### 6.4 PM collaboration (G4)
 
@@ -112,7 +115,7 @@ Priority: **M** must have, **S** should have, **L** later (org rollout). The pil
 | --- | --- | --- |
 | C1 | PMs review and approve artifacts as rendered pages in a PR, without developer tooling | M |
 | C2 | Open questions in the spec are visible to the PM and answerable inline; answers flow into the next stage | M |
-| C3 | A stage refuses to start until its artifact is approved by the designated role, unless the developer overrides on purpose; every override is recorded on the PR. Editing a file locally must not count as approval | M |
+| C3 | A stage refuses to start until its artifact is approved, unless the developer overrides on purpose. Every approval records who gave it, and every override is recorded on the PR. Who should approve is a process rule. Editing a file locally must not count as approval | M |
 | C4 | Acceptance criteria have stable IDs reused as automated test names, so the PM can see which criteria pass | M |
 | C5 | PMs are notified when something needs their review, and see everything waiting on them in one list | M |
 | C6 | The demo script is generated from the acceptance criteria; the developer demos it on the stage environment, live or recorded, and the PM accepts on the ticket's PR | S |
@@ -121,23 +124,23 @@ Priority: **M** must have, **S** should have, **L** later (org rollout). The pil
 
 | ID | Requirement | P |
 | --- | --- | --- |
-| V1 | One simple dashboard for leadership, PMs, tech leads and QA: a list of stories filterable by team, PM, stage, status and "waiting on me" | M |
-| V2 | Each story shows: ticket and title, repo, stage and status, who it's waiting on and for how long, phase progress, and a direct link to the PR needing approval | M |
-| V3 | Usable by people who don't use developer or ops tools | M |
-| V4 | Status is derived from the artifacts and PRs, never entered by hand | M |
+| V1 | One simple dashboard for leadership, PMs, tech leads and QA: a list of stories filterable by team, PM, stage, status and "waiting on me" | L |
+| V2 | Each story shows: ticket and title, repo, stage and status, who it's waiting on and for how long, phase progress, and a direct link to the PR needing approval | L |
+| V3 | Usable by people who don't use developer or ops tools | L |
+| V4 | Status is derived from the artifacts and PRs, never entered by hand | L |
 | V5 | Jira reflects stage changes, or at least links to the feature's artifacts | S |
-| V6 | Adoption and cost per repository, from each job's recorded cost and GitHub; per-person figures in Claude's own dashboards | M |
-| V7 | A weekly one-page summary: what shipped, what's stuck at which approval, cost by repository | S |
+| V6 | Adoption and cost per repository, from each job's recorded cost and GitHub; per-person figures in Claude's own dashboards | L |
+| V7 | A weekly one-page summary: what shipped, what's stuck at which approval, cost by repository | L |
 | V8 | Cost per feature, with an alert on outliers | L |
 
 ### 6.6 Distribution, security and cost (all goals)
 
 | ID | Requirement | P |
 | --- | --- | --- |
-| D1 | Engineers can't add unapproved extensions; everyone runs the same version | M |
+| D1 | Engineers can't add unapproved extensions; everyone runs the same version | L |
 | D2 | Changes to Bagheera are reviewed like production code, with security owning the parts that run on laptops | M |
-| D3 | CI uses short-lived credentials; no long-lived keys in repos | M |
-| D4 | CI spend is capped per job and reported separately from seat usage | M |
+| D3 | CI uses short-lived credentials; no long-lived keys in repos | L |
+| D4 | CI spend is capped per job and reported separately from seat usage | L |
 
 ## 7. Success metrics
 
@@ -145,7 +148,7 @@ The pilot is proof that the concept works end to end, not a measure of efficienc
 
 | Goal | Pilot target |
 | --- | --- |
-| G3, G4 | At least 10 tickets taken through intake, plan and build, each with its spec and plan approved by the named PM and tech lead before Build |
+| G3, G4 | At least 10 tickets taken through intake, plan and build, each with its spec and plan approved by its PM and tech lead before Build |
 | G1 | Each of those tickets updates the library (service pages, decisions, feature entry), approved by its tech lead or PM |
 
 **After the pilot,** these measure efficiency; their targets are set then:
@@ -160,10 +163,11 @@ The pilot is proof that the concept works end to end, not a measure of efficienc
 ## 8. Constraints and assumptions
 
 * **GitHub** for code, review and CI. **Jira** for tickets. **Anthropic API** for model access. Any design that depends on these must say so.
-* Claude Code is the agent runtime, locally and in CI.
+* Claude Code is the agent runtime, on laptops and, at org adoption, in CI.
 * The org has a Claude Code plugin marketplace, governed by its internal policies. Publishing Bagheera through it is outside Bagheera's scope.
-* Effort: 2 engineers, about 6–8 weeks to a pilot with one team of 6–8 engineers on at least 10 real tickets; then rollout 2–3 teams at a time.
-* Plugins, hooks and MCP servers run with the engineer's permissions on their machine; there is no sandbox.
+* A team adopts Bagheera with nothing from org admins.
+* Effort: 2 engineers, about 6–8 weeks to a pilot with one team of 6–8 engineers on at least 10 real tickets; then other teams adopt it, 2–3 at a time.
+* Plugins, hooks and MCP servers run with the engineer's permissions on their machine.
 * Build as little as possible. Prefer first-party and widely used open-source tools; anything built must say what was considered and why it didn't fit.
 * **Preferred building blocks** (use unless there's a strong reason not to):
     * **GitHub Spec Kit**'s templates and method as the backbone of stages 1–4, adapted once into the plugin's commands, under the PRD's stage names.
@@ -173,10 +177,11 @@ The pilot is proof that the concept works end to end, not a measure of efficienc
 
 ## 9. Rollout
 
-1. **The first system.** The delivery path (intake, plan and build, with approvals in the ticket's PR) and the knowledge library: standards seeded from the org's documents, service pages seeded per repo, and the library updated after each merge ([plan](plan.md)).
-2. **Pilot.** One team, at least 10 tickets, proving the first system works end to end.
-3. **Additions,** one at a time, each when the pilot shows it's needed.
-4. **Org rollout.** 2–3 teams at a time, each repo seeded before its first ticket; the platform team owns Bagheera.
+1. **The MVP.** The delivery path (intake, plan and build, with approvals in the ticket's PR) and a knowledge library per team: standards seeded from the org's documents, service pages seeded per repo, and the library updated after each merge ([plan](plan.md)).
+2. **Pilot.** One team, at least 10 tickets, proving the MVP works end to end and that a team can adopt it alone.
+3. **Additions a team can make alone,** one at a time, each when the pilot shows it's needed.
+4. **More teams adopt it,** 2–3 at a time, each on its own, each repo seeded before its first ticket.
+5. **Org adoption,** when an org adopts Bagheera widely: the parts in the [org-adoption proposal](proposals/org-adoption.md), each when its signal shows.
 
 Expand only once the pilot team uses the approvals rather than skipping them.
 
@@ -184,14 +189,14 @@ Expand only once the pilot team uses the approvals rather than skipping them.
 
 | # | Question | Blocks |
 | --- | --- | --- |
-| Q1 | Real GitHub org name, and where Bagheera's repos live | The first system |
-| Q7 | Claude plan (Team / Enterprise / API Console), which decides what built-in usage analytics exist | Adoption and cost visibility |
+| Q1 | Real GitHub org name, and where Bagheera's repos live | The MVP |
+| Q7 | Claude plan (Team / Enterprise / API Console), which decides the pilot's seats and what built-in usage analytics exist | The pilot's seats; adoption and cost visibility at org adoption |
 | Q8 | Data residency: Anthropic API, or Bedrock / Vertex? | Model access |
 | Q9 | Which team pilots first, and with which tickets? | Pilot |
 
 ## Appendix A — Facts already checked (Oct 2026)
 
-From the first design attempt. Re-verify before relying on them.
+Re-verify before relying on them.
 
 * **Claude Code hooks:** `SessionStart` can add context; `PreToolUse` can block a tool call; `SessionEnd` has a 1.5 s default budget (up to 60 s) and can't block; `Stop` fires after every turn.
 * **Plugins:** subagents shipped in a plugin ignore the `hooks`, `mcpServers` and `permissionMode` fields; tool allowlists and `isolation: worktree` work. Managed settings can force-enable a plugin and restrict marketplaces (`extraKnownMarketplaces`, `enabledPlugins`, `strictKnownMarketplaces`).
@@ -201,7 +206,6 @@ From the first design attempt. Re-verify before relying on them.
 * **GitHub Spec Kit (v1.2):** commands are `/speckit-*` skills; customised via presets (templates, command overrides) and extensions (new commands); its `plan.md` is the technical plan and `tasks.md` the phased plan; `SPECIFY_FEATURE_DIRECTORY` sets the output folder, so `specs/<ticket-id>/` works without forking.
 * **DeepWiki-Open (MIT, self-hosted):** no direct Anthropic provider (route through its bundled LiteLLM proxy, or Bedrock), and it needs an embedding model Anthropic doesn't offer (local Ollama `nomic-embed-text` works); exports Markdown via `POST /export/wiki`.
 * **MCP for read-only repo access:** the official GitHub MCP server has a server-side read-only mode; `mcp-server-git` has no read-only mode and can't read or search file contents.
-* **GitHub:** CODEOWNERS can require owner approval per path; "0 general approvals + code-owner review" still needs testing on a real repo.
 * **KnowledgeX:** `kx check` / `kx review` validate OKF bundles (required fields, links, staleness, relations), but it treats `README.md`/`CLAUDE.md`/`CHANGELOG.md` as notes, writes files even on reads, and has no read-only or JSON output mode.
 
 ## Appendix B — Lessons from the first attempt

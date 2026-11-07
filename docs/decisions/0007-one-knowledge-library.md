@@ -22,7 +22,7 @@ Chosen by the owner: A.
 * **Each team creates its own library repo,** such as `seeonee/payments-library`, and names it in its settings file ([0045](0045-deny-rules-now-sandbox-trial-in-pilot.md)). The session-start hook and the commands read and write that repo.
 * **The team owns everything in it:** service pages, decisions, feature entries, and its standards, seeded from the org's Confluence pages ([0084](0084-one-standards-command-seeds-adds-and-updates.md)).
 * **Other teams' services** appear by name and repo only ([0027](0027-name-unseeded-dependencies-and-link-them-later.md)).
-* **An org-wide library,** with org standards owned centrally, is part of the org-adoption proposal.
+* **An org-wide library,** with org standards owned centrally, is part of the [org-adoption proposal](../proposals/org-adoption.md).
 
 ### Consequences
 

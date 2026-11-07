@@ -30,4 +30,4 @@ Set by the owner: A.
 
 ## More information
 
-Option B needs an org owner to connect Slack, so it is part of the org-adoption proposal.
+Option B needs an org owner to connect Slack, so it is part of the [org-adoption proposal](../proposals/org-adoption.md).

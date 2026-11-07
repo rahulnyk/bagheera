@@ -25,6 +25,7 @@ Chosen by the owner: B. The knowledge library is the heart of the harness.
 * **All on laptops.** Every command runs in Claude Code with the person's own access. Nothing runs in CI.
 * **Verify** is the first addition, which a team can make alone, once code reviewers find standards or security problems by hand.
 * **The dashboard** serves leadership across teams, so it belongs to the org-adoption proposal. PMs find what's waiting on them in GitHub's review requests.
+* **The MVP's boundary.** Anything that needs org admins or coordination across teams is an L requirement in the PRD, met by the [org-adoption proposal](../proposals/org-adoption.md). A team adopts the MVP with nothing from org admins.
 
 ### Consequences
 
@@ -35,4 +36,4 @@ Chosen by the owner: B. The knowledge library is the heart of the harness.
 
 ## More information
 
-Detail in [plan.md](../plan.md).
+Detail in [plan.md](../plan.md) and the [org-adoption proposal](../proposals/org-adoption.md).
