@@ -2,7 +2,7 @@
 
 _Design doc 6 of 6 · [All design docs](README.md)_
 
-This doc says how the plugin is packaged and versioned, what the settings file holds and how it reaches laptops, where the work runs, what it costs, and how changes to Bagheera are made. A team installs the plugin from the org's marketplace, adds its settings file, and runs everything on laptops, with nothing from org admins.
+This doc says how the plugin is packaged and versioned, what the settings file holds and how it reaches laptops, where the work runs, what it costs, and how changes to Bagheera are made. Developers install the plugin from the org's marketplace, each repo commits the settings file, and everything runs on laptops, with nothing from org admins.
 
 Covers PRD P4 and D2. It builds on [design doc 3](developer-workflow.md), which set the commands, and on [design doc 4](standards-and-forbidden-actions.md), which set the deny rules and the sandbox trial.
 
@@ -27,11 +27,8 @@ seeonee/bagheera
     .claude-plugin/plugin.json      the plugin's name, bagheera, and its version
     skills/ agents/ hooks/ …        as set in design docs 1–3
     scripts/ templates/
-  library-template/                 what a team copies to start its library (design doc 1, section 1)
-    standards/ services/ decisions/ features/ index.md
-    checks/                         the format check and the page schemas
-    .github/workflows/              the format-check workflow
-    settings.json                   the settings file (section 2)
+  settings/
+    repo-settings.json              the settings template each repo commits (section 2)
 ```
 
 ### Versions
@@ -45,7 +42,7 @@ seeonee/bagheera
 
 * **The plugin,** installed from the org's marketplace, with auto-update on.
 * **A git sign-in that works without a prompt,** because Claude Code fetches in the background. Most developers already have one; otherwise `gh auth login`, then `gh auth setup-git`.
-* **The team's settings file** (section 2).
+* **Nothing else.** The repo's committed settings file (section 2) applies on its own.
 
 If a fetch ever fails, the plugin keeps working from the last version fetched, and `/plugin` shows the error.
 
@@ -53,14 +50,13 @@ If a fetch ever fails, the plugin keeps working from the last version fetched, a
 
 _Decided: [ADR 0022](../decisions/0022-deny-rules-in-each-repo-and-a-sandbox-trial.md), set by the owner._
 
-A plugin can't carry permission or sandbox settings, so they reach laptops in a settings file of their own.
+Claude Code won't take permission or sandbox settings from a plugin. Without managed settings, which need an org admin, the place everyone in a repo shares is the repo's own `.claude/settings.json`.
 
-* **One template.** `library-template/settings.json` in `seeonee/bagheera` holds the deny rules (design doc 4, section 4), bypass mode off, the sandbox trial's settings, a rule letting Claude read the local library copy without prompts, and `BAGHEERA_LIBRARY`, the team's library repo.
-* **One file per team.** It lives in the team's library repo. The team sets `BAGHEERA_LIBRARY` and may add deny rules of its own.
-* **Each developer adds it** to `~/.claude/settings.json`, merging it with any settings already there.
-* **What holds.** Deny rules win over allow rules from any settings file, so a repo's own settings can't loosen them. With `failIfUnavailable`, Claude Code won't start if the sandbox can't run; with `allowUnsandboxedCommands` off, Claude can't ask to run a command outside it.
-* **What holds only by agreement.** A developer can change their own file. An unlisted host prompts the developer instead of being blocked; those prompts show which hosts the sandbox needs.
-* **When the template changes,** the platform team tells each team, which updates its file and asks its developers to copy it again.
+* **One template.** `settings/repo-settings.json` in `seeonee/bagheera` holds the deny rules (design doc 4, section 4), bypass mode off, and a rule letting Claude read the local library copy without prompts. The pilot team's repos also turn on the sandbox trial.
+* **Committed in each repo.** When a repo is seeded, its team commits the template as `.claude/settings.json`, merging it into any settings the repo already has, and may add deny rules of its own. Developers copy nothing.
+* **What holds.** Deny rules win over allow rules from any settings file, so nobody's own settings can loosen them. Changes to the committed file arrive only through a reviewed PR. With `failIfUnavailable`, Claude Code won't start if the sandbox can't run; with `allowUnsandboxedCommands` off, Claude can't ask to run a command outside it.
+* **What holds only by agreement.** A developer can edit the file in their own checkout without committing it. An unlisted host prompts the developer instead of being blocked; those prompts show which hosts the sandbox needs.
+* **When the template changes,** the platform team asks each team to update its repos.
 
 ## 3. Where the work runs
 
@@ -73,7 +69,7 @@ Everything runs on laptops, from commands, with the person's own Claude seat and
 | The stage commands | `/bagheera`, `/bagheera:intake`, `/bagheera:plan`, `/bagheera:build` | The developer | Through the ticket |
 | Library update | `/bagheera:update-library` | The developer; anyone on the team catches up | Once their ticket's PR has merged |
 | Seeding | `seed-service-page` | An engineer on the team | Before a repo's first ticket |
-| Standards | `/bagheera:standards` | The tech lead or a senior engineer | When a standard is seeded, added or changed |
+| Standards | `/bagheera:standards` | The architecture council | When a standard is seeded, added or changed |
 
 * **Baloo stays boxed in.** Scripts gather and open PRs with the runner's GitHub access; Baloo edits only a copy of the library, with no shell, no web and no GitHub access.
 * **Freshness.** The library is as fresh as the last merge's update. Approval requests reach people straight away, because the commands request reviewers themselves.
@@ -93,6 +89,6 @@ _Decided: [ADR 0025](../decisions/0025-review-changes-to-bagheera-by-pr.md) and 
 3. **Publish.** Raise the version (section 1); the org's marketplace publishes it under its policies.
 4. **Roll back** with a new version (section 1).
 
-* **The settings file needs more.** A change to it also needs security's approval; the author asks for it, and whoever merges checks.
+* **The settings template needs more.** A change to it also needs security's approval, and the architecture council's for its deny rules; the author asks for them, and whoever merges checks.
 * **No fast lane.** Urgent fixes take the same path; it's short.
 * **When one platform engineer is away,** changes wait for them.

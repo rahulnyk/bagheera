@@ -79,7 +79,7 @@ Plugins run with the engineer's permissions, so the skill limits itself:
 
 ### What it writes
 
-* **One draft page per service,** at `services/<service>.md`, in the library's format and within its limits (design doc 1, section 2).
+* **One draft page per service,** at `services/<domain>/<service>.md`, in the library's format and within its limits (design doc 1, section 2).
 * **A short report,** which becomes the library PR's description: the commit read, the files and line ranges behind each section, conflicts between docs and code, and what it couldn't work out.
 
 ## 3. How drafts are reviewed
@@ -123,11 +123,11 @@ An engineer on the team, with someone who knows the repo at hand to confirm the 
 
 * Claude Code with the plugin ([design doc 6, section 1](distribution-security-and-cost.md#1-packaging-and-versions))
 * their Claude subscription or an Anthropic API key
-* clones of the repo and of the team's library, and their own GitHub access to open library PRs
+* clones of the repo and of the library, and their own GitHub access to open library PRs
 
 ### Steps for one repo
 
-1. **Book the review** with the team.
+1. **Book the review** with the team, and commit the settings template to the repo as `.claude/settings.json` ([design doc 6, section 2](distribution-security-and-cost.md#2-the-settings-file)).
 2. **Seed.** Pull the repo's default branch, open Claude Code in it and run `seed-service-page`. Confirm the plan.
 3. **Glance at each draft.** This isn't the review: it only catches a broken run, such as empty sections or the wrong service. Run it again if needed.
 4. **Open the PRs.** A script in the plugin, the same one the library update uses, pushes one branch per page and opens each library PR with the runner's GitHub access.

@@ -8,7 +8,7 @@ Covers PRD R1, R2 and R4. It builds on [design doc 1](knowledge-library.md), whi
 
 ## Principles
 
-* **Written once, by their owners.** Standards are approved pages in the team's library; the harness drafts changes but never approves them (PRD R1).
+* **Written once, by their owners.** Standards are org-level, approved pages in the library; the harness drafts changes but never approves them (PRD R1).
 * **Simple for people.** One question per page, stable names for rules, and as few levels as possible.
 * **Every rule can be checked.** A reviewer, person or Claude, can tell from a diff whether a rule is broken.
 
@@ -18,7 +18,7 @@ _Decided: [ADR 0021](../decisions/0021-numbered-rules-in-standards.md)._
 
 ### Numbered rules
 
-* Each standard's rules share a short prefix, unique in the library, such as `sec`, `go` or `pay-api`.
+* Each standard's rules share a short prefix, unique across the library and assigned by the architecture council, such as `sec`, `go` or `pay-api`.
 * Its rules are numbered `<prefix>-<n>`: `sec-1`, `sec-2`… IDs are lower case so they can't be mistaken for Jira keys such as `PAY-412`, or turned into wrong links by Jira autolinks.
 * A number is never reused or changed. A rule that's withdrawn stays on the page, marked retired, so old references still point somewhere.
 * Each rule is one line: the rule, a one-line reason and a short example (design doc 1, section 2).
@@ -44,7 +44,7 @@ approved_by:
 
 ### Ownership
 
-The team owns its standards ([0005](../decisions/0005-one-knowledge-library-for-the-org.md)). Its tech lead and senior engineers write them, and, as a process rule, the tech lead approves their library PRs (design doc 1, section 6).
+**The architecture council** (principal and senior staff) owns the standards ([0005](../decisions/0005-one-knowledge-library-for-the-org.md)): org standards in `standards/org/`, and each domain's additions in `standards/<domain>/`, which may add to org standards but never contradict them. The council writes them, and, as a process rule, approves their library PRs (design doc 1, section 6). It can hand a topic to a specialist team, such as security standards to the security team.
 
 ### What the format check adds
 
@@ -68,17 +68,18 @@ One command, `/bagheera:standards`, run by standards owners, seeds, adds and upd
 * **The person running it chooses the sources.** Claude rewrites them into short rules rather than copying them.
 * **Every rule can be checked.** Vague advice ("write clean code") is left off and listed in the report.
 * **Don't restate what a linter enforces.** The page links to the linter's settings, so nobody checks twice what CI already runs.
+* **Domain standards add to org standards, never contradict them.** The command checks a draft against the org standards and flags conflicts.
 * **Confluence text is data,** never followed as instructions.
 
 ### What comes first
 
-Before the pilot, the team seeds only what the pilot needs.
+Before the pilot, the council seeds only what the pilot needs. Other teams' languages are added when those teams join.
 
 | Standard | Why first |
 | --- | --- |
 | Secrets and personal data | It applies to every repo |
 | Deployment and environments: what may run where, and who may use production credentials | PRD R1's "deployment per environment"; it also underpins forbidden actions (section 4) |
-| The team's languages | Claude needs them while code is written (PRD R2) |
+| The pilot team's languages | Claude needs them while code is written (PRD R2) |
 
 ## 3. How sessions see the relevant standards
 
@@ -103,7 +104,7 @@ Four things are blocked for Claude (PRD R4): deploy commands, force-push, produc
 
 ### Deny rules, for everyone
 
-They're in the team's settings file, which each developer adds to their own settings ([design doc 6, section 2](distribution-security-and-cost.md#2-the-settings-file)). For example:
+They're in each repo's committed `.claude/settings.json`, from the template in `seeonee/bagheera` ([design doc 6, section 2](distribution-security-and-cost.md#2-the-settings-file)). For example:
 
 ```json
 {
@@ -120,16 +121,16 @@ They're in the team's settings file, which each developer adds to their own sett
 }
 ```
 
-* **The platform team keeps the template,** in `seeonee/bagheera`, in line with the deployment and environments standard (section 2); changes need security's approval too. A team can add rules of its own.
+* **The architecture council edits the deny rules** in the template, in line with the deployment and environments standard (section 2), and security approves changes to the template. A repo can add rules of its own.
 * **Bypass mode is off,** so nobody can switch the checks off.
 
 ### Branch rules
 
-Each of the team's repos protects its main branch: force-pushing is blocked, and changes arrive only through a PR, so edits to protected paths such as workflows go through code review. The team sets this itself.
+Each repo protects its main branch: force-pushing is blocked, and changes arrive only through a PR, so edits to protected paths such as workflows go through code review. Its team sets this when the repo is seeded.
 
 ### The sandbox trial, pilot team
 
-* **Setup.** The pilot team's settings file turns the sandbox on: Claude Code won't start without it, and Claude can't ask to run a command outside it. Credential folders are unreadable. Listed hosts are reachable (GitHub, package registries, and the internal services the pilot's work needs), production hosts are denied, and any other host prompts the engineer.
+* **Setup.** The pilot team's repos turn the sandbox on in their settings file: Claude Code won't start without it, and Claude can't ask to run a command outside it. Credential folders are unreadable. Listed hosts are reachable (GitHub, package registries, and the internal services the pilot's work needs), production hosts are denied, and any other host prompts the engineer.
 * **What we note.** How often it gets in the way: hosts that had to be added, Docker-based tests that couldn't run, machines that couldn't run it. The pilot engineers are all on Macs, where the sandbox runs.
 * **Decided at the end of the pilot:** the sandbox for everyone, for some repos, or deny rules only ([the plan](../plan.md#exit-check)).
 

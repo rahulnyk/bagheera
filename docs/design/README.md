@@ -8,7 +8,7 @@ The six design docs describe Bagheera's MVP: how each area works, in enough deta
 
 | # | Doc | What it settles | PRD requirements |
 | --- | --- | --- | --- |
-| 1 | [`knowledge-library.md`](knowledge-library.md) | Each team's library: layout and page format, shelf life, what it learns and when, how it's kept current, approved, merged and checked, and how sessions read it | K1–K7, K9 |
+| 1 | [`knowledge-library.md`](knowledge-library.md) | The org's library: layout by type and domain, page format, shelf life, what it learns and when, how it's kept current, approved, merged and checked, and how sessions read it | K1–K7, K9 |
 | 2 | [`seeding.md`](seeding.md) | How the seeding skill drafts the first service pages, and how they're reviewed | K8 |
 | 3 | [`developer-workflow.md`](developer-workflow.md) | The commands, what each writes, approval and overrides, open questions, Build, and where it runs | P1–P6, C1–C4 |
 | 4 | [`standards-and-forbidden-actions.md`](standards-and-forbidden-actions.md) | Rules within a standard, writing standards, how sessions see them, and blocking forbidden actions | R1, R2, R4 |
@@ -23,17 +23,17 @@ A block-level diagram of these parts and how they connect is in [components.draw
 
 | Part | What it is |
 | --- | --- |
-| `seeonee/bagheera` | The plugin's source, and the library template |
+| `seeonee/bagheera` | The plugin's source, and the settings template each repo commits |
 | The plugin | Six commands, `seed-service-page`, Baloo and a read-only code reader, the session-start hook, scripts and templates, and the Atlassian connector |
-| The library template | The four page folders, `index.md`, the format check with its workflow, and the settings file |
+| The library, Council Rock | One repo for the org, laid out by type then domain, with `index.md`, the format check and its workflow, and its branch rule; the platform team runs it |
 
 ### What a team sets up
 
 | Part | What it is |
 | --- | --- |
-| The team's library, Council Rock | One repo, made from the template, with its branch rule and the team's settings file |
-| Each person's install | The plugin from the org's marketplace, and the settings file in their own settings |
-| Its repos | A branch rule blocking force-push on main; each seeded before its first ticket |
+| Its domain | A domain name, and write access to the library for its engineers, PM and tech lead |
+| Its repos | The settings template committed as `.claude/settings.json`; a branch rule blocking force-push on main; each seeded before its first ticket |
+| Each person's install | The plugin from the org's marketplace |
 
 No servers, nothing self-hosted, and nothing from org admins.
 
@@ -42,7 +42,8 @@ No servers, nothing self-hosted, and nothing from org admins.
 | Who | What | When |
 | --- | --- | --- |
 | The org's Claude Code plugin marketplace, under the org's policies (assumed) | Publish each Bagheera version and let teams install it | Each version |
-| Security | Approve changes to the settings file | When it changes |
+| The architecture council | Seed and approve the standards; edit the deny rules | Before the pilot, then ongoing |
+| Security | Approve changes to the settings template | When it changes |
 | PMs and tech leads | Approve stage documents and library PRs | Ongoing |
 | Managers | Hold teams to who approves what | Ongoing |
 

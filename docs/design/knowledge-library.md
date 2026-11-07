@@ -2,7 +2,7 @@
 
 _Design doc 1 of 6 · [All design docs](README.md)_
 
-Each team's knowledge library, **Council Rock**, is one repo of markdown pages: the team's standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session in the team's repos reads it (K7), and every merged change can add to it (K3). This doc says how it's laid out, what pages look like, how long knowledge is trusted, what the library learns and when, how it's kept current, approved and checked, and how sessions read it.
+The knowledge library, **Council Rock**, is the org's single, shared set of markdown pages: standards, one page per service, decisions, and one entry per shipped feature (PRD K1). Every Claude Code session reads it (K7), and every merged change can add to it (K3). This doc says how it's laid out, what pages look like, how long knowledge is trusted, what the library learns and when, how it's kept current, approved and checked, and how sessions read it.
 
 Covers PRD K1–K7 and K9. Seeding the first service pages (K8) is [design doc 2](seeding.md); writing standards is [design doc 4](standards-and-forbidden-actions.md).
 
@@ -17,29 +17,37 @@ Covers PRD K1–K7 and K9. Seeding the first service pages (K8) is [design doc 2
 
 _Decided: [ADR 0005](../decisions/0005-one-knowledge-library-for-the-org.md) and [0007](../decisions/0007-lay-out-the-library-by-type-then-domain.md)._
 
-One repo per team, such as `seeonee/payments-library`, made from the library template in `seeonee/bagheera`.
+One repo for the org, such as `seeonee/knowledge-library`, with pages grouped by type first, then by domain. The platform team runs the repo; the plugin knows where it is.
 
 ```text
 standards/
-  secrets.md
-  go-style.md
+  org/                       org-wide standards
+  payments/                  additions that apply to one domain only
 services/
-  payments-api.md
+  payments/payments-api.md
+  search/search-api.md
 decisions/
-  0042-retry-limits.md
+  org/                       decisions that bind more than one domain
+  payments/0042-retry-limits.md
 features/
-  PAY-412.md
-index.md                 one line per page, written by the library update (section 5)
-checks/                  the format check and the page schemas (section 7)
-settings.json            the team's settings file (design doc 6)
-.github/workflows/       the format-check workflow
+  payments/PAY-412.md
+index.md                     one line per page, written by the library update (section 5)
+checks/                      the format check and the page schemas (section 7)
+.github/workflows/           the format-check workflow
 ```
 
-1. Every page lives at `<type>/<page>.md`; the path is the page's ID. A feature entry is named after its ticket.
-2. Links between pages are written as paths from the library root.
-3. Git history is the change log ([0030](../decisions/0030-git-history-and-the-index.md)).
-4. The team's settings file names the library repo, so every session and command finds it.
-5. Other teams' services appear by name and repo only ([0014](../decisions/0014-name-dependencies-without-a-page.md)).
+### Rules
+
+1. Every page lives at `<type>/<domain>/<page>.md`. Org-wide content uses the domain `org`. The path is the page's ID.
+2. Each service belongs to exactly one domain: the team that owns its code. Other domains link to it.
+3. A feature goes under the domain of the team that delivered it, named after its ticket. A decision that binds more than one domain goes in `decisions/org/`.
+4. Domain standards may add to org standards but not contradict them (design doc 4, section 1).
+5. Links are written as paths from the library root.
+6. Git history is the change log ([0030](../decisions/0030-git-history-and-the-index.md)).
+
+### Domains
+
+A team chooses its domain name, such as `payments`, when it joins. Each service page's `repos` field says which repo is which service, so a session finds its page, and the page's path gives its domain.
 
 ## 2. Pages
 
@@ -139,11 +147,11 @@ Work in progress stays in the product repo's ticket folder, `specs/<TICKET>/`. T
 | When | What the library gets | Approved by, as a process rule |
 | --- | --- | --- |
 | A ticket's PR merges | Service page updates read from the merged code, and the lessons in the ticket's notes file | The ticket's tech lead |
-| | Decision records from the plan's proposed decisions | The ticket's tech lead |
+| | Decision records from the plan's proposed decisions | The ticket's tech lead; the architecture council if more than one domain is bound |
 | | Decision records from the spec's proposed product decisions | The ticket's PM |
 | | The feature entry, built from the approved documents and the PR | The ticket's tech lead or PM |
-| Any other merged PR (bug fix, refactor) | Service page updates read from the code | The team's tech lead |
-| A standard changes | Only through `/bagheera:standards` ([design doc 4, section 2](standards-and-forbidden-actions.md#2-writing-standards)) | The team's tech lead |
+| Any other merged PR (bug fix, refactor) | Service page updates read from the code | The service's tech lead |
+| A standard changes | Only through `/bagheera:standards` ([design doc 4, section 2](standards-and-forbidden-actions.md#2-writing-standards)) | The architecture council |
 
 1. A PM's answer becomes a product decision only if it sets a rule beyond this feature. Intake marks such answers in the spec as proposed product decisions, the spec's approval confirms the mark, and the library update proposes exactly those ([design doc 3, section 5](developer-workflow.md#5-open-questions)). Answers specific to the feature reach the library through the feature entry.
 2. If the build changes an approved decision, the library update proposes a new decision record in its place (section 3).
@@ -169,13 +177,13 @@ _Decided: [ADR 0002](../decisions/0002-anyone-approves-with-a-comment.md) and [0
 * **An approval is a comment,** `/approved library` on its own line, from anyone. Who should approve is a process rule (section 4's table), and the comment names who gave it.
 * **Whoever approves merges,** straight after approving. Agents never merge.
 * **The branch rule on `main`:** every change goes through a PR, the format check must pass, and force-pushing is blocked. It requires no GitHub review.
-* **Approvers need write access** to the library repo, which the team grants itself.
+* **Approvers need write access** to the library repo, which the platform team grants when a team joins.
 
 ## 7. The format check
 
 _Decided: [ADR 0031](../decisions/0031-the-format-check-in-the-library-repo.md)._
 
-One script, in the library's `checks/` with the page schemas, copied from the library template. A workflow in the library repo runs it on every PR, whoever opened it, with no secrets, and the branch rule requires it. `/bagheera:update-library`, `/bagheera:standards` and seeding run the same script before they open a PR. It fails on:
+One script, in the library's `checks/` with the page schemas; the platform team approves changes to them. A workflow in the library repo runs it on every PR, whoever opened it, with no secrets, and the branch rule requires it. `/bagheera:update-library`, `/bagheera:standards` and seeding run the same script before they open a PR. It fails on:
 
 * header fields that are missing or unknown for the type, and bad dates
 * required sections missing or empty, so a decision can't appear without its context; pages over one and a half times their limit, with a warning at the limit
@@ -191,7 +199,7 @@ _Principle set by the owner: reveal knowledge as the work needs it; nothing is l
 
 ### At session start
 
-The plugin's session-start hook refreshes a local copy of the team's library, with a short time limit (offline, it uses the last copy and says so), and loads:
+The plugin's session-start hook refreshes a local copy of the library, with a short time limit (offline, it uses the last copy and says so), and loads:
 
 * the service page whose `repos` names this repo, or a note that it's still in review (PRD K7)
 * `index.md`, labelling pages past their `expires` date
