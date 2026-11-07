@@ -1,34 +1,35 @@
 ---
 status: accepted
-date: 2026-10-30
+date: 2026-11-07
 deciders: RN (owner)
 ---
-# Blocking or advisory per standard page; every rule gets a fixed number
+# Every rule in a standard gets a fixed number
 
 ## Context and problem statement
 
-Standards are owner-written library pages with a header saying where they apply and whether they are `blocking` or `advisory` ([0015](0015-typed-page-headers.md)), and one line per rule with a reason and an example ([0017](0017-brief-pages-with-fixed-shapes-and-length-limits.md)). The PR review must say which rule a change breaks, and PRD R6 wants violations reported by team and by rule. How fine-grained is blocking, and how is a rule named?
+Standards are library pages with one line per rule, each with a reason and an example ([0017](0017-brief-pages-with-fixed-shapes-and-length-limits.md)). People and Claude need to say which rule a change breaks, and to keep pointing at the same rule after its wording changes. How is a rule named?
 
 ## Considered options
 
-* A. Blocking or advisory per page; each page has a short prefix and its rules are numbered, never reused or renumbered
-* B. Blocking or advisory per rule, each rule with its own marker and ID
-* C. Per page, with no rule IDs; findings quote the rule's text
+* A. Each page has a short prefix, and its rules are numbered, never reused or renumbered
+* B. No names; references quote the rule's text
+* C. One sequence of numbers across all standards
 
 ## Decision outcome
 
-Chosen option: A. A page is blocking or advisory as a whole; when owners want both, they split the page. Each standard page has a `prefix`, unique across the library, and its rules are numbered `<prefix>-<n>`, such as `sec-3`. IDs are written in lower case so they can't be mistaken for Jira keys such as `PAY-412`, or picked up by Jira autolinks. A number is never reused or changed; a dropped rule stays on the page, marked retired. Findings cite the rule ID, and reporting counts by rule ID and team.
+Chosen option: A.
 
-Each standard page names its owning team in `owners`, which can differ from the domain's owners (for example, the security team owns security standards). The owners file GitHub uses is generated from `domains.yaml` and each standard page's `owners`.
+* Each standard's rules share a short prefix, unique in the library, such as `sec`, `go` or `pay-api`, and are numbered `<prefix>-<n>`: `sec-1`, `sec-2`…
+* IDs are lower case, so they can't be mistaken for Jira keys such as `PAY-412`, or turned into wrong links by Jira autolinks.
+* A number is never reused or changed. A rule that's withdrawn stays on the page, marked retired, so old references still point somewhere.
+* The format check fails a rule line that doesn't start with its ID, a prefix another standard already uses, and a rule ID that disappears instead of being marked retired.
 
 ### Consequences
 
-* Good, because each page answers one question, "does this block?", and rule IDs work like the criteria IDs people already know.
-* Good, because findings and reports point at a stable rule even after its wording changes.
-* Bad, because a topic with both kinds of rules becomes two pages.
+* Good, because references point at a stable rule even after its wording changes.
+* Good, because rule IDs work like the criteria IDs people already know.
+* Bad, because retired rules stay on their pages.
 
 ## More information
 
-Detail in [design/standards-and-review.md, section 1](../design/standards-and-review.md#1-rules-within-a-standard). Adds the `prefix` field to design doc 1's standard header.
-
-Amended by [0047](0047-architecture-council-owns-standards-prefixes-deny-list.md): the architecture council assigns prefixes and records them in `prefixes.yaml` in the library.
+Detail in [design/standards-and-review.md](../design/standards-and-review.md).

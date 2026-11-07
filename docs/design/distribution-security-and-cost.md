@@ -51,7 +51,7 @@ Commands keep their names, such as `/bagheera:intake` (design doc 3, section 2).
 
 ## 2. How settings reach laptops
 
-_Decided: ADR 0058 and [0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md), set by the owner._
+_Decided: ADR 0058 and [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md), set by the owner._
 
 Bagheera's settings are files in `seeonee/bagheera`, changed by PR (section 6). The deny list is in one file at a time, so it's never kept in two places. A plugin can't carry permission or sandbox settings, so they reach laptops separately from the plugin.
 

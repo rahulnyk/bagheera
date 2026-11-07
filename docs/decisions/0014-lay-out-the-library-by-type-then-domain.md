@@ -1,30 +1,34 @@
 ---
 status: accepted
-date: 2026-10-28
+date: 2026-11-07
 deciders: RN (owner)
 ---
-# Lay out the library by page type, then domain
+# Lay out each library by page type
 
 ## Context and problem statement
 
-The library is one master repo that may need a hierarchy or a split later ([0007](0007-one-knowledge-library.md)). PRD K1 names the page types: standards, services, decisions, features, an index and a change log. How should folders be arranged?
+PRD K1 names the page types: standards, services, decisions and features, plus an index. Each team has its own library ([0007](0007-one-knowledge-library.md)). How are its folders arranged?
 
 ## Considered options
 
-* A. By page type only (`services/`, `decisions/`, …)
-* B. By domain first (`payments/services/`, `payments/decisions/`, …), with an org-wide area
-* C. By page type, then domain (`services/payments/`, `decisions/payments/`, …), with `org` as the domain for org-wide content
+* A. By page type: `standards/`, `services/`, `decisions/`, `features/`
+* B. By page type, then domain: `services/payments/`, `decisions/payments/`
+* C. By service first: `payments-api/decisions/`
 
 ## Decision outcome
 
-Chosen option: C. The owner weighed B's "domain as a knowledge tenant" view and chose C for its clear separation of page types, which also makes the library's own views (all features, all decisions) straightforward. Splitting a domain off later stays a scripted job because every path and page header names its domain, links are written from the library root, and the harness reads a list of library repos.
+Chosen option: A. With one team per library, a domain folder would always hold one value.
+
+* Four folders, `standards/`, `services/`, `decisions/` and `features/`, plus `index.md` and `checks/` at the root.
+* A page's path is its ID. A feature entry is named after its ticket, such as `features/PAY-412.md`.
+* Links between pages are written as paths from the library root.
 
 ### Consequences
 
-* Good, because page types stay at the top as the PRD lists them, and each domain folder has clear owners.
-* Good, because a domain can later move to its own repo with `git filter-repo` and a link-fixing script.
-* Bad, because a domain's knowledge is spread over four folders rather than one, so browsing "everything about payments" means visiting each.
+* Good, because page types are at the top, as the PRD lists them, and paths stay short.
+* Good, because the library's own views, such as all decisions, are one folder each.
+* Bad, because a team with many services finds "everything about payments-api" across four folders.
 
 ## More information
 
-Rules and the split procedure: [design/knowledge-library.md, section 3](../design/knowledge-library.md#1-layout).
+Detail in [design/knowledge-library.md](../design/knowledge-library.md).

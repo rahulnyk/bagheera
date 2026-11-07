@@ -1,41 +1,38 @@
 ---
 status: accepted
-date: 2026-10-30
+date: 2026-11-07
 deciders: RN (owner)
 ---
-# Block forbidden actions with deny rules and GitHub's rules now; trial the sandbox in the pilot
+# Block forbidden actions with deny rules in each developer's settings; trial the sandbox in the pilot
 
 ## Context and problem statement
 
-PRD R4: deploy commands, force-push, production credentials and edits to protected paths are "blocked outright, not just discouraged". Claude Code's deny rules, set in managed settings, can't be overridden, but for shell commands they match the command as Claude usually writes it and, in Anthropic's words, aren't "a security boundary around the program". GitHub's server-side rules truly block force-push and changes to protected paths. Claude Code's sandbox enforces file and network limits at the operating-system level, but it doesn't run on native Windows, Docker doesn't run inside it, and it needs a maintained list of allowed hosts. The PRD assumes "there is no sandbox".
+PRD R4: deploy commands, force-push, production credentials and edits to protected paths are blocked outright. Claude Code's deny rules match a command as Claude usually writes it, not the same program run by its full path, inside `sh -c` or from a script. Its sandbox enforces file and network limits at the operating-system level, but Docker doesn't run inside it, and it needs a list of allowed hosts. A plugin can't carry permission or sandbox settings, and a team must adopt with nothing from org admins. How are forbidden actions blocked, and where do the settings live?
 
 ## Considered options
 
-* A. Deny rules plus GitHub's rules
-* B. A, plus the sandbox required everywhere from day one
-* C. A now; trial the sandbox with the pilot team and decide before rollout
-* (Set aside: our own guard hook that parses every command; code to maintain, still text-based.)
+* A. Deny rules in a settings file each developer adds to their own settings; the pilot team also trials the sandbox
+* B. A, with the sandbox required for everyone from the start
+* C. Managed settings from the claude.ai admin console, which developers can't change
 
 ## Decision outcome
 
-Chosen option: C.
+Set by the owner: A.
 
-* **Everyone:** managed deny rules for the four forbidden actions, and Claude Code's bypass-permissions mode switched off. On GitHub, the org ruleset blocks force-push and deletion of main branches, and changes to protected paths need their owners' review.
-* **The pilot team:** also runs with the sandbox on, required by managed settings, with credential folders unreadable and only listed hosts reachable.
-* **Before the pilot:** the platform team red-teams both setups in a test repo, trying to make Claude deploy, force-push, read production credentials and edit protected paths.
-* **Pilot exit decision** (`docs/plan.md`): the sandbox for everyone, for some repos, or deny rules only.
+* **One template.** `seeonee/bagheera` holds a settings template: deny rules for the four forbidden actions, bypass mode off, and a rule letting Claude read the local library copy without prompts. The platform team keeps it ([0067](0067-review-changes-by-pr-with-code-owners.md)).
+* **One file per team.** Each team copies the template into its library repo, adds its library's name, and may add deny rules of its own. Each developer adds the team's file to `~/.claude/settings.json`.
+* **What holds.** Deny rules win over allow rules from any settings file, so a repo's own settings can't loosen them. Each repo's branch rule blocks force-pushing its main branch.
+* **The sandbox trial.** The pilot team also turns the sandbox on: Claude Code won't start without it, credential folders are unreadable, listed hosts are reachable, production hosts are denied, and any other host prompts.
+* **Red-teamed before the pilot.** On the test repo, the platform team tries to make Claude deploy, force-push, read production credentials and edit protected paths, directly, through scripts, by full path and inside `sh -c`, once with deny rules alone and once with the sandbox.
+* **Decided at the end of the pilot:** the sandbox for everyone, for some repos, or deny rules only.
 
 ### Consequences
 
-* Good, because force-push and protected paths are truly blocked from day one, with no friction.
-* Good, because the sandbox's real friction is measured on real work before 100 engineers depend on it.
-* Bad, because until the decision, deploy commands and production credentials are blocked only in the forms Claude usually writes, outside the pilot team's sandboxed machines. R4's "outright" is not fully met for those two in the meantime.
-* Neutral: the PRD's "there is no sandbox" assumption stands until the pilot decision.
+* Good, because setup needs no admin rights and nothing from org admins.
+* Good, because the sandbox's real friction is measured on real work before other teams depend on it.
+* Bad, because the settings hold by agreement: a developer can change their own file.
+* Bad, because until the sandbox decision, deploy commands and production credentials are blocked only in the forms Claude usually writes, so R4's "outright" isn't fully met.
 
 ## More information
 
-Detail in [design/standards-and-review.md, section 5](../design/standards-and-review.md#5-forbidden-actions). Sources: Claude Code docs, [permissions](https://code.claude.com/docs/en/permissions) and [sandboxing](https://code.claude.com/docs/en/sandboxing).
-
-Amended by [0047](0047-architecture-council-owns-standards-prefixes-deny-list.md): the deny list is seeded with the harness's scaffolding and edited by the architecture council.
-
-Amended by [0059](0059-pilot-settings-in-engineers-own-settings-file.md): in the pilot, the deny rules and the sandbox are in each pilot engineer's own settings, by agreement, not in managed settings; unlisted hosts prompt instead of being blocked. They move into managed settings at rollout.
+Detail in [design/standards-and-review.md](../design/standards-and-review.md). Sources: Claude Code docs, [permissions](https://code.claude.com/docs/en/permissions) and [sandboxing](https://code.claude.com/docs/en/sandboxing).

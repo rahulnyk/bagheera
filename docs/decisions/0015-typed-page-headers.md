@@ -21,7 +21,7 @@ Chosen by the owner: B. Page types and their metadata are defined from the pilot
 
 * Every page has a YAML header with a required `type`, so it stays compatible with the Open Knowledge Format without depending on a draft.
 * **Six fields to start,** the ones Bagheera reads: `type`, `title`, `updated`, `expires` and `approved_by` on every page, and `repos` on service pages, so session start finds the page.
-* The path is the page's ID and holds its domain; a feature entry is named after its ticket.
+* The path is the page's ID; a feature entry is named after its ticket.
 * **Grown by the pilot.** A field is added only when a pilot page needs it and something reads it, by a PR to the schema in the library repo. At the end of the pilot, the schema is fixed for the teams that adopt next.
 
 ### Consequences

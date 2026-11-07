@@ -14,7 +14,7 @@ Covers PRD R1–R6. It builds on [design doc 1](knowledge-library.md), which set
 
 ## 1. Rules within a standard
 
-_Decided: [ADR 0041](../decisions/0041-blocking-per-page-numbered-rules.md) and [0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)._
+_Decided: [ADR 0041](../decisions/0041-blocking-per-page-numbered-rules.md) and [0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md)._
 
 ### Blocking or advisory, per page
 
@@ -22,7 +22,7 @@ A standard page is blocking or advisory as a whole, set by its owners. A blockin
 
 ### Numbered rules
 
-* Each standard's rules share a short prefix, unique across the library, such as `sec`, `go` or `pay-api`. The architecture council assigns prefixes ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)), and records them in `prefixes.yaml` at the library's root once a second domain joins, alongside `domains.yaml` (design doc 1, section 1).
+* Each standard's rules share a short prefix, unique across the library, such as `sec`, `go` or `pay-api`. The architecture council assigns prefixes ([0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md)), and records them in `prefixes.yaml` at the library's root once a second domain joins, alongside `domains.yaml` (design doc 1, section 1).
 * Its rules are numbered `<prefix>-<n>`: `sec-1`, `sec-2`… IDs are lower case so they can't be mistaken for Jira keys such as `PAY-412`, or turned into wrong links by Jira autolinks.
 * A number is never reused or changed. A dropped rule stays on the page, marked retired, so old findings still point somewhere.
 * Each rule is one line: the rule, a one-line reason and a short example (design doc 1, section 2).
@@ -49,7 +49,7 @@ approved_by:
 
 ### Ownership
 
-**The architecture council** (principal and senior staff) owns the first standards and approves their library PRs ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md); design doc 1, section 6). It can hand a topic to a specialist team, such as security standards to the security team.
+**The architecture council** (principal and senior staff) owns the first standards and approves their library PRs ([0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md); design doc 1, section 6). It can hand a topic to a specialist team, such as security standards to the security team.
 
 ### What the format check adds
 
@@ -159,7 +159,7 @@ The ticket's PR stays a draft until Build's last phase, so the review lands befo
 
 ## 5. Forbidden actions
 
-_Decided: [ADR 0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) and [0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md)._
+_Decided: [ADR 0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) and [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md)._
 
 Four things are blocked outright for Claude (PRD R4): deploy commands, force-push, production credentials and edits to protected paths. Deploying is a PRD non-goal: existing CD deploys on merge.
 
@@ -193,7 +193,7 @@ In the pilot, they're in each engineer's own settings, copied from `settings/pil
 }
 ```
 
-* **The architecture council edits the list** ([0047](../decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)), keeping it in line with the deployment and environments standard (section 2). Changes to the settings file also need security's approval.
+* **The architecture council edits the list** ([0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md)), keeping it in line with the deployment and environments standard (section 2). Changes to the settings file also need security's approval.
 * **Bypass mode is off,** so nobody can switch the checks off.
 
 ### GitHub's server-side rules
