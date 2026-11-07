@@ -26,7 +26,7 @@ Chosen option: B.
 ### Consequences
 
 * Good, because Purpose and Gotchas get the context that only docs hold.
-* Good, because a stale doc can't overrule the code, and reviewers see each conflict instead of having to find it.
+* Good, because a stale doc can't overrule the code, and reviewers see each conflict without having to find it.
 * Bad, because a stale doc statement the code can't confirm or contradict, such as a "why", can still reach a draft; the team's review is the guard.
 
 ## More information

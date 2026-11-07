@@ -20,5 +20,5 @@ Chosen option: the PRD's stage names, with a light Jungle Book touch where it he
 
 ### Consequences
 
-* Good, because people see one set of stage names everywhere: commands, documents, the dashboard and the guide.
+* Good, because people see one set of stage names everywhere: commands, documents and the guide.
 * Bad, because Spec Kit's own command names can't be exposed as-is. See [0004](0004-adapt-spec-kit-into-the-plugin.md).
