@@ -3,11 +3,11 @@ status: accepted
 date: 2026-11-04
 deciders: RN (owner)
 ---
-# Publish the plugin to the org's plugin marketplace; its owning team governs it
+# Publish the plugin through the org's plugin marketplace; its owning team governs it
 
 ## Context and problem statement
 
-[0067](0067-review-changes-by-pr-with-code-owners.md) makes security review what runs on laptops, and [0060](0060-lock-plugins-and-mcp-servers-leave-own-files.md) locks plugins and MCP servers to approved ones. In an org, a plugin marketplace is normally run and governed by an owning team. Whose job is publishing and governing Bagheera's plugin?
+Claude Code installs plugins from a marketplace. In an org, the plugin marketplace is normally run and governed by an owning team. Whose job is publishing and governing Bagheera's plugin?
 
 ## Considered options
 
@@ -18,11 +18,10 @@ deciders: RN (owner)
 
 Set by the owner: A. Once the plugin is built, publishing it and the governance around it are outside Bagheera's scope.
 
-* **Ours:** building the plugin, testing it with `claude --plugin-dir` on the test repo, and cutting each version by raising the version in `plugin.json`. Every change is still a PR to `main`, approved by the other platform engineer.
-* **The marketplace's owning team's:** publishing each version, who can install it, the review it needs before publishing, including security's review of what runs on laptops (PRD D2), and the lock on other plugins and MCP servers (PRD D1).
-* **Dropped from our design:** our own marketplace, the `release` branch, and our release and lock rules.
-* **Still ours:** the deny rules file, which isn't part of the plugin ([0059](0059-pilot-settings-in-engineers-own-settings-file.md)).
-* **Assumed:** the org has a Claude Code plugin marketplace, governed by its internal policies. Publishing through it is outside Bagheera's scope.
+* **Ours:** building the plugin, trying it with `claude --plugin-dir` on the test repo, and raising the version in `plugin.json` for each release. Every change is a PR to `main` ([0067](0067-review-changes-by-pr-with-code-owners.md)).
+* **The marketplace's owning team's:** publishing each version, who can install it, the review it needs before publishing, including security's review of what runs on laptops (PRD D2), and any lock on other plugins and MCP servers (PRD D1).
+* **Still ours:** the settings file, which isn't part of the plugin ([0045](0045-deny-rules-now-sandbox-trial-in-pilot.md)).
+* **Assumed:** the org has a Claude Code plugin marketplace, governed by its internal policies.
 
 ### Consequences
 
@@ -32,4 +31,4 @@ Set by the owner: A. Once the plugin is built, publishing it and the governance 
 
 ## More information
 
-Amends [0060](0060-lock-plugins-and-mcp-servers-leave-own-files.md) and [0067](0067-review-changes-by-pr-with-code-owners.md), whose locks and laptop review move to the marketplace's owning team. Detail in [plan.md, section 1](../plan.md#install-and-the-deny-rules-file).
+Detail in [design/distribution-security-and-cost.md](../design/distribution-security-and-cost.md).

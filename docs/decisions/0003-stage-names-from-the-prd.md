@@ -16,7 +16,7 @@ Spec Kit's words clash with the PRD's: Spec Kit's `plan` is the PRD's Architectu
 
 ## Decision outcome
 
-Chosen option: the PRD's stage names, with a light Jungle Book touch where it helps (for example in the plugin's name, which prefixes every command). The exact command names are settled in design doc 3 and recorded in the naming register.
+Chosen option: the PRD's stage names, with a light Jungle Book touch where it helps (for example in the plugin's name, which prefixes every command). Command names are in [0029](0029-stage-commands-under-the-bagheera-plugin.md).
 
 ### Consequences
 

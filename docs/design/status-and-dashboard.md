@@ -9,13 +9,13 @@ Covers PRD V1–V7 and C5; adoption and cost reporting (V6) is shared with [desi
 ## Principles
 
 * **Derived, never typed.** Status is worked out from the work on GitHub; nobody enters it by hand (PRD V4).
-* **View-only.** People act in GitHub, where approvals already happen; the dashboard links them there ([0005](../decisions/0005-view-only-dashboard.md)).
+* **View-only.** People act in GitHub, where approvals already happen; the dashboard links them there (0005).
 * **One place to look.** For each person, one list of what's waiting on them (PRD C5, V1).
 * **Simple for people.** Usable without developer or ops tools (PRD V3; design doc 3).
 
 ## 1. Where status data lives
 
-_Decided: [ADR 0049](../decisions/0049-github-is-the-record-dashboard-holds-derived-status.md), following [0005](../decisions/0005-view-only-dashboard.md)._
+_Decided: ADR 0049, following 0005._
 
 GitHub is the record. The dashboard sync reads each story's PR, comments, checks and files, works out its status (section 2), and writes the result into the dashboard (section 3). Nothing else is stored. In CI it runs every 15 minutes; until then, a manager runs it on demand with `/bagheera:update-dashboard`, which also posts the weekly summary when one is due ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md); design doc 6, section 3).
 
@@ -86,15 +86,15 @@ Markers flag what managers act on (design doc 3, principles). They show next to 
 | Marker | When |
 | --- | --- |
 | **Override** | A stage started without a required approval (design doc 3, section 4) |
-| **No QA review** | The test cases have no QA approval ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)) |
-| **Self-dismissal** | A Verify finding was dismissed by the PR's own author ([0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)) |
+| **No QA review** | The test cases have no QA approval (0038) |
+| **Self-dismissal** | A Verify finding was dismissed by the PR's own author (0048) |
 | **Stuck** | The same status for more than 2 working days; a starting point to tune in the pilot |
 
 ## 3. What the dashboard is built on
 
-_Decided: [ADR 0051](../decisions/0051-dashboard-on-an-org-github-project.md), following [0005](../decisions/0005-view-only-dashboard.md)._
+_Decided: ADR 0051, following 0005._
 
-The dashboard is one org-level GitHub Project, titled **Bagheera dashboard** ([0056](../decisions/0056-name-the-dashboard-plainly.md)). It is configuration, not a build: the sync job fills it in, and people read it.
+The dashboard is one org-level GitHub Project, titled **Bagheera dashboard** (0056). It is configuration, not a build: the sync job fills it in, and people read it.
 
 ### Rows
 
@@ -132,7 +132,7 @@ Cost and adoption by repository (PRD V6) are worked out for the weekly summary (
 
 ## 4. Views and filters
 
-_Decided: [ADR 0052](../decisions/0052-five-shared-dashboard-views.md)._
+_Decided: ADR 0052._
 
 Five shared views, set up once by the platform team, appear as tabs. Anyone can filter further and save their own.
 
@@ -155,7 +155,7 @@ PAY-350  Saved cards                               4 days   Waiting for demo  �
 
 * **Filtering** uses the project's filter bar on the sync job's fields, for example `team:payments status:"Waiting for approval"`.
 * **"Where is feature X, and what is it waiting on?"** Search for the ticket in All stories: the row shows its stage, status, who it's waiting on and since when (PRD §7's leadership measure).
-* **Each row opens its PR,** where people act; the dashboard itself is view-only ([0005](../decisions/0005-view-only-dashboard.md)).
+* **Each row opens its PR,** where people act; the dashboard itself is view-only (0005).
 
 ## 5. Notifications
 
@@ -183,7 +183,7 @@ GitHub's scheduled reminders can post a daily list to each team's Slack channel 
 
 ## 6. The weekly summary
 
-_Decided: [ADR 0054](../decisions/0054-weekly-summary-as-a-github-issue.md)._
+_Decided: ADR 0054._
 
 Once a week the dashboard sync writes a one-page summary as a GitHub issue in `seeonee/bagheera` (PRD V7), with the library's health as one section.
 
@@ -206,7 +206,7 @@ Six short sections. Each gives counts and the five oldest or largest items, with
 | **3. For managers** | Overrides, no QA review and self-dismissals, by team, each with its PR | Managers | The markers (section 2) |
 | **4. Standards findings** | Findings and dismissals by team and by rule, rules with the most findings first, with who dismissed each and why | Standards owners, managers | Verify's check runs (design doc 4, section 4) |
 | **5. Library health** | Open library PRs by domain and age; service pages past their shelf life; merged PRs with no library update | Library approvers, the platform team | The library repo (design doc 1) |
-| **6. Adoption and cost** | By repo: Verify and library-update spend, Verify spend per merged PR (PRD §7), stories started and shipped, Bagheera PRs merged, and who used the stage commands; links to Claude's own dashboards for active users, sessions and spend per person ([0066](../decisions/0066-report-job-spend-by-repository.md)) | Leadership, the platform team | Each run's recorded cost, GitHub, and Claude's dashboards (design doc 6, section 5) |
+| **6. Adoption and cost** | By repo: Verify and library-update spend, Verify spend per merged PR (PRD §7), stories started and shipped, Bagheera PRs merged, and who used the stage commands; links to Claude's own dashboards for active users, sessions and spend per person (0066) | Leadership, the platform team | Each run's recorded cost, GitHub, and Claude's dashboards (design doc 6, section 5) |
 
 For example:
 
@@ -230,14 +230,14 @@ Bagheera weekly summary: 26 Oct – 1 Nov 2026               @seeonee/bagheera-w
 
 ### Rules
 
-* **It reports; it doesn't act.** Every fix happens on the PR or page a line links to, like the dashboard ([0005](../decisions/0005-view-only-dashboard.md)).
+* **It reports; it doesn't act.** Every fix happens on the PR or page a line links to, like the dashboard (0005).
 * **Derived, never typed.** Everything comes from GitHub (section 1), plus Claude's analytics for cost. History and trends are worked out fresh each week, so nothing extra is stored; the closed issues are the archive.
 * **A missing source is said, not hidden.** If a section's source isn't connected yet, the section says so.
 * **Same App, one more permission.** The sync job writes the issue through the harness's GitHub App, which needs to write issues in `seeonee/bagheera` (design doc 6).
 
 ## 7. The Jira link
 
-_Decided: [ADR 0055](../decisions/0055-intake-comments-the-link-on-the-jira-ticket.md), following [0006](../decisions/0006-jira-link-only.md)._
+_Decided: ADR 0055, following 0006._
 
 Jira links to the work; it doesn't show the stage (PRD V5's minimum). The stage is on the dashboard, one click away.
 

@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-During the pilot, nothing is set in the admin console, and pilot engineers install the plugin by hand ([0058](0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md)). A plugin can't carry permission or sandbox settings. The pilot still needs the deny rules and the sandbox trial ([0045](0045-deny-rules-now-sandbox-trial-in-pilot.md)). Where do they go on each pilot Mac?
+During the pilot, nothing is set in the admin console, and pilot engineers install the plugin by hand (0058). A plugin can't carry permission or sandbox settings. The pilot still needs the deny rules and the sandbox trial ([0045](0045-deny-rules-now-sandbox-trial-in-pilot.md)). Where do they go on each pilot Mac?
 
 ## Considered options
 

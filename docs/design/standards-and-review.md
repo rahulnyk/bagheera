@@ -18,7 +18,7 @@ _Decided: [ADR 0041](../decisions/0041-blocking-per-page-numbered-rules.md) and 
 
 ### Blocking or advisory, per page
 
-A standard page is blocking or advisory as a whole, set by its owners. A blocking rule fails the PR review; an advisory one is a comment (section 4). When a topic has both kinds of rules, the owners split it: `secrets.md` blocks, `go-style.md` advises. The page records it in an `enforcement` field, which arrives with Verify, the first thing that reads it ([0085](../decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)).
+A standard page is blocking or advisory as a whole, set by its owners. A blocking rule fails the PR review; an advisory one is a comment (section 4). When a topic has both kinds of rules, the owners split it: `secrets.md` blocks, `go-style.md` advises. The page records it in an `enforcement` field, which arrives with Verify, the first thing that reads it ([0015](../decisions/0015-typed-page-headers.md)).
 
 ### Numbered rules
 
@@ -88,7 +88,7 @@ Before the pilot, the council seeds only what the pilot needs. Other teams add t
 
 ## 3. Revealing the relevant standards
 
-_Decided: [ADR 0043](../decisions/0043-reveal-standards-on-first-edit.md), following [0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md)._
+_Decided: ADR 0043, following 0022._
 
 An addition ([the plan](../plan.md#3-additions)). Until it arrives, Claude opens the standards it needs from the library's index, and Plan reads the ones that apply.
 
@@ -110,7 +110,7 @@ Standards reach Claude when the work needs them, in every session, whether or no
 
 ## 4. The PR review
 
-_Decided: [ADR 0044](../decisions/0044-blocking-findings-fail-verify-tech-leads-dismiss.md), amended by [0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md). Where it runs: [design doc 3, section 8](developer-workflow.md#8-what-runs-where)._
+_Decided: ADR 0044, amended by 0048. Where it runs: [design doc 3, section 8](developer-workflow.md#8-what-runs-where)._
 
 An addition, Verify ([the plan](../plan.md#3-additions)). Verify reviews every PR before a person does, as a required check (PRD R3). Only written blocking rules can fail it, and the person reviewing the PR can dismiss a finding the reviewer got wrong, on record.
 
@@ -145,7 +145,7 @@ The ticket's PR stays a draft until Build's last phase, so the review lands befo
 
 ### Dismissing a finding
 
-1. **Who:** whoever is reviewing the PR, usually a manager or a senior engineer. The tool enforces no rule about who ([0048](../decisions/0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)).
+1. **Who:** whoever is reviewing the PR, usually a manager or a senior engineer. The tool enforces no rule about who (0048).
 2. **How:** reply on the finding with `/dismiss sec-3 <reason>`. The reason can't be empty.
 3. **Then:** Verify runs again without that finding, on the next push or the next dashboard sync. Anyone with write access can also re-run it straight away from the PR's checks.
 4. **Scope:** a dismissal covers that finding on that PR only. The same problem elsewhere is a new finding.
@@ -216,7 +216,7 @@ In a test repo, the platform team tries to make Claude deploy, force-push, read 
 
 ## 6. The standards check in the architecture
 
-_Decided: [ADR 0046](../decisions/0046-standards-check-in-the-architecture.md)._
+_Decided: ADR 0046._
 
 Comes with the Architecture stage ([the plan](../plan.md#3-additions)). `architecture.md` carries a short "Standards check" section, filled from the current standards each time it's drafted (PRD R5): one line for each blocking rule that bears on the design, saying how the design meets it, or marking an exception with its reason.
 

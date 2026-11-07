@@ -51,7 +51,7 @@ Commands keep their names, such as `/bagheera:intake` (design doc 3, section 2).
 
 ## 2. How settings reach laptops
 
-_Decided: [ADR 0058](../decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md) and [0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md), set by the owner._
+_Decided: ADR 0058 and [0059](../decisions/0059-pilot-settings-in-engineers-own-settings-file.md), set by the owner._
 
 Bagheera's settings are files in `seeonee/bagheera`, changed by PR (section 6). The deny list is in one file at a time, so it's never kept in two places. A plugin can't carry permission or sandbox settings, so they reach laptops separately from the plugin.
 
@@ -76,7 +76,7 @@ Three jobs work beyond one developer's session: the library update (design doc 1
 
 ### In the pilot: on laptops, from commands
 
-_Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) and [0080](../decisions/0080-developers-run-the-library-update-after-each-merge.md)._
+_Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) and [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)._
 
 | Job | Command | Who runs it | When |
 | --- | --- | --- | --- |
@@ -97,7 +97,7 @@ _Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-u
 
 ### At rollout: how CI signs in to Claude
 
-_Decided: [ADR 0061](../decisions/0061-ci-signs-in-to-claude-with-workload-identity-federation.md)._
+_Decided: ADR 0061._
 
 * **Nothing is stored.** Each run asks GitHub for a signed identity token, which says which repo and which workflow it is. The Claude Code GitHub Action exchanges it in the Claude Console for access that expires in minutes. The workflow only needs GitHub's `id-token: write` permission, and the IDs it passes aren't secrets.
 * **Only our workflows qualify.** The Console checks each token against two rules:
@@ -115,7 +115,7 @@ _Decided: [ADR 0061](../decisions/0061-ci-signs-in-to-claude-with-workload-ident
 
 ### At rollout: one GitHub App
 
-_Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) and [0063](../decisions/0063-one-github-app-key-shared-with-onboarded-repos.md), set by the owner._
+_Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) and 0063, set by the owner._
 
 * **One App gives the CI jobs their GitHub access:** reading the library and the plugin, opening library PRs, writing the dashboard and the weekly summary, posting results and re-running Verify. Each run gets an access token from it that lasts an hour.
 * **Its key is one organisation secret,** shared with the repos whose `bagheera` property is `on`, so Verify can use it where it runs.
@@ -123,7 +123,7 @@ _Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-u
 
 ## 4. Spend limits and reporting
 
-_Decided: [ADR 0068](../decisions/0068-no-spend-caps-until-after-the-pilot.md), set by the owner._
+_Decided: ADR 0068, set by the owner._
 
 No spend caps for now. Whether to have one, and at what level, is decided after the pilot from real costs.
 
@@ -133,7 +133,7 @@ No spend caps for now. Whether to have one, and at what level, is decided after 
 
 ## 5. Adoption and cost by repository
 
-_Decided: [ADR 0066](../decisions/0066-report-job-spend-by-repository.md), set by the owner._
+_Decided: ADR 0066, set by the owner._
 
 Spend and adoption are reported by repository, the simplest unit: each job already runs for one repo.
 

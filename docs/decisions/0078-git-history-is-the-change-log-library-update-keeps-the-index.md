@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Design doc 1 has a script write `index.md` and `CHANGELOG.md`, with a bookkeeping PR kept open to regenerate them. PRD K1 asks for "an index and a change log", and the session-start hook loads the index. In the first system ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)), what is committed?
+PRD K1 asks for "an index and a change log", and the session-start hook loads the index. What does the library commit?
 
 ## Considered options
 
@@ -20,16 +20,16 @@ Design doc 1 has a script write `index.md` and `CHANGELOG.md`, with a bookkeepin
 Chosen by the owner: C. Building the index at session start could make sessions slow to start, so it's kept current beforehand.
 
 * **No `CHANGELOG.md`.** Git history is the change log.
-* **`/bagheera:update-library` rewrites `index.md`** in its PR: one line per page, with its ID, title, first sentence and `expires` date, so the hook can label expired pages without opening them.
-* **Only the library update writes the index.** Seeding PRs and owners' own edits don't touch it; the next run picks their pages up.
+* **`/bagheera:update-library` rewrites `index.md`** in its PR: one line per page, with its path, title, first sentence and `expires` date, so the hook can label expired pages without opening them.
+* **Only the library update writes the index.** Seeding PRs and people's own edits don't touch it; the next run picks their pages up.
 * **One library-update PR open at a time.** If the last run's PR hasn't merged, the next run adds to it, so two PRs never conflict on the index.
 
 ### Consequences
 
 * Good, because session start reads one small file.
-* Good, because there's no bookkeeping PR and no change log to keep in step.
+* Good, because there's no change log to keep in step.
 * Bad, because pages merged outside the library update are missing from the index until the next run.
 
 ## More information
 
-Detail in [plan.md, section 1](../plan.md#the-knowledge-library) and [design/knowledge-library.md](../design/knowledge-library.md#5-keeping-it-current). PRD K1 updated on the owner's choice.
+Detail in [design/knowledge-library.md](../design/knowledge-library.md).

@@ -61,13 +61,13 @@ If a domain ever needs its own repo, for restricted access or size:
 
 ## 2. Pages
 
-_Decided: [ADR 0015](../decisions/0015-typed-page-headers.md), [0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md) and [0085](../decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)._
+_Decided: [ADR 0015](../decisions/0015-typed-page-headers.md), [0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md) and [0015](../decisions/0015-typed-page-headers.md)._
 
 Every page is Markdown with a small YAML header. The format stays compatible with the Open Knowledge Format (PRD K10): a YAML header, a required `type`, and plain Markdown below it.
 
 ### Header
 
-Six fields to start, the ones Bagheera reads. The pilot adds a field only when a page needs it and something reads it, by a PR to the schema in `checks/`. At the pilot exit, the schema is fixed for rollout ([0085](../decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)).
+Six fields to start, the ones Bagheera reads. The pilot adds a field only when a page needs it and something reads it, by a PR to the schema in `checks/`. At the pilot exit, the schema is fixed for rollout ([0015](../decisions/0015-typed-page-headers.md)).
 
 | Field | On | What it holds | Example |
 | --- | --- | --- | --- |
@@ -153,7 +153,7 @@ Every page's `approved_by` records who stands behind what it says: the people wh
 
 ## 4. What the library learns, and when
 
-_Decided: [ADR 0016](../decisions/0016-learn-decisions-when-approved-features-at-close.md), with [0075](../decisions/0075-one-pr-per-ticket.md)._
+_Decided: [ADR 0075](../decisions/0075-one-pr-per-ticket.md), with [0075](../decisions/0075-one-pr-per-ticket.md)._
 
 Work in progress stays in the product repo's feature folder, `specs/<TICKET>/`. The library learns from it when the ticket's PR merges.
 
@@ -176,7 +176,7 @@ Work in progress stays in the product repo's feature folder, `specs/<TICKET>/`. 
 
 ## 5. Keeping it current
 
-_Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md) and [0080](../decisions/0080-developers-run-the-library-update-after-each-merge.md)._
+_Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md) and [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)._
 
 `/bagheera:update-library` keeps the library current. The developer runs it once their ticket's PR has merged, and `/bagheera` reminds them. The platform team runs it to catch up on merges nobody ran it for. At rollout it can run as a scheduled workflow instead ([design doc 6, section 3](distribution-security-and-cost.md#3-where-the-jobs-run)).
 
@@ -212,7 +212,7 @@ When it fails, the PR stays open with the finding, and its author fixes it.
 
 ### Planted-instruction screens
 
-An addition, for when planted text is found or many teams' PR text feeds the library ([the plan](../plan.md#3-additions); [0019](../decisions/0019-screen-for-planted-instructions-twice.md)). Both run on every library PR:
+An addition, for when planted text is found or many teams' PR text feeds the library ([the plan](../plan.md#3-additions); 0019). Both run on every library PR:
 
 | Screen | What it rejects | Built on |
 | --- | --- | --- |
@@ -223,7 +223,7 @@ The pattern script is cheap and predictable, and catches hidden tricks a model c
 
 ## 8. How sessions read it
 
-_Decided: [ADR 0022](../decisions/0022-reveal-the-library-incrementally-as-a-graph.md) and [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md). Principle set by the owner on 2026-10-28: reveal knowledge incrementally; nothing is loaded just in case._
+_Decided: ADR 0022 and [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md). Principle set by the owner on 2026-10-28: reveal knowledge incrementally; nothing is loaded just in case._
 
 ### At session start
 
@@ -268,7 +268,7 @@ CI sessions load the same plugin. The PR review starts from the files in the dif
 
 ## 9. Sources and trust levels
 
-An addition, for when owners can't tell where a statement came from ([the plan](../plan.md#3-additions); [0012](../decisions/0012-record-provenance-per-statement.md), [0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md)). Every statement the library writer writes ends with a footnote giving its trust level, its source with a link, and the date:
+An addition, for when owners can't tell where a statement came from ([the plan](../plan.md#3-additions); 0012, [0008](../decisions/0008-caution-and-provenance-for-the-knowledge-library.md)). Every statement the library writer writes ends with a footnote giving its trust level, its source with a link, and the date:
 
 | Level | What it covers |
 | --- | --- |

@@ -14,7 +14,7 @@ Standards need owners (PRD R1), every standard needs a unique prefix for its rul
 Set by the owner:
 
 * **The architecture council** (principal and senior staff) owns the first standards. It can hand a page to a specialist team later, for example security standards to the security team, by changing the page's `owners`.
-* **Prefixes are assigned by the council and written down in the library**, in a register, `prefixes.yaml`, beside `domains.yaml`. The council owns the register; adding a prefix is a small library PR it approves. The library checker rejects a standard whose prefix isn't in the register, or points to another page. Spec Kit's constitution, the other place the owner suggested, was replaced by the standards check ([0046](0046-standards-check-in-the-architecture.md)), so the library is the home.
+* **Prefixes are assigned by the council and written down in the library**, in a register, `prefixes.yaml`, beside `domains.yaml`. The council owns the register; adding a prefix is a small library PR it approves. The library checker rejects a standard whose prefix isn't in the register, or points to another page. Spec Kit's constitution, the other place the owner suggested, was replaced by the standards check (0046), so the library is the home.
 * **The deny list is seeded as part of the harness's scaffolding**, a default list in `seeonee/bagheera`, and the architecture council edits it. It reaches laptops through managed settings (design doc 6).
 
 In `domains.yaml`, the `org` domain's owners are the architecture council's GitHub team.

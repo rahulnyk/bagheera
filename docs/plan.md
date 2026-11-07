@@ -32,13 +32,13 @@ Scripts, the format check included, run on a Mac with only `git` and `gh` instal
 
 **One branch and one PR per ticket,** `PAY-412`, holds all of it ([0075](decisions/0075-one-pr-per-ticket.md)). The PR merges once code review passes.
 
-The stage commands are adapted from Spec Kit's templates and instructions ([0028](decisions/0028-adapt-spec-kit-once-and-review-it-quarterly.md)): `specify` and `clarify` for Intake, `plan` and `tasks` for Plan, `implement` for Build.
+The stage commands are adapted from Spec Kit's templates and instructions ([0004](decisions/0004-carry-spec-kit-in-the-plugin.md)): `specify` and `clarify` for Intake, `plan` and `tasks` for Plan, `implement` for Build.
 
 **How a feature goes**
 
 1. **Spec.** Intake posts the open questions in one PR comment, mentioning the PM. The PM answers in ordinary PR comments. Running `/bagheera:intake` again writes the answers into the spec and asks for approval ([0033](decisions/0033-answer-open-questions-in-pr-comments.md)). The PM comments `/approved spec`.
 2. **Plan.** Plan drafts `plan.md` and raises any questions for the tech lead the same way. The tech lead comments `/approved plan`.
-3. **Build.** Phases go one at a time, in the same PR ([0040](decisions/0040-build-phases-one-at-a-time.md)). For each, Build writes the tests for the phase's criteria with the criterion's ID in their names, confirms they fail, and commits them first. It then writes code until they pass, and records lessons in the notes file. It ticks the phase off in the PR's description, leaving `plan.md` and its approval untouched, and lists each criterion, its tests and their result in its own run ([0076](decisions/0076-criteria-ids-in-test-names-results-in-the-pr.md)).
+3. **Build.** Phases go one at a time, in the same PR ([0040](decisions/0040-build-phases-one-at-a-time.md)). For each, Build writes the tests for the phase's criteria with the criterion's ID in their names, confirms they fail, and commits them first. It then writes code until they pass, and records lessons in the notes file. It ticks the phase off in the PR's description, leaving `plan.md` and its approval untouched, and lists each criterion, its tests and their result in its own run ([0034](decisions/0034-build-tests-first-and-show-criteria-results.md)).
 4. **Review and merge.** After the last phase, Build marks the PR ready, and code review goes as usual. Once it merges, the developer runs `/bagheera:update-library` (below).
 5. **Handover.** Every command commits and pushes when it ends, so nothing lives only on a laptop. A ticket is handed over by reassigning it in Jira; the new developer runs `/bagheera PAY-412`.
 
@@ -69,7 +69,7 @@ checks/               the format check and the page schemas
 
 Git history is the change log ([0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)).
 
-**Pages.** Markdown with a small YAML header, defined from the pilot itself ([0085](decisions/0085-six-header-fields-the-pilot-grows-the-schema.md)):
+**Pages.** Markdown with a small YAML header, defined from the pilot itself ([0015](decisions/0015-typed-page-headers.md)):
 
 * **Six fields to start,** the ones Bagheera reads: `type`, `title`, `updated`, `expires` and `approved_by` on every page, and `repos` on service pages, so session start finds the page. The path is the page's ID and holds its domain; a feature entry is named after its ticket.
 * **Body sections** start from each type's template in [design doc 1, section 2](design/knowledge-library.md#2-pages), within its length limit ([0017](decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)). The format check requires them, so a page can't lose its context.
@@ -77,7 +77,7 @@ Git history is the change log ([0078](decisions/0078-git-history-is-the-change-l
 * **Shelf life** ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)): service pages and feature entries expire 90 days after their last approved change; decisions and standards don't, until superseded or retired; then the change that replaces them sets their `expires` date and links the replacement. Owners can set any date.
 * **Approvers** ([0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)): `approved_by` lists the `/approved` commenters behind what the page says, and its library PR by number; GitHub records who approved and merged that PR ([0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)).
 
-**Seeding, with `seed-service-page`,** once per repo, and only in repos tickets land in, before the first ticket there ([design doc 2](design/seeding.md), [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md)). If a ticket lands in a repo with no page, Intake says so and carries on, and a platform engineer seeds that repo before the ticket's plan. A platform engineer runs it in a clone of the service's repo, with someone from the team at hand. It follows DeepWiki-Open's method ([0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md)): first it plans from the file tree and README, listing the repo's services and the files to read for each section, and the person confirms the plan; then it writes each page only from those files. It skips vendored code, build output, lock files and env and secret files. The read-only code reader does the reading; nothing builds, runs or tests the code. It opens one library PR per page, labelled `seeding`. The PR's description gives the commit read, the files and line ranges behind each section, conflicts between docs and code, and what the skill couldn't work out ([0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md)). The team reviews the pages together, as an onboarding task ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)).
+**Seeding, with `seed-service-page`,** once per repo, and only in repos tickets land in, before the first ticket there ([design doc 2](design/seeding.md), [0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)). If a ticket lands in a repo with no page, Intake says so and carries on, and a platform engineer seeds that repo before the ticket's plan. A platform engineer runs it in a clone of the service's repo, with someone from the team at hand. It follows DeepWiki-Open's method ([0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md)): first it plans from the file tree and README, listing the repo's services and the files to read for each section, and the person confirms the plan; then it writes each page only from those files. It skips vendored code, build output, lock files and env and secret files. The read-only code reader does the reading; nothing builds, runs or tests the code. It opens one library PR per page, labelled `seeding`. The PR's description gives the commit read, the files and line ranges behind each section, conflicts between docs and code, and what the skill couldn't work out ([0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md)). The team reviews the pages together, as an onboarding task ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)).
 
 **Standards, with `/bagheera:standards`** ([0084](decisions/0084-one-standards-command-seeds-adds-and-updates.md)), run by standards owners: the architecture council to start ([0047](decisions/0047-architecture-council-owns-standards-prefixes-deny-list.md)).
 
@@ -94,7 +94,7 @@ Git history is the change log ([0078](decisions/0078-git-history-is-the-change-l
 
 Claude opens other pages with its own file tools when it needs them. Intake reads past features and decisions on the service; Plan reads its decisions, the services it depends on and the standards that apply.
 
-**Keeping it current, with `/bagheera:update-library`,** run by the developer once their ticket's PR has merged; `/bagheera` reminds them ([0080](decisions/0080-developers-run-the-library-update-after-each-merge.md)). The platform team runs it to catch up on merges nobody ran it for.
+**Keeping it current, with `/bagheera:update-library`,** run by the developer once their ticket's PR has merged; `/bagheera` reminds them ([0062](decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)). The platform team runs it to catch up on merges nobody ran it for.
 
 1. **Gather** (a script, with the runner's GitHub access). Every PR merged in this repo since its last library update, not just the developer's own, with their diffs, approved documents and notes files. Everything goes in a work folder, marked as data, never instructions.
 2. **Write** (the library writer, a subagent with file tools only, in a copy of the library). Service page updates from merged code and lessons. When a ticket's PR has merged: decision records from its plan's proposed decisions and its spec's marked product decisions, and its feature entry. It sets `updated`, `expires` and `approved_by`.
@@ -219,7 +219,7 @@ Each part of the design comes in only when the pilot, or rollout, shows it's nee
 | Decision | Settled by | Design |
 | --- | --- | --- |
 | The sandbox for everyone, for some repos, or deny rules only | The pilot's sandbox trial and the red-team test | Doc 4, section 5 ([0045](decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md)) |
-| Spend caps, and at what level | The costs recorded in the pilot | Doc 6, section 4 ([0068](decisions/0068-no-spend-caps-until-after-the-pilot.md)) |
+| Spend caps, and at what level | The costs recorded in the pilot | Doc 6, section 4 (0068) |
 | Slack: GitHub's scheduled review reminders in team channels | Whether PMs and approvers miss GitHub's notifications | Doc 5, section 5 ([0053](decisions/0053-github-notifications-now-slack-later.md)) |
 | A small workflow for managers to renew expired pages | Pages expiring unchanged with nobody renewing them. The pilot is shorter than 90 days, so this shows only afterwards | [0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md) |
 
@@ -243,10 +243,10 @@ Rollout starts when the exit check passes and the additions it called for are in
 **What changes**
 
 1. **The plugin for everyone,** through the org's marketplace and its owning team ([0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md)).
-2. **The deny rules locked,** in managed settings from the admin console ([0058](decisions/0058-managed-settings-from-the-admin-console-pilot-installs-by-hand.md)): the Claude admin pastes the reviewed settings file once. Pilot machines need nothing redone.
-3. **Jobs move to CI** when developers forget the library update or laptop runs can't keep up ([0061](decisions/0061-ci-signs-in-to-claude-with-workload-identity-federation.md), [0063](decisions/0063-one-github-app-key-shared-with-onboarded-repos.md)). The GitHub org owners install the GitHub App and create the repo property and the org ruleset; the Claude admin sets up the Console workspace and the identity rules.
+2. **The deny rules locked,** in managed settings from the admin console (0058): the Claude admin pastes the reviewed settings file once. Pilot machines need nothing redone.
+3. **Jobs move to CI** when developers forget the library update or laptop runs can't keep up (0061, 0063). The GitHub org owners install the GitHub App and create the repo property and the org ruleset; the Claude admin sets up the Console workspace and the identity rules.
 4. **`domains.yaml`** arrives with the second domain. Page ownership, if rollout needs it, is planned then, as minimal as possible ([0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md)).
-5. **Each repo is seeded before its first ticket** ([0083](decisions/0083-seed-only-the-repos-tickets-land-in.md)), with its team's review as an onboarding task.
+5. **Each repo is seeded before its first ticket** ([0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)), with its team's review as an onboarding task.
 
 **What stays the same:** the commands, the approvals and the library's rules. Onboarding a repo stays under a day of platform effort with no per-team code (PRD P8).
 
@@ -311,15 +311,15 @@ The first system: [0069](decisions/0069-the-mvp-delivery-path-and-knowledge-libr
 * [0072](decisions/0072-named-pm-and-tech-lead-approve.md): the PM and tech lead named in the spec approve
 * [0073](decisions/0073-keep-the-override-in-the-first-system.md): a stop can be overridden, on the record
 * [0075](decisions/0075-one-pr-per-ticket.md): one PR per ticket; phases one at a time within it
-* [0076](decisions/0076-criteria-ids-in-test-names-results-in-the-pr.md): criteria IDs in test names, results listed in the PR
-* [0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md): a short seeding report
+* [0034](decisions/0034-build-tests-first-and-show-criteria-results.md): criteria IDs in test names, results listed in the PR
+* [0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md): a short seeding report
 * [0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md): git history is the change log; the library update keeps the index
 * [0079](decisions/0079-the-format-check-lives-in-the-library-repo.md): the format check lives in the library repo
-* [0080](decisions/0080-developers-run-the-library-update-after-each-merge.md): developers run the library update after each merge
+* [0062](decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md): developers run the library update after each merge
 * [0081](decisions/0081-the-pilot-proves-it-works-end-to-end.md): the pilot proves it works end to end, on at least 10 tickets
-* [0082](decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md): the seeding skill follows DeepWiki-Open's method
-* [0083](decisions/0083-seed-only-the-repos-tickets-land-in.md): each repo is seeded before its first ticket
+* [0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md): the seeding skill follows DeepWiki-Open's method
+* [0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md): each repo is seeded before its first ticket
 * [0084](decisions/0084-one-standards-command-seeds-adds-and-updates.md): one standards command seeds from Confluence, adds and updates
-* [0085](decisions/0085-six-header-fields-the-pilot-grows-the-schema.md): six header fields to start; the pilot grows the schema
+* [0015](decisions/0015-typed-page-headers.md): six header fields to start; the pilot grows the schema
 * [0086](decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md): approvers are recorded, and checked by whoever merges
 * [0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md): the plugin is published through the org's plugin marketplace

@@ -1,6 +1,6 @@
 ---
 status: accepted
-date: 2026-10-28
+date: 2026-11-04
 deciders: RN (owner)
 ---
 # Keep pages brief without losing context: fixed shapes and length limits
@@ -11,13 +11,18 @@ The owner set a principle: actively fight verbosity in the knowledge library, bu
 
 ## Considered options
 
-* A. Guidance only: writing rules for the knowledge agent and a reviewer checklist
+* A. Guidance only: writing rules for the library writer and a reviewer checklist
 * B. A fixed shape per page type with minimum and maximum lengths, checked automatically, plus writing rules
 * C. Two layers per page: a short summary that sessions load, and an unlimited details section
 
 ## Decision outcome
 
-Chosen option: B. Every page type has required sections with limits; the check fails on missing or empty sections and on pages well over their limit; logs, transcripts and long code are rejected; detail is linked through the source footnotes ([0012](0012-record-provenance-per-statement.md)) rather than copied.
+Chosen option: B.
+
+* Each page type starts from a template of required sections, each with a limit.
+* The format check fails on missing or empty sections and on pages well over their limit, and rejects logs, transcripts and long code.
+* Detail stays where it was written, such as the approved spec, the plan or the PR, and the page links to it.
+* The pilot adds or drops sections, and tunes the limits, by a PR to the schema.
 
 ### Consequences
 
@@ -27,6 +32,4 @@ Chosen option: B. Every page type has required sections with limits; the check f
 
 ## More information
 
-Shapes, limits and writing rules: [design/knowledge-library.md, section 4](../design/knowledge-library.md#shape-and-length).
-
-Amended by [0085](0085-six-header-fields-the-pilot-grows-the-schema.md): the shapes are starting templates in the schema, required by the format check; the pilot adds or drops sections by PR.
+Shapes, limits and writing rules: [design/knowledge-library.md](../design/knowledge-library.md).

@@ -12,11 +12,11 @@ Covers PRD P1–P7, C1–C4 and C6. It builds on [design doc 1](knowledge-librar
 * **The same everywhere.** Everything ships in the plugin; nothing is set up per repo (PRD P4, [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)).
 * **Plain words.** The PRD's stage names, in commands, documents, the dashboard and the guide (PRD P6, [0003](../decisions/0003-stage-names-from-the-prd.md)).
 * **Simple for people.** The harness is used by people, so cognitive simplicity is a necessity for adoption: fewer choices and one path, even where the tool could allow more (set by the owner, 2026-10-30; [0040](../decisions/0040-build-phases-one-at-a-time.md)).
-* **Managers enforce, the harness records.** Rules about how people work, such as QA review, are enforced by managers, who also grant exceptions. The harness warns and records; it doesn't block (set by the owner, 2026-10-30; [0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)).
+* **Managers enforce, the harness records.** Rules about how people work, such as QA review, are enforced by managers, who also grant exceptions. The harness warns and records; it doesn't block (set by the owner, 2026-10-30; 0038).
 
 ## 1. Where the stage commands come from
 
-_Decided: [ADR 0028](../decisions/0028-adapt-spec-kit-once-and-review-it-quarterly.md), following [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)._
+_Decided: [ADR 0004](../decisions/0004-carry-spec-kit-in-the-plugin.md), following [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)._
 
 The stage commands are our own, adapted once from GitHub Spec Kit **v1.2.5** (commit `4572a67fe0e7`, 28 Oct 2026, MIT licence). We take its method and document templates:
 
@@ -156,7 +156,7 @@ In the first system, the PM approves the spec with its criteria, and the tech le
 * **Comment on the PR** with `/approved <document>` on its own line: `/approved spec`, `/approved architecture`, `/approved plan`, `/approved test-plan`, `/approved demo`. A GitHub review whose text contains the same line counts too.
 * **Only the named person counts.** Intake suggests the PM and tech lead, and the developer confirms them. Each command requests its approver as a reviewer, so GitHub notifies them. To swap someone, the developer edits the header, and the new person approves.
 * **An approval covers the document as it was.** Any later change to that document, even a typo fix, cancels it, and the approver comments again.
-* **QA review is encouraged, not enforced by the tool** ([0038](../decisions/0038-managers-enforce-qa-review-and-tests-first.md)). A missing QA approval of the test cases never stops a stage; the stage check warns.
+* **QA review is encouraged, not enforced by the tool** (0038). A missing QA approval of the test cases never stops a stage; the stage check warns.
 * **Nobody approves their own work.** An approval from anyone who committed a change to that document doesn't count.
 * **Local edits never count** (PRD C3). Approvals exist only as GitHub comments and reviews.
 
@@ -220,7 +220,7 @@ Finalising changes the document, which cancels any earlier approval (section 4),
 
 ## 6. Build
 
-_Decided: [ADR 0034](../decisions/0034-build-tests-first-and-show-criteria-results.md), [0040](../decisions/0040-build-phases-one-at-a-time.md), [0075](../decisions/0075-one-pr-per-ticket.md) and [0076](../decisions/0076-criteria-ids-in-test-names-results-in-the-pr.md)._
+_Decided: [ADR 0034](../decisions/0034-build-tests-first-and-show-criteria-results.md), [0040](../decisions/0040-build-phases-one-at-a-time.md), [0075](../decisions/0075-one-pr-per-ticket.md) and [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md)._
 
 Each phase is built tests first (PRD P5), and every acceptance criterion can be traced to the tests that prove it (C4).
 
@@ -259,7 +259,7 @@ For it, each repo's CI saves test results in JUnit format, as an artifact named 
 
 ## 7. Demo
 
-_Decided: [ADR 0035](../decisions/0035-demo-run-by-the-developer.md), set by the owner, following [0011](../decisions/0011-stage-environment-for-demos.md)._
+_Decided: ADR 0035, set by the owner, following 0011._
 
 The demo happens off the repo. The developer runs it on the stage environment, live in a meeting or as a recording shared however they like. Bagheera prepares the script, and only the PM's acceptance is recorded on GitHub.
 
@@ -272,7 +272,7 @@ How feedback from a demo becomes more work is settled when Demo is added ([0075]
 
 ## 8. What runs where
 
-_Decided: [ADR 0037](../decisions/0037-verify-as-an-org-ruleset-workflow.md), [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) and [0080](../decisions/0080-developers-run-the-library-update-after-each-merge.md)._
+_Decided: ADR 0037, [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) and [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)._
 
 ### On laptops
 

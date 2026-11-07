@@ -1,45 +1,41 @@
 ---
 status: accepted
-date: 2026-10-28
+date: 2026-11-04
 deciders: RN (owner)
 ---
-# Seed the first service pages with a Claude Code skill
+# Seed service pages with our own Claude Code skill, on DeepWiki-Open's method
 
 ## Context and problem statement
 
-Existing services need a first-draft page from a one-off automated pass over their code (PRD K8). PRD §8 prefers DeepWiki-Open. Looking at what it takes to run it showed:
-
-* it can't use an Anthropic API key directly: it needs a LiteLLM proxy (plus its database) and a local embedding model (Ollama), so about four extra processes on the laptop that runs it;
-* a Claude subscription can't be used; it needs an Anthropic API key or Bedrock;
-* its output is its own wiki format, so we would need a conversion step into our page format;
-* its README now points to a hosted "2.0" successor, so the open-source version's future is unclear.
-
-Meanwhile, design doc 1 fixed the service page's format, writing rules and checks, which a Claude Code pass can follow directly.
+Existing services need a first-draft page from a one-off automated pass over their code (PRD K8). DeepWiki-Open has worked out how to turn a repo into grounded documentation, but running it takes a LiteLLM proxy and its database, a local embedding model (Ollama), and an Anthropic API key or Bedrock rather than a Claude subscription, and it writes its own wiki format. What drafts the pages?
 
 ## Considered options
 
-* A. A seeding skill in the plugin, run in Claude Code inside each service repo
-* B. DeepWiki-Open through its bundled LiteLLM proxy, with an Anthropic API key and local Ollama embeddings
-* C. DeepWiki-Open through AWS Bedrock (only if the organisation uses Bedrock, PRD Q8)
-* D. DeepWiki-Open through Anthropic's OpenAI-compatible endpoint (Anthropic says it is not for production use)
+* A. Our own skill in the plugin, borrowing DeepWiki-Open's method
+* B. Our own skill, without borrowing
+* C. Run DeepWiki-Open, through its LiteLLM proxy with local embeddings, or through Bedrock
 
 ## Decision outcome
 
-Chosen option: A. A skill in the plugin applies the knowledge agent's page format and writing rules to a repo's code as it stands, and writes a draft service page in which every statement is inferred and cites a file at a commit. The draft goes through the same checks and review as any other library change. If the drafts for the first real repo are poor, we fall back to option B.
+Chosen by the owner: A.
+
+* **`seed-service-page`** runs in Claude Code inside the service's repo and writes draft pages in the library's format.
+* **Plan first, then write.** From the file tree and the README, it lists the repo's services and, for each section of each page, the files to read. The person running it confirms the plan.
+* **Write only from those files.** Anything not found in them is left off the page and listed as not worked out.
+* **Skip what isn't the service's own code:** vendored code, build output, lock files, and env and secret files, so seeding never reads credentials.
+* **A read-only code reader** does the reading: a plugin subagent that can only read and search files. Nothing builds, runs or tests the code.
+* **A short report** is the seeding PR's description: the commit read, the files and line ranges behind each section, conflicts between docs and code, and what it couldn't work out.
+* **If drafts are poor,** we improve the skill, or the team writes the page.
+* **Our own instructions.** If any of DeepWiki-Open's prompt text is copied (commit `f89c59a`, MIT licence), its notice goes in `third_party/deepwiki-open/`.
 
 ### Consequences
 
-* Good, because it adds no tools, processes or credentials: it runs on a Claude subscription or an Anthropic API key, whichever the plan turns out to be (PRD Q7, Q8).
-* Good, because it writes our format directly, with a source on every statement, so no conversion step is needed.
-* Good, because it reuses the knowledge agent's rules and the library's checks and review.
-* Bad, because Claude Code reads what it judges relevant rather than indexing every file, so a large repo's corners can be missed. A fixed list of places to look and the owners' review offset this.
-* Bad, because a run counts against the subscription's usage limits, which may pace seeding across many repos.
-* Neutral: it departs from PRD §8, §9 and Appendix B, which name DeepWiki-Open. K8 itself is met. The wording change is listed for the owner in [design/README.md](../design/README.md#prd-changes).
+* Good, because there's nothing new to install or run: it works on a Claude subscription or an Anthropic API key.
+* Good, because it writes our page format directly and reuses the library's checks and review.
+* Good, because reviewers get the exact lines behind each section, and the file filter keeps secrets out.
+* Bad, because Claude reads what the plan lists rather than indexing every file, so a large repo's corners can be missed; the plan step and the team's review offset this.
+* Bad, because a run counts against the subscription's usage limits.
 
 ## More information
 
-Detail in [design/seeding.md](../design/seeding.md). A parser-based code map (an AST) was also discussed: it describes the code's structure, not what a service is for, so it doesn't meet K8 on its own. It may later help check that `depends_on` links match the code.
-
-Amended by [0077](0077-short-seeding-report-no-deepwiki-fallback.md): no DeepWiki-Open fallback.
-
-Amended by [0082](0082-seeding-skill-borrows-deepwiki-opens-method.md): the skill borrows DeepWiki-Open's method; DeepWiki-Open itself is never run.
+Detail in [design/seeding.md](../design/seeding.md).

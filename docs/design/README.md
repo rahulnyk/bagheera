@@ -62,7 +62,7 @@ Jira needs no admin work: developers' own access is enough (confirmed by the own
 | Item | Settled |
 | --- | --- |
 | The sandbox for everyone, for some repos, or deny rules only ([0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md)) | At the pilot exit |
-| Spend caps ([0068](../decisions/0068-no-spend-caps-until-after-the-pilot.md)) | At the pilot exit |
+| Spend caps (0068) | At the pilot exit |
 | Slack reminders ([0053](../decisions/0053-github-notifications-now-slack-later.md)) | At the pilot exit |
 | A workflow for managers to renew expired pages ([0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)) | When pages expire unchanged and nobody renews them |
 | How demo feedback becomes more work ([0075](../decisions/0075-one-pr-per-ticket.md)) | When Demo is added |
@@ -75,22 +75,22 @@ Changes made to the PRD to match the owner's decisions, all on 2026-11-04.
 
 | PRD | Change | Because of |
 | --- | --- | --- |
-| G5 | Adoption and cost by repository | [0066](../decisions/0066-report-job-spend-by-repository.md) |
+| G5 | Adoption and cost by repository | 0066 |
 | §5 stages 3 and 5 | Plan: 2–6 phases, built one at a time. Build: tests first, then code, in the ticket's one PR | [0075](../decisions/0075-one-pr-per-ticket.md) |
-| §5 stage 7; C6; P7 | A demo script from the criteria, demoed live or recorded, accepted on the ticket's PR. The same commands on laptops and in CI | [0035](../decisions/0035-demo-run-by-the-developer.md), [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) |
+| §5 stage 7; C6; P7 | A demo script from the criteria, demoed live or recorded, accepted on the ticket's PR. The same commands on laptops and in CI | 0035, [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) |
 | §5 stage 8 | Close's library changes approved by a person | [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) |
 | §6 priorities | The pilot starts with the first system and adds the rest one at a time | [0069](../decisions/0069-the-mvp-delivery-path-and-knowledge-library.md) |
 | K1 | An index; git history as the change log | [0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md) |
 | K4 | Agents never merge; every library change needs a person's approval, recorded on the page and the PR | [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0086](../decisions/0086-no-code-owners-approvers-recorded-and-checked-by-the-merger.md) |
 | K6 | Checked when made; shelf life; the newer page wins | [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md) |
-| R5 | The architecture's standards check | [0046](../decisions/0046-standards-check-in-the-architecture.md) |
+| R5 | The architecture's standards check | 0046 |
 | C3 | Unless the developer overrides on purpose, recorded on the PR | [0032](../decisions/0032-stage-check-stops-and-records-overrides.md), [0073](../decisions/0073-keep-the-override-in-the-first-system.md) |
-| V6, V7 | Adoption and cost by repository | [0066](../decisions/0066-report-job-spend-by-repository.md) |
+| V6, V7 | Adoption and cost by repository | 0066 |
 | §7 | Two pilot targets on at least 10 tickets; efficiency measured after the pilot | [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md) |
-| §8 | Spec Kit adapted into the plugin; our own seeding skill on DeepWiki-Open's method; the plugin through the org's marketplace, assumed to exist; the pilot on at least 10 tickets | [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md), [0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md), [0087](../decisions/0087-publish-to-the-orgs-plugin-marketplace.md), [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md) |
-| §9 | The first system, the pilot, additions one at a time, then org rollout | [0069](../decisions/0069-the-mvp-delivery-path-and-knowledge-library.md), [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md), [0083](../decisions/0083-seed-only-the-repos-tickets-land-in.md) |
-| §10 | Answered questions removed (Q2–Q6); Q8 and Q9 reworded | [0001](../decisions/0001-github-access-for-pms-qa-and-leadership.md), [0005](../decisions/0005-view-only-dashboard.md), [0006](../decisions/0006-jira-link-only.md), [0007](../decisions/0007-one-knowledge-library.md), [0011](../decisions/0011-stage-environment-for-demos.md), [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md) |
-| Appendix B | The seeding pass is our own skill | [0082](../decisions/0082-seeding-skill-borrows-deepwiki-opens-method.md) |
+| §8 | Spec Kit adapted into the plugin; our own seeding skill on DeepWiki-Open's method; the plugin through the org's marketplace, assumed to exist; the pilot on at least 10 tickets | [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md), [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md), [0087](../decisions/0087-publish-to-the-orgs-plugin-marketplace.md), [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md) |
+| §9 | The first system, the pilot, additions one at a time, then org rollout | [0069](../decisions/0069-the-mvp-delivery-path-and-knowledge-library.md), [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md), [0026](../decisions/0026-seed-each-domain-just-before-its-teams-join.md) |
+| §10 | Answered questions removed (Q2–Q6); Q8 and Q9 reworded | [0001](../decisions/0001-github-access-for-pms-qa-and-leadership.md), 0005, 0006, [0007](../decisions/0007-one-knowledge-library.md), 0011, [0081](../decisions/0081-the-pilot-proves-it-works-end-to-end.md) |
+| Appendix B | The seeding pass is our own skill | [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md) |
 
 ## Naming register
 
@@ -102,4 +102,4 @@ Themed names are proposed to the owner first ([0010](../decisions/0010-naming.md
 | The plugin, which prefixes every command | Delivery harness plugin | `bagheera` (commands are `/bagheera:<stage>`) | Approved ([0029](../decisions/0029-stage-commands-under-the-bagheera-plugin.md)) |
 | The knowledge library | Knowledge library | Council Rock | Approved ([0023](../decisions/0023-name-council-rock-and-baloo.md)) |
 | The library writer | Knowledge agent | Baloo | Approved ([0023](../decisions/0023-name-council-rock-and-baloo.md)) |
-| The dashboard | Bagheera dashboard | None, kept plain | Approved ([0056](../decisions/0056-name-the-dashboard-plainly.md)) |
+| The dashboard | Bagheera dashboard | None, kept plain | Approved (0056) |

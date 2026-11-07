@@ -1,42 +1,37 @@
 ---
 status: accepted
-date: 2026-11-04
+date: 2026-11-07
 deciders: RN (owner)
 ---
-# The pilot runs Verify, the library update and the dashboard update on laptops; one GitHub App at rollout
+# Work beyond one session runs as laptop commands; the developer updates the library after each merge
 
 ## Context and problem statement
 
-Three jobs work beyond one developer's session: Verify ([0037](0037-verify-as-an-org-ruleset-workflow.md)), the curation run with Close (design doc 1, section 6), and the dashboard sync ([0049](0049-github-is-the-record-dashboard-holds-derived-status.md)). In CI they need the Claude admin to set up a Console workspace and identity rules ([0061](0061-ci-signs-in-to-claude-with-workload-identity-federation.md)), and the GitHub org owners to create a ruleset and repo property and install a GitHub App. That is a lot of support from other teams before a pilot of a handful of engineers can start. Where do these jobs run in the pilot, and what gives them GitHub access at rollout?
+Some work goes beyond one developer's session, such as updating the library from merged PRs. In CI it would need a GitHub App and its secret, a Claude Console workspace with identity rules, and org rulesets, all from org admins. The MVP must be adoptable by one team with nothing from org admins. Where does this work run, and who runs the library update?
 
 ## Considered options
 
-* A. CI from day one, as designed
-* B. Laptops in the pilot, from commands run with people's own access; CI at rollout
-* C. GitHub's own models in CI instead of Claude Code
+* A. In CI, with a GitHub App and a Console workspace
+* B. On laptops, as Claude Code commands run with people's own access; the developer runs the library update after each merge
+* C. On laptops, with one person running the library update every few days
 
 ## Decision outcome
 
-Set by the owner: B, with one GitHub App at rollout.
+Set by the owner: B.
 
-* **Verify:** the developer runs `/bagheera:verify` before marking a phase PR ready. A fresh Claude that never sees the author's conversation reviews it, posts the findings and marks the commit `bagheera/verify` passed or failed. Each pilot repo's branch rules require the mark.
-* **The library update:** a manager runs `/bagheera:update-library` on demand, every few days. It does what the curation run does: library updates from merged PRs, Close and bookkeeping, and the weekly check when one is due.
-* **The dashboard update:** a manager runs `/bagheera:update-dashboard` on demand, every few days. It refreshes status, assignees and the criteria results table, and posts the weekly summary when one is due.
-* **Own access only.** Each command runs with the person's own Claude seat and GitHub sign-in. The pilot has no CI workflow, Console setup or GitHub App.
-* **At rollout,** CI runs the same commands as designed in [0037](0037-verify-as-an-org-ruleset-workflow.md) and [0061](0061-ci-signs-in-to-claude-with-workload-identity-federation.md). One GitHub App gives them their GitHub access, including the dashboard sync. How Verify gets GitHub access without the App's key being readable from product repos is settled in the rollout plan.
+* **Laptops only.** Every command runs in Claude Code with the person's own Claude seat and GitHub sign-in. Nothing runs in CI.
+* **After each merge.** Once a ticket's PR has merged, `/bagheera` gives `/bagheera:update-library` as the next step, and the developer runs it.
+* **Every merge since the last run.** A run covers every PR merged in the repo since its last library update, so bug fixes merged without Bagheera reach the service page too.
+* **One PR at a time.** If a library-update PR is already open, the run adds to it ([0078](0078-git-history-is-the-change-log-library-update-keeps-the-index.md)).
+* **Catching up.** Anyone on the team can run it for merges nobody ran it for.
 
 ### Consequences
 
-* Good, because the pilot needs nothing from the Claude admin or the GitHub org owners; each pilot repo's admins set one branch rule.
-* Good, because nothing is thrown away: the commands are what CI runs later.
-* Bad, because the dashboard and the library are only as fresh as the last run. Approval requests still reach people straight away, since the stage commands request reviewers themselves.
-* Bad, because Verify's cost shows in each developer's own usage, so the PRD's "CI cost per merged PR" can't be measured in the pilot.
-* Bad, because PRD P7's "in CI (stages 6–8)" holds only from rollout.
+* Good, because the team needs nothing from org admins.
+* Good, because updates are fresh, and the person who knows the change sees the draft first.
+* Bad, because it's one more step for every developer to remember; `/bagheera`'s reminder is the guard.
+* Bad, because each run counts against the developer's own seat; its cost is recorded in its PR.
 
 ## More information
 
-Option C was set aside because GitHub's models aren't Claude Code: we would build our own review and curation programs, CI would review differently from laptops, and PRD §8 names Claude Code and claude-code-action for CI. Detail in [design/distribution-security-and-cost.md, section 3](../design/distribution-security-and-cost.md#3-where-the-jobs-run).
-
-Amended by [0063](0063-one-github-app-key-shared-with-onboarded-repos.md): the App's key is one organisation secret shared with the onboarded repos, so the rollout plan has nothing left to settle there.
-
-Amended by [0080](0080-developers-run-the-library-update-after-each-merge.md): in the first system, the developer runs `/bagheera:update-library` once their ticket's PR has merged.
+Detail in [design/knowledge-library.md](../design/knowledge-library.md).
