@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Jungle Book names are allowed for individual components, each proposed to the owner first ([0010](0010-naming.md)). The knowledge library and the knowledge agent are the two main components of design doc 1.
+Jungle Book names are allowed for individual components, each proposed to the owner first ([0006](0006-plain-names-a-few-themed-ones.md)). The knowledge library and the knowledge agent are the two main components of design doc 1.
 
 ## Considered options
 

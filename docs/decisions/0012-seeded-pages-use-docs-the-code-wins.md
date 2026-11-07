@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Besides code, repos hold their own docs: a README, a `docs/` folder, design notes, runbooks. They explain purpose and gotchas better than code does, but they are often out of date. What may the seeding skill ([0024](0024-seed-service-pages-with-a-claude-code-skill.md)) read?
+Besides code, repos hold their own docs: a README, a `docs/` folder, design notes, runbooks. They explain purpose and gotchas better than code does, but they are often out of date. What may the seeding skill ([0011](0011-seed-service-pages-with-our-own-skill.md)) read?
 
 ## Considered options
 

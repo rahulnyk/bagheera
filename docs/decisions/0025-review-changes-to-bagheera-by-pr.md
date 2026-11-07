@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD D2: changes to Bagheera are reviewed like production code, with security owning the parts that run on laptops. The org's plugin marketplace reviews and publishes each version of the plugin ([0087](0087-publish-to-the-orgs-plugin-marketplace.md)). How are changes made and tried before a version is published?
+PRD D2: changes to Bagheera are reviewed like production code, with security owning the parts that run on laptops. The org's plugin marketplace reviews and publishes each version of the plugin ([0034](0034-publish-through-the-org-marketplace.md)). How are changes made and tried before a version is published?
 
 ## Considered options
 

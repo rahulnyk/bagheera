@@ -15,7 +15,7 @@ Covers PRD K1–K7, K9 and K10. Seeding the first service pages (K8) is [design 
 
 ## 1. Layout
 
-_Decided: [ADR 0014](../decisions/0014-lay-out-the-library-by-type-then-domain.md), following [0007](../decisions/0007-one-knowledge-library.md)._
+_Decided: [ADR 0014](../decisions/0007-lay-out-the-library-by-page-type.md), following [0007](../decisions/0005-one-library-per-team.md)._
 
 One master library, with pages grouped by type first, then by domain.
 
@@ -42,7 +42,7 @@ checks/                      the format check and the page schemas (section 7)
 3. A feature goes under the domain of the team that delivered it, named after its ticket. A decision that binds more than one domain goes in `decisions/org/`.
 4. Domain standards may add to org standards but not contradict them.
 5. Links are written as paths from the library root.
-6. Git history is the change log ([0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)).
+6. Git history is the change log ([0078](../decisions/0030-git-history-and-the-index.md)).
 7. The harness reads a list of library repos, which starts with one entry.
 
 ### Domains
@@ -61,13 +61,13 @@ If a domain ever needs its own repo, for restricted access or size:
 
 ## 2. Pages
 
-_Decided: [ADR 0015](../decisions/0015-typed-page-headers.md), [0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md) and [0015](../decisions/0015-typed-page-headers.md)._
+_Decided: [ADR 0015](../decisions/0008-six-header-fields-to-start.md), [0017](../decisions/0009-fixed-page-shapes-and-length-limits.md) and [0015](../decisions/0008-six-header-fields-to-start.md)._
 
 Every page is Markdown with a small YAML header. The format stays compatible with the Open Knowledge Format (PRD K10): a YAML header, a required `type`, and plain Markdown below it.
 
 ### Header
 
-Six fields to start, the ones Bagheera reads. The pilot adds a field only when a page needs it and something reads it, by a PR to the schema in `checks/`. At the pilot exit, the schema is fixed for rollout ([0015](../decisions/0015-typed-page-headers.md)).
+Six fields to start, the ones Bagheera reads. The pilot adds a field only when a page needs it and something reads it, by a PR to the schema in `checks/`. At the pilot exit, the schema is fixed for rollout ([0015](../decisions/0008-six-header-fields-to-start.md)).
 
 | Field | On | What it holds | Example |
 | --- | --- | --- | --- |
@@ -99,7 +99,7 @@ Charges cards and retries failed charges.
 
 ### Shape and length
 
-_Decided: [ADR 0017](../decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)._
+_Decided: [ADR 0017](../decisions/0009-fixed-page-shapes-and-length-limits.md)._
 
 Each page type has a fixed set of sections, each with a minimum and a maximum. These are the starting templates; the pilot can add or drop a section by a PR to the schema. The limits are starting points to tune during the pilot, and the header doesn't count towards them.
 
@@ -123,7 +123,7 @@ Decision records use this shape whoever writes them, person or agent.
 
 ## 3. Trust
 
-_Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) and [0071](../decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)._
+_Decided: [ADR 0070](../decisions/0027-approved-checked-and-expiring-knowledge.md) and [0071](../decisions/0028-the-newest-page-wins-approvers-recorded.md)._
 
 ### Shelf life
 
@@ -143,7 +143,7 @@ Every page has an `expires` date, and past it the page is a hint, not a fact.
 
 ### Who approved it
 
-Every page's `approved_by` records who stands behind what it says: the people whose `/approved` comments approved the work it came from, such as the PM on a spec or the tech lead on a plan, and the library PR that brought it in. GitHub records who approved and merged that PR ([0002](../decisions/0002-soft-approval-by-comment.md)). Each change replaces the list with the approvals behind that change. `updated` is the date of the last approved change.
+Every page's `approved_by` records who stands behind what it says: the people whose `/approved` comments approved the work it came from, such as the PM on a spec or the tech lead on a plan, and the library PR that brought it in. GitHub records who approved and merged that PR ([0002](../decisions/0002-anyone-approves-with-a-comment.md)). Each change replaces the list with the approvals behind that change. `updated` is the date of the last approved change.
 
 ### When pages disagree
 
@@ -153,7 +153,7 @@ Every page's `approved_by` records who stands behind what it says: the people wh
 
 ## 4. What the library learns, and when
 
-_Decided: [ADR 0075](../decisions/0075-one-pr-per-ticket.md), with [0075](../decisions/0075-one-pr-per-ticket.md)._
+_Decided: [ADR 0075](../decisions/0029-one-pr-per-ticket.md), with [0075](../decisions/0029-one-pr-per-ticket.md)._
 
 Work in progress stays in the product repo's feature folder, `specs/<TICKET>/`. The library learns from it when the ticket's PR merges.
 
@@ -176,7 +176,7 @@ Work in progress stays in the product repo's feature folder, `specs/<TICKET>/`. 
 
 ## 5. Keeping it current
 
-_Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md), [0078](../decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md) and [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)._
+_Decided: [ADR 0070](../decisions/0027-approved-checked-and-expiring-knowledge.md), [0078](../decisions/0030-git-history-and-the-index.md) and [0062](../decisions/0024-laptop-commands-and-the-library-update.md)._
 
 `/bagheera:update-library` keeps the library current. The developer runs it once their ticket's PR has merged, and `/bagheera` reminds them. The platform team runs it to catch up on merges nobody ran it for. At rollout it can run as a scheduled workflow instead ([design doc 6, section 3](distribution-security-and-cost.md#3-where-the-jobs-run)).
 
@@ -188,7 +188,7 @@ _Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-che
 
 ## 6. Approving library PRs
 
-_Decided: [ADR 0002](../decisions/0002-soft-approval-by-comment.md), following [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)._
+_Decided: [ADR 0002](../decisions/0002-anyone-approves-with-a-comment.md), following [0070](../decisions/0027-approved-checked-and-expiring-knowledge.md)._
 
 * **Branch rules on the library's main branch:** every change goes through a PR, needs one approval, and needs the format check to pass.
 * **The library's owners merge,** the platform team in the pilot, once a fitting person has approved: the tech lead for service pages and technical decisions, the PM for product decisions, the architecture council for standards.
@@ -198,7 +198,7 @@ _Decided: [ADR 0002](../decisions/0002-soft-approval-by-comment.md), following [
 
 ## 7. The format check
 
-_Decided: [ADR 0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md) and [0079](../decisions/0079-the-format-check-lives-in-the-library-repo.md)._
+_Decided: [ADR 0070](../decisions/0027-approved-checked-and-expiring-knowledge.md) and [0079](../decisions/0031-the-format-check-in-each-library.md)._
 
 One script, in the library repo's `checks/` with the page schemas, changed only by the platform team. A workflow in the library repo runs it on every library PR, whoever opened it, and the branch rule requires it. `/bagheera:update-library` and `/bagheera:standards` run the same script before they open a PR. It fails on:
 
@@ -223,7 +223,7 @@ The pattern script is cheap and predictable, and catches hidden tricks a model c
 
 ## 8. How sessions read it
 
-_Decided: ADR 0022 and [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md). Principle set by the owner on 2026-10-28: reveal knowledge incrementally; nothing is loaded just in case._
+_Decided: ADR 0022 and [0070](../decisions/0027-approved-checked-and-expiring-knowledge.md). Principle set by the owner on 2026-10-28: reveal knowledge incrementally; nothing is loaded just in case._
 
 ### At session start
 
@@ -268,7 +268,7 @@ CI sessions load the same plugin. The PR review starts from the files in the dif
 
 ## 9. Sources and trust levels
 
-An addition, for when owners can't tell where a statement came from ([the plan](../plan.md#4-later-additions-a-team-can-make); 0012, [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)). Every statement the library writer writes ends with a footnote giving its trust level, its source with a link, and the date:
+An addition, for when owners can't tell where a statement came from ([the plan](../plan.md#4-later-additions-a-team-can-make); 0012, [0070](../decisions/0027-approved-checked-and-expiring-knowledge.md)). Every statement the library writer writes ends with a footnote giving its trust level, its source with a link, and the date:
 
 | Level | What it covers |
 | --- | --- |

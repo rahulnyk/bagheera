@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD C3: a stage refuses to start until its document is approved, unless the developer overrides on purpose; every override is recorded on the PR, and editing a file locally never counts as approval. Approvals are `/approved` comments on the ticket's PR ([0002](0002-soft-approval-by-comment.md)). What does a stage command do when an earlier document isn't approved?
+PRD C3: a stage refuses to start until its document is approved, unless the developer overrides on purpose; every override is recorded on the PR, and editing a file locally never counts as approval. Approvals are `/approved` comments on the ticket's PR ([0002](0002-anyone-approves-with-a-comment.md)). What does a stage command do when an earlier document isn't approved?
 
 ## Considered options
 

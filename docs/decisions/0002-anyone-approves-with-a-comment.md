@@ -35,4 +35,4 @@ Chosen by the owner: C.
 
 ## More information
 
-The stage check and overrides: [0032](0032-stage-check-stops-and-records-overrides.md). Detail in [design/developer-workflow.md](../design/developer-workflow.md).
+The stage check and overrides: [0017](0017-the-stage-check-and-overrides.md). Detail in [design/developer-workflow.md](../design/developer-workflow.md).

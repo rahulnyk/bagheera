@@ -31,7 +31,7 @@ Chosen option: D, set by the owner.
 * Good, because PMs only read and comment on a PR page, as they would anyway.
 * Good, because the approved document holds every answer, so the next stage and the library's feature entry get them (PRD P2).
 * Good, because there is one finalising run, not one per round of answers.
-* Bad, because someone approves once more after finalising; finalising changes the document, and an approval covers the document as it was ([0032](0032-stage-check-stops-and-records-overrides.md)).
+* Bad, because someone approves once more after finalising; finalising changes the document, and an approval covers the document as it was ([0017](0017-the-stage-check-and-overrides.md)).
 * Bad, because Claude has to read a free-form discussion; the approval is the check that it read it right.
 
 ## More information

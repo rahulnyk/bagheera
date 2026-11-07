@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-The MVP ([0069](0069-the-mvp-delivery-path-and-knowledge-library.md)) has no automated review, dashboard or CI, so most of the PRD's efficiency measures can't be taken in the pilot. What does the pilot measure?
+The MVP ([0026](0026-the-mvp.md)) has no automated review, dashboard or CI, so most of the PRD's efficiency measures can't be taken in the pilot. What does the pilot measure?
 
 ## Considered options
 

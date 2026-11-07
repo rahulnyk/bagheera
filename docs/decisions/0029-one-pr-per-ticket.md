@@ -20,8 +20,8 @@ Each stage writes a document into the ticket's folder (PRD §5), and Build adds 
 Chosen by the owner: C.
 
 * **One branch and one PR per ticket,** `PAY-412`, opened as a draft by Intake. Intake adds `spec.md`, Plan adds `plan.md`, and Build adds tests and code.
-* **Approvals are comments on that PR,** per document ([0032](0032-stage-check-stops-and-records-overrides.md)). Commits to code don't touch them.
-* **Phases are steps within Build,** one at a time ([0040](0040-build-phases-one-at-a-time.md)), each tests first. Build ticks each phase off in the PR's description, not in `plan.md`, so the plan's approval stands. After the last phase, it marks the PR ready for code review.
+* **Approvals are comments on that PR,** per document ([0017](0017-the-stage-check-and-overrides.md)). Commits to code don't touch them.
+* **Phases are steps within Build,** one at a time ([0020](0020-build-phases-one-at-a-time.md)), each tests first. Build ticks each phase off in the PR's description, not in `plan.md`, so the plan's approval stands. After the last phase, it marks the PR ready for code review.
 * **Changes along the way:** re-running Intake or Plan changes its document in the same PR, which then needs approving again. Once the PR has merged, more work is a new ticket.
 * **The main branch comes in by merging,** never by rebasing or force-pushing, so nobody else's checkout breaks.
 * **The library learns once,** when the PR merges: service pages, decisions and the feature entry together.

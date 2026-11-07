@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-The library's format check runs on every library change, people's own edits included, and in the commands before they open a PR ([0070](0070-knowledge-expires-and-every-change-is-checked-once.md)). A workflow in the library repo can't read another private repo with its own GitHub token. Where does the check live, and what runs it?
+The library's format check runs on every library change, people's own edits included, and in the commands before they open a PR ([0027](0027-approved-checked-and-expiring-knowledge.md)). A workflow in the library repo can't read another private repo with its own GitHub token. Where does the check live, and what runs it?
 
 ## Considered options
 

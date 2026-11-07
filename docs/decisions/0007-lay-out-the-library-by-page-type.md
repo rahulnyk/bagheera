@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD K1 names the page types: standards, services, decisions and features, plus an index. Each team has its own library ([0007](0007-one-knowledge-library.md)). How are its folders arranged?
+PRD K1 names the page types: standards, services, decisions and features, plus an index. Each team has its own library ([0005](0005-one-library-per-team.md)). How are its folders arranged?
 
 ## Considered options
 

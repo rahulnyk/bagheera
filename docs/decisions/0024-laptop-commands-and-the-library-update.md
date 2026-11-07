@@ -22,7 +22,7 @@ Set by the owner: B.
 * **Laptops only.** Every command runs in Claude Code with the person's own Claude seat and GitHub sign-in. Nothing runs in CI.
 * **After each merge.** Once a ticket's PR has merged, `/bagheera` gives `/bagheera:update-library` as the next step, and the developer runs it.
 * **Every merge since the last run.** A run covers every PR merged in the repo since its last library update, so bug fixes merged without Bagheera reach the service page too.
-* **One PR at a time.** If a library-update PR is already open, the run adds to it ([0078](0078-git-history-is-the-change-log-library-update-keeps-the-index.md)).
+* **One PR at a time.** If a library-update PR is already open, the run adds to it ([0030](0030-git-history-and-the-index.md)).
 * **Catching up.** Anyone on the team can run it for merges nobody ran it for.
 
 ### Consequences

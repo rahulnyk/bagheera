@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-The plan splits a ticket into 2–6 phases, all built in the ticket's one PR ([0075](0075-one-pr-per-ticket.md)). Some phases don't depend on each other. Should they be built in parallel?
+The plan splits a ticket into 2–6 phases, all built in the ticket's one PR ([0029](0029-one-pr-per-ticket.md)). Some phases don't depend on each other. Should they be built in parallel?
 
 ## Decision outcome
 

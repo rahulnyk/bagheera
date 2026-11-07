@@ -21,7 +21,7 @@ Chosen option: A.
 
 * The plugin is named `bagheera`. Each command is its own skill: `intake`, `plan`, `build`, `update-library` and `standards`.
 * A skill named `bagheera` says where the feature stands and prints the exact next command (PRD P3).
-* `/bagheera:build` takes no phase number; it builds the next phase ([0040](0040-build-phases-one-at-a-time.md)).
+* `/bagheera:build` takes no phase number; it builds the next phase ([0020](0020-build-phases-one-at-a-time.md)).
 * Docs, the guide and the commands' own output always show the full `/bagheera:<command>` form.
 
 ### Consequences

@@ -9,14 +9,14 @@ Covers PRD P1–P7, C1–C4 and C6. It builds on [design doc 1](knowledge-librar
 ## Principles
 
 * **One path.** One command per stage. Each can be re-run on its own and reads only earlier stage documents and the library (PRD P2).
-* **The same everywhere.** Everything ships in the plugin; nothing is set up per repo (PRD P4, [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)).
+* **The same everywhere.** Everything ships in the plugin; nothing is set up per repo (PRD P4, [0004](../decisions/0004-adapt-spec-kit-into-the-plugin.md)).
 * **Plain words.** The PRD's stage names, in commands, documents, the dashboard and the guide (PRD P6, [0003](../decisions/0003-stage-names-from-the-prd.md)).
-* **Simple for people.** The harness is used by people, so cognitive simplicity is a necessity for adoption: fewer choices and one path, even where the tool could allow more (set by the owner, 2026-10-30; [0040](../decisions/0040-build-phases-one-at-a-time.md)).
+* **Simple for people.** The harness is used by people, so cognitive simplicity is a necessity for adoption: fewer choices and one path, even where the tool could allow more (set by the owner, 2026-10-30; [0040](../decisions/0020-build-phases-one-at-a-time.md)).
 * **Managers enforce, the harness records.** Rules about how people work, such as QA review, are enforced by managers, who also grant exceptions. The harness warns and records; it doesn't block (set by the owner, 2026-10-30; 0038).
 
 ## 1. Where the stage commands come from
 
-_Decided: [ADR 0004](../decisions/0004-carry-spec-kit-in-the-plugin.md), following [0004](../decisions/0004-carry-spec-kit-in-the-plugin.md)._
+_Decided: [ADR 0004](../decisions/0004-adapt-spec-kit-into-the-plugin.md), following [0004](../decisions/0004-adapt-spec-kit-into-the-plugin.md)._
 
 The stage commands are our own, adapted once from GitHub Spec Kit **v1.2.5** (commit `4572a67fe0e7`, 28 Oct 2026, MIT licence). We take its method and document templates:
 
@@ -60,7 +60,7 @@ A Spec Kit fix for a problem we're actually hitting can be ported between review
 
 ## 2. Command names
 
-_Decided: [ADR 0029](../decisions/0029-stage-commands-under-the-bagheera-plugin.md), following [0003](../decisions/0003-stage-names-from-the-prd.md)._
+_Decided: [ADR 0029](../decisions/0015-commands-under-the-bagheera-plugin.md), following [0003](../decisions/0003-stage-names-from-the-prd.md)._
 
 The plugin is called `bagheera`, and Claude Code puts that name in front of each of its commands.
 
@@ -91,7 +91,7 @@ In the first system, Plan also covers the architecture, and the criteria are in 
 
 ## 3. What each stage writes, and how it reaches the main branch
 
-_Decided: [ADR 0075](../decisions/0075-one-pr-per-ticket.md) for the PR, and [0031](../decisions/0031-one-ticket-one-repo.md) for one ticket per repo._
+_Decided: [ADR 0075](../decisions/0029-one-pr-per-ticket.md) for the PR, and [0031](../decisions/0016-one-ticket-one-repo.md) for one ticket per repo._
 
 ### One ticket, one repo
 
@@ -115,7 +115,7 @@ specs/PAY-412/
 
 * **One document per stage,** so an approver reads one page.
 * **Diagrams are Mermaid** inside the document. GitHub renders them on the PR page, so PMs see them without developer tools (PRD C1).
-* **Only `spec.md` has a header,** recording the ticket, its related tickets, and the PM and tech lead named to approve it ([0002](../decisions/0002-soft-approval-by-comment.md)).
+* **Only `spec.md` has a header,** recording the ticket, its related tickets, and the PM and tech lead named to approve it ([0002](../decisions/0002-anyone-approves-with-a-comment.md)).
 * **The harness writes nothing else in the repo.** Status is worked out from GitHub (design doc 5).
 
 ### One branch and one PR per ticket
@@ -135,7 +135,7 @@ specs/PAY-412/
 
 ## 4. Approval
 
-_Decided: [ADR 0032](../decisions/0032-stage-check-stops-and-records-overrides.md), [0002](../decisions/0002-soft-approval-by-comment.md) and [0032](../decisions/0032-stage-check-stops-and-records-overrides.md), following [0002](../decisions/0002-soft-approval-by-comment.md)._
+_Decided: [ADR 0032](../decisions/0017-the-stage-check-and-overrides.md), [0002](../decisions/0002-anyone-approves-with-a-comment.md) and [0032](../decisions/0017-the-stage-check-and-overrides.md), following [0002](../decisions/0002-anyone-approves-with-a-comment.md)._
 
 Approval is a comment from the named person. Stage commands stop without it, but a developer can go ahead on purpose, on the record. Nothing technical blocks a merge; managers act on what they see (PRD C3).
 
@@ -184,7 +184,7 @@ Re-running a stage whose own document is already approved warns first, because c
 
 ### Overrides
 
-_Decided: [ADR 0032](../decisions/0032-stage-check-stops-and-records-overrides.md)._
+_Decided: [ADR 0032](../decisions/0017-the-stage-check-and-overrides.md)._
 
 * **On purpose, with a reason.** `--override "<reason>"` is the only way past a stop, and the reason can't be empty.
 * **On the record.** The command posts the override as a comment on the PR: which stage, what was missing, the reason, and who.
@@ -192,7 +192,7 @@ _Decided: [ADR 0032](../decisions/0032-stage-check-stops-and-records-overrides.m
 
 ## 5. Open questions
 
-_Decided: [ADR 0033](../decisions/0033-answer-open-questions-in-pr-comments.md), set by the owner._
+_Decided: [ADR 0033](../decisions/0018-answer-open-questions-in-pr-comments.md), set by the owner._
 
 The back-and-forth happens between people on the PR page, without Bagheera. The stage command only drafts the questions at the start and writes in the answers at the end.
 
@@ -220,7 +220,7 @@ Finalising changes the document, which cancels any earlier approval (section 4),
 
 ## 6. Build
 
-_Decided: [ADR 0034](../decisions/0034-build-tests-first-and-show-criteria-results.md), [0040](../decisions/0040-build-phases-one-at-a-time.md), [0075](../decisions/0075-one-pr-per-ticket.md) and [0034](../decisions/0034-build-tests-first-and-show-criteria-results.md)._
+_Decided: [ADR 0034](../decisions/0019-build-tests-first-with-criteria-ids.md), [0040](../decisions/0020-build-phases-one-at-a-time.md), [0075](../decisions/0029-one-pr-per-ticket.md) and [0034](../decisions/0019-build-tests-first-with-criteria-ids.md)._
 
 Each phase is built tests first (PRD P5), and every acceptance criterion can be traced to the tests that prove it (C4).
 
@@ -268,11 +268,11 @@ The demo happens off the repo. The developer runs it on the stage environment, l
 3. **The demo.** The developer gives it live, or records it and shares the recording. Claude can help drive a browser for a recording if the developer wants.
 4. **Acceptance.** The PM comments `/approved demo` on the ticket's PR. That comment is what Close waits for (design doc 1, section 4).
 
-How feedback from a demo becomes more work is settled when Demo is added ([0075](../decisions/0075-one-pr-per-ticket.md)).
+How feedback from a demo becomes more work is settled when Demo is added ([0075](../decisions/0029-one-pr-per-ticket.md)).
 
 ## 8. What runs where
 
-_Decided: ADR 0037, [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) and [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)._
+_Decided: ADR 0037, [0062](../decisions/0024-laptop-commands-and-the-library-update.md) and [0062](../decisions/0024-laptop-commands-and-the-library-update.md)._
 
 ### On laptops
 

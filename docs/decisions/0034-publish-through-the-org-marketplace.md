@@ -18,9 +18,9 @@ Claude Code installs plugins from a marketplace. In an org, the plugin marketpla
 
 Set by the owner: A. Once the plugin is built, publishing it and the governance around it are outside Bagheera's scope.
 
-* **Ours:** building the plugin, trying it with `claude --plugin-dir` on the test repo, and raising the version in `plugin.json` for each release. Every change is a PR to `main` ([0067](0067-review-changes-by-pr-with-code-owners.md)).
+* **Ours:** building the plugin, trying it with `claude --plugin-dir` on the test repo, and raising the version in `plugin.json` for each release. Every change is a PR to `main` ([0025](0025-review-changes-to-bagheera-by-pr.md)).
 * **The marketplace's owning team's:** publishing each version, who can install it, the review it needs before publishing, including security's review of what runs on laptops (PRD D2), and any lock on other plugins and MCP servers (PRD D1).
-* **Still ours:** the settings file, which isn't part of the plugin ([0045](0045-deny-rules-now-sandbox-trial-in-pilot.md)).
+* **Still ours:** the settings file, which isn't part of the plugin ([0022](0022-deny-rules-and-a-sandbox-trial.md)).
 * **Assumed:** the org has a Claude Code plugin marketplace, governed by its internal policies.
 
 ### Consequences

@@ -19,7 +19,7 @@ PRD R4: deploy commands, force-push, production credentials and edits to protect
 
 Set by the owner: A.
 
-* **One template.** `seeonee/bagheera` holds a settings template: deny rules for the four forbidden actions, bypass mode off, and a rule letting Claude read the local library copy without prompts. The platform team keeps it ([0067](0067-review-changes-by-pr-with-code-owners.md)).
+* **One template.** `seeonee/bagheera` holds a settings template: deny rules for the four forbidden actions, bypass mode off, and a rule letting Claude read the local library copy without prompts. The platform team keeps it ([0025](0025-review-changes-to-bagheera-by-pr.md)).
 * **One file per team.** Each team copies the template into its library repo, adds its library's name, and may add deny rules of its own. Each developer adds the team's file to `~/.claude/settings.json`.
 * **What holds.** Deny rules win over allow rules from any settings file, so a repo's own settings can't loosen them. Each repo's branch rule blocks force-pushing its main branch.
 * **The sandbox trial.** The pilot team also turns the sandbox on: Claude Code won't start without it, credential folders are unreadable, listed hosts are reachable, production hosts are denied, and any other host prompts.

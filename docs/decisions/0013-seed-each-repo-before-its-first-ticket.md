@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Seeding writes one draft page per service in a repo, each as its own library PR for the team to review ([0024](0024-seed-service-pages-with-a-claude-code-skill.md)). After that, the library update keeps the pages current. Which repos are seeded, and when?
+Seeding writes one draft page per service in a repo, each as its own library PR for the team to review ([0011](0011-seed-service-pages-with-our-own-skill.md)). After that, the library update keeps the pages current. Which repos are seeded, and when?
 
 ## Considered options
 

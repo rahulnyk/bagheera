@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Standards are library pages with one line per rule, each with a reason and an example ([0017](0017-brief-pages-with-fixed-shapes-and-length-limits.md)). People and Claude need to say which rule a change breaks, and to keep pointing at the same rule after its wording changes. How is a rule named?
+Standards are library pages with one line per rule, each with a reason and an example ([0009](0009-fixed-page-shapes-and-length-limits.md)). People and Claude need to say which rule a change breaks, and to keep pointing at the same rule after its wording changes. How is a rule named?
 
 ## Considered options
 

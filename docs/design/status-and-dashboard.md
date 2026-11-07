@@ -17,7 +17,7 @@ Covers PRD V1â€“V7 and C5; adoption and cost reporting (V6) is shared with [desi
 
 _Decided: ADR 0049, following 0005._
 
-GitHub is the record. The dashboard sync reads each story's PR, comments, checks and files, works out its status (section 2), and writes the result into the dashboard (section 3). Nothing else is stored. In CI it runs every 15 minutes; until then, a manager runs it on demand with `/bagheera:update-dashboard`, which also posts the weekly summary when one is due ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md); design doc 6, section 3).
+GitHub is the record. The dashboard sync reads each story's PR, comments, checks and files, works out its status (section 2), and writes the result into the dashboard (section 3). Nothing else is stored. In CI it runs every 15 minutes; until then, a manager runs it on demand with `/bagheera:update-dashboard`, which also posts the weekly summary when one is due ([0062](../decisions/0024-laptop-commands-and-the-library-update.md); design doc 6, section 3).
 
 ### What it reads
 
@@ -43,7 +43,7 @@ GitHub is the record. The dashboard sync reads each story's PR, comments, checks
 
 ## 2. The status model
 
-_Decided: [ADR 0002](../decisions/0002-soft-approval-by-comment.md) and [0002](../decisions/0002-soft-approval-by-comment.md)._
+_Decided: [ADR 0002](../decisions/0002-anyone-approves-with-a-comment.md) and [0002](../decisions/0002-anyone-approves-with-a-comment.md)._
 
 Each story has a stage, a status, who it's waiting on, and since when, plus a few markers for managers.
 
@@ -122,7 +122,7 @@ GitHub's own fields add the repository and the reviewers. That's 10 fields of th
 
 ### Who can see and change it
 
-* **Visible to everyone in the org** who can read the repos, which includes PMs, QA and leadership ([0001](../decisions/0001-github-access-for-pms-qa-and-leadership.md)).
+* **Visible to everyone in the org** who can read the repos, which includes PMs, QA and leadership ([0001](../decisions/0001-pms-work-in-github.md)).
 * **Written only by the sync job,** through the harness's GitHub App. The platform team administers the project; everyone else can read it and save their own views (section 4).
 * **No automations besides auto-archive,** so nothing changes a field behind the sync job's back.
 
@@ -159,7 +159,7 @@ PAY-350  Saved cards                               4 days   Waiting for demo  âš
 
 ## 5. Notifications
 
-_Decided: [ADR 0053](../decisions/0053-github-notifications-now-slack-later.md), set by the owner._
+_Decided: [ADR 0053](../decisions/0023-github-notifications.md), set by the owner._
 
 GitHub's own notifications, for now. Slack comes later.
 

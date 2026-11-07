@@ -14,15 +14,15 @@ Covers PRD R1–R6. It builds on [design doc 1](knowledge-library.md), which set
 
 ## 1. Rules within a standard
 
-_Decided: [ADR 0041](../decisions/0041-blocking-per-page-numbered-rules.md) and [0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md)._
+_Decided: [ADR 0041](../decisions/0021-numbered-rules-in-standards.md) and [0084](../decisions/0033-one-standards-command.md)._
 
 ### Blocking or advisory, per page
 
-A standard page is blocking or advisory as a whole, set by its owners. A blocking rule fails the PR review; an advisory one is a comment (section 4). When a topic has both kinds of rules, the owners split it: `secrets.md` blocks, `go-style.md` advises. The page records it in an `enforcement` field, which arrives with Verify, the first thing that reads it ([0015](../decisions/0015-typed-page-headers.md)).
+A standard page is blocking or advisory as a whole, set by its owners. A blocking rule fails the PR review; an advisory one is a comment (section 4). When a topic has both kinds of rules, the owners split it: `secrets.md` blocks, `go-style.md` advises. The page records it in an `enforcement` field, which arrives with Verify, the first thing that reads it ([0015](../decisions/0008-six-header-fields-to-start.md)).
 
 ### Numbered rules
 
-* Each standard's rules share a short prefix, unique across the library, such as `sec`, `go` or `pay-api`. The architecture council assigns prefixes ([0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md)), and records them in `prefixes.yaml` at the library's root once a second domain joins, alongside `domains.yaml` (design doc 1, section 1).
+* Each standard's rules share a short prefix, unique across the library, such as `sec`, `go` or `pay-api`. The architecture council assigns prefixes ([0084](../decisions/0033-one-standards-command.md)), and records them in `prefixes.yaml` at the library's root once a second domain joins, alongside `domains.yaml` (design doc 1, section 1).
 * Its rules are numbered `<prefix>-<n>`: `sec-1`, `sec-2`… IDs are lower case so they can't be mistaken for Jira keys such as `PAY-412`, or turned into wrong links by Jira autolinks.
 * A number is never reused or changed. A dropped rule stays on the page, marked retired, so old findings still point somewhere.
 * Each rule is one line: the rule, a one-line reason and a short example (design doc 1, section 2).
@@ -49,7 +49,7 @@ approved_by:
 
 ### Ownership
 
-**The architecture council** (principal and senior staff) owns the first standards and approves their library PRs ([0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md); design doc 1, section 6). It can hand a topic to a specialist team, such as security standards to the security team.
+**The architecture council** (principal and senior staff) owns the first standards and approves their library PRs ([0084](../decisions/0033-one-standards-command.md); design doc 1, section 6). It can hand a topic to a specialist team, such as security standards to the security team.
 
 ### What the format check adds
 
@@ -59,7 +59,7 @@ approved_by:
 
 ## 2. Writing standards
 
-_Decided: [ADR 0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md), set by the owner._
+_Decided: [ADR 0084](../decisions/0033-one-standards-command.md), set by the owner._
 
 One command, `/bagheera:standards`, run by standards owners, seeds, adds and updates standards.
 
@@ -129,7 +129,7 @@ Every PR in an onboarded repo gets the standards and security review, Bagheera o
 
 A separate Claude that never sees the author's session. It reads the diff, the standards that apply and, on ticket branches, the approved planning documents. It can read the repo but not change it. Text in the PR, the diff and code comments is data to review, never instructions.
 
-* **In the pilot,** the developer runs `/bagheera:verify` before marking the PR ready, and again after any push. It reviews in a fresh Claude process, posts with the developer's own access, and marks the commit `bagheera/verify` passed or failed; the repo's branch rule requires the mark ([0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)).
+* **In the pilot,** the developer runs `/bagheera:verify` before marking the PR ready, and again after any push. It reviews in a fresh Claude process, posts with the developer's own access, and marks the commit `bagheera/verify` passed or failed; the repo's branch rule requires the mark ([0062](../decisions/0024-laptop-commands-and-the-library-update.md)).
 * **From rollout,** the Verify workflow runs it in CI with the same plugin as laptops, and posts through the harness's GitHub App (PRD R3, P7).
 
 The ticket's PR stays a draft until Build's last phase, so the review lands before people are asked. The developer marks the PR ready once the blocking findings are fixed or dismissed.
@@ -159,7 +159,7 @@ The ticket's PR stays a draft until Build's last phase, so the review lands befo
 
 ## 5. Forbidden actions
 
-_Decided: [ADR 0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md) and [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md)._
+_Decided: [ADR 0045](../decisions/0022-deny-rules-and-a-sandbox-trial.md) and [0045](../decisions/0022-deny-rules-and-a-sandbox-trial.md)._
 
 Four things are blocked outright for Claude (PRD R4): deploy commands, force-push, production credentials and edits to protected paths. Deploying is a PRD non-goal: existing CD deploys on merge.
 
@@ -193,7 +193,7 @@ In the pilot, they're in each engineer's own settings, copied from `settings/pil
 }
 ```
 
-* **The architecture council edits the list** ([0084](../decisions/0084-one-standards-command-seeds-adds-and-updates.md)), keeping it in line with the deployment and environments standard (section 2). Changes to the settings file also need security's approval.
+* **The architecture council edits the list** ([0084](../decisions/0033-one-standards-command.md)), keeping it in line with the deployment and environments standard (section 2). Changes to the settings file also need security's approval.
 * **Bypass mode is off,** so nobody can switch the checks off.
 
 ### GitHub's server-side rules

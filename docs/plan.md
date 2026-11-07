@@ -2,7 +2,7 @@
 
 _Status: draft for the owner's review, 2026-11-07 · Source of truth: [prd.md](prd.md) · Design: [design docs](design/README.md) · Org parts: [org-adoption proposal](proposals/org-adoption.md)_
 
-This is Bagheera's MVP: what we build and in what order, the pilot, how any team adopts it, what a team can add later, and how we test it. A team adopts the MVP with nothing from org admins ([0069](decisions/0069-the-mvp-delivery-path-and-knowledge-library.md)). Parts that need org-wide coordination are in the [org-adoption proposal](proposals/org-adoption.md).
+This is Bagheera's MVP: what we build and in what order, the pilot, how any team adopts it, what a team can add later, and how we test it. A team adopts the MVP with nothing from org admins ([0026](decisions/0026-the-mvp.md)). Parts that need org-wide coordination are in the [org-adoption proposal](proposals/org-adoption.md).
 
 ## 1. What we build
 
@@ -14,10 +14,10 @@ The delivery path and a knowledge library per team, run from six commands on dev
 | --- | --- |
 | `seeonee/bagheera` | The plugin's source, and the library template: the four page folders, `index.md`, `checks/` with the format check and page schemas, the format-check workflow, and the settings file |
 | The plugin, `bagheera` | Six commands: `/bagheera`, `/bagheera:intake`, `/bagheera:plan`, `/bagheera:build`, `/bagheera:update-library`, and `/bagheera:standards` for standards owners. One skill, `seed-service-page`. Two subagents: the library writer (Baloo) and a read-only code reader. The session-start hook. Templates for the spec, the plan and the four page types. A few scripts. The Atlassian connector, for Jira tickets and Confluence pages |
-| A team's library, Council Rock | One repo per team, such as `seeonee/payments-library`, made from the template ([0007](decisions/0007-one-knowledge-library.md)) |
+| A team's library, Council Rock | One repo per team, such as `seeonee/payments-library`, made from the template ([0005](decisions/0005-one-library-per-team.md)) |
 | The test repos | `seeonee/bagheera-test`, a small service, and `seeonee/bagheera-test-library`, with a Jira test project and a Confluence test page, for the end-to-end check (section 5) |
 
-Scripts, the format check included, run on a Mac with only `git` and `gh` installed. **Assumed:** the org has a Claude Code plugin marketplace, governed by its internal policies; publishing through it is outside our scope ([0087](decisions/0087-publish-to-the-orgs-plugin-marketplace.md)).
+Scripts, the format check included, run on a Mac with only `git` and `gh` installed. **Assumed:** the org has a Claude Code plugin marketplace, governed by its internal policies; publishing through it is outside our scope ([0034](decisions/0034-publish-through-the-org-marketplace.md)).
 
 ### The delivery path
 
@@ -28,17 +28,17 @@ Scripts, the format check included, run on a Mac with only `git` and `gh` instal
 | `/bagheera:plan` | How it will be built: components, interfaces, data, a Mermaid diagram and proposed decisions; then 2–6 phases, each with the criteria it makes true | `specs/PAY-412/plan.md` | `/approved plan`, by the tech lead |
 | `/bagheera:build` | The next phase: tests first, then code (P5). After the last phase, marks the PR ready for code review | Tests, code and `specs/PAY-412/notes.md` | Code review, as today |
 
-**One branch and one PR per ticket,** `PAY-412`, holds all of it ([0075](decisions/0075-one-pr-per-ticket.md)). The commands are adapted from Spec Kit's templates and instructions ([0004](decisions/0004-carry-spec-kit-in-the-plugin.md)).
+**One branch and one PR per ticket,** `PAY-412`, holds all of it ([0029](decisions/0029-one-pr-per-ticket.md)). The commands are adapted from Spec Kit's templates and instructions ([0004](decisions/0004-adapt-spec-kit-into-the-plugin.md)).
 
 **How a feature goes**
 
-1. **Spec.** Intake posts the open questions in one PR comment, mentioning the PM. The PM answers in ordinary PR comments. Running `/bagheera:intake` again writes the answers into the spec and asks for approval ([0033](decisions/0033-answer-open-questions-in-pr-comments.md)). The PM comments `/approved spec`.
+1. **Spec.** Intake posts the open questions in one PR comment, mentioning the PM. The PM answers in ordinary PR comments. Running `/bagheera:intake` again writes the answers into the spec and asks for approval ([0018](decisions/0018-answer-open-questions-in-pr-comments.md)). The PM comments `/approved spec`.
 2. **Plan.** Plan drafts `plan.md` and raises any questions for the tech lead the same way. The tech lead comments `/approved plan`.
-3. **Build.** Phases go one at a time, in the same PR ([0040](decisions/0040-build-phases-one-at-a-time.md)). For each, Build writes tests for the phase's criteria with the criterion's ID in their names, confirms they fail, and commits them first. It then writes code until they pass, and records lessons in the notes file. It ticks the phase off in the PR's description, with each criterion, its tests and their result ([0034](decisions/0034-build-tests-first-and-show-criteria-results.md)).
+3. **Build.** Phases go one at a time, in the same PR ([0020](decisions/0020-build-phases-one-at-a-time.md)). For each, Build writes tests for the phase's criteria with the criterion's ID in their names, confirms they fail, and commits them first. It then writes code until they pass, and records lessons in the notes file. It ticks the phase off in the PR's description, with each criterion, its tests and their result ([0019](decisions/0019-build-tests-first-with-criteria-ids.md)).
 4. **Review and merge.** After the last phase, Build marks the PR ready, and code review goes as usual. Once it merges, the developer runs `/bagheera:update-library`.
 5. **Handover.** Every command commits and pushes when it ends. A ticket is handed over by reassigning it in Jira; the new developer runs `/bagheera PAY-412`.
 
-**Approvals** ([0002](decisions/0002-soft-approval-by-comment.md), [0032](decisions/0032-stage-check-stops-and-records-overrides.md))
+**Approvals** ([0002](decisions/0002-anyone-approves-with-a-comment.md), [0017](decisions/0017-the-stage-check-and-overrides.md))
 
 * An approval is `/approved spec`, `/approved plan` or, on a library PR, `/approved library`, on its own line in a PR comment or review.
 * Anyone can approve, the document's author included. The stage check lists each approval it counts, with who and when, in the PR's description.
@@ -51,7 +51,7 @@ Scripts, the format check included, run on a Mac with only `git` and `gh` instal
 
 ### The knowledge library
 
-**Layout** ([0014](decisions/0014-lay-out-the-library-by-type-then-domain.md))
+**Layout** ([0007](decisions/0007-lay-out-the-library-by-page-type.md))
 
 ```text
 standards/   services/   decisions/   features/
@@ -61,29 +61,29 @@ settings.json     the team's settings file (below)
 .github/workflows/format-check.yml
 ```
 
-Git history is the change log ([0078](decisions/0078-git-history-is-the-change-log-library-update-keeps-the-index.md)).
+Git history is the change log ([0030](decisions/0030-git-history-and-the-index.md)).
 
-**Pages** ([0015](decisions/0015-typed-page-headers.md), [0017](decisions/0017-brief-pages-with-fixed-shapes-and-length-limits.md)): Markdown with six header fields to start, `type`, `title`, `updated`, `expires` and `approved_by` on every page, and `repos` on service pages. Body sections follow each type's template, within its length limit. A field or section is added only when a pilot page needs it and something reads it. Service pages and feature entries expire 90 days after their last approved change ([0070](decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)); when pages disagree, the newer wins ([0071](decisions/0071-newest-wins-and-approvers-recorded-on-each-page.md)).
+**Pages** ([0008](decisions/0008-six-header-fields-to-start.md), [0009](decisions/0009-fixed-page-shapes-and-length-limits.md)): Markdown with six header fields to start, `type`, `title`, `updated`, `expires` and `approved_by` on every page, and `repos` on service pages. Body sections follow each type's template, within its length limit. A field or section is added only when a pilot page needs it and something reads it. Service pages and feature entries expire 90 days after their last approved change ([0027](decisions/0027-approved-checked-and-expiring-knowledge.md)); when pages disagree, the newer wins ([0028](decisions/0028-the-newest-page-wins-approvers-recorded.md)).
 
-**Seeding,** with `seed-service-page`, once per repo, before the first ticket lands there ([0024](decisions/0024-seed-service-pages-with-a-claude-code-skill.md), [0026](decisions/0026-seed-each-domain-just-before-its-teams-join.md)). An engineer on the team runs it in a clone of the repo. It plans from the file tree and README, the engineer confirms the plan, and it writes each page only from the planned files, skipping vendored code, build output, lock files and secrets. It opens one library PR per page, with a short report. The team reviews the pages together. If a ticket lands in a repo with no page, Intake says so and carries on, and the repo is seeded before the ticket's plan.
+**Seeding,** with `seed-service-page`, once per repo, before the first ticket lands there ([0011](decisions/0011-seed-service-pages-with-our-own-skill.md), [0013](decisions/0013-seed-each-repo-before-its-first-ticket.md)). An engineer on the team runs it in a clone of the repo. It plans from the file tree and README, the engineer confirms the plan, and it writes each page only from the planned files, skipping vendored code, build output, lock files and secrets. It opens one library PR per page, with a short report. The team reviews the pages together. If a ticket lands in a repo with no page, Intake says so and carries on, and the repo is seeded before the ticket's plan.
 
-**Standards,** with `/bagheera:standards` ([0084](decisions/0084-one-standards-command-seeds-adds-and-updates.md)), run by the team's tech lead or senior engineers: `seed <Confluence links>` drafts standards from the pages given, `add` adds a rule, and `update <standard>` changes one. Each run shows the change and opens a library PR only when asked. Rules are numbered, such as `sec-3` ([0041](decisions/0041-blocking-per-page-numbered-rules.md)). Before the pilot, seed what the pilot needs first: secrets, deployment and environments, and the team's languages.
+**Standards,** with `/bagheera:standards` ([0033](decisions/0033-one-standards-command.md)), run by the team's tech lead or senior engineers: `seed <Confluence links>` drafts standards from the pages given, `add` adds a rule, and `update <standard>` changes one. Each run shows the change and opens a library PR only when asked. Rules are numbered, such as `sec-3` ([0021](decisions/0021-numbered-rules-in-standards.md)). Before the pilot, seed what the pilot needs first: secrets, deployment and environments, and the team's languages.
 
 **At session start** (K7), the plugin's hook refreshes a local copy of the team's library, with a short time limit (offline, it uses the last copy and says so), and loads the service page whose `repos` names this repo, `index.md`, and a short note on how to treat the library. Claude opens other pages with its own file tools when it needs them.
 
-**Keeping it current,** with `/bagheera:update-library`, run by the developer once their ticket's PR has merged; `/bagheera` reminds them, and anyone on the team can run it to catch up ([0062](decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)). It gathers every PR merged in the repo since the last update, has Baloo write the page changes in a copy of the library, rewrites `index.md`, runs the format check, and opens one library PR, or adds to the open one. The PR lists its sources and the run's cost, and requests review from the ticket's tech lead and PM.
+**Keeping it current,** with `/bagheera:update-library`, run by the developer once their ticket's PR has merged; `/bagheera` reminds them, and anyone on the team can run it to catch up ([0024](decisions/0024-laptop-commands-and-the-library-update.md)). It gathers every PR merged in the repo since the last update, has Baloo write the page changes in a copy of the library, rewrites `index.md`, runs the format check, and opens one library PR, or adds to the open one. The PR lists its sources and the run's cost, and requests review from the ticket's tech lead and PM.
 
-**Approving and merging library PRs** ([0088](decisions/0088-the-approver-merges-library-prs.md)). Whoever comments `/approved library` merges the PR straight after. By process, the tech lead approves service pages, technical decisions and standards, and the PM product decisions. The branch rule needs a PR and the format check, and blocks force-push.
+**Approving and merging library PRs** ([0035](decisions/0035-the-approver-merges-library-prs.md)). Whoever comments `/approved library` merges the PR straight after. By process, the tech lead approves service pages, technical decisions and standards, and the PM product decisions. The branch rule needs a PR and the format check, and blocks force-push.
 
-**The format check** (K2) runs on every library PR, people's own edits included, as a workflow in the library repo with no secrets; the commands run the same script before they open a PR ([0079](decisions/0079-the-format-check-lives-in-the-library-repo.md)). It fails on missing or unknown header fields and bad dates; missing or empty sections, pages over one and a half times their limit, and logs or long code blocks; links between pages that don't resolve; and rule numbering in standards.
+**The format check** (K2) runs on every library PR, people's own edits included, as a workflow in the library repo with no secrets; the commands run the same script before they open a PR ([0031](decisions/0031-the-format-check-in-each-library.md)). It fails on missing or unknown header fields and bad dates; missing or empty sections, pages over one and a half times their limit, and logs or long code blocks; links between pages that don't resolve; and rule numbering in standards.
 
 ### The settings file
 
-The library template's `settings.json` holds the deny rules for the four forbidden actions, bypass mode off, the sandbox trial's settings, a rule letting Claude read the local library copy without prompts, and the team's library repo as `BAGHEERA_LIBRARY` ([0045](decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md)). Each developer adds it to `~/.claude/settings.json`. A team may add deny rules of its own.
+The library template's `settings.json` holds the deny rules for the four forbidden actions, bypass mode off, the sandbox trial's settings, a rule letting Claude read the local library copy without prompts, and the team's library repo as `BAGHEERA_LIBRARY` ([0022](decisions/0022-deny-rules-and-a-sandbox-trial.md)). Each developer adds it to `~/.claude/settings.json`. A team may add deny rules of its own.
 
 ### Changing Bagheera
 
-Every change is a PR to `main` in `seeonee/bagheera`, approved by the other platform engineer, and tried with `claude --plugin-dir plugins/bagheera` on the test repos. The settings file also needs security's approval. A new version raises the version in `plugin.json` and goes to the org's plugin marketplace ([0067](decisions/0067-review-changes-by-pr-with-code-owners.md)).
+Every change is a PR to `main` in `seeonee/bagheera`, approved by the other platform engineer, and tried with `claude --plugin-dir plugins/bagheera` on the test repos. The settings file also needs security's approval. A new version raises the version in `plugin.json` and goes to the org's plugin marketplace ([0025](decisions/0025-review-changes-to-bagheera-by-pr.md)).
 
 ### Build order
 
@@ -100,7 +100,7 @@ The stage check comes first because every command depends on it. Sessions read t
 
 ## 2. The pilot
 
-One team of 6–8 engineers, at least 10 real tickets, on Macs (PRD §8, §9). The pilot proves that the delivery path and the library work end to end, and that a team can adopt them by the guide. It doesn't measure efficiency, which comes once the pilot works ([0081](decisions/0081-the-pilot-proves-it-works-end-to-end.md)).
+One team of 6–8 engineers, at least 10 real tickets, on Macs (PRD §8, §9). The pilot proves that the delivery path and the library work end to end, and that a team can adopt them by the guide. It doesn't measure efficiency, which comes once the pilot works ([0032](decisions/0032-the-pilot-proves-it-works.md)).
 
 ### Setup
 
@@ -138,7 +138,7 @@ Once ten tickets have shipped and updated the library, the platform team answers
 1. Were both targets met? The first is PRD §9's condition for expanding.
 2. Could the team adopt it by the guide alone? What had to change?
 3. Which additions did the signals call for, and in what order (section 4)?
-4. The sandbox for everyone, for some repos, or deny rules only ([0045](decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md))?
+4. The sandbox for everyone, for some repos, or deny rules only ([0022](decisions/0022-deny-rules-and-a-sandbox-trial.md))?
 5. The page schema as the pilot left it: fixed for the teams that adopt next.
 
 If 1 is no, we find out why with the team and fix that before anything is added. If it's yes, the additions called for come next, one at a time, and more teams adopt it, 2–3 at a time.
@@ -174,7 +174,7 @@ Nothing is needed from org admins. A team takes about a day, plus seeding and re
 
 **Once per repo:** seed it before its first ticket, and review its pages as a team (section 1).
 
-**PMs** need a GitHub account with access to the team's repos ([0001](decisions/0001-github-access-for-pms-qa-and-leadership.md)), and email on for review requests and mentions.
+**PMs** need a GitHub account with access to the team's repos ([0001](decisions/0001-pms-work-in-github.md)), and email on for review requests and mentions.
 
 ## 4. Later additions a team can make
 
@@ -210,7 +210,7 @@ Recommendations for future improvements, each added on its own when its signal s
 
 * **Script tests** in `seeonee/bagheera`, on recorded GitHub data: the stage check (approved; missing; approved by the author, which counts and is listed; cancelled by a later change; in a review rather than a comment; an override, with and without a reason) and the feature script.
 * **Format check tests** in the library template: one good page per type, and one bad page per kind of failure.
-* **The red-team test** ([0045](decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md)): on the test repo, try to make Claude deploy, force-push, read production credentials and edit protected paths, directly, through scripts, by full path and inside `sh -c`. Once with deny rules alone, once with the sandbox. Repeated when the deny rules or sandbox settings change.
+* **The red-team test** ([0022](decisions/0022-deny-rules-and-a-sandbox-trial.md)): on the test repo, try to make Claude deploy, force-push, read production credentials and edit protected paths, directly, through scripts, by full path and inside `sh -c`. Once with deny rules alone, once with the sandbox. Repeated when the deny rules or sandbox settings change.
 * **Before each version,** a platform engineer runs the changed commands on the test repos with `--plugin-dir`.
 
 ### The end-to-end check

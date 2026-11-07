@@ -9,11 +9,11 @@ Covers PRD K8. It builds on [design doc 1](knowledge-library.md): page format (s
 ## Principles
 
 * **The same rules as the rest of the library.** Seeded pages are brief but never without context, and a person approves every one.
-* **Once per repo, where work happens.** Each repo is seeded before its first ticket ([0026](../decisions/0026-seed-each-domain-just-before-its-teams-join.md)). After that, the library update keeps its pages current (design doc 1, section 5). Seeding is never a second source of truth.
+* **Once per repo, where work happens.** Each repo is seeded before its first ticket ([0026](../decisions/0013-seed-each-repo-before-its-first-ticket.md)). After that, the library update keeps its pages current (design doc 1, section 5). Seeding is never a second source of truth.
 
 ## 1. The seeding skill
 
-_Decided: [ADR 0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md) and [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)._
+_Decided: [ADR 0024](../decisions/0011-seed-service-pages-with-our-own-skill.md) and [0024](../decisions/0011-seed-service-pages-with-our-own-skill.md)._
 
 `seed-service-page`, a skill in the plugin, run in Claude Code inside the service's repo. It writes in the library's page format and is checked like any other library change.
 
@@ -39,7 +39,7 @@ We write our own instructions. If any of DeepWiki-Open's prompt text is copied, 
 
 ## 2. What the skill reads and writes
 
-_Decided: [ADR 0025](../decisions/0025-seeded-pages-may-cite-repo-docs-code-wins.md) and [0024](../decisions/0024-seed-service-pages-with-a-claude-code-skill.md)._
+_Decided: [ADR 0025](../decisions/0012-seeded-pages-use-docs-the-code-wins.md) and [0024](../decisions/0011-seed-service-pages-with-our-own-skill.md)._
 
 ### What it reads
 
@@ -84,7 +84,7 @@ Plugins run with the engineer's permissions, so the skill limits itself:
 
 ## 3. How drafts are reviewed
 
-_Decided: [ADR 0026](../decisions/0026-seed-each-domain-just-before-its-teams-join.md) and [0026](../decisions/0026-seed-each-domain-just-before-its-teams-join.md)._
+_Decided: [ADR 0026](../decisions/0013-seed-each-repo-before-its-first-ticket.md) and [0026](../decisions/0013-seed-each-repo-before-its-first-ticket.md)._
 
 ### When
 

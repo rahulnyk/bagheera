@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Repos are seeded one at a time ([0026](0026-seed-each-domain-just-before-its-teams-join.md)), so a seeded service often calls services that have no library page yet. How does its page refer to them?
+Repos are seeded one at a time ([0013](0013-seed-each-repo-before-its-first-ticket.md)), so a seeded service often calls services that have no library page yet. How does its page refer to them?
 
 ## Considered options
 

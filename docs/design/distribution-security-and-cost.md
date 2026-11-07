@@ -16,7 +16,7 @@ Covers PRD P4, D1–D4 and V6, and the CI side of P7. It builds on [design doc 3
 
 ## 1. Packaging and versions
 
-_Decided: [ADR 0087](../decisions/0087-publish-to-the-orgs-plugin-marketplace.md), following [0029](../decisions/0029-stage-commands-under-the-bagheera-plugin.md)._
+_Decided: [ADR 0087](../decisions/0034-publish-through-the-org-marketplace.md), following [0029](../decisions/0015-commands-under-the-bagheera-plugin.md)._
 
 One plugin, published through the org's Claude Code plugin marketplace.
 
@@ -51,7 +51,7 @@ Commands keep their names, such as `/bagheera:intake` (design doc 3, section 2).
 
 ## 2. How settings reach laptops
 
-_Decided: ADR 0058 and [0045](../decisions/0045-deny-rules-now-sandbox-trial-in-pilot.md), set by the owner._
+_Decided: ADR 0058 and [0045](../decisions/0022-deny-rules-and-a-sandbox-trial.md), set by the owner._
 
 Bagheera's settings are files in `seeonee/bagheera`, changed by PR (section 6). The deny list is in one file at a time, so it's never kept in two places. A plugin can't carry permission or sandbox settings, so they reach laptops separately from the plugin.
 
@@ -76,7 +76,7 @@ Three jobs work beyond one developer's session: the library update (design doc 1
 
 ### In the pilot: on laptops, from commands
 
-_Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) and [0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md)._
+_Decided: [ADR 0062](../decisions/0024-laptop-commands-and-the-library-update.md) and [0062](../decisions/0024-laptop-commands-and-the-library-update.md)._
 
 | Job | Command | Who runs it | When |
 | --- | --- | --- | --- |
@@ -115,7 +115,7 @@ _Decided: ADR 0061._
 
 ### At rollout: one GitHub App
 
-_Decided: [ADR 0062](../decisions/0062-pilot-runs-verify-library-and-dashboard-updates-on-laptops.md) and 0063, set by the owner._
+_Decided: [ADR 0062](../decisions/0024-laptop-commands-and-the-library-update.md) and 0063, set by the owner._
 
 * **One App gives the CI jobs their GitHub access:** reading the library and the plugin, opening library PRs, writing the dashboard and the weekly summary, posting results and re-running Verify. Each run gets an access token from it that lasts an hour.
 * **Its key is one organisation secret,** shared with the repos whose `bagheera` property is `on`, so Verify can use it where it runs.
@@ -151,7 +151,7 @@ Spend and adoption are reported by repository, the simplest unit: each job alrea
 
 ## 6. Changing Bagheera
 
-_Decided: [ADR 0067](../decisions/0067-review-changes-by-pr-with-code-owners.md), [0002](../decisions/0002-soft-approval-by-comment.md) and [0087](../decisions/0087-publish-to-the-orgs-plugin-marketplace.md)._
+_Decided: [ADR 0067](../decisions/0025-review-changes-to-bagheera-by-pr.md), [0002](../decisions/0002-anyone-approves-with-a-comment.md) and [0087](../decisions/0034-publish-through-the-org-marketplace.md)._
 
 1. **A PR to `main`,** approved by the other platform engineer. `main` needs a PR and doesn't allow force-push.
 2. **Try it.** A platform engineer loads `main` from a checkout with `claude --plugin-dir plugins/bagheera` and runs the changed commands on the test repo. The Spec Kit review each quarter takes this path too (design doc 3, section 1).
