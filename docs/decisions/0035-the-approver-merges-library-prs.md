@@ -13,15 +13,15 @@ Anyone can approve a library PR with an `/approved library` comment ([0002](0002
 
 * A. The approver merges, straight after approving
 * B. The person who opened the PR merges, once it's approved
-* C. The team's tech lead merges every library PR
+* C. The platform team merges every library PR
 
 ## Decision outcome
 
 Chosen by the owner: A.
 
 * The person who comments `/approved library` merges the PR straight after.
-* The library's branch rule: every change goes through a PR, the format check must pass ([0031](0031-the-format-check-in-each-library.md)), and force-pushing is blocked. It requires no GitHub review, since the approval is the comment.
-* Approvers need write access to the team's library repo, which the team grants itself.
+* The library's branch rule: every change goes through a PR, the format check must pass ([0031](0031-the-format-check-in-the-library-repo.md)), and force-pushing is blocked. It requires no GitHub review, since the approval is the comment.
+* Approvers need write access to the library repo, which the platform team grants when a team joins.
 
 ### Consequences
 

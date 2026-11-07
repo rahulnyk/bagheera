@@ -3,7 +3,7 @@ status: accepted
 date: 2026-11-07
 deciders: RN (owner)
 ---
-# Block forbidden actions with deny rules in each developer's settings; trial the sandbox in the pilot
+# Block forbidden actions with deny rules committed in each repo; trial the sandbox in the pilot
 
 ## Context and problem statement
 
@@ -11,26 +11,27 @@ PRD R4: deploy commands, force-push, production credentials and edits to protect
 
 ## Considered options
 
-* A. Deny rules in a settings file each developer adds to their own settings; the pilot team also trials the sandbox
-* B. A, with the sandbox required for everyone from the start
+* A. Deny rules in each repo's committed `.claude/settings.json`; the pilot team also trials the sandbox
+* B. Deny rules in a file each developer adds to their own settings
 * C. Managed settings from the claude.ai admin console, which developers can't change
 
 ## Decision outcome
 
 Set by the owner: A.
 
-* **One template.** `seeonee/bagheera` holds a settings template: deny rules for the four forbidden actions, bypass mode off, and a rule letting Claude read the local library copy without prompts. The platform team keeps it ([0025](0025-review-changes-to-bagheera-by-pr.md)).
-* **One file per team.** Each team copies the template into its library repo, adds its library's name, and may add deny rules of its own. Each developer adds the team's file to `~/.claude/settings.json`.
-* **What holds.** Deny rules win over allow rules from any settings file, so a repo's own settings can't loosen them. Each repo's branch rule blocks force-pushing its main branch.
-* **The sandbox trial.** The pilot team also turns the sandbox on: Claude Code won't start without it, credential folders are unreadable, listed hosts are reachable, production hosts are denied, and any other host prompts.
+* **One template.** `seeonee/bagheera` holds the settings template: deny rules for the four forbidden actions, bypass mode off, and a rule letting Claude read the local library copy without prompts. The architecture council edits the deny rules, and security approves changes to the template ([0025](0025-review-changes-to-bagheera-by-pr.md)).
+* **Committed in each repo.** When a repo is seeded, its team commits the template as `.claude/settings.json`, merging it into any settings the repo already has, and may add deny rules of its own. It applies to everyone working in that repo; developers copy nothing.
+* **What holds.** Deny rules win over allow rules from any settings file, so nobody's own settings can loosen them. Each repo's branch rule blocks force-pushing its main branch, and changes to the settings file arrive only through a reviewed PR.
+* **The sandbox trial.** The pilot team's repos also turn the sandbox on: Claude Code won't start without it, credential folders are unreadable, listed hosts are reachable, production hosts are denied, and any other host prompts.
 * **Red-teamed before the pilot.** On the test repo, the platform team tries to make Claude deploy, force-push, read production credentials and edit protected paths, directly, through scripts, by full path and inside `sh -c`, once with deny rules alone and once with the sandbox.
 * **Decided at the end of the pilot:** the sandbox for everyone, for some repos, or deny rules only.
 
 ### Consequences
 
-* Good, because setup needs no admin rights and nothing from org admins.
+* Good, because developers set up nothing, and the rules are the same for everyone in a repo.
 * Good, because the sandbox's real friction is measured on real work before other teams depend on it.
-* Bad, because the settings hold by agreement: a developer can change their own file.
+* Bad, because each repo holds a copy of the template; when the template changes, each team updates its repos.
+* Bad, because a developer can still edit the file in their own checkout without committing it; the rules hold by agreement until managed settings.
 * Bad, because until the sandbox decision, deploy commands and production credentials are blocked only in the forms Claude usually writes, so R4's "outright" isn't fully met.
 
 ## More information

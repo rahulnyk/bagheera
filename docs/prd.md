@@ -45,7 +45,7 @@ These are the five goals Bagheera exists for. Every requirement in §6 serves at
 | **Tech lead** | Approve the plan; trust that standards are applied | GitHub PR review |
 | **QA** | Approve test cases; see acceptance criteria tied to automated tests | GitHub PR review |
 | **Engineering leadership** | Status, throughput, bottlenecks, adoption and cost | Dashboard, weekly summary (at org adoption) |
-| **Standards owners** (a team's tech lead and senior engineers) | Own their team's standards and approve changes to them | Library PRs |
+| **Standards owners** (the architecture council: principal and senior staff) | Own the org's standards and approve any change to them | Library PRs |
 | **Platform team** (2 engineers) | Build and change Bagheera safely, and help teams adopt it | Bagheera's repo |
 
 ## 5. Feature lifecycle
@@ -71,23 +71,22 @@ Priority: **M** must have, **S** should have, **L** at org adoption: it needs or
 
 | ID | Requirement | P |
 | --- | --- | --- |
-| K1 | One git repo per team of plain markdown pages: the team's standards and rules; one page per service; decisions (ADRs); one entry per shipped feature; an index; git history as the change log | M |
+| K1 | One git repo of plain markdown pages for the org: org standards and rules; one page per service; decisions (ADRs); one entry per shipped feature; an index; git history as the change log | M |
 | K2 | Pages follow a defined schema (types, header fields, naming, links) that a machine can check | M |
 | K3 | On every merged PR, an agent proposes updates to the affected service page and feature entry, and proposes new decisions | M |
 | K4 | Agents never merge; every library change needs a person's approval, recorded on the page and the PR | M |
 | K5 | PR text, tickets, pasted documents and diffs are untrusted input to the knowledge agent; injected instructions must not reach merged pages | M |
 | K6 | Every library change is checked for format and links when it's made. Every page has a shelf life, after which sessions treat it as a hint to check against the code. When pages disagree, the newer wins, and sessions say so | M |
-| K7 | Every Claude Code session in the team's repos can read the team's knowledge base and starts with the relevant service page in context | M |
+| K7 | Every Claude Code session, in any repo, can read the knowledge base and starts with the relevant service page in context | M |
 | K8 | Existing services get a first-draft page from a one-off automated pass over their code, not written from scratch | M |
 | K9 | Lessons and gotchas found during a session are captured for the knowledge base | S |
 | K10 | The page format is portable beyond Claude Code (KnowledgeX / Open Knowledge Format is a candidate) | L |
-| K11 | One knowledge base for the whole org, with org standards owned centrally, read by every session in any repo | L |
 
 ### 6.2 Enforcing standards (G2)
 
 | ID | Requirement | P |
 | --- | --- | --- |
-| R1 | Standards (coding, security, deployment per environment, dos and don'ts) live in the knowledge base, owned by named people, and every change to them is approved by a person | M |
+| R1 | Standards (coding, security, deployment per environment, dos and don'ts) are org-level and live in the knowledge base, owned by named people, and every change to them is approved by a person | M |
 | R2 | The standards relevant to the language and service being changed are in Claude's context when it designs or writes code | M |
 | R3 | Every PR gets an automated review against the standards and for security before human review, by an agent separate from the one that wrote the code | M |
 | R4 | Forbidden actions are blocked outright, not just discouraged: deploy commands, force-push, production credentials, edits to protected paths | M |
@@ -177,7 +176,7 @@ The pilot is proof that the concept works end to end, not a measure of efficienc
 
 ## 9. Rollout
 
-1. **The MVP.** The delivery path (intake, plan and build, with approvals in the ticket's PR) and a knowledge library per team: standards seeded from the org's documents, service pages seeded per repo, and the library updated after each merge ([plan](plan.md)).
+1. **The MVP.** The delivery path (intake, plan and build, with approvals in the ticket's PR) and the knowledge library: standards seeded from the org's documents, service pages seeded per repo, and the library updated after each merge ([plan](plan.md)).
 2. **Pilot.** One team, at least 10 tickets, proving the MVP works end to end and that a team can adopt it alone.
 3. **Additions a team can make alone,** one at a time, each when the pilot shows it's needed.
 4. **More teams adopt it,** 2–3 at a time, each on its own, each repo seeded before its first ticket.

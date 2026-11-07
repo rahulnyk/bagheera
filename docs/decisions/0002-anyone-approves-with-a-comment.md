@@ -22,7 +22,7 @@ Chosen by the owner: C.
 * **One way to approve, on every PR.** A comment with `/approved <stage>` on its own line: `/approved spec` and `/approved plan` on the ticket's PR, and `/approved library` on a library PR. A GitHub review whose text contains the same line counts too.
 * **Anyone can approve.** The stage check doesn't look at who commented, the document's author included.
 * **The approver is recorded.** The stage check lists each approval it counts, with who and when, in the PR's description, and the library update copies the names into each page's `approved_by`.
-* **Who should approve is a process rule:** the PM approves the spec, the tech lead approves the plan, and the ticket's tech lead or PM approves its library PR. Every approval names who gave it, so managers can see when someone else did.
+* **Who should approve is a process rule:** the PM approves the spec, the tech lead approves the plan, the ticket's tech lead or PM approves its library PR, and the architecture council approves standards. Every approval names who gave it, so managers can see when someone else did.
 * **Named so they can be asked.** The spec's header names the ticket's PM and tech lead; Intake suggests them and the developer confirms. Each command requests the person whose approval it needs as a reviewer, so GitHub notifies them.
 * **No `CODEOWNERS`** and no lists of approvers anywhere.
 

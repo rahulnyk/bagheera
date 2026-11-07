@@ -15,7 +15,7 @@ Covers PRD K1–K7 and K9. Seeding the first service pages (K8) is [design doc 2
 
 ## 1. Layout
 
-_Decided: [ADR 0005](../decisions/0005-one-library-per-team.md) and [0007](../decisions/0007-lay-out-the-library-by-page-type.md)._
+_Decided: [ADR 0005](../decisions/0005-one-knowledge-library-for-the-org.md) and [0007](../decisions/0007-lay-out-the-library-by-type-then-domain.md)._
 
 One repo per team, such as `seeonee/payments-library`, made from the library template in `seeonee/bagheera`.
 
@@ -173,7 +173,7 @@ _Decided: [ADR 0002](../decisions/0002-anyone-approves-with-a-comment.md) and [0
 
 ## 7. The format check
 
-_Decided: [ADR 0031](../decisions/0031-the-format-check-in-each-library.md)._
+_Decided: [ADR 0031](../decisions/0031-the-format-check-in-the-library-repo.md)._
 
 One script, in the library's `checks/` with the page schemas, copied from the library template. A workflow in the library repo runs it on every PR, whoever opened it, with no secrets, and the branch rule requires it. `/bagheera:update-library`, `/bagheera:standards` and seeding run the same script before they open a PR. It fails on:
 

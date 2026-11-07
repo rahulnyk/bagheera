@@ -60,7 +60,7 @@ Jira needs no admin work: developers' own access is enough.
 
 | Item | Settled |
 | --- | --- |
-| The sandbox for everyone, for some repos, or deny rules only ([0022](../decisions/0022-deny-rules-and-a-sandbox-trial.md)) | At the end of the pilot |
+| The sandbox for everyone, for some repos, or deny rules only ([0022](../decisions/0022-deny-rules-in-each-repo-and-a-sandbox-trial.md)) | At the end of the pilot |
 | Claude plan and model access (PRD Q7, Q8) | The owner, before week 1 |
 | Jungle Book names ([0006](../decisions/0006-plain-names-a-few-themed-ones.md)) | The naming register, as components come up |
 

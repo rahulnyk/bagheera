@@ -24,7 +24,7 @@ Set by the owner: A.
 * **Sources per PR.** A library PR lists the merged PRs and documents its changes came from; pages carry no source on each statement.
 * **Knowledge expires.** Every page carries an `expires` date. Past it, the page is a hint, not a fact: sessions check it against the code before relying on it. Service pages and feature entries expire 90 days after their last approved change; decisions and standards don't expire until a later change retires them and sets a date. A library PR can set any page to another date, or to `never`.
 * **Renewed by any approved change** that touches the page, or by a PR that changes only its date.
-* **Checked once, when it's made.** `/bagheera:update-library` keeps pages to their type's fields and shape and keeps links between pages working, and the format check runs on every library change ([0031](0031-the-format-check-in-each-library.md)).
+* **Checked once, when it's made.** `/bagheera:update-library` keeps pages to their type's fields and shape and keeps links between pages working, and the format check runs on every library change ([0031](0031-the-format-check-in-the-library-repo.md)).
 * **Unchanged pages aren't re-checked;** they stop being trusted when they expire.
 
 ### Consequences

@@ -17,4 +17,4 @@ Jungle Book names are allowed for a few top-level components, each proposed to t
 
 ## Decision outcome
 
-Chosen option: A. Council Rock is where the wolf pack meets and the Law of the Jungle is upheld: a shared home for standards and decisions. Baloo teaches Mowgli the Law: the agent that gathers and passes on what the team learns. Commands, files and workflows keep plain names, and docs show the plain name alongside, for example "Council Rock (the knowledge library)".
+Chosen option: A. Council Rock is where the wolf pack meets and the Law of the Jungle is upheld: a shared home for standards and decisions. Baloo teaches Mowgli the Law: the agent that gathers and passes on what the org learns. Commands, files and workflows keep plain names, and docs show the plain name alongside, for example "Council Rock (the knowledge library)".

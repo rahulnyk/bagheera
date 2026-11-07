@@ -44,7 +44,7 @@ approved_by:
 
 ### Ownership
 
-The team owns its standards ([0005](../decisions/0005-one-library-per-team.md)). Its tech lead and senior engineers write them, and, as a process rule, the tech lead approves their library PRs (design doc 1, section 6).
+The team owns its standards ([0005](../decisions/0005-one-knowledge-library-for-the-org.md)). Its tech lead and senior engineers write them, and, as a process rule, the tech lead approves their library PRs (design doc 1, section 6).
 
 ### What the format check adds
 
@@ -86,7 +86,7 @@ Standards are pages in the library's index, which every session loads (design do
 
 ## 4. Forbidden actions
 
-_Decided: [ADR 0022](../decisions/0022-deny-rules-and-a-sandbox-trial.md)._
+_Decided: [ADR 0022](../decisions/0022-deny-rules-in-each-repo-and-a-sandbox-trial.md)._
 
 Four things are blocked for Claude (PRD R4): deploy commands, force-push, production credentials and edits to protected paths. Deploying is a PRD non-goal: existing CD deploys on merge.
 

@@ -14,7 +14,7 @@ The delivery path and a knowledge library per team, run from six commands on dev
 | --- | --- |
 | `seeonee/bagheera` | The plugin's source, and the library template: the four page folders, `index.md`, `checks/` with the format check and page schemas, the format-check workflow, and the settings file |
 | The plugin, `bagheera` | Six commands: `/bagheera`, `/bagheera:intake`, `/bagheera:plan`, `/bagheera:build`, `/bagheera:update-library`, and `/bagheera:standards` for standards owners. One skill, `seed-service-page`. Two subagents: the library writer (Baloo) and a read-only code reader. The session-start hook. Templates for the spec, the plan and the four page types. A few scripts. The Atlassian connector, for Jira tickets and Confluence pages |
-| A team's library, Council Rock | One repo per team, such as `seeonee/payments-library`, made from the template ([0005](decisions/0005-one-library-per-team.md)) |
+| A team's library, Council Rock | One repo per team, such as `seeonee/payments-library`, made from the template ([0005](decisions/0005-one-knowledge-library-for-the-org.md)) |
 | The test repos | `seeonee/bagheera-test`, a small service, and `seeonee/bagheera-test-library`, with a Jira test project and a Confluence test page, for the end-to-end check (section 5) |
 
 Scripts, the format check included, run on a Mac with only `git` and `gh` installed. **Assumed:** the org has a Claude Code plugin marketplace, governed by its internal policies; publishing through it is outside our scope ([0034](decisions/0034-publish-through-the-org-marketplace.md)).
@@ -51,7 +51,7 @@ Scripts, the format check included, run on a Mac with only `git` and `gh` instal
 
 ### The knowledge library
 
-**Layout** ([0007](decisions/0007-lay-out-the-library-by-page-type.md))
+**Layout** ([0007](decisions/0007-lay-out-the-library-by-type-then-domain.md))
 
 ```text
 standards/   services/   decisions/   features/
@@ -75,11 +75,11 @@ Git history is the change log ([0030](decisions/0030-git-history-and-the-index.m
 
 **Approving and merging library PRs** ([0035](decisions/0035-the-approver-merges-library-prs.md)). Whoever comments `/approved library` merges the PR straight after. By process, the tech lead approves service pages, technical decisions and standards, and the PM product decisions. The branch rule needs a PR and the format check, and blocks force-push.
 
-**The format check** (K2) runs on every library PR, people's own edits included, as a workflow in the library repo with no secrets; the commands run the same script before they open a PR ([0031](decisions/0031-the-format-check-in-each-library.md)). It fails on missing or unknown header fields and bad dates; missing or empty sections, pages over one and a half times their limit, and logs or long code blocks; links between pages that don't resolve; and rule numbering in standards.
+**The format check** (K2) runs on every library PR, people's own edits included, as a workflow in the library repo with no secrets; the commands run the same script before they open a PR ([0031](decisions/0031-the-format-check-in-the-library-repo.md)). It fails on missing or unknown header fields and bad dates; missing or empty sections, pages over one and a half times their limit, and logs or long code blocks; links between pages that don't resolve; and rule numbering in standards.
 
 ### The settings file
 
-The library template's `settings.json` holds the deny rules for the four forbidden actions, bypass mode off, the sandbox trial's settings, a rule letting Claude read the local library copy without prompts, and the team's library repo as `BAGHEERA_LIBRARY` ([0022](decisions/0022-deny-rules-and-a-sandbox-trial.md)). Each developer adds it to `~/.claude/settings.json`. A team may add deny rules of its own.
+The library template's `settings.json` holds the deny rules for the four forbidden actions, bypass mode off, the sandbox trial's settings, a rule letting Claude read the local library copy without prompts, and the team's library repo as `BAGHEERA_LIBRARY` ([0022](decisions/0022-deny-rules-in-each-repo-and-a-sandbox-trial.md)). Each developer adds it to `~/.claude/settings.json`. A team may add deny rules of its own.
 
 ### Changing Bagheera
 
@@ -138,7 +138,7 @@ Once ten tickets have shipped and updated the library, the platform team answers
 1. Were both targets met? The first is PRD §9's condition for expanding.
 2. Could the team adopt it by the guide alone? What had to change?
 3. Which additions did the signals call for, and in what order (section 4)?
-4. The sandbox for everyone, for some repos, or deny rules only ([0022](decisions/0022-deny-rules-and-a-sandbox-trial.md))?
+4. The sandbox for everyone, for some repos, or deny rules only ([0022](decisions/0022-deny-rules-in-each-repo-and-a-sandbox-trial.md))?
 5. The page schema as the pilot left it: fixed for the teams that adopt next.
 
 If 1 is no, we find out why with the team and fix that before anything is added. If it's yes, the additions called for come next, one at a time, and more teams adopt it, 2–3 at a time.
@@ -210,7 +210,7 @@ Recommendations for future improvements, each added on its own when its signal s
 
 * **Script tests** in `seeonee/bagheera`, on recorded GitHub data: the stage check (approved; missing; approved by the author, which counts and is listed; cancelled by a later change; in a review rather than a comment; an override, with and without a reason) and the feature script.
 * **Format check tests** in the library template: one good page per type, and one bad page per kind of failure.
-* **The red-team test** ([0022](decisions/0022-deny-rules-and-a-sandbox-trial.md)): on the test repo, try to make Claude deploy, force-push, read production credentials and edit protected paths, directly, through scripts, by full path and inside `sh -c`. Once with deny rules alone, once with the sandbox. Repeated when the deny rules or sandbox settings change.
+* **The red-team test** ([0022](decisions/0022-deny-rules-in-each-repo-and-a-sandbox-trial.md)): on the test repo, try to make Claude deploy, force-push, read production credentials and edit protected paths, directly, through scripts, by full path and inside `sh -c`. Once with deny rules alone, once with the sandbox. Repeated when the deny rules or sandbox settings change.
 * **Before each version,** a platform engineer runs the changed commands on the test repos with `--plugin-dir`.
 
 ### The end-to-end check

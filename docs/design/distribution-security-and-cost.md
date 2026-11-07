@@ -51,7 +51,7 @@ If a fetch ever fails, the plugin keeps working from the last version fetched, a
 
 ## 2. The settings file
 
-_Decided: [ADR 0022](../decisions/0022-deny-rules-and-a-sandbox-trial.md), set by the owner._
+_Decided: [ADR 0022](../decisions/0022-deny-rules-in-each-repo-and-a-sandbox-trial.md), set by the owner._
 
 A plugin can't carry permission or sandbox settings, so they reach laptops in a settings file of their own.
 

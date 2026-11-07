@@ -22,7 +22,7 @@ Chosen option: A.
 * **Every change is a PR to `main`,** approved by the other platform engineer. `main` needs a PR and doesn't allow force-push.
 * **Tried before each version.** A platform engineer loads `main` with `claude --plugin-dir plugins/bagheera` and runs the changed commands on the test repo.
 * **A version** raises the version in `plugin.json`; the marketplace publishes it. Rolling back is a new version that reverts the change.
-* **The settings file also needs security's approval,** which its author asks for and whoever merges checks.
+* **The settings template also needs security's approval,** and the architecture council's for its deny rules; its author asks for them, and whoever merges checks.
 * **No fast lane.** Urgent fixes take the same path.
 
 ### Consequences
@@ -30,7 +30,7 @@ Chosen option: A.
 * Good, because it is GitHub's own review, in the platform team's own repo, with no lists of owners to keep.
 * Good, because trying a change takes one command on a platform engineer's machine.
 * Bad, because with two platform engineers, a change waits when one is away.
-* Bad, because security's approval of the settings file is checked by a person, not by GitHub.
+* Bad, because security's and the council's approval of the settings template is checked by a person, not by GitHub.
 
 ## More information
 

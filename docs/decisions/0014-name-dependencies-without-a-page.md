@@ -25,7 +25,7 @@ Chosen option: A.
 
 ### Consequences
 
-* Good, because it needs no new parts, and each team reviews only its own pages.
+* Good, because it needs no new parts, and each team reviews only the pages of the repos it's about to work in.
 * Bad, because until the link is added, Claude sees only the dependency's name, not its interfaces.
 
 ## More information
