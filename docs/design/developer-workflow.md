@@ -248,7 +248,7 @@ The developer reviews and steers throughout; Build is a working session with Cla
 
 ### Criteria coverage and results in CI
 
-An addition ([the plan](../plan.md#3-additions)). On the ticket's PR, CI checks that every criterion has at least one test whose name carries its ID, and keeps one PR comment up to date with a table by criterion:
+An addition ([the plan](../plan.md#4-later-additions-a-team-can-make)). On the ticket's PR, CI checks that every criterion has at least one test whose name carries its ID, and keeps one PR comment up to date with a table by criterion:
 
 | Criterion | What it says | Tests | Result |
 | --- | --- | --- | --- |

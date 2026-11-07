@@ -212,7 +212,7 @@ When it fails, the PR stays open with the finding, and its author fixes it.
 
 ### Planted-instruction screens
 
-An addition, for when planted text is found or many teams' PR text feeds the library ([the plan](../plan.md#3-additions); 0019). Both run on every library PR:
+An addition, for when planted text is found or many teams' PR text feeds the library ([the plan](../plan.md#4-later-additions-a-team-can-make); 0019). Both run on every library PR:
 
 | Screen | What it rejects | Built on |
 | --- | --- | --- |
@@ -244,7 +244,7 @@ Claude opens other pages with its own file tools when it needs them. Intake read
 
 ### Step-by-step reveal
 
-An addition, for when sessions miss pages they needed or the index grows too long to load ([the plan](../plan.md#3-additions)). The library is a graph: pages are nodes, and references between them are edges. The addition brings the header fields that record the edges:
+An addition, for when sessions miss pages they needed or the index grows too long to load ([the plan](../plan.md#4-later-additions-a-team-can-make)). The library is a graph: pages are nodes, and references between them are edges. The addition brings the header fields that record the edges:
 
 | Edge | From → to | Field |
 | --- | --- | --- |
@@ -268,7 +268,7 @@ CI sessions load the same plugin. The PR review starts from the files in the dif
 
 ## 9. Sources and trust levels
 
-An addition, for when owners can't tell where a statement came from ([the plan](../plan.md#3-additions); 0012, [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)). Every statement the library writer writes ends with a footnote giving its trust level, its source with a link, and the date:
+An addition, for when owners can't tell where a statement came from ([the plan](../plan.md#4-later-additions-a-team-can-make); 0012, [0070](../decisions/0070-knowledge-expires-and-every-change-is-checked-once.md)). Every statement the library writer writes ends with a footnote giving its trust level, its source with a link, and the date:
 
 | Level | What it covers |
 | --- | --- |

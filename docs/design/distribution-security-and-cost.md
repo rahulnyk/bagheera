@@ -129,7 +129,7 @@ No spend caps for now. Whether to have one, and at what level, is decided after 
 
 * **Reported, not capped.** Each Verify and library-update run records its cost, and the weekly summary adds them up by repository (section 5). At rollout, CI's spend also shows on its own Console workspace, apart from seats.
 * **In the pilot,** runs count against people's own seats, under whatever limits the company's Claude plan already sets.
-* **After the pilot:** cap or not ([the plan](../plan.md#decisions-deferred-to-the-pilot-exit)). If yes, Claude Code's own `--max-budget-usd` and `--max-turns` cap each run, and a limit on CI's Console workspace caps each month; both are settings, with nothing to build.
+* **After the pilot:** cap or not ([the plan](../plan.md#exit-check)). If yes, Claude Code's own `--max-budget-usd` and `--max-turns` cap each run, and a limit on CI's Console workspace caps each month; both are settings, with nothing to build.
 
 ## 5. Adoption and cost by repository
 

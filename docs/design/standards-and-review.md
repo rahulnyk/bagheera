@@ -90,7 +90,7 @@ Before the pilot, the council seeds only what the pilot needs. Other teams add t
 
 _Decided: ADR 0043, following 0022._
 
-An addition ([the plan](../plan.md#3-additions)). Until it arrives, Claude opens the standards it needs from the library's index, and Plan reads the ones that apply.
+An addition ([the plan](../plan.md#4-later-additions-a-team-can-make)). Until it arrives, Claude opens the standards it needs from the library's index, and Plan reads the ones that apply.
 
 Standards reach Claude when the work needs them, in every session, whether or not a stage command is used (PRD R2).
 
@@ -112,7 +112,7 @@ Standards reach Claude when the work needs them, in every session, whether or no
 
 _Decided: ADR 0044, amended by 0048. Where it runs: [design doc 3, section 8](developer-workflow.md#8-what-runs-where)._
 
-An addition, Verify ([the plan](../plan.md#3-additions)). Verify reviews every PR before a person does, as a required check (PRD R3). Only written blocking rules can fail it, and the person reviewing the PR can dismiss a finding the reviewer got wrong, on record.
+An addition, Verify ([the plan](../plan.md#4-later-additions-a-team-can-make)). Verify reviews every PR before a person does, as a required check (PRD R3). Only written blocking rules can fail it, and the person reviewing the PR can dismiss a finding the reviewer got wrong, on record.
 
 ### What it checks
 
@@ -208,7 +208,7 @@ Verify runs with read-only access to the repo and the harness's GitHub App, and 
 
 * **Setup.** The pilot engineers' own settings turn the sandbox on, by agreement ([design doc 6, section 2](distribution-security-and-cost.md#2-how-settings-reach-laptops)): Claude Code won't start without it, and Claude can't ask to run a command outside it. Credential folders are unreadable. Listed hosts are reachable (GitHub, package registries, and the internal services the pilot's work needs), production hosts are denied, and any other host prompts the engineer, since only managed settings can block unlisted hosts outright.
 * **What we note.** How often it gets in the way: hosts that had to be added, Docker-based tests that couldn't run, machines that couldn't run it. The pilot engineers are all on Macs, where the sandbox runs.
-* **Pilot exit decision:** the sandbox for everyone, for some repos, or deny rules only ([the plan](../plan.md#decisions-deferred-to-the-pilot-exit)).
+* **Pilot exit decision:** the sandbox for everyone, for some repos, or deny rules only ([the plan](../plan.md#exit-check)).
 
 ### Red-team test, before the pilot
 
@@ -218,7 +218,7 @@ In a test repo, the platform team tries to make Claude deploy, force-push, read 
 
 _Decided: ADR 0046._
 
-Comes with the Architecture stage ([the plan](../plan.md#3-additions)). `architecture.md` carries a short "Standards check" section, filled from the current standards each time it's drafted (PRD R5): one line for each blocking rule that bears on the design, saying how the design meets it, or marking an exception with its reason.
+Comes with the Architecture stage ([the plan](../plan.md#4-later-additions-a-team-can-make)). `architecture.md` carries a short "Standards check" section, filled from the current standards each time it's drafted (PRD R5): one line for each blocking rule that bears on the design, saying how the design meets it, or marking an exception with its reason.
 
 ```markdown
 ## Standards check

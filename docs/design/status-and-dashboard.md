@@ -2,7 +2,7 @@
 
 _Status: approved by the owner; current with the decisions of 2026-11-04 · Design doc 5 of 6 · [All design docs](README.md)_
 
-One simple dashboard shows every story, what it's waiting on and for how long, so PMs, tech leads, QA, managers and leadership can see where things stand without asking anyone (PRD G4, G5). This doc says where status comes from, how it's worked out, what the dashboard is built on, its views, notifications, the weekly summary and the Jira link. The dashboard, the weekly summary and the Jira comment are additions to the first system ([the plan](../plan.md#3-additions)); notifications (section 5) start with it.
+One simple dashboard shows every story, what it's waiting on and for how long, so PMs, tech leads, QA, managers and leadership can see where things stand without asking anyone (PRD G4, G5). This doc says where status comes from, how it's worked out, what the dashboard is built on, its views, notifications, the weekly summary and the Jira link. The dashboard, the weekly summary and the Jira comment are additions to the first system ([the plan](../plan.md#4-later-additions-a-team-can-make)); notifications (section 5) start with it.
 
 Covers PRD V1–V7 and C5; adoption and cost reporting (V6) is shared with [design doc 6](distribution-security-and-cost.md). It builds on [design doc 3](developer-workflow.md), which set the PR, approvals and overrides that status is read from, and on [design doc 4](standards-and-review.md), which set the findings and dismissals reported weekly.
 
@@ -179,7 +179,7 @@ GitHub's own notifications, for now. Slack comes later.
 
 ### Slack
 
-GitHub's scheduled reminders can post a daily list to each team's Slack channel of the PRs its members have been asked to review. It's configuration only: an org owner authorises the Slack workspace once, and team maintainers set the times. Whether to turn it on is decided at the pilot exit ([the plan](../plan.md#decisions-deferred-to-the-pilot-exit)).
+GitHub's scheduled reminders can post a daily list to each team's Slack channel of the PRs its members have been asked to review. It's configuration only: an org owner authorises the Slack workspace once, and team maintainers set the times. Whether to turn it on is decided at the pilot exit ([the plan](../plan.md#exit-check)).
 
 ## 6. The weekly summary
 
