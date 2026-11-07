@@ -7,12 +7,12 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-[0057](0057-release-the-plugin-from-a-release-branch.md) has the platform team create a Claude Code plugin marketplace in `seeonee/bagheera` and release from its `release` branch. [0067](0067-review-changes-by-pr-with-code-owners.md) makes security review what runs on laptops, and [0060](0060-lock-plugins-and-mcp-servers-leave-own-files.md) locks plugins and MCP servers to approved ones. In an org, a plugin marketplace is normally run and governed by an owning team. Whose job is publishing and governing Bagheera's plugin?
+[0067](0067-review-changes-by-pr-with-code-owners.md) makes security review what runs on laptops, and [0060](0060-lock-plugins-and-mcp-servers-leave-own-files.md) locks plugins and MCP servers to approved ones. In an org, a plugin marketplace is normally run and governed by an owning team. Whose job is publishing and governing Bagheera's plugin?
 
 ## Considered options
 
 * A. Publish to the org's plugin marketplace; its owning team governs publishing
-* B. Our own marketplace in `seeonee/bagheera`, as in 0057
+* B. Our own marketplace in `seeonee/bagheera`, released from a `release` branch
 
 ## Decision outcome
 
@@ -32,4 +32,4 @@ Set by the owner: A. Once the plugin is built, publishing it and the governance 
 
 ## More information
 
-Replaces [0057](0057-release-the-plugin-from-a-release-branch.md). Amends [0060](0060-lock-plugins-and-mcp-servers-leave-own-files.md) and [0067](0067-review-changes-by-pr-with-code-owners.md), whose locks and laptop review move to the marketplace's owning team. Detail in [plan.md, section 1](../plan.md#install-and-the-deny-rules-file).
+Amends [0060](0060-lock-plugins-and-mcp-servers-leave-own-files.md) and [0067](0067-review-changes-by-pr-with-code-owners.md), whose locks and laptop review move to the marketplace's owning team. Detail in [plan.md, section 1](../plan.md#install-and-the-deny-rules-file).

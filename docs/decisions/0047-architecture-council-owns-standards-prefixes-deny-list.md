@@ -27,6 +27,6 @@ In `domains.yaml`, the `org` domain's owners are the architecture council's GitH
 
 ## More information
 
-Detail in [design/standards-and-review.md, sections 1, 2 and 5](../design/standards-and-review.md#1-rules-within-a-standard). Amends [0041](0041-blocking-per-page-numbered-rules.md), [0042](0042-draft-first-standards-from-owners-documents.md) and [0045](0045-deny-rules-now-sandbox-trial-in-pilot.md).
+Detail in [design/standards-and-review.md, sections 1, 2 and 5](../design/standards-and-review.md#1-rules-within-a-standard). Amends [0041](0041-blocking-per-page-numbered-rules.md) and [0045](0045-deny-rules-now-sandbox-trial-in-pilot.md).
 
 Amended by [0059](0059-pilot-settings-in-engineers-own-settings-file.md): during the pilot, the deny list reaches pilot laptops through each engineer's own settings, and moves into managed settings at rollout.

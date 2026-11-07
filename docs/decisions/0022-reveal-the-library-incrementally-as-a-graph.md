@@ -7,11 +7,11 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-[0021](0021-load-a-compact-starter-set-at-session-start.md) loaded a starter set at session start, including an index of every accepted decision in the domain. The owner pointed out that this loads more than a ticket needs: the library is a graph of knowledge, each ticket needs only a small part of it, and that part should be revealed step by step. PRD K7 still requires the relevant service page at session start, and R2 requires the relevant standards when Claude designs or writes code.
+A starter set loaded at session start, with an index of every accepted decision in the domain, loads more than a ticket needs: the library is a graph of knowledge, each ticket needs only a small part of it, and that part should be revealed step by step. PRD K7 still requires the relevant service page at session start, and R2 requires the relevant standards when Claude designs or writes code.
 
 ## Considered options
 
-* A. A starter set within a budget ([0021](0021-load-a-compact-starter-set-at-session-start.md))
+* A. A starter set within a budget
 * B. Incremental reveal: load only the service page and the feature's status line at start; each stage reveals what it must have; Claude explores further one step at a time
 * C. Nothing up front; everything on demand
 

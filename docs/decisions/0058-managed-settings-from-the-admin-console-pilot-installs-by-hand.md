@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Managed settings carry the plugin switch ([0057](0057-release-the-plugin-from-a-release-branch.md)), the deny rules ([0045](0045-deny-rules-now-sandbox-trial-in-pilot.md)) and the lock on other plugins (PRD D1). They reach laptops through the claude.ai admin console, the company's device management, or both. The console applies one policy to everyone in the Claude org and can't target the pilot team alone. How do the settings reach laptops, and how does the pilot go first?
+Managed settings carry the plugin switch, the deny rules ([0045](0045-deny-rules-now-sandbox-trial-in-pilot.md)) and the lock on other plugins (PRD D1). They reach laptops through the claude.ai admin console, the company's device management, or both. The console applies one policy to everyone in the Claude org and can't target the pilot team alone. How do the settings reach laptops, and how does the pilot go first?
 
 ## Considered options
 

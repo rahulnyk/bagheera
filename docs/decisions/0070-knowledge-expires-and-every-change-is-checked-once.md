@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Design doc 1 protects the library with sources on every statement and trust levels ([0012](0012-record-provenance-per-statement.md)), a split between changes that merge by themselves and changes that need a person ([0013](0013-merge-only-restated-approved-work-without-a-person.md)), checks and planted-instruction screens ([0019](0019-screen-for-planted-instructions-twice.md)), and a weekly check with 90-day re-verification ([0020](0020-send-findings-to-owners-as-library-prs.md)). For the first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)), what does the library keep?
+Design doc 1 protects the library with sources on every statement and trust levels ([0012](0012-record-provenance-per-statement.md)), a split between changes that merge by themselves and changes that need a person, checks and planted-instruction screens ([0019](0019-screen-for-planted-instructions-twice.md)), and a weekly check with 90-day re-verification. For the first system ([0069](0069-first-system-delivery-path-and-knowledge-library.md)), what does the library keep?
 
 ## Decision outcome
 
@@ -30,7 +30,7 @@ Set by the owner.
 
 ## More information
 
-Replaces [0013](0013-merge-only-restated-approved-work-without-a-person.md) and [0020](0020-send-findings-to-owners-as-library-prs.md). Sets aside, for now, [0012](0012-record-provenance-per-statement.md), the screens in [0019](0019-screen-for-planted-instructions-twice.md), and the step-by-step reveal in [0022](0022-reveal-the-library-incrementally-as-a-graph.md). Detail in [design/knowledge-library.md](../design/knowledge-library.md#3-trust).
+Sets aside, for now, [0012](0012-record-provenance-per-statement.md), the screens in [0019](0019-screen-for-planted-instructions-twice.md), and the step-by-step reveal in [0022](0022-reveal-the-library-incrementally-as-a-graph.md). Detail in [design/knowledge-library.md](../design/knowledge-library.md#3-trust).
 
 Amended by [0071](0071-newest-wins-and-approvers-recorded-on-each-page.md): contradictions are flagged when pages are used, the newest page wins, and every page records who approved it.
 

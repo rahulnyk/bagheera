@@ -46,7 +46,7 @@ The stage commands are adapted from Spec Kit's templates and instructions ([0028
 
 * An approval is `/approved spec` or `/approved plan` on its own line, in a PR comment or review.
 * It counts only from the PM or tech lead named in the spec's header. Intake suggests them and the developer confirms; each command requests its approver as a reviewer, so GitHub notifies them and lists the PR in their review requests. To swap someone, the developer edits the header and the new person approves ([0072](decisions/0072-named-pm-and-tech-lead-approve.md)).
-* It doesn't count from anyone who committed to the document. Any later change to the document, even a typo fix, cancels it, and the approver comments again ([0074](decisions/0074-any-change-cancels-an-approval.md)).
+* It doesn't count from anyone who committed to the document. Any later change to the document, even a typo fix, cancels it, and the approver comments again ([0032](decisions/0032-stage-check-stops-and-records-overrides.md)).
 * Every command checks first. Without the approvals it needs, it stops, says what's missing and who it's waiting on, and links the PR.
 * **Overrides** ([0073](decisions/0073-keep-the-override-in-the-first-system.md)). `--override "<reason>"` goes ahead anyway, and the command posts the override on the PR: the stage, what was missing, the reason and who. It isn't an approval: nothing in an unapproved document reaches the library as approved work.
 
@@ -310,7 +310,6 @@ The first system: [0069](decisions/0069-first-system-delivery-path-and-knowledge
 
 * [0072](decisions/0072-named-pm-and-tech-lead-approve.md): the PM and tech lead named in the spec approve
 * [0073](decisions/0073-keep-the-override-in-the-first-system.md): a stop can be overridden, on the record
-* [0074](decisions/0074-any-change-cancels-an-approval.md): any change to a document cancels its approval
 * [0075](decisions/0075-one-pr-per-ticket.md): one PR per ticket; phases one at a time within it
 * [0076](decisions/0076-criteria-ids-in-test-names-results-in-the-pr.md): criteria IDs in test names, results listed in the PR
 * [0077](decisions/0077-short-seeding-report-no-deepwiki-fallback.md): a short seeding report

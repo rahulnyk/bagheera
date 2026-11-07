@@ -13,3 +13,4 @@ Delivery harness on Claude Code. Source of truth: `docs/prd.md`. Flag conflicts 
 - Fewest moving parts that meet the PRD's must-haves. Prefer configuring existing first-party and open-source tools; when building, say what was considered and why it didn't fit.
 - Explain in plain language; take decisions one at a time with a recommendation.
 - Record each decision the owner makes as a short ADR in `docs/decisions/` (MADR format).
+- No decision trail. Nothing is built yet, so there's no history to keep: git has it. When a decision replaces another, delete the old one as if it never existed, fold any change into the ADR it changes, and patch the whole repo to state the new decision. Title each ADR by what it decides. Never write that something was dropped, replaced, superseded, set aside or is no longer needed, and don't keep "Amended by" or "Replaces" lines or context that tells the history.

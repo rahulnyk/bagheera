@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD V7 asks for "a weekly one-page summary: what shipped, what's stuck at which approval, cost by team". Earlier decisions also send it the managers' markers ([0038](0038-managers-enforce-qa-review-and-tests-first.md)), standards findings and dismissals by team and rule for their owners (PRD R6, [0048](0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)), and library health ([0020](0020-send-findings-to-owners-as-library-prs.md)). Notifications are GitHub's own for now ([0053](0053-github-notifications-now-slack-later.md)). Where does the summary go each week?
+PRD V7 asks for "a weekly one-page summary: what shipped, what's stuck at which approval, cost by team". Earlier decisions also send it the managers' markers ([0038](0038-managers-enforce-qa-review-and-tests-first.md)), standards findings and dismissals by team and rule for their owners (PRD R6, [0048](0048-anyone-reviewing-may-dismiss-who-and-why-recorded.md)), and library health. Notifications are GitHub's own for now ([0053](0053-github-notifications-now-slack-later.md)). Where does the summary go each week?
 
 ## Considered options
 

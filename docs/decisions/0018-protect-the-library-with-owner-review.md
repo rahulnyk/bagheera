@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Some library changes need a person: inferred service-page changes, decisions and standards ([0013](0013-merge-only-restated-approved-work-without-a-person.md)). Stage documents use a soft `/approved` comment ([0002](0002-soft-approval-by-comment.md)). The library is different: every session trusts it ([0008](0008-caution-and-provenance-for-the-knowledge-library.md)). How is approval given and enforced on library PRs?
+Every library change needs a person ([0070](0070-knowledge-expires-and-every-change-is-checked-once.md)). Stage documents use a soft `/approved` comment ([0002](0002-soft-approval-by-comment.md)). The library is different: every session trusts it ([0008](0008-caution-and-provenance-for-the-knowledge-library.md)). How is approval given and enforced on library PRs?
 
 ## Considered options
 

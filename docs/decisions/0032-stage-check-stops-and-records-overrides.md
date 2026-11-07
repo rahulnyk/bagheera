@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD C3 (must have) says a stage "refuses to start until its artifact is approved by the designated role; editing a file locally must not count as approval". The owner chose soft enforcement: an `/approved` comment, with managers holding teams to the process ([0002](0002-soft-approval-by-comment.md)). With one planning PR per feature ([0030](0030-one-planning-pr-per-feature.md)), an approval is a comment naming the document, such as `/approved spec`. What should a stage command do when an earlier document isn't approved?
+PRD C3 (must have) says a stage "refuses to start until its artifact is approved by the designated role; editing a file locally must not count as approval". The owner chose soft enforcement: an `/approved` comment, with managers holding teams to the process ([0002](0002-soft-approval-by-comment.md)). With one PR per ticket ([0075](0075-one-pr-per-ticket.md)), an approval is a comment naming the document, such as `/approved spec`. What should a stage command do when an earlier document isn't approved?
 
 ## Considered options
 
@@ -17,7 +17,7 @@ PRD C3 (must have) says a stage "refuses to start until its artifact is approved
 
 ## Decision outcome
 
-Chosen option: A. Each stage command runs the stage check first. Without a current approval from the designated role for every earlier document, it stops, names what's missing and who it's waiting on, and links to the PR. `--override "<reason>"` lets the developer go ahead; the command posts the override as a comment on the PR, and the dashboard and weekly summary show it. An override is not an approval: the document stays unapproved, nothing in it reaches the library as approved work, and approving it later clears the flag. Merging the planning PR without every approval is not blocked, and counts as an override.
+Chosen option: A. Each stage command runs the stage check first. Without a current approval from the designated role for every earlier document, it stops, names what's missing and who it's waiting on, and links to the PR. `--override "<reason>"` lets the developer go ahead; the command posts the override as a comment on the PR, and the dashboard and weekly summary show it. An approval counts only if it's newer than the last commit that changed the document: any change, a typo fix included, cancels it, and the approver comments again. An override is not an approval: the document stays unapproved, nothing in it reaches the library as approved work, and approving it later clears the flag. Merging the planning PR without every approval is not blocked, and counts as an override.
 
 ### Consequences
 
@@ -31,6 +31,6 @@ Chosen option: A. Each stage command runs the stage check first. Without a curre
 
 Detail in [design/developer-workflow.md, section 4](../design/developer-workflow.md#4-approval). Resolves the conflict flagged in [0002](0002-soft-approval-by-comment.md).
 
-Amended by [0038](0038-managers-enforce-qa-review-and-tests-first.md) (QA's approval of test cases warns instead of stopping) and [0039](0039-wording-fixes-keep-an-approval.md) (marked wording fixes keep an approval).
+Amended by [0038](0038-managers-enforce-qa-review-and-tests-first.md) (QA's approval of test cases warns instead of stopping).
 
 Kept in the first system by [0073](0073-keep-the-override-in-the-first-system.md); with no dashboard, overrides are seen on the PR.

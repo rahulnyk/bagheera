@@ -135,7 +135,7 @@ specs/PAY-412/
 
 ## 4. Approval
 
-_Decided: [ADR 0032](../decisions/0032-stage-check-stops-and-records-overrides.md), [0072](../decisions/0072-named-pm-and-tech-lead-approve.md), [0073](../decisions/0073-keep-the-override-in-the-first-system.md) and [0074](../decisions/0074-any-change-cancels-an-approval.md), following [0002](../decisions/0002-soft-approval-by-comment.md)._
+_Decided: [ADR 0032](../decisions/0032-stage-check-stops-and-records-overrides.md), [0072](../decisions/0072-named-pm-and-tech-lead-approve.md) and [0073](../decisions/0073-keep-the-override-in-the-first-system.md), following [0002](../decisions/0002-soft-approval-by-comment.md)._
 
 Approval is a comment from the named person. Stage commands stop without it, but a developer can go ahead on purpose, on the record. Nothing technical blocks a merge; managers act on what they see (PRD C3).
 

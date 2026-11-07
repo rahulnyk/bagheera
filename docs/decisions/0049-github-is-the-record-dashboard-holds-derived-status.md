@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-The dashboard shows each story's stage, status, who it is waiting on and for how long, and phase progress (PRD V2). Status must be derived from the artifacts and PRs, never entered by hand (V4). Nothing shared may be committed to product repos ([0030](0030-one-planning-pr-per-feature.md)), and approvals, overrides, dismissals and demo approvals already live on GitHub PRs. [0005](0005-view-only-dashboard.md) left open where the derived status lives.
+The dashboard shows each story's stage, status, who it is waiting on and for how long, and phase progress (PRD V2). Status must be derived from the artifacts and PRs, never entered by hand (V4). Nothing shared is committed to product repos, and approvals, overrides, dismissals and demo approvals already live on GitHub PRs. [0005](0005-view-only-dashboard.md) left open where the derived status lives.
 
 ## Considered options
 

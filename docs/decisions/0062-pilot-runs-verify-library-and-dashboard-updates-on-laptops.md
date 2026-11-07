@@ -30,7 +30,6 @@ Set by the owner: B, with one GitHub App at rollout.
 * Good, because the pilot needs nothing from the Claude admin or the GitHub org owners; each pilot repo's admins set one branch rule.
 * Good, because nothing is thrown away: the commands are what CI runs later.
 * Bad, because the dashboard and the library are only as fresh as the last run. Approval requests still reach people straight away, since the stage commands request reviewers themselves.
-* Bad, because PRD G1's pilot target, service pages updated within a day of a merge, needs the library update at least daily.
 * Bad, because Verify's cost shows in each developer's own usage, so the PRD's "CI cost per merged PR" can't be measured in the pilot.
 * Bad, because PRD P7's "in CI (stages 6–8)" holds only from rollout.
 
@@ -39,7 +38,5 @@ Set by the owner: B, with one GitHub App at rollout.
 Option C was set aside because GitHub's models aren't Claude Code: we would build our own review and curation programs, CI would review differently from laptops, and PRD §8 names Claude Code and claude-code-action for CI. Detail in [design/distribution-security-and-cost.md, section 3](../design/distribution-security-and-cost.md#3-where-the-jobs-run).
 
 Amended by [0063](0063-one-github-app-key-shared-with-onboarded-repos.md): the App's key is one organisation secret shared with the onboarded repos, so the rollout plan has nothing left to settle there.
-
-Amended by [0064](0064-drop-the-updated-within-a-day-target.md): PRD G1's "updated within a day" target is dropped, so running the library update every few days misses nothing.
 
 Amended by [0080](0080-developers-run-the-library-update-after-each-merge.md): in the first system, the developer runs `/bagheera:update-library` once their ticket's PR has merged.

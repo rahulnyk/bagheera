@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD V5 (should have): Jira reflects stage changes, or at least links to the feature's artifacts. [0006](0006-jira-link-only.md) chose link only and left how the link is made to design doc 5. Each ticket is delivered in one repo, with one planning PR as the story's home ([0030](0030-one-planning-pr-per-feature.md), [0031](0031-one-ticket-one-repo.md)). How does the ticket get its link?
+PRD V5 (should have): Jira reflects stage changes, or at least links to the feature's artifacts. [0006](0006-jira-link-only.md) chose link only and left how the link is made to design doc 5. Each ticket is delivered in one repo, with one PR as the story's home ([0031](0031-one-ticket-one-repo.md), [0075](0075-one-pr-per-ticket.md)). How does the ticket get its link?
 
 ## Considered options
 

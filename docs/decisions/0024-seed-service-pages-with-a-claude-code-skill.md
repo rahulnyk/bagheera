@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-Existing services need a first-draft page from a one-off automated pass over their code (PRD K8). [0009](0009-seed-service-pages-with-deepwiki-open.md) chose DeepWiki-Open, as PRD §8 prefers. Looking at what it takes to run it showed:
+Existing services need a first-draft page from a one-off automated pass over their code (PRD K8). PRD §8 prefers DeepWiki-Open. Looking at what it takes to run it showed:
 
 * it can't use an Anthropic API key directly: it needs a LiteLLM proxy (plus its database) and a local embedding model (Ollama), so about four extra processes on the laptop that runs it;
 * a Claude subscription can't be used; it needs an Anthropic API key or Bedrock;
@@ -25,7 +25,7 @@ Meanwhile, design doc 1 fixed the service page's format, writing rules and check
 
 ## Decision outcome
 
-Chosen option: A. A skill in the plugin applies the knowledge agent's page format and writing rules to a repo's code as it stands, and writes a draft service page in which every statement is inferred and cites a file at a commit. The draft goes through the same checks and owning-team review as any other inferred change ([0013](0013-merge-only-restated-approved-work-without-a-person.md)). If the drafts for the first real repo are poor, we fall back to option B.
+Chosen option: A. A skill in the plugin applies the knowledge agent's page format and writing rules to a repo's code as it stands, and writes a draft service page in which every statement is inferred and cites a file at a commit. The draft goes through the same checks and review as any other library change. If the drafts for the first real repo are poor, we fall back to option B.
 
 ### Consequences
 

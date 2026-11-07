@@ -7,11 +7,11 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD D4: CI spend is capped per job and reported separately from seat usage. [0065](0065-cap-ci-spend-per-job-and-per-month.md) chose per-run caps and a monthly limit, with numbers to be set from the pilot. Nobody knows yet what a sensible cap would be. Design caps now, or decide after the pilot?
+PRD D4: CI spend is capped per job and reported separately from seat usage. Nobody knows yet what a sensible cap would be. Design caps now, or decide after the pilot?
 
 ## Considered options
 
-* A. Keep [0065](0065-cap-ci-spend-per-job-and-per-month.md): per-run caps and a monthly limit, with placeholder numbers
+* A. Per-run caps and a monthly limit, with placeholder numbers
 * B. No caps for now; record every run's cost, and decide after the pilot whether to cap and at what level
 
 ## Decision outcome
@@ -30,4 +30,4 @@ Set by the owner: B. Caps are a complication to add after experimenting, not to 
 
 ## More information
 
-Replaces [0065](0065-cap-ci-spend-per-job-and-per-month.md). Detail in [design/distribution-security-and-cost.md, section 4](../design/distribution-security-and-cost.md#4-spend-limits-and-reporting).
+Detail in [design/distribution-security-and-cost.md, section 4](../design/distribution-security-and-cost.md#4-spend-limits-and-reporting).

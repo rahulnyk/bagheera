@@ -7,7 +7,7 @@ deciders: RN (owner)
 
 ## Context and problem statement
 
-PRD D2: changes to Bagheera are reviewed like production code, with security owning the parts that run on laptops. Bagheera is released from `seeonee/bagheera`'s `release` branch ([0057](0057-release-the-plugin-from-a-release-branch.md)). At rollout the lock rejects `--plugin-dir` ([0060](0060-lock-plugins-and-mcp-servers-leave-own-files.md)), which is how platform engineers would try an unreleased version. How are changes reviewed and tried before release?
+PRD D2: changes to Bagheera are reviewed like production code, with security owning the parts that run on laptops. At rollout the lock rejects `--plugin-dir` ([0060](0060-lock-plugins-and-mcp-servers-leave-own-files.md)), which is how platform engineers would try an unreleased version. How are changes reviewed and tried before release?
 
 ## Considered options
 
