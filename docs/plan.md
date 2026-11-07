@@ -247,7 +247,7 @@ On `seeonee/bagheera-test`, whose pages live in the library's `bagheera-test` do
 | Library PRs wait, or merge without an approval | PR age; merged PRs with no `/approved library` | The platform team raises them at the weekly check-in |
 | The architecture council is slow to seed or approve standards | Standards PRs waiting; the pilot starting with few standards | Seed only what the pilot needs first; agree a review slot with the council |
 | The team can't adopt it by the guide alone | Where it needed help | Fix the guide or the template before the next team |
-| A repo's committed settings drift from the template | A script in `seeonee/bagheera` that compares each repo's file with the template | Teams update their repos when the template changes |
+| A repo's committed settings fall behind the template | Each change to the template | The platform team asks each team to update its repos |
 | The Claude plan and model access aren't confirmed (PRD Q7, Q8) | Before week 1 | The owner confirms; the pilot needs Claude Code seats |
 | Confluence pages are out of date or vague | The seed run's report of what it left out | The council rewrites or removes rules before approving |
 | Seat usage limits slow seeding or library updates | Each run's usage | Seed repo by repo; use an API key for those runs |
