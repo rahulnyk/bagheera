@@ -26,7 +26,7 @@ Chosen option: B.
 
 ### Consequences
 
-* Good, because context can't be dropped (required sections) and sprawl can't creep in (limits).
+* Good, because context can't go missing (required sections) and sprawl can't creep in (limits).
 * Good, because the full reasoning is one click away in its source.
 * Bad, because the starting limits are guesses and will need tuning in the pilot.
 

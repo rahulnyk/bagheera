@@ -35,4 +35,4 @@ Set by the owner: A.
 
 ## More information
 
-Detail in [design/standards-and-review.md](../design/standards-and-review.md). Sources: Claude Code docs, [permissions](https://code.claude.com/docs/en/permissions) and [sandboxing](https://code.claude.com/docs/en/sandboxing).
+Detail in [design/standards-and-forbidden-actions.md](../design/standards-and-forbidden-actions.md). Sources: Claude Code docs, [permissions](https://code.claude.com/docs/en/permissions) and [sandboxing](https://code.claude.com/docs/en/sandboxing).

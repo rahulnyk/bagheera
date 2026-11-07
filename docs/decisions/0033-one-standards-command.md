@@ -34,4 +34,4 @@ Set by the owner: D.
 
 ## More information
 
-Detail in [design/standards-and-review.md](../design/standards-and-review.md).
+Detail in [design/standards-and-forbidden-actions.md](../design/standards-and-forbidden-actions.md).
