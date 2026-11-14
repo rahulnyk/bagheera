@@ -18,7 +18,7 @@ Chosen by the owner.
 * It reads code, config and the repo's own docs. It skips vendored code, build output, lock files, and env and secret files, and doesn't follow links out of the org.
 * Where docs and code disagree, the page follows the code, and the PR lists the conflict.
 * A dependency with no page yet is named with its repo. Third-party services are named in plain words.
-* It opens one PR, listing the files behind each section, and the team reviews it as an onboarding task.
+* The pages go under the team's domain in the wiki, in one PR that lists the files behind each section. The team reviews it as an onboarding task, and the approver merges.
 
 ### Consequences
 

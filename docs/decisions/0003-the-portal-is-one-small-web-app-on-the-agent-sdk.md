@@ -20,9 +20,9 @@ PMs work in a portal ([0002](0002-pms-work-in-a-portal.md)). What is it built fr
 
 Proposed: A.
 
-* **Two screens:** the board, and the feature page. The portal runs Spec. It shows Plan and Build, which developers run in Claude Code.
+* **Two screens:** the board, and the feature page. The portal runs Spec. It shows Plan and Build, which developers run in Claude Code. It also merges each ticket's wiki PR when its code merges ([0020](0020-wiki-changes-are-reviewed-with-the-code-and-merged-by-the-portal.md)).
 * **One skill, two front doors.** The portal loads the same `spec` skill as `/bagheera:spec`, so the two can't drift apart.
-* **Locked down.** Sign-in is through the org's SSO. The drafting agent reads a clone of the repo and writes only `spec.md`, with no shell and no web. The portal's own code commits, through its GitHub App, on onboarded repos only.
+* **Locked down.** Sign-in is through the org's SSO. The drafting agent reads a clone of the repo and writes only `spec.md`, with no shell and no web. The portal's own code commits and merges, through its GitHub App, on onboarded repos and the wiki only.
 * **Jira.** A service account reads tickets and linked pages. It comments on the ticket, mentioning the person, whenever a feature starts waiting on them.
 * **No database.** GitHub is the record.
 

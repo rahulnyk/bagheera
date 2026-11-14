@@ -13,8 +13,8 @@ The knowledge flywheel is what makes Bagheera worth adopting: work documents in 
 
 Set by the owner: keep it.
 
-* Specs, plans, service pages, decisions and standards each have a page type: Markdown with a YAML header (`type`, `title`, `updated`, plus the type's own fields) and fixed sections.
-* Specs and plans are checked into the code repo, in the ticket's PR.
+* Specs, plans, service pages, features, decisions and standards each have a page type: Markdown with a YAML header (`type`, `title`, `updated`, plus the type's own fields) and fixed sections.
+* Specs and plans are checked into the code repo, in the ticket's PR. Everything else is in the wiki ([0008](0008-one-wiki-for-the-org.md)).
 * One page check, in the plugin, runs before every commit Bagheera makes, from Claude Code or the portal. It checks fields, sections, caps ([0009](0009-hard-limits-on-length.md)), links and IDs.
 * Git history is the change log. Pages are rewritten in place.
 

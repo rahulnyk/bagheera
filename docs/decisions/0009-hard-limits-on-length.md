@@ -13,7 +13,7 @@ Long documents don't get read, and documents nobody reads don't get approved or 
 
 Set by the owner: a heavy bias against verbosity is a must.
 
-* **Pages:** each page type has a word cap, and the page check fails any page over it. Spec 400, plan 500, service 400, decision 200, standard 500, headers excluded. Each section has its own limit too.
+* **Pages:** each page type has a word cap, and the page check fails any page over it. Spec 400, plan 500, service 400, feature 300, decision 200, standard 500, headers excluded. Each section has its own limit too.
 * **Command output:** at most 8 lines: pre-flight problems, what changed, the next step.
 * **Questions:** only questions that block, at most 5 open at a time, one line each, the most blocking first.
 * **Link, don't copy.** Reasoning, logs and discussion stay where they were written. No logs, transcripts, or code longer than 10 lines in a page.

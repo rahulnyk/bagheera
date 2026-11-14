@@ -17,9 +17,10 @@ Set by the owner: a pre-flight check before every stage.
 * It checks:
   * the repo, and its default branch, read from GitHub and never assumed
   * the ticket's branch, clean and up to date
+  * the local copy of the wiki
   * sign-ins and connectors
   * the stage's inputs
-* It fixes what's safe: it creates or switches to the ticket's branch, pulls, and merges the default branch in. It stops on the rest, with one line per problem and its fix.
+* It fixes what's safe: it creates or switches to the ticket's branch, pulls the branch and the wiki, and merges the default branch in. It stops on the rest, with one line per problem and its fix.
 * Re-running a stage is the same command, and revises that stage's own file.
 
 ### Consequences

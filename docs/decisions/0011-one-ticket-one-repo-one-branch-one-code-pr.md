@@ -3,7 +3,7 @@ status: accepted
 date: 2026-11-14
 deciders: RN (owner)
 ---
-# One ticket, one repo, one branch, one PR
+# One ticket, one repo, one branch, one code PR
 
 ## Context and problem statement
 
@@ -14,9 +14,9 @@ A ticket's work needs one home that people, the commands and the portal can all 
 Chosen by the owner.
 
 * Each Jira ticket is delivered in exactly one repo. Work that spans repos is one ticket per repo, linked in Jira.
-* The branch is named after the ticket key and made from the repo's default branch. One PR holds the spec, plan, tests, code and wiki changes. The portal opens it as a draft with the spec's first commit.
+* The branch is named after the ticket key and made from the repo's default branch. One code PR holds the spec, plan, tests and code. The portal opens it as a draft with the spec's first commit. The ticket's wiki changes go in one wiki PR, on a branch of the same name ([0020](0020-wiki-changes-are-reviewed-with-the-code-and-merged-by-the-portal.md)).
 * The default branch comes in by merging, never by rebasing or force-pushing.
-* Once the PR has merged, more work is a new ticket. To abandon a ticket, close its PR.
+* Once the code PR has merged, more work is a new ticket. To abandon a ticket, close its code PR.
 
 ### Consequences
 

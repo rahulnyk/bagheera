@@ -13,10 +13,10 @@ Who owns the org's standards, how are rules named, and how are they written?
 
 Chosen by the owner.
 
-* Standards are org-level `standard` pages. The architecture council owns them and approves every change; it can hand a topic to a specialist team.
+* Standards are `standard` pages in the wiki: org-wide ones in `standards/org/`, and a domain's additions, which never contradict them, in `standards/<domain>/`. The architecture council owns them and approves every change; it can hand a topic to a specialist team.
 * Each standard's rules share a short prefix, assigned by the council, and are numbered `sec-1`, `sec-2` and so on. IDs are lower case, so they can't be mistaken for Jira keys. A number is never reused; a withdrawn rule stays on the page, marked retired.
 * Every rule can be checked from a diff. Nothing a linter already enforces is restated.
-* `/bagheera:standards seed <Confluence links>` drafts standards from the pages given, and reports what it left out. `add` and `update` change rules. It opens a PR only when asked.
+* `/bagheera:standards seed <Confluence links>` drafts standards from the pages given, and reports what it left out. `add` and `update` change rules. It opens a wiki PR only when asked.
 * Plan and Build open the standards that apply.
 
 ### Consequences
