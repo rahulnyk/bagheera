@@ -1,13 +1,11 @@
 # Bagheera
 
-A delivery harness on Claude Code for an engineering org of ~100 engineers: knowledge management across the org, standards applied everywhere, one confusion-free path for developers, PMs inside the development loop, and visibility for leadership.
+Bagheera helps PMs write requirements that match the code, then takes each one to merged code by one short path. PMs work in a web portal; developers work in Claude Code. Every feature leaves its spec, plan, decisions and gotchas in the repo's wiki, so the next feature starts with more.
 
-**Where things stand (2026-11-07):** the MVP is specified and drafted for the owner's review; nothing is built yet. It's the delivery path and one knowledge library for the org, run from six commands on laptops, which any team can adopt with nothing from org admins. One team pilots it on at least 10 tickets.
+**Where things stand (2026-11-14):** the MVP is drafted for the owner's review. Three decisions are proposed and waiting for the owner.
 
-- [Product requirements](docs/prd.md): the source of truth
-- [Plan](docs/plan.md): what we build and in what order, the pilot, how a team adopts it, later additions, tests, risks and onboarding
-- [Design docs](docs/design/README.md): the MVP, area by area
-- [Decisions](docs/decisions/): the owner's decisions, one short record each
-- [Org-adoption proposal](docs/proposals/org-adoption.md): the parts that need org-wide coordination, for an org that adopts Bagheera widely
-- [Pitch deck](docs/pitch-deck.pdf) ([PowerPoint](docs/pitch-deck.pptx)): the proposal for product and engineering leaders, in 12 slides
-- Architecture diagrams, to open in the draw.io app or at app.diagrams.net: [the MVP](docs/architecture-mvp.drawio), and [the target state](docs/architecture-target.drawio) once an org adopts Bagheera widely
+- [PRD](docs/prd.md): the source of truth
+- [Design](docs/design.md): how the MVP works
+- [Plan](docs/plan.md): build order, pilot, adoption, later additions, tests and risks
+- [Decisions](docs/decisions/)
+- [Org adoption](docs/proposals/org-adoption.md): the parts that need org-wide coordination
