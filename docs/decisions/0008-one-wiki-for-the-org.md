@@ -22,8 +22,8 @@ Set by the owner: B. The wiki's job is to distil the org's knowledge so the code
 * **Links make the graph.** Services link the services they depend on; features link the services they touched and their decisions; decisions link their feature.
 * **Specs and plans stay in the code repo** ([0007](0007-every-document-is-a-typed-page-in-git.md)). The wiki's feature page distils them and links to them.
 * **Read everywhere.** Spec drafting reads the whole wiki. Every Claude Code session starts with its index and the repo's service page.
-* **The code wins.** When a page is wrong, Build fixes it in the ticket's wiki PR.
-* How a ticket's knowledge reaches the wiki is [0020](0020-wiki-changes-are-reviewed-with-the-code-and-merged-by-the-portal.md).
+* **The code wins.** When a page is wrong, `/bagheera:update-wiki` fixes it in the ticket's wiki PR.
+* How a ticket's knowledge reaches the wiki is [0020](0020-developers-update-the-wiki-before-merging-enforced-by-a-check.md).
 
 ### Consequences
 

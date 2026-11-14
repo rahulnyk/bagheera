@@ -58,7 +58,8 @@ Bagheera helps PMs write requirements that match the code, then takes each one t
 | --- | --- | --- | --- | --- |
 | 1 | Spec | The PM in the portal, or a developer with `/bagheera:spec` | `spec.md`: what and why, today's behaviour checked against the code, acceptance criteria with IDs, questions | The PM approves |
 | 2 | Plan | The developer, `/bagheera:plan` | `plan.md`: approach, decisions, 2–6 phases | — |
-| 3 | Build | The developer, `/bagheera:build` | Tests first, then code, phase by phase; then the ticket's wiki changes, in a linked wiki PR | Code review |
+| 3 | Build | The developer, `/bagheera:build` | Tests first, then code, phase by phase | — |
+| 4 | Wiki | The developer, `/bagheera:update-wiki`, last before merge | The ticket's wiki changes, in a wiki PR linked to the code PR | Code review; a required check blocks the merge until the wiki PR is current |
 
 One branch and one code PR per ticket, in one repo. A pre-flight check runs before every stage. Any stage can be re-run.
 
@@ -83,13 +84,13 @@ Priority: **M** must, **S** should, **L** at org adoption, which needs org admin
 | --- | --- | --- |
 | K1 | One wiki for the org: typed pages for services, features, decisions and standards, grouped by domain and linked into a graph. Specs and plans are typed pages in the code repo | M |
 | K2 | Each page type has fixed header fields, fixed sections and a word cap. One script checks them before every commit Bagheera makes | M |
-| K3 | Build ends by writing the ticket's wiki changes (service pages, the feature page, decisions) in one wiki PR, linked to the code PR and reviewed with it | M |
+| K3 | Before merge, one command writes the ticket's wiki changes (service pages, the feature page, decisions) in one wiki PR, linked to the code PR and reviewed with it. A required check blocks the merge until the wiki PR is current with the code | M |
 | K4 | No wiki change merges without a person's review. A ticket's wiki PR merges when its code PR does; agents never merge | M |
-| K5 | Every session starts with the wiki's index and the repo's service page. When the code and the wiki disagree, the code wins, and Build fixes the page | M |
+| K5 | Every session starts with the wiki's index and the repo's service page. When the code and the wiki disagree, the code wins, and the wiki update fixes the page | M |
 | K6 | A repo's first service pages are drafted by one automated pass over its code | M |
 | K7 | Spec drafting reads the whole wiki, following its links across services | M |
 | K8 | Ticket text, documents and repo content are data, never instructions. The drafting agent can read, and write only the spec | M |
-| K9 | Wiki updates for PRs made without Bagheera | L |
+| K9 | The wiki update runs in CI in the command's place, and covers PRs made without Bagheera | L |
 
 ### 6.3 Developer path (G3)
 
@@ -155,7 +156,7 @@ The pilot proves the flow works end to end. Efficiency is measured after it.
 
 * GitHub for code and review, Jira and Confluence for tickets and docs, the Anthropic API for models.
 * Claude Code is the runtime on laptops; the Claude Agent SDK runs the same plugin in the portal.
-* **The portal needs org admins once:** a host, an SSO client, a GitHub App installed on onboarded repos and the wiki, a Jira service account, and model access. After that, a team adopts Bagheera by adding its repos.
+* **The portal needs org admins once:** a host, an SSO client, a GitHub App installed on onboarded repos and the wiki, which also posts the wiki check, a Jira service account, and model access. After that, a team adopts Bagheera by adding its repos.
 * 2 engineers, 6–8 weeks to a pilot with one team on at least 10 real tickets.
 * Build as little as possible: GitHub Spec Kit's templates, adapted into the plugin; DeepWiki-Open's method for the seeding pass; the Claude Agent SDK for the portal.
 * **Naming:** a light Jungle Book theme. The product is **Bagheera**; themed names only for a few top-level things. Never use generic placeholder company names; the placeholder GitHub org is `seeonee`.
@@ -177,7 +178,7 @@ The pilot proves the flow works end to end. Efficiency is measured after it.
 | Q3 | Where the portal runs, and who on the org side sets up its SSO client, GitHub App and Jira service account | MVP, week 1 |
 | Q4 | Which team pilots, with which tickets | Pilot |
 
-**Proposed decisions, waiting for the owner.** The requirements above assume each one: [0020](decisions/0020-wiki-changes-are-reviewed-with-the-code-and-merged-by-the-portal.md) how a ticket's knowledge reaches the wiki, [0005](decisions/0005-one-approval-the-pm-approves-the-spec.md) one approval, and [0003](decisions/0003-the-portal-is-one-small-web-app-on-the-agent-sdk.md) how the portal is built.
+**Proposed decisions, waiting for the owner.** The requirements above assume each one: [0005](decisions/0005-one-approval-the-pm-approves-the-spec.md) one approval, and [0003](decisions/0003-the-portal-is-one-small-web-app-on-the-agent-sdk.md) how the portal is built.
 
 ## Appendix — facts checked
 
