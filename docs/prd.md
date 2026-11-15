@@ -4,11 +4,11 @@ _Status: draft for review · Owner: RN · 2026-11-14_
 
 ## 1. Summary
 
-Bagheera is a delivery harness on Claude Code for an engineering org of about 100 engineers. It starts where features wait longest: helping PMs write the product requirements. A PM drafts a PRD (the product requirements document for a feature) with Baloo, who answers from Council Rock, the org's knowledge wiki, and checks every claim against the code. From an approved PRD, any developer takes the work to merged code by one clear path. Every piece of merged work updates Council Rock, so the next PRD starts with more.
+Bagheera is a delivery harness on Claude Code for an engineering org of about 100 engineers. It starts where features wait longest: helping PMs write the product requirements. A PM drafts a feature's requirements with an assistant that answers from the org's knowledge wiki, and checks every claim against the code. From approved requirements, any developer takes the work to merged code by one clear path. Every piece of merged work updates the wiki, so the next feature starts with more. [Section 5](#5-names-and-terms) names these parts.
 
 ## 2. Problem
 
-* **Requirements hold features up, not building.** PMs draft PRDs from scattered Jira and Confluence pages, without seeing how the product works today or which services a change touches.
+* **Requirements hold features up, not building.** PMs draft product requirements documents (PRDs) from scattered Jira and Confluence pages, without seeing how the product works today or which services a change touches.
 * **Conflicts with the code are found late.** They surface during planning or building, and send the requirements back for clarification and approval again.
 * **Approval chains don't get followed.** PM, then tech lead, then the PM again is too much to keep up.
 * **PMs aren't at home in GitHub.** Tools built around pull requests leave them out.
@@ -20,15 +20,15 @@ Bagheera is a delivery harness on Claude Code for an engineering org of about 10
 
 | ID | Goal | Success looks like |
 | --- | --- | --- |
-| G1 | PMs write requirements that hold up | A PM drafts a PRD with Baloo from Council Rock, checked against the code, in hours, and it's approved once |
-| G2 | Knowledge that updates itself | Council Rock explains the org's code as a whole, and every merged piece of work updates it |
+| G1 | PMs write requirements that hold up | A PM drafts a feature's requirements in hours, with help from the org's knowledge, checked against the code, and they're approved once |
+| G2 | Knowledge that updates itself | One wiki explains the org's code as a whole, and every merged change updates it |
 | G3 | One clear path from requirements to merged code | Any developer, in any repo, takes approved work to merged code the same way, always knows the next step, and never untangles branches by hand |
 | G4 | Standards applied everywhere | Standards are written once by their owners, are in context whenever Claude plans or writes code, and dangerous actions are blocked |
 | G5 | Everyone works and sees status in one place | PMs, developers and leadership use one portal. Only developers need git, and nobody compiles a status report |
 
 ### Principles
 
-* **Requirements first.** Most of Bagheera's help goes into getting the PRD right.
+* **Requirements first.** Most of Bagheera's help goes into getting the requirements right.
 * **Check against the code while writing.** A conflict found while drafting costs one question.
 * **Few approvals.** Each thing is approved once, by one person; after a change, only the change needs approving.
 * **Only developers need git.**
@@ -47,19 +47,32 @@ Bagheera is a delivery harness on Claude Code for an engineering org of about 10
 
 | User | Needs | Works in |
 | --- | --- | --- |
-| Product manager | Draft PRDs that hold up; ask how things work today; answer questions fast; approve once; see what's waiting on them | The portal |
+| Product manager | Draft requirements that hold up; ask how things work today; answer questions fast; approve once; see what's waiting on them | The portal |
 | Developer (~100) | One path from approved work to merge; context already loaded; no ceremony that doesn't pay for itself | Claude Code; GitHub; the portal |
 | Tech lead | Trust that plans fit the code and the standards; review once | GitHub review; the portal |
 | QA | See each acceptance criterion tied to its tests | The portal |
 | Leadership | Where every feature stands, what it's waiting on, throughput and cost | The portal |
-| Architecture council | Own the org's standards and approve every change to them | Council Rock |
+| Architecture council | Own the org's standards and approve every change to them | The knowledge wiki |
 | Platform team (2 engineers) | Build and run Bagheera; help teams adopt it | Bagheera's repo |
 
-## 5. Requirements
+## 5. Names and terms
+
+A light Jungle Book theme: themed names only for a few top-level parts, defined here and used from here on. Everything else gets a plain, descriptive name. Never use generic placeholder company names; the placeholder GitHub org is `seeonee`.
+
+| Name | What it is | Status |
+| --- | --- | --- |
+| **Bagheera** | The product: everything this document requires | Approved |
+| **Council Rock** | The org's knowledge wiki: one place for what the org knows about its code and product. It holds services and how they depend on each other, shipped features, decisions and standards, as typed pages linked to each other. It updates itself from merged work. In the story, Council Rock is where the pack meets and the Law is kept | Proposed |
+| **Baloo** | The knowledge keeper: the assistant people ask about how things work. It answers from Council Rock and the code, helps PMs draft PRDs, and drafts Council Rock's updates for people to review. In the story, Baloo teaches the Law | Proposed |
+| The portal | The web page where PMs, developers and leadership sign in to run and follow the work | Plain name |
+| PRD | The product requirements document a PM writes for a feature | Plain name |
+| Piece of work | A part of an approved PRD that a developer takes to merged code | Plain name |
+
+## 6. Requirements
 
 Priority: **M** must have; **S** should have; **L** at org adoption, which needs org admins or agreement across teams.
 
-### 5.1 Drafting the PRD (G1)
+### 6.1 Drafting the PRD (G1)
 
 | ID | Requirement | P |
 | --- | --- | --- |
@@ -74,7 +87,7 @@ Priority: **M** must have; **S** should have; **L** at org adoption, which needs
 | R9 | An approved PRD is split into pieces of work, each traced to the requirements and criteria it delivers, and each reflected in Jira | M |
 | R10 | A PM can stop drafting and pick up later, and lose nothing | M |
 
-### 5.2 Council Rock, the knowledge wiki (G2)
+### 6.2 Council Rock, the knowledge wiki (G2)
 
 | ID | Requirement | P |
 | --- | --- | --- |
@@ -92,7 +105,7 @@ Priority: **M** must have; **S** should have; **L** at org adoption, which needs
 | K12 | Changes merged without Bagheera, such as bug fixes and refactors, update Council Rock too | L |
 | K13 | Pages can be read by tools other than Claude Code | L |
 
-### 5.3 From requirements to merged code (G3)
+### 6.3 From requirements to merged code (G3)
 
 | ID | Requirement | P |
 | --- | --- | --- |
@@ -107,7 +120,7 @@ Priority: **M** must have; **S** should have; **L** at org adoption, which needs
 | P9 | Plain, consistent terms everywhere, so a new joiner can follow the path from a one-page guide | M |
 | P10 | The same steps run in CI, unchanged | L |
 
-### 5.4 The portal (G5)
+### 6.4 The portal (G5)
 
 | ID | Requirement | P |
 | --- | --- | --- |
@@ -121,7 +134,7 @@ Priority: **M** must have; **S** should have; **L** at org adoption, which needs
 | V8 | The PM can accept finished work against its criteria, from a demo | S |
 | V9 | Adoption and cost per repo and per feature, and a weekly summary of what shipped and what's stuck | L |
 
-### 5.5 Standards (G4)
+### 6.5 Standards (G4)
 
 | ID | Requirement | P |
 | --- | --- | --- |
@@ -133,7 +146,7 @@ Priority: **M** must have; **S** should have; **L** at org adoption, which needs
 | S6 | Violations found are reported by team and rule, so owners see which rules are misunderstood | L |
 | S7 | The blocks are locked centrally, so no developer can loosen them | L |
 
-### 5.6 Brevity (all goals)
+### 6.6 Brevity (all goals)
 
 | ID | Requirement | P |
 | --- | --- | --- |
@@ -142,7 +155,7 @@ Priority: **M** must have; **S** should have; **L** at org adoption, which needs
 | B3 | Only questions that block are asked: at most 5 open at a time, one line each, the most blocking first | M |
 | B4 | Documents link to detail rather than copying it. No logs or transcripts in documents | M |
 
-### 5.7 Security and distribution
+### 6.7 Security and distribution
 
 | ID | Requirement | P |
 | --- | --- | --- |
@@ -151,7 +164,7 @@ Priority: **M** must have; **S** should have; **L** at org adoption, which needs
 | D3 | Engineers can't add unapproved extensions, and everyone runs the same version | L |
 | D4 | CI uses short-lived credentials, with spend capped and reported apart from seats | L |
 
-## 6. Success metrics
+## 7. Success metrics
 
 The pilot proves the whole path works end to end. Efficiency is measured afterwards.
 
@@ -162,7 +175,7 @@ The pilot proves the whole path works end to end. Efficiency is measured afterwa
 
 **After the pilot:** time from idea to approved PRD; PRDs changed after approval, and why; conflicts with the code found while drafting rather than later; PMs and developers using Bagheera each week; status and clarification meetings per team per week; Council Rock pages that are current; cost per merged PR.
 
-## 7. Constraints
+## 8. Constraints
 
 * **GitHub** for code and review, **Jira** for tickets, **Confluence** for existing documents, the **Anthropic API** for models. Any design that depends on these must say so.
 * **Claude Code** is the agent runtime for developers. The org has a Claude Code plugin marketplace, governed by its own policies.
@@ -172,17 +185,7 @@ The pilot proves the whole path works end to end. Efficiency is measured afterwa
 * **Build as little as possible.** Prefer configuring first-party and widely used open-source tools. Anything we build must say what was considered and why it didn't fit.
 * Plugins, hooks and MCP servers run with the engineer's permissions on their machine.
 
-### Names
-
-A light Jungle Book theme: themed names only for a few top-level things. Everything else gets a plain, descriptive name. Never use generic placeholder company names; the placeholder GitHub org is `seeonee`.
-
-| Name | What it is | Status |
-| --- | --- | --- |
-| **Bagheera** | The product | Approved |
-| **Council Rock** | The org's knowledge wiki. In the story, it's where the pack meets and the Law is kept | Proposed |
-| **Baloo** | The knowledge keeper. It answers questions from Council Rock, helps draft PRDs, and drafts Council Rock's updates. In the story, Baloo teaches the Law | Proposed |
-
-## 8. Rollout
+## 9. Rollout
 
 1. **First release:** the smallest system that meets the **M** requirements.
 2. **Pilot:** one team, at least 10 pieces of work.
@@ -190,7 +193,7 @@ A light Jungle Book theme: themed names only for a few top-level things. Everyth
 4. **More teams,** 2–3 at a time.
 5. **Org adoption:** the **L** requirements, each when its signal shows.
 
-## 9. Open questions
+## 10. Open questions
 
 | # | Question | Blocks |
 | --- | --- | --- |
