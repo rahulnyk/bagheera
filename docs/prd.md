@@ -24,7 +24,7 @@ Bagheera is a delivery harness on Claude Code for an engineering org of about 10
 | G2 | Knowledge that updates itself | One wiki explains the org's code as a whole, and every merged change updates it |
 | G3 | One clear path from requirements to merged code | Any developer, in any repo, builds and tests approved work the same way, always knows the next step, and never untangles branches by hand |
 | G4 | Standards applied everywhere | Standards are written once by their owners, are in context whenever Claude plans or writes code, and dangerous actions are blocked |
-| G5 | Everyone works and sees status in one place | PMs, developers and leadership use one portal. Only developers need git, and nobody compiles a status report |
+| G5 | Everyone sees status in one place | PMs, developers and leadership follow all work in one portal. Only developers need git, and nobody compiles a status report |
 
 ### Principles
 
@@ -47,7 +47,7 @@ Bagheera is a delivery harness on Claude Code for an engineering org of about 10
 
 | User | Needs | Works in |
 | --- | --- | --- |
-| Product manager | Draft requirements that hold up; ask how things work today; answer questions fast; approve once; see what's waiting on them | The portal |
+| Product manager | Draft requirements that hold up; ask how things work today; answer questions fast; approve once; see what's waiting on them | Claude Desktop; Jira; the portal |
 | Developer (~100) | One path from approved work to merge; test their own work against its criteria; context already loaded; no ceremony that doesn't pay for itself | Claude Code; GitHub; the portal |
 | Tech lead | Trust that plans fit the code and the standards; review code once | GitHub review; the portal |
 | Leadership | Where every feature stands, what it's waiting on, throughput and cost | The portal |
@@ -83,7 +83,7 @@ Priority: **M** must have, for the first release; **S** should have, added when 
 | R7 | Every PRD follows one template, with fixed sections, a word cap, and acceptance criteria | M |
 | R8 | A PM can stop drafting, pick up later, and lose nothing | M |
 | R9 | An approved PRD is split into pieces of work. Each has its own spec, traced to the PRD requirements and criteria it delivers, and is reflected in Jira | M |
-| R10 | Each approved PRD is published to Confluence. The published page follows later approved changes | M |
+| R10 | The PM can copy an approved PRD into any tool, or publish it to Confluence when that connection is set up. Bagheera's copy stays the one work is built from | M |
 
 ### 6.2 Approvals (G1, G3)
 
@@ -121,7 +121,7 @@ Priority: **M** must have, for the first release; **S** should have, added when 
 | P2 | Before code is written, a short plan, checked against the code and the standards, is visible to the PM and the tech lead | M |
 | P3 | Developers test their own work. Tests are written from the acceptance criteria before code, named with the criteria IDs, and a piece of work is done when they pass | M |
 | P4 | At any point, the developer can see where the work stands and the next step | M |
-| P5 | Before any step runs, a pre-flight check confirms: the right repo; its default branch, whatever it's called; the right working branch, clean and up to date; working connections to the tools the step needs; and the step's inputs, ready and approved. It fixes what's safe, and reports anything else in one line each, with the fix | M |
+| P5 | Before any step runs, a pre-flight check confirms: the right repo; its default branch, as configured for the repo; the right working branch, clean and up to date; working connections to the tools the step needs; and the step's inputs, ready and approved. It fixes what's safe, and reports anything else in one line each, with the fix | M |
 | P6 | Any step can be redone, such as redrafting a spec or replanning, simply by doing it again. Redoing keeps finished work and IDs | M |
 | P7 | Nothing lives only on one laptop. Anyone can pick the work up where it stopped | M |
 | P8 | The same behaviour in every repo and on every machine, updated automatically | M |
@@ -132,8 +132,8 @@ Priority: **M** must have, for the first release; **S** should have, added when 
 
 | ID | Requirement | P |
 | --- | --- | --- |
-| V1 | A web portal people sign in to with the org's own sign-in. PMs need no GitHub account, no git and no developer tools | M |
-| V2 | Every step, from drafting a PRD to merged code, can be run and followed from the portal | M |
+| V1 | A web portal people sign in to with the org's own sign-in. PMs need no git and no developer tools: they draft in Claude Desktop, with read-only GitHub access | M |
+| V2 | Every step, from drafting a PRD to merged code, can be followed from the portal | M |
 | V3 | One list of all work: PRD, piece of work, repo, where it stands, who it's waiting on and for how long. Filterable by team, PM and "waiting on me" | M |
 | V4 | For each piece of work: its PRD, spec, plan and progress; each acceptance criterion and whether its tests pass; and links to the code changes | M |
 | V5 | Status comes from the work itself, never typed in | M |
@@ -145,7 +145,7 @@ Priority: **M** must have, for the first release; **S** should have, added when 
 
 | ID | Requirement | P |
 | --- | --- | --- |
-| S1 | Org standards (coding, security, deployment per environment, dos and don'ts) live in the wiki and are owned by the architecture council, which approves every change | M |
+| S1 | Org standards (coding, security, deployment per environment, dos and don'ts) live in the wiki and are owned by the architecture council, which approves every change. Bagheera never changes them | M |
 | S2 | Each rule can be referred to on its own and checked from a diff | M |
 | S3 | The standards that apply are in context whenever Claude plans or writes code | M |
 | S4 | Forbidden actions are blocked outright, not just discouraged: deploy commands, force-push, production credentials, and edits to protected paths | M |
@@ -174,7 +174,7 @@ Priority: **M** must have, for the first release; **S** should have, added when 
 
 ## 7. Constraints
 
-* **GitHub** for code and review, **Jira** for tickets, **Confluence** for documents and published PRDs. Any design that depends on these must say so.
+* **GitHub** for code and review, **Jira** for tickets, **Confluence** for documents, and for PRDs when a PM publishes there. Any design that depends on these must say so.
 * **Claude** models, through whichever provider the org configures (D3).
 * **Claude Code** is the agent runtime for developers. The org has a Claude Code plugin marketplace, governed by its own policies.
 * **Nothing in the first release depends on CI.** CI depends on org settings and needs agreement from more stakeholders.
